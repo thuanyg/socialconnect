@@ -15,11 +15,14 @@ if (!isset($_SESSION["userid"])) {
     $f = new Friend();
     $friends = $f->getListFriend($userCurrent["userid"]);
     // Post
+    $post_obj = new Post();
     if(isset($_REQUEST['p'])){
         $postid = $_GET["p"];
-    } else $postid = "";
-    $post_obj = new Post();
-    $post = $post_obj->getAPost($postid);
+        $post = $post_obj->getAPost($postid);
+    } else {
+        $post = null;
+    }
+    
 }
 
 ?>
