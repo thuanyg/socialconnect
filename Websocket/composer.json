@@ -1,0 +1,11 @@
+{
+    "name": "htthuan/websocket",
+    "autoload": {
+        "psr-4": {
+            "Htthuan\\Websocket\\": "src/"
+        }
+    },
+    "require": {
+        "cboden/ratchet": "^0.4.4"
+    }
+}
