@@ -20,31 +20,6 @@ $(".friend-tab").on("click", function(e) {
     // }
 });
 
-// Delete post
-function DeletePost(e, btn) {
-    e.preventDefault();
-    if (confirm("Do you want to delete this post?")) {
-        var postid = btn.getAttribute("data-postid");
-        showNotification("Processing...");
-        $.ajax({
-            url: "Ajax/Post.php",
-            method: "POST",
-            dataType: "html",
-            data: {
-                postid: postid,
-                action: "delete-post"
-            },
-            success: function(data) {
-                if (data == 1) {
-                    showNotification("You have successfully delete this post");
-                    window.location.href = "timeline.php"
-                } else {
-                    showNotification("Something wrong!");
-                }
-            }
-        });
-    }
-}
 
 
 

@@ -419,7 +419,7 @@ function deletePost(event, btn) {
             success: function (response) {
                 if (response == 1) {
                     showNotification("Delete successfully");
-                    var postCard = document.querySelector(`[post-id="${postid}"]`);
+                    var postCard = document.querySelector(`.card[post-id="${postid}"]`);
                     postCard.remove();
                     DeleteFilesFromServer(media);
                 }
