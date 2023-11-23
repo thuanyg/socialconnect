@@ -21,6 +21,7 @@ if (!isset($_SESSION["userid"])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -639,12 +640,6 @@ if (!isset($_SESSION["userid"])) {
                             echo '<div style="text-align: center">Không có bài viết</div>';
                         }
                         ?>
-                        <div class="flex justify-center mt-6">
-                            <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
-                                Load more ..</a>
-                        </div>
-
-
                     </div>
                     <div class="lg:w-72 w-full">
 
@@ -1348,7 +1343,7 @@ if (!isset($_SESSION["userid"])) {
                         <svg class="text-pink-600 h-9 p-1.5 rounded-full bg-pink-100 w-9 cursor-pointer" id="veiw-more-edit" hidden fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                         </svg> -->
-                        
+
 
                         <!-- view more -->
                         <!-- <svg class="hover:bg-gray-200 h-9 p-1.5 rounded-full w-9 cursor-pointer" id="veiw-more-edit" uk-toggle="target: #veiw-more-edit; animation: uk-animation-fade" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1383,10 +1378,52 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <?php include("./Websocket/src/Notification.php") ?>
     <script>
+        // Load post
+        var windowHeight = window.innerHeight;
+        var scrolledOnce = false;
+        var postFetching = false;
+        var offset = 5;
+        $(window).scroll(function() {
+            var postDocument = $("#PostContaier");
+            var docHeight = postDocument.height();
+            var scrollTop = $(this).scrollTop();
+            if (scrollTop + windowHeight > docHeight - 1000 && !scrolledOnce) {
+                scrolledOnce = true;
+                ViewNextPost();
+            } else scrolledOnce = false;
 
+        });
+
+
+        function getPostToLoad(offset) {
+            productFetching = true;
+            $.ajax({
+                url: "Ajax/Post.php",
+                type: "POST",
+                data: {
+                    offset: offset,
+                    action: "get-post-to-load"
+                },
+                success: function(data) {
+                    if(data.trim() != ""){
+                        console.log(data);
+                        productFetching = false;
+                        return;
+                    }
+                    productFetching = false; 
+                }
+            })
+        }
+
+        function ViewNextPost() {
+            if (postFetching) return;
+            getPostToLoad(offset);
+            offset += 5;
+        }
     </script>
     <!-- Javascript
     ================================================== -->
+    <script src="Js/Feed.js"></script>
     <script src="Js/Post.js"></script>
     <script src="Js/notification.js"></script>
     <script src="assets/js/tippy.all.min.js"></script>

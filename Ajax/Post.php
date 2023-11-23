@@ -169,6 +169,15 @@ if (isset($_POST["action"])) {
             }
         }
     }
+    // Get post to load
+    if ($_POST["action"] == "get-post-to-load") {
+        $offset = $_POST["offset"];
+        $post = new Post();
+        $result = $post->getNextAllPostPublic($offset);
+        print_r($result);
+    }
+
+
     // Delete post
     if ($_POST["action"] == "delete-post") {
         $postid = $_POST["postid"];

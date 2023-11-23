@@ -317,11 +317,11 @@ var userID = $("input[name='txtUserid']").val();
             });
 
             // Event scroll
-            var totalMessage = 0;
+            // var totalMessage = 0;
             var offsetMessage = 15; // offset ban đầu
             var messFetching = false;
             var scrolledOnce = false;
-            var originalScrollTop = 0;
+            // var originalScrollTop = 0;
 
             setTimeout(function() {
                 $('.simplebar-content:eq(4)').scroll(function() {

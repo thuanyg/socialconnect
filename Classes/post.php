@@ -54,7 +54,15 @@ class Post
     }
 
     function getAllPostPublic(){
-        $sql = "select * from posts where privacy = 'public' Order by date desc";
+        $sql = "select * from posts where privacy = 'public' Order by date desc limit 5";
+        $DB = new Database();
+        $result = $DB->Query($sql);
+        if($result != null){
+            return $result;
+        } else return null;
+    }
+    function getNextAllPostPublic($offset){
+        $sql = "select * from posts where privacy = 'public' Order by date desc limit 5 offset {$offset}";
         $DB = new Database();
         $result = $DB->Query($sql);
         if($result != null){

@@ -710,29 +710,24 @@ if (!isset($_SESSION["userid"])) {
 
                             <!-- more icon -->
                             <a href="#" class="flex items-center justify-center h-10 w-10 rounded-md bg-gray-100">
-                                <ion-icon name="ellipsis-horizontal" class="text-xl"></ion-icon>
+                                <ion-icon name="ellipsis-horizontal" class="text-xl">···</ion-icon>
                             </a>
                             <!-- more drowpdown -->
                             <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
                                 <ul class="space-y-1">
                                     <li>
                                         <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                            <ion-icon name="arrow-redo-outline" class="pr-2 text-xl"></ion-icon> Share Profile
+                                            <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon> View as
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                        <a href="page-setting.php" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                                             <ion-icon name="create-outline" class="pr-2 text-xl"></ion-icon> Account setting
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                            <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon> Disable notifications
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                            <ion-icon name="star-outline" class="pr-2 text-xl"></ion-icon> Add favorites
+                                            <ion-icon name="star-outline" class="pr-2 text-xl"></ion-icon> Profile status
                                         </a>
                                     </li>
                                     <li>
@@ -740,7 +735,7 @@ if (!isset($_SESSION["userid"])) {
                                     </li>
                                     <li>
                                         <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-50 hover:text-red-500 rounded-md dark:hover:bg-red-600">
-                                            <ion-icon name="stop-circle-outline" class="pr-2 text-xl"></ion-icon> Unfriend
+                                            <ion-icon name="stop-circle-outline" class="pr-2 text-xl"></ion-icon> Delete account
                                         </a>
                                     </li>
                                 </ul>

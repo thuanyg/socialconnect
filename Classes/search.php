@@ -17,4 +17,19 @@ class Search
         $result = $DB->Query($sql);
         return $result;
     }
+    function SearchFriend($query)
+    {
+        $sql = "SELECT * FROM users WHERE concat(first_name,' ',last_name) LIKE '%{$query}%' and privacy = 'public'";
+        $DB = new Database();
+        $result = $DB->Query($sql);
+        return $result;
+    }
+    function Searchpost($query){
+        $sql = "select * from posts where privacy = 'public' and post like '%{$query}%' Order by date desc";
+        $DB = new Database();
+        $result = $DB->Query($sql);
+        if($result != null){
+            return $result;
+        } else return null;
+    }
 }
