@@ -599,7 +599,7 @@ if (!isset($_SESSION["userid"])) {
                             <ul uk-switcher="connect: #timeline-tab; animation: uk-animation-fade">
                                 <li><a href="#">Timeline</a></li>
                                 <li><a href="#">Friends <span><?php echo $f->getQuantityFriend($userCurrent["userid"]) ?></span> </a></li>
-                                <li><a href="#">Photos </a></li>
+                                <li><a href="#" onclick="showImage()">Photos </a></li>
                                 <li><a href="#">Pages</a></li>
                                 <li><a href="#">Groups</a></li>
                                 <li><a href="#">Videos</a></li>
@@ -852,7 +852,7 @@ if (!isset($_SESSION["userid"])) {
                                 echo '<div style="text-align: center">Không có bài viết</div>';
                             }
                             ?>
-                           
+
 
 
                         </div>
@@ -1098,19 +1098,29 @@ if (!isset($_SESSION["userid"])) {
 
                     </div>
 
+
                     <!-- Photos  -->
-                    <div class="card md:p-6 p-2 max-w-3xl mx-auto">
+                    <div class="card md:p-6 p-2 max-w-3xl mx-auto" id="result">
 
                         <div class="flex justify-between items-start relative md:mb-4 mb-3">
                             <div class="flex-1">
                                 <h2 class="text-xl font-bold"> Photos </h2>
                                 <nav class="responsive-nav style-2 md:m-0 -mx-4">
                                     <ul>
-                                        <li class="active"><a href="#"> Photos of you <span> 230</span> </a></li>
-                                        <li><a href="#"> Recently added </a></li>
-                                        <li><a href="#"> Family </a></li>
-                                        <li><a href="#"> University </a></li>
-                                        <li><a href="#"> Albums </a></li>
+                                        <?php
+
+                                        $postsize = $p->getPhotoFromPost($userCurrent["userid"]);
+                                        ?>
+                                        <li class="photo-tab photo active"><a href="#"> Photos of you
+                                                <span><?php
+                                                        if ($postsize["total_media"] == null) {
+                                                            echo "0";
+                                                        } else {
+                                                            echo $postsize["total_media"];
+                                                        } ?>
+                                                </span>
+                                            </a></li>
+                                        <li class="photo-tab album"><a href="#"> Albums </a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -1120,12 +1130,42 @@ if (!isset($_SESSION["userid"])) {
                                 </svg>
                             </a>
                         </div>
+                        <div class="photo-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5">
+                            <?php
+                            for ($i = 0; $i < sizeof($post); $i++) {
+                                if ($post[$i]["media"] != null) {
+                                    $media_json = $post[$i]["media"];
+                                    $media = json_decode($media_json, true);
+                                    foreach ($media as $file) {
+                                        $fileInfo = pathinfo($file);
+                                        $fileExtension = strtolower($fileInfo['extension']);
+                                        if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+                            ?>
+                                            <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
+                                                <div class="image-small">
+                                                    <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
+                                                </div>
+                                                <!-- Overlay -->
+                                                <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
+                                                <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
+                                                    <div class="text-base"> Image description </div>
+                                                    <div class="flex justify-between text-xs">
+                                                        <a href="#"> Like</a>
+                                                        <a href="#"> Comment </a>
+                                                        <a href="#"> Share </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                <?php
+                                        }
+                                    }
+                                }
+                                ?>
 
-                        <div class="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5">
-                            <div>
+                                <!--
                                 <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
                                     <img src="assets/images/post/img-1.jpg" class="w-full h-full absolute object-cover inset-0">
-                                    <!-- overly-->
+                                    overly
                                     <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
                                     <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
                                         <div class="text-base"> Image description </div>
@@ -1136,97 +1176,16 @@ if (!isset($_SESSION["userid"])) {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div>
-                                <div class="bg-gray-200 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                    <img src="assets/images/post/img-2.jpg" class="w-full h-full absolute object-cover inset-0">
-                                    <!-- overly-->
-                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                        <div class="text-base"> Image description </div>
-                                        <div class="flex justify-between text-xs">
-                                            <a href="#"> Like</a>
-                                            <a href="#"> Comment </a>
-                                            <a href="#"> Share </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="bg-gray-200 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                    <img src="assets/images/avatars/avatar-3.jpg" class="w-full h-full absolute object-cover inset-0">
-                                    <!-- overly-->
-                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                        <div class="text-base"> Image description </div>
-                                        <div class="flex justify-between text-xs">
-                                            <a href="#"> Like</a>
-                                            <a href="#"> Comment </a>
-                                            <a href="#"> Share </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="bg-gray-200 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                    <img src="assets/images/post/img-4.jpg" class="w-full h-full absolute object-cover inset-0">
-                                    <!-- overly-->
-                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                        <div class="text-base"> Image description </div>
-                                        <div class="flex justify-between text-xs">
-                                            <a href="#"> Like</a>
-                                            <a href="#"> Comment </a>
-                                            <a href="#"> Share </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="bg-gray-200 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                    <img src="assets/images/avatars/avatar-7.jpg" class="w-full h-full absolute object-cover inset-0">
-                                    <!-- overly-->
-                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                        <div class="text-base"> Image description </div>
-                                        <div class="flex justify-between text-xs">
-                                            <a href="#"> Like</a>
-                                            <a href="#"> Comment </a>
-                                            <a href="#"> Share </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="bg-gray-200 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-full h-full absolute object-cover inset-0">
-                                    <!-- overly-->
-                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                        <div class="text-base"> Image description </div>
-                                        <div class="flex justify-between text-xs">
-                                            <a href="#"> Like</a>
-                                            <a href="#"> Comment </a>
-                                            <a href="#"> Share </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="bg-gray-200 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                    <img src="assets/images/post/img-1.jpg" class="w-full h-full absolute object-cover inset-0">
-                                    <!-- overly-->
-                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                        <div class="text-base"> Image description </div>
-                                        <div class="flex justify-between text-xs">
-                                            <a href="#"> Like</a>
-                                            <a href="#"> Comment </a>
-                                            <a href="#"> Share </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                -->
+                            <?php
+                            }
+                            ?>
+                        </div>
+                        <div class="image-big">
+                            <span class="close">&times;</span>
+                            <img class="image-big-content">
+                        </div>
+                        <div class="album-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5" style="display: none;">
                             <div>
                                 <div class="bg-gray-200 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
                                     <img src="assets/images/post/img-2.jpg" class="w-full h-full absolute object-cover inset-0">
@@ -1243,14 +1202,7 @@ if (!isset($_SESSION["userid"])) {
                                 </div>
                             </div>
                         </div>
-
-                        <div class="flex justify-center mt-6">
-                            <a href="#" class="bg-white dark:bg-gray-900 font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
-                                Load more ..</a>
-                        </div>
-
                     </div>
-
                     <!-- Pages  -->
                     <div class="card md:p-6 p-2 max-w-3xl mx-auto">
 
@@ -2003,7 +1955,6 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- For Night mode -->
     <script>
-        
         // Open model edit about
         var openModalButton = document.getElementsByClassName("edit-about-btn")[0];
         var closeModalButton = document.getElementById("closeModalButton");
