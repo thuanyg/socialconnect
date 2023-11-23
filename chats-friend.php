@@ -18,6 +18,7 @@ if (isset($_GET["uid"])) {
 } else {
     $uid_friend_chat = "";
 }
+    $mess_obj = new Message();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -462,7 +463,6 @@ if (isset($_GET["uid"])) {
                                         $friends_mess = (new Message())->getFriendMessage($userCurrent["userid"]);
                                         for ($i = 0; $i < sizeof($friends_mess); $i++) {
                                             $friend = $user_obj->getUser($friends_mess[$i]["friend_id"]);
-                                            $mess_obj = new Message();
                                             $mess = $mess_obj->getLastestMessage($userCurrent["userid"], $friend["userid"]);
                                         ?>
                                             <li class="message-preview <?php if ($mess[0]['read'] == 0) echo 'un-read' ?>" data-friend-id="<?php echo $friend["userid"] ?>">
@@ -505,7 +505,7 @@ if (isset($_GET["uid"])) {
                                 </a>
                                 <hr>
 
-                                <a href="page-setting.html">
+                                <a href="page-setting.php">
                                     <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
                                     </svg>
@@ -634,11 +634,12 @@ if (isset($_GET["uid"])) {
 
                                 <?php
                                 $friends_mess = (new Message())->getFriendMessage($userCurrent["userid"]);
+                                // echo sizeof($friends_mess);
                                 for ($i = 0; $i < sizeof($friends_mess); $i++) {
                                     $friend = $user_obj->getUser($friends_mess[$i]["friend_id"]);
-                                    $mess_obj = new Message();
                                     $mess = $mess_obj->getLastestMessage($userCurrent["userid"], $friend["userid"]);
                                     $friend_status = $status_obj->getStatus($friend["userid"]);
+                                    
 
                                 ?>
                                     <li class="message-tab" data-friend-userid="<?php echo $friend["userid"] ?>">
@@ -689,7 +690,10 @@ if (isset($_GET["uid"])) {
                                 }
                                 if ($uid_friend_chat != "") {
                                     $mess = $mess_obj->getLastestMessage($userCurrent["userid"], $uid_friend_chat);
-                                    if ($mess == null && $uid_friend_chat != null) {
+                                    // Nếu không có tin nhắn nào
+                                    // echo sizeof($mess);
+                                    // print_r($mess);
+                                    if ($mess == null) {
                                         $friend_chat_obj = $user_obj->getUser($uid_friend_chat);
                                         $friend_status = $status_obj->getStatus($uid_friend_chat);
                                     ?>
@@ -944,8 +948,6 @@ if (isset($_GET["uid"])) {
     include("Websocket/src/ChatFriends.php");
     ?>
     <script>
-        
-
         (function(window, document, undefined) {
             'use strict';
             if (!('localStorage' in window)) return;

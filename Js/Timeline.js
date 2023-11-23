@@ -1,3 +1,59 @@
+// View next post
+var userID = $("input[name='txtUserid']").val();
+var windowHeight = window.innerHeight;
+var scrolledOnce = false;
+var postFetching = false; // Sửa thành postFetching
+var offset = 5;
+var postDocument = $("#PostContaier");
+var shouldLoadMore = true;
+
+$(window).scroll(function() {
+    if (shouldLoadMore) {
+        var docHeight = postDocument.height();
+        var scrollTop = $(this).scrollTop();
+
+        if (!postFetching && scrollTop + windowHeight > docHeight - 800 && !scrolledOnce) {
+            scrolledOnce = true;
+            ViewNextPost();
+        } else {
+            scrolledOnce = false;
+        }
+    }
+});
+
+function getPostToLoad(userid, offset) {
+    postFetching = true;
+    $.ajax({
+        url: "Ajax/Post.php",
+        type: "POST",
+        data: {
+            userid: userid,
+            offset: offset,
+            action: "get-post-timeline-to-load"
+        },
+        cache: false,
+        success: function(data) {
+            postFetching = false;
+            if (data.trim()) {
+                postDocument.append(data);
+                if (data.trim() == '<div style="text-align: center">Không còn bài viết</div>') {
+                    shouldLoadMore = false;
+                    console.log("End of the posts");
+                }
+            } else {
+                shouldLoadMore = false;
+                return;
+            }
+        },
+    });
+}
+function ViewNextPost() {
+    // console.log("Calling ViewNextPost");
+    if (postFetching) return;
+    getPostToLoad(userID, offset);
+    offset += 5;
+}
+// Click the tabs
 $(".friend-tab").on("click", function(e) {
     e.preventDefault();
     $(".friend-tab").removeClass("active"); 
@@ -55,74 +111,3 @@ $("#about-save-btn").click(function(e) {
         });
     }
 });
-
-// Search users - Ajax
-$("input[name='txtSearch']").on("input", function () {
-    var query = $(this).val();
-    Search(query);
-    // console.log(query);
-});
-
-$("input[name='txtSearch']").keyup(function (e) {
-    if (e.which === 13) {
-        var query = $(this).val();
-        SearchFriend(query);
-        SearchPost(query);
-    }
-
-    // console.log(query);
-});
-
-function Search(query) {
-    $.ajax({
-        url: "Ajax/Search.php", // Your server-side search script
-        type: "GET",
-        dataType: "html",
-        data: {
-            query: query,
-            action: "search-user"
-        },
-        success: function (data) {
-            if (data) {
-                $(".header_search_dropdown").addClass("uk-open");
-                $("#searchResults").html(data);
-            }
-        },
-    });
-}
-function SearchFriend(query) {
-    $.ajax({
-        url: "Ajax/Search.php", // Your server-side search script
-        type: "GET",
-        dataType: "html",
-        data: {
-            query: query,
-            action: "search-friend"
-        }, 
-        success: function(data){
-            if(data){
-                localStorage.setItem("myData", JSON.stringify(data));
-                window.location.href="search-post.php";
-               //console.log(data)
-            }
-        }
-    })
-}
-function SearchPost(query){
-    $.ajax({
-        url: "Ajax/Search.php", // Your server-side search script
-        type: "GET",
-        dataType: "html",
-        data: {
-            query: query,
-            action: "search-post"
-        },
-        success: function(postSearchData){
-            if(postSearchData){
-                localStorage.setItem("postSearchData", JSON.stringify(postSearchData));
-                window.location.href="search-post.php";
-                //console.log(postSearchData)
-            }
-        }
-    })
-}

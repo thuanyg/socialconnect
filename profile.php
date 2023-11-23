@@ -58,8 +58,6 @@ if (!isset($_SESSION["userid"])) {
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="assets/css/tailwind.css" rel="stylesheet">
     <style>
-        
-
         .profile_avatar_holder:hover .icon_change_photo {
             display: block;
         }
@@ -681,7 +679,7 @@ if (!isset($_SESSION["userid"])) {
                         <div class="flex items-center space-x-1.5 flex-shrink-0 pr-4 mb-2 justify-center order-1 relative">
 
                             <!-- // Process -->
-                            <a style="background-color: lightseagreen;" href="chats-friend.php?uid=<?php echo $userProfile["userid"];?>" data-userid="<?php echo $userProfile["userid"]; ?>" class="friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
+                            <a style="background-color: lightseagreen;" href="chats-friend.php?uid=<?php echo $userProfile["userid"]; ?>" data-userid="<?php echo $userProfile["userid"]; ?>" class="friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
                                 <!--Add friend status icon-->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0084FF" class="bi bi-chat-left-quote" viewBox="0 0 16 16">
                                     <path d="M8.25.334a8 8 0 1 0 7.5 12.833 1.6 1.6 0 0 1-2.143-.926 1.6 1.6 0 0 1 2.572-1.9 4.8 4.8 0 0 1-6.429-2.777H6V5a1 1 0 0 1 1-1h3.25a5.6 5.6 0 0 0-.764-3.075 1.6 1.6 0 0 1 .162-2.314 1.6 1.6 0 0 1 2.282.108A8.001 8.001 0 0 0 8.25.334z" />
@@ -896,43 +894,7 @@ if (!isset($_SESSION["userid"])) {
                                                                                                                         ?></span> <ion-icon name="people"></ion-icon></div>
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 dark:hover:bg-gray-700"></i> </a>
-                                                    <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
-
-                                                        <ul class="space-y-1">
-                                                            <li>
-                                                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                                    <i class="uil-share-alt mr-1"></i> Share
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                                    <i class="uil-edit-alt mr-1"></i> Edit Post
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                                    <i class="uil-comment-slash mr-1"></i> Disable comments
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                                    <i class="uil-favorite mr-1"></i> Add favorites
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <hr class="-mx-2 my-2 dark:border-gray-800">
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md dark:hover:bg-red-600">
-                                                                    <i class="uil-trash-alt mr-1"></i> Delete
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                             <!-- Show Text Post -->
                                             <div class="p-5 pt-0 border-b dark:border-gray-700">
@@ -1013,7 +975,7 @@ if (!isset($_SESSION["userid"])) {
                                                         <div> Share</div>
                                                     </a>
                                                 </div>
-                                                <!-- <div class="flex items-center space-x-3 pt-2">
+                                                <div class="flex items-center space-x-3 pt-2">
                                                     <div class="flex items-center">
                                                         <img src="assets/images/avatars/avatar-1.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
                                                         <img src="assets/images/avatars/avatar-4.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
@@ -1075,7 +1037,7 @@ if (!isset($_SESSION["userid"])) {
                                                             <ion-icon name="link-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
                                                         </a>
                                                     </div>
-                                                </div> -->
+                                                </div>
 
                                             </div>
 
@@ -1087,10 +1049,7 @@ if (!isset($_SESSION["userid"])) {
                                 echo '<div style="text-align: center">Không có bài viết</div>';
                             }
                             ?>
-                            <div class="flex justify-center mt-6">
-                                <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
-                                    Load more ..</a>
-                            </div>
+                            
 
 
                         </div>
@@ -2197,6 +2156,7 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- For Night mode -->
     <script>
+        
 
         (function(window, document, undefined) {
             'use strict';
@@ -2235,7 +2195,8 @@ if (!isset($_SESSION["userid"])) {
     <!-- Javascript
     ================================================== -->
 
-    <!-- <script src="../Js/Post.js"></script> -->
+    <script src="Js/Global.js"></script>
+    <script src="Js/Profile.js"></script>
     <script src="Js/notification.js"></script>
     <script src="Js/Friend.js"></script>
     <script src="../../code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

@@ -27,7 +27,25 @@ class Post
     }
 
     function getPost($userid){
-        $sql = "select * from posts where userid = " . $userid. " Order by date desc";
+        $sql = "select * from posts where userid = " . $userid. " Order by date desc limit 5";
+        $DB = new Database();
+        $result = $DB->Query($sql);
+        if($result != null){
+            return $result;
+        } else return null;
+    }
+
+    function getNextPostTimeLine($userid, $offset){
+        $sql = "select * from posts where userid = " . $userid. " Order by date desc limit 5 offset {$offset}";
+        $DB = new Database();
+        $result = $DB->Query($sql);
+        if($result != null){
+            return $result;
+        } else return null;
+    }
+
+    function getNextPostProfile($userid, $offset){
+        $sql = "select * from posts where userid = " . $userid. " AND (privacy = 'public' OR privacy = 'friend') Order by date desc limit 5 offset {$offset}";
         $DB = new Database();
         $result = $DB->Query($sql);
         if($result != null){
@@ -69,7 +87,7 @@ class Post
             return $result;
         } else return null;
     }
-
+    
 
     function getNewPost($userid){
         $sql = "select * from posts where userid = " . $userid. " ORDER BY id DESC LIMIT 1 ";

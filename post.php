@@ -1244,6 +1244,8 @@ if (!isset($_SESSION["userid"])) {
 
     <!-- Javascript
     ================================================== -->
+
+    <script src="Js/Global.js"></script>
     <script src="Js/Post.js"></script>
     <script src="Js/notification.js"></script>
     <script src="assets/js/tippy.all.min.js"></script>
