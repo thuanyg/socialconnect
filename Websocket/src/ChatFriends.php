@@ -22,19 +22,19 @@
                     if (fileType === 'image') {
                         html_media_tags += `<div class="image-chat" style="text-align: right; margin: 10px;">\n
                                                 <img class="image-chat-inner" style="max-width: 200px; max-height: 200px; border-radius: 10px; display: inline-block;" 
-                                                src="./uploads/posts/${item}">
+                                                src="./uploads/messages/${item}">
                                             </div>`;
                     } else if (fileType === 'video') {
                         html_media_tags += `<div class="w-full h-full" style="justify-content: right; display: flex;">
                                                 <video controls>
-                                                    <source src="./uploads/posts/${item}" type="video/mp4">
+                                                    <source src="./uploads/messages/${item}" type="video/mp4">
                                                         Your browser does not support the video tag.
                                                 </video>
                                             </div>`;
                     } else if (fileType === 'audio') {
                         html_media_tags += `<div class="audio-chat" style="justify-content: right; display: flex;">\n
                                                 <audio controls>
-                                                    <source src="./uploads/posts/${item}" type="audio/mpeg">
+                                                    <source src="./uploads/messages/${item}" type="audio/mpeg">
                                                 </audio>
                                             </div>`;
                     }
@@ -77,19 +77,19 @@
                     if (fileType === 'image') {
                         html_media_tags += `<div class="image-chat" style="text-align: left; margin: 10px;">\n
                                                 <img class="image-chat-inner" style="max-width: 200px; max-height: 200px; border-radius: 10px; display: inline-block;" 
-                                                src="./uploads/posts/${item}">
+                                                src="./uploads/messages/${item}">
                                             </div>`;
                     } else if (fileType === 'video') {
                         html_media_tags += `<div class="w-full h-full" style="justify-content: left; display: flex;">
                                                 <video controls>
-                                                    <source src="./uploads/posts/${item}" type="video/mp4">
+                                                    <source src="./uploads/messages/${item}" type="video/mp4">
                                                         Your browser does not support the video tag.
                                                 </video>
                                             </div>`;
                     } else if (fileType === 'audio') {
                         html_media_tags += `<div class="audio-chat" style="justify-content: left; display: flex;">\n
                                                 <audio controls>
-                                                    <source src="./uploads/posts/${item}" type="audio/mpeg">
+                                                    <source src="./uploads/messages/${item}" type="audio/mpeg">
                                                 </audio>
                                             </div>`;
 

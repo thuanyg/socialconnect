@@ -268,6 +268,7 @@ async function sendMessage(btn) {
 async function UploadFile() {
     var formData = new FormData($("#uploadForm")[0]);
     return new Promise(function (resolve, reject) {
+        formData.append('action', 'upload-file-message');
         $.ajax({
             url: "Ajax/Upload.php",
             type: "POST",

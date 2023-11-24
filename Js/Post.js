@@ -149,13 +149,14 @@ async function UploadFilesToServer(listForm) {
     // var formfiles = $("form[name='upload-image']");
     for (let i = 0; i < listForm.length; i++) {
         var formData = new FormData(listForm[i]);
+        formData.append('action', 'upload-file-post');
         try {
             var response = await $.ajax({
                 url: "Ajax/Upload.php",
                 type: "POST",
                 data: formData,
                 processData: false,
-                contentType: false
+                contentType: false,
             });
             var file = JSON.parse(response);
             files = files.concat(file);
@@ -241,18 +242,18 @@ $(".post-action .post-action-edit").on("click", function (e) {
                 editPostModal.find("textarea").val(post.post);
                 editPostModal.find(".Privacy .dropdown-toggle").attr('title', post.privacy);
                 editPostModal.find(".Privacy .dropdown-toggle .filter-option").text(post.privacy);
-                var optionElement = editPostModal.find(".Privacy select option").filter(function() {
+                var optionElement = editPostModal.find(".Privacy select option").filter(function () {
                     return $(this).text() === post.privacy;
                 });
-                if(post.privacy == "Public"){
+                if (post.privacy == "Public") {
                     editPostModal.find(".Privacy .dropdown-menu li").removeClass("selected")
                     editPostModal.find(".Privacy .dropdown-menu li:eq(0)").addClass("selected")
                 }
-                if(post.privacy == "Friend"){
+                if (post.privacy == "Friend") {
                     editPostModal.find(".Privacy .dropdown-menu li").removeClass("selected")
                     editPostModal.find(".Privacy .dropdown-menu li:eq(1)").addClass("selected")
                 }
-                if(post.privacy == "Private"){
+                if (post.privacy == "Private") {
                     editPostModal.find(".Privacy .dropdown-menu li").removeClass("selected")
                     editPostModal.find(".Privacy .dropdown-menu li:eq(2)").addClass("selected")
                 }
@@ -393,7 +394,7 @@ function deletePost(event, btn) {
     var postid = btn.getAttribute("data-post-id");
     var media = [];
     var image = $(".card[post-id='" + postid + "']").find("div[uk-lightbox] img");
-    image.each(function(index, item) {
+    image.each(function (index, item) {
         var fileName = $(item).attr('src');
         fileName = fileName.match(/([^\/?#]+)$/);
         if (media.indexOf(fileName[1]) === -1) {
@@ -401,7 +402,7 @@ function deletePost(event, btn) {
         }
     });
     var video = $(".card[post-id='" + postid + "']").find("div[uk-lightbox] video");
-    video.each(function(index, item) {
+    video.each(function (index, item) {
         var fileName = $(item).find('source').attr('src');
         fileName = fileName.match(/([^\/?#]+)$/);
         if (media.indexOf(fileName[1]) === -1) {
