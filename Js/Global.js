@@ -127,3 +127,13 @@ function SearchPost(query) {
         }
     })
 }
+// Show modal post details when click comment
+$(".comment-post-btn").click(function(e) {
+    e.preventDefault();
+    // Reset modal
+    $("#post-details-modal .post-details-card").empty();
+    var postID = $(this).parent().attr("post-id");
+    var postCardHTML = $(`.card[post-id=${postID}]`)[0].outerHTML;
+    $("#post-details-modal .post-details-card").html(postCardHTML);
+    console.log(111);
+});
