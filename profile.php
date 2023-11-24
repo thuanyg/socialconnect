@@ -3,6 +3,7 @@ include("Classes/user.php");
 include("Classes/post.php");
 include("Classes/timer.php");
 include("Classes/friend.php");
+include("Classes/message.php");
 session_start();
 $userCurrent = null;
 $userProfile = null;
@@ -107,7 +108,6 @@ if (!isset($_SESSION["userid"])) {
             <div class="header_wrap">
                 <div class="header_inner mcontainer">
                     <div class="left_side">
-
                         <span class="slide_menu" uk-toggle="target: #wrapper ; cls: is-collapse is-active">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                 <path d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z" fill="currentColor"></path>
@@ -125,54 +125,137 @@ if (!isset($_SESSION["userid"])) {
                     <!-- search icon for mobile -->
                     <div class="header-search-icon" uk-toggle="target: #wrapper ; cls: show-searchbox"> </div>
                     <div class="header_search"><i class="uil-search-alt"></i>
-                        <input value="" type="text" class="form-control" placeholder="Search for Friends , Videos and more.." autocomplete="off">
+                        <input value="" name="txtSearch" type="text" class="form-control" placeholder="Search for Friends , Videos and more.." autocomplete="off">
                         <div uk-drop="mode: click" class="header_search_dropdown">
-
-                            <h4 class="search_title"> Recently </h4>
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <img src="assets/images/avatars/avatar-1.jpg" alt="" class="list-avatar">
-                                        <div class="list-name"> Erica Jones </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="assets/images/avatars/avatar-2.jpg" alt="" class="list-avatar">
-                                        <div class="list-name"> Coffee Addicts </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="assets/images/avatars/avatar-3.jpg" alt="" class="list-avatar">
-                                        <div class="list-name"> Mountain Riders </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="assets/images/avatars/avatar-4.jpg" alt="" class="list-avatar">
-                                        <div class="list-name"> Property Rent And Sale </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="assets/images/avatars/avatar-5.jpg" alt="" class="list-avatar">
-                                        <div class="list-name"> Erica Jones </div>
-                                    </a>
-                                </li>
+                            <h4 class="search_title"> Results/Recently</h4>
+                            <ul id="searchResults">
+                                <div id="search-loading" style="display: none;">
+                                    <img src="./assets/images/gif/loading_message_tab.svg">
+                                </div>
                             </ul>
-
                         </div>
                     </div>
 
                     <div class="right_side">
 
                         <div class="header_widgets">
-                            <a href="#" class="is_icon" uk-tooltip="title: Notifications">
+                            <a href="#" class="is_icon" uk-tooltip="title: Cart">
+                                <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+                                </svg>
+                            </a>
+                            <div uk-drop="mode: click" class="header_dropdown dropdown_cart">
+
+                                <div class="drop_headline">
+                                    <h4> My Cart </h4>
+                                    <a href="#" class="btn_action hover:bg-gray-100 mr-2 px-2 py-1 rounded-md underline"> Checkout </a>
+                                </div>
+
+                                <ul class="dropdown_cart_scrollbar" data-simplebar>
+                                    <li>
+                                        <div class="cart_avatar">
+                                            <img src="assets/images/product/2.jpg" alt="">
+                                        </div>
+                                        <div class="cart_text">
+                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Wireless headphones </div>
+                                            <p class="text-sm">Type Accessories </p>
+                                        </div>
+                                        <div class="cart_price">
+                                            <span> $14.99 </span>
+                                            <button class="type"> Remove</button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="cart_avatar">
+                                            <img src="assets/images/product/13.jpg" alt="">
+                                        </div>
+                                        <div class="cart_text">
+                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Parfum Spray</div>
+                                            <p class="text-sm">Type Parfums </p>
+                                        </div>
+                                        <div class="cart_price">
+                                            <span> $16.99 </span>
+                                            <button class="type"> Remove</button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="cart_avatar">
+                                            <img src="assets/images/product/15.jpg" alt="">
+                                        </div>
+                                        <div class="cart_text">
+                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Herbal Shampoo </div>
+                                            <p class="text-sm">Type Herbel </p>
+                                        </div>
+                                        <div class="cart_price">
+                                            <span> $12.99 </span>
+                                            <button class="type"> Remove</button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="cart_avatar">
+                                            <img src="assets/images/product/14.jpg" alt="">
+                                        </div>
+                                        <div class="cart_text">
+                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Wood Chair </div>
+                                            <p class="text-sm">Type Furniture </p>
+                                        </div>
+                                        <div class="cart_price">
+                                            <span> $19.99 </span>
+                                            <button class="type"> Remove</button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="cart_avatar">
+                                            <img src="assets/images/product/9.jpg" alt="">
+                                        </div>
+                                        <div class="cart_text">
+                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Strawberries FreshRipe </div>
+                                            <p class="text-sm">Type Fruit </p>
+                                        </div>
+                                        <div class="cart_price">
+                                            <span> $12.99 </span>
+                                            <button class="type"> Remove</button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="cart_avatar">
+                                            <img src="assets/images/product/2.jpg" alt="">
+                                        </div>
+                                        <div class="cart_text">
+                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Wireless headphones </div>
+                                            <p class="text-sm">Type Accessories </p>
+                                        </div>
+                                        <div class="cart_price">
+                                            <span> $14.99 </span>
+                                            <button class="type"> Remove</button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="cart_avatar">
+                                            <img src="assets/images/product/13.jpg" alt="">
+                                        </div>
+                                        <div class="cart_text">
+                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Parfum Spray</div>
+                                            <p class="text-sm">Type Parfums </p>
+                                        </div>
+                                        <div class="cart_price">
+                                            <span> $16.99 </span>
+                                            <button class="type"> Remove</button>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <div class="cart_footer">
+                                    <p> Subtotal : $ 320 </p>
+                                    <h1> Total : <strong> $ 320</strong> </h1>
+                                </div>
+                            </div>
+
+                            <a href="#" class="is_icon notification-btn" uk-tooltip="title: Notifications">
                                 <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
                                 </svg>
-                                <span>3</span>
+                                <span class="notification-quantity" style="display: none;"></span>
                             </a>
                             <div uk-drop="mode: click" class="header_dropdown">
                                 <div class="dropdown_scrollbar" data-simplebar>
@@ -187,160 +270,20 @@ if (!isset($_SESSION["userid"])) {
                                             </a>
                                         </div>
                                     </div>
-                                    <ul>
-                                        <li>
+                                    <ul class="list-notification">
+                                        <!-- <li>
                                             <a href="#">
-                                                <div class="drop_avatar">
-                                                    <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                                                </div>
-                                                <span class="drop_icon bg-gradient-primary">
-                                                    <i class="icon-feather-thumbs-up"></i>
-                                                </span>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Adrian Mohani</strong> Like Your Comment On Video
-                                                        <span class="text-link">Learn Prototype Faster </span>
-                                                    </p>
-                                                    <time> 2 hours ago </time>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="not-read">
-                                            <a href="#">
-                                                <div class="drop_avatar status-online"> <img src="assets/images/avatars/avatar-2.jpg" alt="">
+                                                <div class="drop_avatar"> <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="">
                                                 </div>
                                                 <div class="drop_text">
                                                     <p>
-                                                        <strong>Stella Johnson</strong> Replay Your Comments in
-                                                        <span class="text-link">Adobe XD Tutorial</span>
-                                                    </p>
-                                                    <time> 9 hours ago </time>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                                                </div>
-                                                <span class="drop_icon bg-gradient-primary">
-                                                    <i class="icon-feather-thumbs-up"></i>
-                                                </span>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Alex Dolgove</strong> Added New Review In Video
-                                                        <span class="text-link">Full Stack PHP Developer</span>
-                                                    </p>
-                                                    <time> 12 hours ago </time>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Jonathan Madano</strong> Shared Your Discussion On Video
-                                                        <span class="text-link">Css Flex Box </span>
-                                                    </p>
-                                                    <time> Yesterday </time>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                                                </div>
-                                                <span class="drop_icon bg-gradient-primary">
-                                                    <i class="icon-feather-thumbs-up"></i>
-                                                </span>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Adrian Mohani</strong> Like Your Comment On Course
-                                                        <span class="text-link">Javascript Introduction </span>
-                                                    </p>
-                                                    <time> 2 hours ago </time>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar status-online"> <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Stella Johnson</strong> Replay Your Comments in
+                                                        <strong>Quang</strong> Replay Your Comments in
                                                         <span class="text-link">Programming for Games</span>
                                                     </p>
                                                     <time> 9 hours ago </time>
                                                 </div>
                                             </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Stella Johnson</strong> Replay Your Comments in
-                                                        <span class="text-link">Programming for Games</span>
-                                                    </p>
-                                                    <time> 9 hours ago </time>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Alex Dolgove</strong> Added New Review In Course
-                                                        <span class="text-link">Full Stack PHP Developer</span>
-                                                    </p>
-                                                    <time> 12 hours ago </time>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Jonathan Madano</strong> Shared Your Discussion On Course
-                                                        <span class="text-link">Css Flex Box </span>
-                                                    </p>
-                                                    <time> Yesterday </time>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Adrian Mohani</strong> Like Your Comment On Course
-                                                        <span class="text-link">Javascript Introduction </span>
-                                                    </p>
-                                                    <time> 2 hours ago </time>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Stella Johnson</strong> Replay Your Comments in
-                                                        <span class="text-link">Programming for Games</span>
-                                                    </p>
-                                                    <time> 9 hours ago </time>
-                                                </div>
-                                            </a>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                             </div>
@@ -367,89 +310,34 @@ if (!isset($_SESSION["userid"])) {
                                     </div>
                                     <input type="text" class="uk-input" placeholder="Search in Messages">
                                     <ul>
-                                        <li class="un-read">
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <strong> Stella Johnson </strong> <time>12:43 PM</time>
-                                                    <p> Alex will explain you how ... </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <strong> Adrian Mohani </strong> <time> 6:43 PM</time>
-                                                    <p> Thanks for The Answer sit amet... </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <strong>Alia Dolgove </strong> <time> Wed </time>
-                                                    <p> Alia just joined Messenger! </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <strong> Jonathan Madano </strong> <time> Sun</time>
-                                                    <p> Replay Your Comments insit amet consectetur </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="un-read">
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <strong> Stella Johnson </strong> <time>12:43 PM</time>
-                                                    <p> Alex will explain you how ... </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <strong> Adrian Mohani </strong> <time> 6:43 PM</time>
-                                                    <p> Thanks for The Answer sit amet... </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <strong>Alia Dolgove </strong> <time> Wed </time>
-                                                    <p> Alia just joined Messenger! </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="assets/images/avatars/avatar-4.jpg" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <strong> Jonathan Madano </strong> <time> Sun</time>
-                                                    <p> Replay Your Comments insit amet consectetur </p>
-                                                </div>
-                                            </a>
-                                        </li>
+                                        <?php
+                                        $friends_mess = (new Message())->getFriendMessage($userCurrent["userid"]);
+                                        for ($i = 0; $i < sizeof($friends_mess); $i++) {
+                                            $friend = $user->getUser($friends_mess[$i]["friend_id"]);
+                                            $mess_obj = new Message();
+                                            $mess = $mess_obj->getLastestMessage($userCurrent["userid"], $friend["userid"]);
+                                        ?>
+                                            <li class="message-preview un-read" data-friend-id="<?php echo $friend["userid"] ?>">
+                                                <a href="">
+                                                    <div class="drop_avatar"> <img src="<?php echo $friend["avatar_image"] ?>" alt="">
+                                                    </div>
+                                                    <div class="drop_text">
+                                                        <strong> <?php echo $friend["first_name"] . " " . $friend["last_name"] ?> </strong> <time> 6:43 PM</time>
+                                                        <p>
+                                                            <?php
+                                                            if ($mess[0]["sender_id"] == $userCurrent["userid"]) echo "Me: " . $mess[0]["text"];
+                                                            if ($mess[0]["sender_id"] == $friend["userid"]) echo $mess[0]["text"];
+                                                            ?>
+                                                        </p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        <?php
+                                        }
+                                        ?>
                                     </ul>
                                 </div>
-                                <a href="#" class="see-all"> See all in Messages</a>
+                                <a href="chats-friend.php" class="see-all"> See all in Messages</a>
                             </div>
 
 
@@ -463,36 +351,32 @@ if (!isset($_SESSION["userid"])) {
                                         <img src="<?php echo $userCurrent["avatar_image"]; ?>" alt="">
                                     </div>
                                     <div class="user_name">
-                                        <div><?php echo $userCurrent["last_name"]; ?></div>
-                                        <span>@<?php echo $userCurrent["url_address"]; ?></span>
+                                        <div> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"]; ?> </div>
+                                        <span> @<?php echo $userCurrent["url_address"]; ?></span>
                                     </div>
                                 </a>
                                 <hr>
-
-                                <a href="page-setting.html">
+                                <a href="page-setting.php">
                                     <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
                                     </svg>
                                     My Account
                                 </a>
-                                <a href="groups.html">
-
-
-                                    <a href="#" id="night-mode" class="btn-night-mode">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                                        </svg>
-                                        Night mode
-                                        <span class="btn-night-mode-switch">
-                                            <span class="uk-switch-button"></span>
-                                        </span>
-                                    </a>
-                                    <a href="logout.php">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                                        </svg>
-                                        Log Out
-                                    </a>
+                                <a href="#" id="night-mode" class="btn-night-mode">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                                    </svg>
+                                    Night mode
+                                    <span class="btn-night-mode-switch">
+                                        <span class="uk-switch-button"></span>
+                                    </span>
+                                </a>
+                                <a href="logout.php">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                    </svg>
+                                    Log Out
+                                </a>
 
 
                             </div>
@@ -894,7 +778,7 @@ if (!isset($_SESSION["userid"])) {
                                                                                                                         ?></span> <ion-icon name="people"></ion-icon></div>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                             <!-- Show Text Post -->
                                             <div class="p-5 pt-0 border-b dark:border-gray-700">
@@ -1049,7 +933,7 @@ if (!isset($_SESSION["userid"])) {
                                 echo '<div style="text-align: center">Không có bài viết</div>';
                             }
                             ?>
-                            
+
 
 
                         </div>
@@ -1321,7 +1205,7 @@ if (!isset($_SESSION["userid"])) {
 
                     </div>
 
-                    
+
                     <!-- Photos  -->
                     <div class="card md:p-6 p-2 max-w-3xl mx-auto" id="result">
 
@@ -1336,10 +1220,11 @@ if (!isset($_SESSION["userid"])) {
                                         ?>
                                         <li class="photo-tab photo active"><a href="#"> Photos of you
                                                 <span><?php
-                                                    if ($postsize["total_media"] == null){
-                                                        echo "0";
-                                                    }else{
-                                                     echo $postsize["total_media"];} ?>
+                                                        if ($postsize["total_media"] == null) {
+                                                            echo "0";
+                                                        } else {
+                                                            echo $postsize["total_media"];
+                                                        } ?>
                                                 </span>
                                             </a></li>
                                         <li class="photo-tab album"><a href="#"> Albums </a></li>
@@ -1354,52 +1239,36 @@ if (!isset($_SESSION["userid"])) {
                         </div>
                         <div class="photo-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5">
                             <?php
-                            for ($i = 0; $i < sizeof($post); $i++) {
-                                if ($post[$i]["media"] != null) {
-                                    $media_json = $post[$i]["media"];
-                                    $media = json_decode($media_json, true);
-                                    foreach ($media as $file) {
-                                        $fileInfo = pathinfo($file);
-                                        $fileExtension = strtolower($fileInfo['extension']);
-                                        if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+                            if ($post != null) {
+                                for ($i = 0; $i < sizeof($post); $i++) {
+                                    if ($post[$i]["media"] != null) {
+                                        $media_json = $post[$i]["media"];
+                                        $media = json_decode($media_json, true);
+                                        foreach ($media as $file) {
+                                            $fileInfo = pathinfo($file);
+                                            $fileExtension = strtolower($fileInfo['extension']);
+                                            if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
                             ?>
-                                            <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                                <div class="image-small">
-                                                    <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
-                                                </div>    
-                                                <!-- Overlay -->
-                                                <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                                <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                                    <div class="text-base"> Image description </div>
-                                                    <div class="flex justify-between text-xs">
-                                                        <a href="#"> Like</a>
-                                                        <a href="#"> Comment </a>
-                                                        <a href="#"> Share </a>
+                                                <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
+                                                    <div class="image-small">
+                                                        <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
+                                                    </div>
+                                                    <!-- Overlay -->
+                                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
+                                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
+                                                        <div class="text-base"> Image description </div>
+                                                        <div class="flex justify-between text-xs">
+                                                            <a href="#"> Like</a>
+                                                            <a href="#"> Comment </a>
+                                                            <a href="#"> Share </a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                <?php
+                            <?php
+                                            }
                                         }
                                     }
                                 }
-                                ?>
-                            
-                                <!--
-                                <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                    <img src="assets/images/post/img-1.jpg" class="w-full h-full absolute object-cover inset-0">
-                                    overly
-                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                        <div class="text-base"> Image description </div>
-                                        <div class="flex justify-between text-xs">
-                                            <a href="#"> Like</a>
-                                            <a href="#"> Comment </a>
-                                            <a href="#"> Share </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                -->
-                            <?php
                             }
                             ?>
                         </div>
@@ -2107,8 +1976,6 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- For Night mode -->
     <script>
-        
-
         (function(window, document, undefined) {
             'use strict';
             if (!('localStorage' in window)) return;
