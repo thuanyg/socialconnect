@@ -948,7 +948,6 @@ if (isset($_GET["uid"])) {
     include("Websocket/src/ChatFriends.php");
     ?>
     <script>
-        var serverTab = window.open('Websocket/server.php', 'serverTab');
         (function(window, document, undefined) {
             'use strict';
             if (!('localStorage' in window)) return;

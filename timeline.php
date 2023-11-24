@@ -24,8 +24,6 @@ if (!isset($_SESSION["userid"])) {
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from demo.foxthemes.net/socialite/timeline.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 20 Jul 2023 17:41:59 GMT -->
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -151,8 +149,6 @@ if (!isset($_SESSION["userid"])) {
 </head>
 
 <body>
-
-
     <!-- Thanh thông báo ở góc trên bên phải -->
     <div class="notification" id="notification">
         <span id="notification-text"></span>
@@ -188,6 +184,9 @@ if (!isset($_SESSION["userid"])) {
                         <div uk-drop="mode: click" class="header_search_dropdown">
                             <h4 class="search_title"> Results/Recently</h4>
                             <ul id="searchResults">
+                                <div id="search-loading" style="display: none;">
+                                    <img src="./assets/images/gif/loading_message_tab.svg">
+                                </div>
                             </ul>
                         </div>
                     </div>
@@ -1113,11 +1112,14 @@ if (!isset($_SESSION["userid"])) {
                                         ?>
                                         <li class="photo-tab photo active"><a href="#"> Photos of you
                                                 <span><?php
-                                                        if ($postsize["total_media"] == null) {
-                                                            echo "0";
-                                                        } else {
-                                                            echo $postsize["total_media"];
-                                                        } ?>
+                                                        if ($postsize != null) {
+                                                            if ($postsize["total_media"] == null) {
+                                                                echo "0";
+                                                            } else {
+                                                                echo $postsize["total_media"];
+                                                            }
+                                                        }
+                                                        ?>
                                                 </span>
                                             </a></li>
                                         <li class="photo-tab album"><a href="#"> Albums </a></li>
@@ -1132,52 +1134,36 @@ if (!isset($_SESSION["userid"])) {
                         </div>
                         <div class="photo-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5">
                             <?php
-                            for ($i = 0; $i < sizeof($post); $i++) {
-                                if ($post[$i]["media"] != null) {
-                                    $media_json = $post[$i]["media"];
-                                    $media = json_decode($media_json, true);
-                                    foreach ($media as $file) {
-                                        $fileInfo = pathinfo($file);
-                                        $fileExtension = strtolower($fileInfo['extension']);
-                                        if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+                            if ($post != null) {
+                                for ($i = 0; $i < sizeof($post); $i++) {
+                                    if ($post[$i]["media"] != null) {
+                                        $media_json = $post[$i]["media"];
+                                        $media = json_decode($media_json, true);
+                                        foreach ($media as $file) {
+                                            $fileInfo = pathinfo($file);
+                                            $fileExtension = strtolower($fileInfo['extension']);
+                                            if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
                             ?>
-                                            <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                                <div class="image-small">
-                                                    <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
-                                                </div>
-                                                <!-- Overlay -->
-                                                <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                                <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                                    <div class="text-base"> Image description </div>
-                                                    <div class="flex justify-between text-xs">
-                                                        <a href="#"> Like</a>
-                                                        <a href="#"> Comment </a>
-                                                        <a href="#"> Share </a>
+                                                <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
+                                                    <div class="image-small">
+                                                        <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
+                                                    </div>
+                                                    <!-- Overlay -->
+                                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
+                                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
+                                                        <div class="text-base"> Image description </div>
+                                                        <div class="flex justify-between text-xs">
+                                                            <a href="#"> Like</a>
+                                                            <a href="#"> Comment </a>
+                                                            <a href="#"> Share </a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                 <?php
+                                            }
                                         }
                                     }
                                 }
-                                ?>
-
-                                <!--
-                                <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                    <img src="assets/images/post/img-1.jpg" class="w-full h-full absolute object-cover inset-0">
-                                    overly
-                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                        <div class="text-base"> Image description </div>
-                                        <div class="flex justify-between text-xs">
-                                            <a href="#"> Like</a>
-                                            <a href="#"> Comment </a>
-                                            <a href="#"> Share </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                -->
-                            <?php
                             }
                             ?>
                         </div>
@@ -1874,13 +1860,6 @@ if (!isset($_SESSION["userid"])) {
                         <svg class="hover:bg-gray-200 h-9 p-1.5 rounded-full w-9 cursor-pointer" id="veiw-more-edit" uk-toggle="target: #veiw-more-edit; animation: uk-animation-fade" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"> </path>
                         </svg>
-
-                        <!-- vSet to Form -->
-                        <!-- <form method="POST" id="uploadForm" name="fanh" enctype="multipart/form-data">
-                            <input type="file" hidden name="fileToUpload[]" id="ImageInput" onchange="previewImage()" multiple>
-                            <input type="file" hidden id="VideoInput">
-                            <input type="file" hidden id="MusicInput">
-                        </form> -->
                     </div>
 
                 </div>
