@@ -135,5 +135,4 @@ $(".comment-post-btn").click(function(e) {
     var postID = $(this).parent().attr("post-id");
     var postCardHTML = $(`.card[post-id=${postID}]`)[0].outerHTML;
     $("#post-details-modal .post-details-card").html(postCardHTML);
-    console.log(111);
 });
