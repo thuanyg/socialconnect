@@ -494,7 +494,7 @@ if (!isset($_SESSION["userid"])) {
                                     $userOfPost = $user->getUser($post[$i]["userid"]);
                         ?>
 
-                                    <div class="card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
+                                    <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
 
                                         <!-- post header-->
                                         <div class="flex justify-between items-center lg:p-4 p-2.5">

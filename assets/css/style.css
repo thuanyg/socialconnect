@@ -519,6 +519,9 @@
   color: #aaa;
 }
 
+#post-details-modal .uk-modal-dialog {
+  width: 750px;
+}
 /* Buttons
 ------------------------------------- */
 button {

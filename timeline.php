@@ -668,7 +668,7 @@ if (!isset($_SESSION["userid"])) {
                         <div class="space-y-5 flex-shrink-0 md:w-7/12" id="PostContaier">
 
                             <!-- create post  -->
-                            <div class="card lg:mx-0 p-4" uk-toggle="target: #create-post-modal">
+                            <div class="card lg:mx-0 p-4" uk-toggle="target: #create-post-modal" >
                                 <div class="flex space-x-3">
                                     <img src="<?php echo $userCurrent["avatar_image"] ?>" class="w-10 h-10 rounded-full">
                                     <input placeholder="What's Your Mind ? Hamse!" class="bg-gray-100 hover:bg-gray-200 flex-1 h-10 px-6 rounded-full">
@@ -711,7 +711,7 @@ if (!isset($_SESSION["userid"])) {
                                         // Upload picture
                             ?>
 
-                                        <div class="card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
+                                        <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
 
                                             <!-- post header-->
                                             <div class="flex justify-between items-center lg:p-4 p-2.5">
@@ -815,7 +815,7 @@ if (!isset($_SESSION["userid"])) {
                                             <!--Like comment share-->
                                             <div class="p-4 space-y-3">
 
-                                                <div class="flex space-x-4 lg:font-bold">
+                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
                                                     <a href="#" class="like-post-btn flex items-center space-x-2">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
@@ -824,7 +824,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </div>
                                                         <div> Like</div>
                                                     </a>
-                                                    <a href="#" class="comment-post-btn flex items-center space-x-2">
+                                                    <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                                 <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />

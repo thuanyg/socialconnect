@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 24, 2023 lúc 08:14 AM
+-- Thời gian đã tạo: Th10 24, 2023 lúc 07:12 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -465,17 +465,17 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `userid`, `first_name`, `last_name`, `gender`, `email`, `password`, `url_address`, `date`, `cover_image`, `avatar_image`, `connection_id`, `privacy`) VALUES
-(10, 4556887516696215, 'Hoàng Tiến', 'Thuận', 'Male', 'cryptocard.268@gmail.com', 'htthuan2468', 'hoàng.thuận', '2023-11-24 06:13:25', '', 'uploads/avatars/avatar_default.png', 163, 'public'),
-(31, 3572325399739732623, 'Thuan', 'Teddy', 'Male', 'thuan2682k3@gmail.com', 'htthuan6041', 'thuan.teddy', '2023-11-24 06:33:27', '', 'uploads/avatars/avatar_default.png', 208, 'public'),
+(10, 4556887516696215, 'Hoàng Tiến', 'Thuận', 'Male', 'cryptocard.268@gmail.com', 'htthuan2468', 'hoàng.thuận', '2023-11-24 15:31:05', 'uploads/avatars/feed-5.jpg', 'uploads/avatars/profile-8.jpg', 163, 'public'),
+(31, 3572325399739732623, 'Thuan', 'Teddy', 'Male', 'thuan2682k3@gmail.com', 'htthuan6041', 'thuan.teddy', '2023-11-24 15:28:35', 'uploads/avatars/img-1.jpg', 'uploads/avatars/profile-1.jpg', 208, 'public'),
 (32, 4623450327014144, 'Teddy', 'IsMe', 'Male', 'thuan0205766@huce.edu.vn', 'htthuan4902', 'teddy.isme', '2023-10-26 09:16:30', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
-(33, 744177439385, 'Vũ', 'Nam', 'Male', 'aaa@aaa.vn', '123', 'nam.vu', '2023-11-23 10:50:33', '', 'uploads/avatars/avatar_default.png', 508, 'public'),
+(33, 744177439385, 'Ngô Tùng', 'Sơn', 'Male', 'aaa1@aaa.vn', '123', 'nam.vu', '2023-11-24 17:17:30', 'uploads/avatars/img-5.jpg', 'uploads/avatars/avatar-lg-4.jpg', 508, 'public'),
 (34, 9095530094254485, 'Hoàng', 'Hiếu', 'Male', 'hieu0189366@huce.edu.vn', 'htthuan6807', 'ho?ng.hi?u', '2023-11-24 07:10:20', '', 'uploads/avatars/avatar_default.png', 346, 'public'),
 (36, 6643068578152038928, 'Quang', 'NV', 'Male', 'thuan2682k31@gmail.com', '111', 'thu?n.n?', '2023-11-23 10:50:47', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (37, 512857291296889, 'Mạnh', 'Hùng', 'Male', 'thuan26282k3@gmail.com', '1', 'thuan.ok', '2023-11-23 10:50:56', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (38, 5128572996831, 'Nguyễn Văn', 'Quang', 'Male', 'qnt@gmail.com', '123', 'qnt@iii', '2023-11-24 06:33:12', '', 'uploads/avatars/avatar_default.png', 202, 'public'),
 (39, 512857291296832, 'Nguyễn Văn', 'Anh', 'Male', 'qnt1@gmail.com', '123', 'qnt1@iii', '2023-11-23 10:50:56', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (40, 512857291296221, 'Trịnh Hùng', 'Mạnh', 'Male', 'thm@gmail.com', '123', 'thm@iii', '2023-11-23 10:50:56', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
-(43, 5128572912903, 'Ngô Xuân', 'Quý', 'Male', 'nxq@gmail.com', '123', 'nxq@iii', '2023-11-24 07:13:46', '', 'uploads/avatars/avatar_default.png', 370, 'public'),
+(43, 5128572912903, 'Ngô Xuân', 'Quý', 'Male', 'nxq@gmail.com', '123', 'nxq@iii', '2023-11-24 07:39:10', '', 'uploads/avatars/avatar_default.png', 448, 'public'),
 (44, 5128572912904, 'Nguyễn Phương', 'Thảo', 'Male', 'nxq2@gmail.com', '123', 'nxq@iii', '2023-11-24 06:26:16', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (90, 12844124912901, 'Ngô Xuân', 'Thảo', 'Male', 'user1@example.com', '123', 'nxq@iii', '2023-11-23 09:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (91, 12844124912902, 'Hoàng Long', 'Vũ', 'Male', 'user2@example.com', '123', 'nxq@iii', '2023-11-24 06:29:42', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
@@ -574,7 +574,8 @@ CREATE TABLE `users_about` (
 
 INSERT INTO `users_about` (`id`, `userid`, `birthday`, `desc`, `address`, `edu`) VALUES
 (8, 3572325399739732623, '2003-08-26', 'My name is Thuannnne', 'Hanoi Vietnam', 'HUCE'),
-(16, 4556887516696215, '2023-10-06', 'Hi xin chào mọi người lại là mình chao đây!!!', 'Bắc Ninh', 'HUCE');
+(16, 4556887516696215, '2023-10-06', 'Hi xin chào mọi người lại là mình chao đây!!!', 'Bắc Ninh', 'HUCE'),
+(20, 5128572912903, '0001-01-01', '', 'Hanoi VietNam', 'HUST');
 
 -- --------------------------------------------------------
 
@@ -597,7 +598,7 @@ INSERT INTO `users_status` (`id`, `userid`, `status`, `date`) VALUES
 (60, 3572325399739732623, 'offline', '2023-11-24 06:33:27'),
 (70, 4556887516696215, 'online', '2023-11-24 06:13:25'),
 (311, 744177439385, 'offline', '2023-11-05 14:06:21'),
-(2498, 5128572912903, 'online', '2023-11-24 07:13:46'),
+(2498, 5128572912903, 'offline', '2023-11-24 07:39:52'),
 (2510, 5128572996831, 'online', '2023-11-24 06:32:55'),
 (2518, 128441249129025, 'offline', '2023-11-24 06:39:20'),
 (2528, 9095530094254485, 'offline', '2023-11-24 07:10:53');
@@ -771,13 +772,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `users_about`
 --
 ALTER TABLE `users_about`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `users_status`
 --
 ALTER TABLE `users_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2571;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2598;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
