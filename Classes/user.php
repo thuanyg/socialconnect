@@ -86,4 +86,22 @@ class User
         $result = $DB->Execute($sql);
         return $result;
     }
+    function updateAvatar($userid,$data){
+        $DB=new Database();
+        $imagesNew = $data["imagesNew"];
+       
+        
+        $sql = "update users set avatar_image = 'uploads/avatars/{$imagesNew}' where userid = {$userid}";
+        $result = $DB->Execute(($sql));
+        return $result;
+    }
+    function updateCover($userid,$data){
+        $DB=new Database();
+        $imagesNew = $data["imagesNew"];
+       
+        
+        $sql = "update users set cover_image = 'uploads/avatars/{$imagesNew}' where userid = {$userid}";
+        $result = $DB->Execute(($sql));
+        return $result;
+    }
 }

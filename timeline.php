@@ -565,13 +565,13 @@ if (!isset($_SESSION["userid"])) {
                     <div class="profiles_banner">
                         <img src="<?php echo $userCurrent["cover_image"] ?>" alt="">
                         <div class="profile_action absolute bottom-0 right-0 space-x-1.5 p-3 text-sm z-50 hidden lg:flex">
-                            <a href="#" class="flex items-center justify-center h-8 px-3 rounded-md bg-gray-700 bg-opacity-70 text-white space-x-1.5">
+                            <a href="#" uk-toggle="target: #edit-cover-modal" class="flex items-center justify-center h-8 px-3 rounded-md bg-gray-700 bg-opacity-70 text-white space-x-1.5">
                                 <ion-icon name="crop-outline" class="text-xl"></ion-icon>
-                                <span> Crop </span>
+                                <span> Edit cover </span>
                             </a>
-                            <a href="#" class="flex items-center justify-center h-8 px-3 rounded-md bg-gray-700 bg-opacity-70 text-white space-x-1.5">
+                            <a href="#" uk-toggle="target: #edit-avatar-modal" class=" flex items-center justify-center h-8 px-3 rounded-md bg-gray-700 bg-opacity-70 text-white space-x-1.5 ">
                                 <ion-icon name="create-outline" class="text-xl"></ion-icon>
-                                <span> Edit </span>
+                                <span> Edit Avatar</span>
                             </a>
                         </div>
                     </div>
@@ -852,7 +852,7 @@ if (!isset($_SESSION["userid"])) {
                                 echo '<div style="text-align: center">Không có bài viết</div>';
                             }
                             ?>
-                           
+
 
 
                         </div>
@@ -1953,6 +1953,88 @@ if (!isset($_SESSION["userid"])) {
             </div>
         </div>
     </div>
+    <!--edit avatar modal -->
+    <div id="edit-avatar-modal" class="create-post is-story" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
+
+            <div class="text-center py-3 border-b">
+                <h3 class="text-lg font-semibold"> Edit avatar </h3>
+                <button class="uk-modal-close-default bg-gray-100 rounded-full p-2.5 right-2" type="button" uk-close uk-tooltip="title: Close ; pos: bottom ;offset:7"></button>
+            </div>
+
+            <div class="bsolute bottom-0 p-4 space-x-4 w-full">
+                <div class="flex bg-gray-50 border border-purple-100 rounded-2xl p-2 shadow-sm items-center">
+
+                    <div class="flex flex-1 items-center lg:justify-end justify-center space-x-2">
+                        <label for="ImageInput"><svg class="bg-blue-100 h-9 p-1.5 rounded-full text-blue-600 w-9 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </label>
+
+                        <form method="POST" id="uploadForm" name="fanh" enctype="multipart/form-data">
+                            <input type="file" hidden name="fileToUpload[]" id="ImageInput" onchange="uploadImgAvatar(this)">
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div id="imagePreview" style="text-align: center; margin: 0 auto;">
+                <ul style="list-style-type: none;"></ul>
+            </div>
+            <div class="flex items-center w-full justify-between border-t p-3 Privacy">
+
+
+
+                <div class="flex space-x-2">
+                    <a href="#" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium save-edit-avatar" data-post-id=<?php ?>>
+                    <input type="hidden" value="<?php echo $_SESSION['userid']?>" name = "userid"></input>
+                        Done </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--edit cover modal-->
+    <div id="edit-cover-modal" class="create-post is-story" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
+
+            <div class="text-center py-3 border-b">
+                <h3 class="text-lg font-semibold"> Edit cover </h3>
+                <button class="uk-modal-close-default bg-gray-100 rounded-full p-2.5 right-2" type="button" uk-close uk-tooltip="title: Close ; pos: bottom ;offset:7"></button>
+            </div>
+
+            <div class="bsolute bottom-0 p-4 space-x-4 w-full">
+                <div class="flex bg-gray-50 border border-purple-100 rounded-2xl p-2 shadow-sm items-center">
+
+                    <div class="flex flex-1 items-center lg:justify-end justify-center space-x-2">
+                        <label for="ImageCover"><svg class="bg-blue-100 h-9 p-1.5 rounded-full text-blue-600 w-9 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </label>
+
+                        <form method="POST"  name="fanhcover" enctype="multipart/form-data">
+                            <input type="file" hidden name="fileToUpload[]" id="ImageCover" onchange="uploadImgAvatar(this)">
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div id="imagePreview" style="text-align: center; margin: 0 auto;">
+                <ul style="list-style-type: none;"></ul>
+            </div>
+            <div class="flex items-center w-full justify-between border-t p-3 Privacy">
+
+
+
+                <div class="flex space-x-2">
+                    <a href="#" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium save-edit-cover" data-post-id=<?php ?>>
+                    <input type="hidden" value="<?php echo $_SESSION['userid']?>" name = "userid"></input>
+                        Done </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <!-- Create new album -->
 
     <div id="offcanvas-create" uk-offcanvas="flip: true; overlay: true">
@@ -2003,7 +2085,6 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- For Night mode -->
     <script>
-        
         // Open model edit about
         var openModalButton = document.getElementsByClassName("edit-about-btn")[0];
         var closeModalButton = document.getElementById("closeModalButton");

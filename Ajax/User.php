@@ -40,5 +40,39 @@
                 if($u->setPrivacy($userid, 'private')) echo "setPrivate";
             }
         }
+        if($_POST["action"] == "save-edit-avatar"){
+            if($_POST["imagesNew"]!=''){
+                $imagesNew = $_POST["imagesNew"];
+            }else $imagesNew="";
+            $data = array(
+                "userid" => $_POST["userid"],
+                "imagesNew" => $imagesNew,
+                       
+            );
+            $u = new User();
+            if($u->checkUser($data)){
+                if($u->updateAvatar($data["userid"], $data)){
+                    echo "updated";
+                } else echo "error";
+            } else echo "invalid";
+            
+        }
+        if($_POST["action"] == "save-edit-cover"){
+            if($_POST["imagesNew"]!=''){
+                $imagesNew = $_POST["imagesNew"];
+            }else $imagesNew="";
+            $data = array(
+                "userid" => $_POST["userid"],
+                "imagesNew" => $imagesNew,
+                       
+            );
+            $u = new User();
+            if($u->checkUser($data)){
+                if($u->updateCover($data["userid"], $data)){
+                    echo "updated";
+                } else echo "error";
+            } else echo "invalid";
+            
+        }
     }
 ?>

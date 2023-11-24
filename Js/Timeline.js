@@ -111,3 +111,104 @@ $("#about-save-btn").click(function(e) {
         });
     }
 });
+//input upload avatar
+function uploadImgAvatar(el) {
+    $('#imagePreview ul ').empty();
+    var file_data = $(el).prop('files');
+    for (var i = 0; i < file_data.length; i++) {
+        var type = file_data[i].type;
+        var fileToLoad = file_data[i];
+        var fileReader = new FileReader();
+        if (type.startsWith('image/') && file_data[i].size <= (5 * 1024 * 1024)) {
+            fileReader.onload = function (fileLoadedEvent) {
+                var srcData = fileLoadedEvent.target.result;
+                var newImage = document.createElement('img');
+                newImage.src = srcData;
+                newImage.style.display = 'inline-block';
+                newImage.style.maxWidth = '200px';
+                newImage.style.maxHeight = '200px';
+                $('#imagePreview ul ').append(newImage.outerHTML);
+                // $('#imagePreview ul span').show();
+            }
+            fileReader.readAsDataURL(fileToLoad);
+        } else {
+            showNotification('Hãy chọn một tệp hình ảnh có kích thước tối đa 5MB.');
+        }
+    }
+}
+//tải ảnh lên server
+async function UploadFilesToServer(listForm) {
+    var files = [];
+    // var formfiles = $("form[name='upload-image']");
+    for (let i = 0; i < listForm.length; i++) {
+        var formData = new FormData(listForm[i]);
+        try {
+            var response = await $.ajax({
+                url: "Ajax/Upload.php",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                
+            });
+            var file = JSON.parse(response);
+            files = files.concat(file);
+        } catch (error) {
+            console.error("Error uploading image:", error);
+        }
+    }
+    return files;
+}
+
+
+
+$(".save-edit-avatar").on('click', async function (e) {
+    e.preventDefault();
+    
+    var formImages = $("form[name='fanh']");
+    var userid = $("input[name='userid']").val();
+    var imagesNew = await UploadFilesToServer(formImages);
+    //console.log(imagesNew)
+    $.ajax({
+        url: "Ajax/User.php",
+        type: "POST",
+        data: {
+            userid: userid,
+            imagesNew: imagesNew[0],
+            action: "save-edit-avatar"
+        },
+        success: function (response) {
+            if (response) {
+                
+                window.location.href='timeline.php';
+            }
+        }
+    })
+    
+})
+
+
+$(".save-edit-cover").on('click', async function (e) {
+    e.preventDefault();
+    
+    var formImages = $("form[name='fanhcover']");
+    var userid = $("input[name='userid']").val();
+    var imagesNew = await UploadFilesToServer(formImages);
+    console.log(imagesNew)
+    $.ajax({
+        url: "Ajax/User.php",
+        type: "POST",
+        data: {
+            userid: userid,
+            imagesNew: imagesNew[0],
+            action: "save-edit-cover"
+        },
+        success: function (response) {
+            if (response) {
+                
+                window.location.href='timeline.php';
+            }
+        }
+    })
+    
+})

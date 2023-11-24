@@ -79,6 +79,7 @@ $(".btn-input-image").click(function () {
     $('#imagePreview ul').append(_html);
     $('#imagePreview ul li').last().find('input[type="file"]').click();
 })
+
 // Áp dụng modal edit post
 $(".btn-input-edit-image").click(function () {
     var _html = '<li><span onclick="DelImg(this)" style="cursor: pointer" title="Delete">×</span>'

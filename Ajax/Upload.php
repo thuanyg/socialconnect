@@ -1,4 +1,7 @@
 <?php
+
+
+
 if (!empty($_FILES['fileToUpload'])) {
     $targetDirectory = "../uploads/posts/";
     $uploadedFiles = $_FILES['fileToUpload'];
@@ -17,3 +20,4 @@ if (!empty($_FILES['fileToUpload'])) {
 } else {
     echo null;
 }
+
