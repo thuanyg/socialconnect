@@ -1159,7 +1159,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                <?php
+                            <?php
                                             }
                                         }
                                     }
@@ -1896,7 +1896,8 @@ if (!isset($_SESSION["userid"])) {
             <div class="bsolute bottom-0 p-4 space-x-4 w-full">
                 <div class="flex bg-gray-50 border border-purple-100 rounded-2xl p-2 shadow-sm items-center">
 
-                    <div class="flex flex-1 items-center lg:justify-end justify-center space-x-2">
+                    <div class="flex flex-1 items-center justify-center space-x-2">
+                        <span style="font-size: 16px;">Choose your avatar</span>
                         <label for="ImageInput"><svg class="bg-blue-100 h-9 p-1.5 rounded-full text-blue-600 w-9 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
@@ -1912,16 +1913,12 @@ if (!isset($_SESSION["userid"])) {
             <div id="imagePreview" style="text-align: center; margin: 0 auto;">
                 <ul style="list-style-type: none;"></ul>
             </div>
-            <div class="flex items-center w-full justify-between border-t p-3 Privacy">
-
-
-
+            <div class="flex items-center w-full justify-center border-t p-3">
                 <div class="flex space-x-2">
                     <a href="#" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium save-edit-avatar" data-post-id=<?php ?>>
-                    <input type="hidden" value="<?php echo $_SESSION['userid']?>" name = "userid"></input>
+                        <input type="hidden" value="<?php echo $_SESSION['userid'] ?>" name="userid"></input>
                         Done </a>
                 </div>
-
             </div>
         </div>
     </div>
@@ -1936,14 +1933,14 @@ if (!isset($_SESSION["userid"])) {
 
             <div class="bsolute bottom-0 p-4 space-x-4 w-full">
                 <div class="flex bg-gray-50 border border-purple-100 rounded-2xl p-2 shadow-sm items-center">
-
-                    <div class="flex flex-1 items-center lg:justify-end justify-center space-x-2">
+                    <div class="flex flex-1 items-center justify-center space-x-2">
+                        <span style="font-size: 16px;">Choose your cover</span>
                         <label for="ImageCover"><svg class="bg-blue-100 h-9 p-1.5 rounded-full text-blue-600 w-9 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
                         </label>
 
-                        <form method="POST"  name="fanhcover" enctype="multipart/form-data">
+                        <form method="POST" name="fanhcover" enctype="multipart/form-data">
                             <input type="file" hidden name="fileToUpload[]" id="ImageCover" onchange="uploadImgAvatar(this)">
                         </form>
                     </div>
@@ -1953,13 +1950,10 @@ if (!isset($_SESSION["userid"])) {
             <div id="imagePreview" style="text-align: center; margin: 0 auto;">
                 <ul style="list-style-type: none;"></ul>
             </div>
-            <div class="flex items-center w-full justify-between border-t p-3 Privacy">
-
-
-
+            <div class="flex items-center w-full justify-center border-t p-3">
                 <div class="flex space-x-2">
                     <a href="#" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium save-edit-cover" data-post-id=<?php ?>>
-                    <input type="hidden" value="<?php echo $_SESSION['userid']?>" name = "userid"></input>
+                        <input type="hidden" value="<?php echo $_SESSION['userid'] ?>" name="userid"></input>
                         Done </a>
                 </div>
 
