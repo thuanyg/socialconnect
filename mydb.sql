@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 23, 2023 lúc 12:57 PM
+-- Thời gian đã tạo: Th10 24, 2023 lúc 08:14 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -20,6 +20,44 @@ SET time_zone = "+00:00";
 --
 -- Cơ sở dữ liệu: `mydb`
 --
+
+DELIMITER $$
+--
+-- Thủ tục
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertMultipleUsers1` ()   BEGIN
+    DECLARE counter INT DEFAULT 1;
+    DECLARE random_hour INT;
+    DECLARE random_name VARCHAR(255);
+    DECLARE random_last VARCHAR(255);
+
+    WHILE counter <= 50 DO
+        SET random_hour = FLOOR(RAND() * 24);
+
+        SELECT first_name INTO random_name FROM users ORDER BY RAND() LIMIT 1;
+        SELECT last_name INTO random_last FROM users ORDER BY RAND() LIMIT 1;
+
+        INSERT INTO `users` (`userid`, `first_name`, `last_name`, `gender`, `email`, `password`, `url_address`, `date`, `cover_image`, `avatar_image`, `connection_id`, `privacy`)
+        VALUES
+        (
+            CONCAT('25328412491290', counter),            random_name,
+            random_last,
+            'Male',
+            CONCAT('user', counter , '@huce.edu.vn'),
+            '123',
+            'social@huce',
+            DATE_ADD('2023-11-24 00:00:00', INTERVAL random_hour HOUR),
+            '',
+            'uploads/avatars/avatar_default.png',
+            '0',
+            'public'
+        );
+
+        SET counter = counter + 1;
+    END WHILE;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -56,7 +94,8 @@ INSERT INTO `friendships` (`id`, `user1_id`, `user2_id`, `status`, `date`) VALUE
 (7, 3572325399739732623, 4556887516696215, 'isFriend', '2023-10-28 06:54:05'),
 (8, 744177439385, 4556887516696215, 'isFriend', '2023-10-28 06:54:05'),
 (9, 4556887516696215, 4623450327014144, 'isFriend', '2023-10-28 06:54:05'),
-(10, 744177439385, 3572325399739732623, 'isFriend', '2023-10-28 06:54:05');
+(10, 744177439385, 3572325399739732623, 'isFriend', '2023-10-28 06:54:05'),
+(11, 3572325399739732623, 9095530094254485, 'isFriend', '2023-11-24 06:48:27');
 
 -- --------------------------------------------------------
 
@@ -81,7 +120,7 @@ INSERT INTO `friend_requests` (`id`, `sender_id`, `receiver_id`, `status`, `date
 (105, 744177439385, 3572325399739732623, 'Accepted', '2023-10-27 13:05:03'),
 (106, 744177439385, 4556887516696215, 'Accepted', '2023-10-26 11:03:45'),
 (108, 4556887516696215, 4623450327014144, 'Accepted', '2023-10-26 13:25:47'),
-(114, 3572325399739732623, 9095530094254485, 'Pending', '2023-11-15 15:40:38');
+(114, 3572325399739732623, 9095530094254485, 'Accepted', '2023-11-24 06:48:27');
 
 -- --------------------------------------------------------
 
@@ -108,7 +147,6 @@ CREATE TABLE `messages` (
 INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `text`, `media`, `date`, `deleted_by_sender`, `deleted_by_receiver`, `read`) VALUES
 (208, 744177439385, 4556887516696215, 'ddd', '', '2023-11-01 08:20:36', 0, 0, 0),
 (256, 744177439385, 4556887516696215, 'ttt', '', '2023-11-02 11:01:18', 0, 0, 0),
-(382, 744177439385, 4556887516696215, 'hhhh', '', '2023-11-03 01:46:17', 0, 0, 0),
 (398, 3572325399739732623, 4556887516696215, 'ddd', '', '2023-11-03 16:51:41', 0, 0, 0),
 (405, 3572325399739732623, 4556887516696215, 'a', '', '2023-11-03 17:26:17', 0, 0, 0),
 (406, 3572325399739732623, 4556887516696215, 'a', '', '2023-11-03 17:26:17', 0, 0, 0),
@@ -163,7 +201,21 @@ INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `text`, `media`, `date
 (577, 3572325399739732623, 4556887516696215, 'oko', '', '2023-11-05 14:07:35', 0, 0, 0),
 (587, 3572325399739732623, 9095530094254485, 'e', '', '2023-11-09 11:37:45', 0, 0, 0),
 (588, 3572325399739732623, 744177439385, 'e', '', '2023-11-09 11:38:06', 0, 0, 0),
-(589, 3572325399739732623, 4556887516696215, 'AND Logic Gate:\nNếu bạn muốn ngõ ra là 0 khi tất cả các đầu vào đều là 0, bạn có thể sử dụng cổng AND. Công thức logic cho điều này sẽ là:\nNg\no\n˜\n ra\n=\n�\n1\n×\n�\n2\n×\n�\n3\n×\n�\n4\nNg \no\n˜\n  ra=a1×a2×a3×a4\nKết quả này chỉ sẽ là 0 khi tất cả các a1, a2, a3, a4 đều bằng 0.', '', '2023-11-14 16:39:27', 0, 0, 0);
+(589, 3572325399739732623, 4556887516696215, 'AND Logic Gate:\nNếu bạn muốn ngõ ra là 0 khi tất cả các đầu vào đều là 0, bạn có thể sử dụng cổng AND. Công thức logic cho điều này sẽ là:\nNg\no\n˜\n ra\n=\n�\n1\n×\n�\n2\n×\n�\n3\n×\n�\n4\nNg \no\n˜\n  ra=a1×a2×a3×a4\nKết quả này chỉ sẽ là 0 khi tất cả các a1, a2, a3, a4 đều bằng 0.', '', '2023-11-14 16:39:27', 0, 0, 0),
+(594, 3572325399739732623, 4556887516696215, 'haha', '', '2023-11-23 14:57:57', 0, 0, 0),
+(595, 4556887516696215, 3572325399739732623, 'Ok', '', '2023-11-23 14:58:48', 0, 0, 0),
+(596, 3572325399739732623, 4556887516696215, 'No', '', '2023-11-23 15:22:14', 0, 0, 0),
+(597, 3572325399739732623, 4556887516696215, 'No', '', '2023-11-24 05:42:18', 0, 0, 0),
+(598, 3572325399739732623, 4556887516696215, '', '[\"profile-15.jpg\"]', '2023-11-24 05:42:24', 0, 0, 0),
+(599, 3572325399739732623, 4556887516696215, 'Message with images!', '[\"profile-1.jpg\"]', '2023-11-24 05:42:51', 0, 0, 0),
+(600, 3572325399739732623, 4556887516696215, 'Message 2', '[\"feed-5.jpg\"]', '2023-11-24 05:43:32', 0, 0, 0),
+(603, 3572325399739732623, 4556887516696215, 'Message 3', '[\"profile-4.jpg\"]', '2023-11-24 05:47:34', 0, 0, 0),
+(604, 3572325399739732623, 4556887516696215, 'Message 4', '[\"feed-6.jpg\"]', '2023-11-24 05:48:20', 0, 0, 0),
+(605, 4556887516696215, 744177439385, 'no', '', '2023-11-24 06:12:00', 0, 0, 0),
+(606, 4556887516696215, 3572325399739732623, 'E', '', '2023-11-24 06:12:18', 0, 0, 0),
+(607, 3572325399739732623, 4556887516696215, 'Hiii', '', '2023-11-24 06:12:29', 0, 0, 0),
+(608, 4556887516696215, 3572325399739732623, 'How are you?', '', '2023-11-24 06:12:36', 0, 0, 0),
+(609, 3572325399739732623, 4556887516696215, 'I&#039;m fine thank you', '', '2023-11-24 06:12:59', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -285,7 +337,13 @@ INSERT INTO `notifications` (`id`, `userid`, `content`, `date`, `isRead`, `relat
 (179, 4556887516696215, 'like', '2023-11-20 02:53:36', 0, 10380118642591, 'like'),
 (180, 4556887516696215, 'like', '2023-11-20 02:54:36', 0, 10380118642591, 'like'),
 (181, 3572325399739732500, 'like', '2023-11-20 02:55:56', 0, 95712400831445651, 'like'),
-(182, 4556887516696215, 'like', '2023-11-20 03:05:18', 0, 95712400831445651, 'like');
+(182, 4556887516696215, 'like', '2023-11-20 03:05:18', 0, 95712400831445651, 'like'),
+(183, 3572325399739732623, 'like', '2023-11-24 06:03:50', 0, 182746900562, 'like'),
+(184, 3572325399739732623, 'like', '2023-11-24 06:03:51', 0, 182746900562, 'like'),
+(185, 3572325399739732623, 'like', '2023-11-24 06:03:57', 0, 182746900562, 'like'),
+(186, 3572325399739732623, 'like', '2023-11-24 06:03:57', 0, 182746900562, 'like'),
+(187, 4556887516696215, 'like', '2023-11-24 06:10:40', 0, 182746900562, 'like'),
+(188, 4556887516696215, 'like', '2023-11-24 06:10:40', 0, 182746900562, 'like');
 
 -- --------------------------------------------------------
 
@@ -332,12 +390,16 @@ INSERT INTO `posts` (`id`, `postid`, `post`, `userid`, `date`, `has_image`, `has
 (153, 8215521464980, 'Post 17', 3572325399739732623, '2023-11-23 07:44:45', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
 (154, 77779784021268926, 'Post 18', 3572325399739732623, '2023-11-23 07:44:48', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
 (155, 9141438685695273, 'Post 19', 3572325399739732623, '2023-11-23 07:44:52', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
-(156, 57281462826109841, 'Post 20', 3572325399739732623, '2023-11-23 07:44:56', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
+(156, 57281462826109841, 'Post 20!\n', 3572325399739732623, '2023-11-24 05:10:44', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
 (157, 29294069634, 'Test đăng script: \nconsole.log(\"Existing scroll events:\", $._data(window, \'events\'));\n', 4556887516696215, '2023-11-23 10:52:16', 1, 0, '', 'Public'),
 (158, 84330185510258161, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n', 4556887516696215, '2023-11-23 10:54:31', 1, 0, '', 'Public'),
 (159, 562893352574, 'Đăng bài viết với ảnh\n', 4556887516696215, '2023-11-23 10:55:04', 1, 0, '[\"facebook-class-diagram.png\",\"395523956_847704387024316_2321997919254323069_n.jpg\"]', 'Public'),
 (160, 89958169993, 'Video nè', 4556887516696215, '2023-11-23 10:55:27', 1, 0, '[\"test.mp4\"]', 'Public'),
-(161, 132061472680893, 'Post của thuận nhé', 4556887516696215, '2023-11-23 10:55:47', 1, 0, '[\"adadadasdas.jpg\"]', 'Public');
+(161, 132061472680893, 'Post của thuận nhé', 4556887516696215, '2023-11-23 10:55:47', 1, 0, '[\"adadadasdas.jpg\"]', 'Public'),
+(165, 36358374926, 'K dc', 3572325399739732623, '2023-11-24 05:23:56', 1, 0, '', 'Public'),
+(166, 83318114147, 'pl\n', 3572325399739732623, '2023-11-24 05:36:18', 1, 0, '[\"profile-3.jpg\",\"profile-9.jpg\"]', 'Public'),
+(167, 213599485347330, '', 3572325399739732623, '2023-11-24 05:36:37', 1, 0, '[\"profile-14.jpg\"]', 'Public'),
+(168, 182746900562, 'Test', 3572325399739732623, '2023-11-24 05:37:07', 1, 0, '[\"profile-15.jpg\"]', 'Public');
 
 -- --------------------------------------------------------
 
@@ -403,13 +465,93 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `userid`, `first_name`, `last_name`, `gender`, `email`, `password`, `url_address`, `date`, `cover_image`, `avatar_image`, `connection_id`, `privacy`) VALUES
-(10, 4556887516696215, 'Hoàng Tiến', 'Thuận', 'Male', 'cryptocard.268@gmail.com', 'htthuan2468', 'hoàng.thuận', '2023-11-23 10:49:52', '', 'uploads/avatars/avatar_default.png', 443, 'public'),
-(31, 3572325399739732623, 'Thuan', 'Teddy', 'Male', 'thuan2682k3@gmail.com', 'htthuan6041', 'thuan.teddy', '2023-11-22 03:06:25', '', 'uploads/avatars/avatar_default.png', 405, 'public'),
+(10, 4556887516696215, 'Hoàng Tiến', 'Thuận', 'Male', 'cryptocard.268@gmail.com', 'htthuan2468', 'hoàng.thuận', '2023-11-24 06:13:25', '', 'uploads/avatars/avatar_default.png', 163, 'public'),
+(31, 3572325399739732623, 'Thuan', 'Teddy', 'Male', 'thuan2682k3@gmail.com', 'htthuan6041', 'thuan.teddy', '2023-11-24 06:33:27', '', 'uploads/avatars/avatar_default.png', 208, 'public'),
 (32, 4623450327014144, 'Teddy', 'IsMe', 'Male', 'thuan0205766@huce.edu.vn', 'htthuan4902', 'teddy.isme', '2023-10-26 09:16:30', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (33, 744177439385, 'Vũ', 'Nam', 'Male', 'aaa@aaa.vn', '123', 'nam.vu', '2023-11-23 10:50:33', '', 'uploads/avatars/avatar_default.png', 508, 'public'),
-(34, 9095530094254485, 'Hoàng', 'Hiếu', 'Male', 'hieu0189366@huce.edu.vn', 'htthuan6807', 'ho?ng.hi?u', '2023-10-30 04:45:39', '', 'uploads/avatars/avatar_default.png', 83, 'public'),
+(34, 9095530094254485, 'Hoàng', 'Hiếu', 'Male', 'hieu0189366@huce.edu.vn', 'htthuan6807', 'ho?ng.hi?u', '2023-11-24 07:10:20', '', 'uploads/avatars/avatar_default.png', 346, 'public'),
 (36, 6643068578152038928, 'Quang', 'NV', 'Male', 'thuan2682k31@gmail.com', '111', 'thu?n.n?', '2023-11-23 10:50:47', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
-(37, 512857291296889, 'Mạnh', 'Hùng', 'Male', 'thuan26282k3@gmail.com', '1', 'thuan.ok', '2023-11-23 10:50:56', '', 'uploads/avatars/avatar_default.png', 0, 'public');
+(37, 512857291296889, 'Mạnh', 'Hùng', 'Male', 'thuan26282k3@gmail.com', '1', 'thuan.ok', '2023-11-23 10:50:56', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(38, 5128572996831, 'Nguyễn Văn', 'Quang', 'Male', 'qnt@gmail.com', '123', 'qnt@iii', '2023-11-24 06:33:12', '', 'uploads/avatars/avatar_default.png', 202, 'public'),
+(39, 512857291296832, 'Nguyễn Văn', 'Anh', 'Male', 'qnt1@gmail.com', '123', 'qnt1@iii', '2023-11-23 10:50:56', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(40, 512857291296221, 'Trịnh Hùng', 'Mạnh', 'Male', 'thm@gmail.com', '123', 'thm@iii', '2023-11-23 10:50:56', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(43, 5128572912903, 'Ngô Xuân', 'Quý', 'Male', 'nxq@gmail.com', '123', 'nxq@iii', '2023-11-24 07:13:46', '', 'uploads/avatars/avatar_default.png', 370, 'public'),
+(44, 5128572912904, 'Nguyễn Phương', 'Thảo', 'Male', 'nxq2@gmail.com', '123', 'nxq@iii', '2023-11-24 06:26:16', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(90, 12844124912901, 'Ngô Xuân', 'Thảo', 'Male', 'user1@example.com', '123', 'nxq@iii', '2023-11-23 09:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(91, 12844124912902, 'Hoàng Long', 'Vũ', 'Male', 'user2@example.com', '123', 'nxq@iii', '2023-11-24 06:29:42', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(92, 12844124912903, 'Trịnh', 'Long', 'Male', 'user3@example.com', '123', 'nxq@iii', '2023-11-24 06:30:05', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(93, 12844124912904, 'Quân', 'Đinh', 'Male', 'user4@example.com', '123', 'nxq@iii', '2023-11-24 06:30:18', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(94, 12844124912905, 'Ngọc', 'Lâm', 'Male', 'user5@example.com', '123', 'nxq@iii', '2023-11-24 06:30:28', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(95, 12844124912906, 'Ngân', 'Nga', 'Male', 'user6@example.com', '123', 'nxq@iii', '2023-11-24 06:30:37', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(96, 12844124912907, 'Vũ', 'Nga', 'Male', 'user7@example.com', '123', 'nxq@iii', '2023-11-24 06:30:40', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(97, 12844124912908, 'Hoàng', 'Linh', 'Male', 'user8@example.com', '123', 'nxq@iii', '2023-11-24 06:30:45', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(98, 12844124912909, 'hà', 'Hương', 'Male', 'user9@example.com', '123', 'nxq@iii', '2023-11-24 06:31:01', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(99, 128441249129010, 'Hà', 'Anh', 'Male', 'user10@example.com', '123', 'nxq@iii', '2023-11-24 06:31:03', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(100, 128441249129011, 'Vũ', 'Bình', 'Male', 'user11@example.com', '123', 'nxq@iii', '2023-11-24 06:31:09', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(101, 128441249129012, 'Minh', 'Thảo', 'Male', 'user12@example.com', '123', 'nxq@iii', '2023-11-24 06:31:12', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(102, 128441249129013, 'Đinh Minh', 'Thảo', 'Male', 'user13@example.com', '123', 'nxq@iii', '2023-11-23 04:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(103, 128441249129014, 'Giang', 'Thảo', 'Male', 'user14@example.com', '123', 'nxq@iii', '2023-11-24 06:31:20', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(104, 128441249129015, 'Ngô Xuân', 'Thảo', 'Male', 'user15@example.com', '123', 'nxq@iii', '2023-11-23 07:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(105, 128441249129016, 'Nguyễn Văn', 'Quý', 'Male', 'user16@example.com', '123', 'nxq@iii', '2023-11-23 12:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(106, 128441249129017, 'Thuan', 'Thảo', 'Male', 'user17@example.com', '123', 'nxq@iii', '2023-11-23 06:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(107, 128441249129018, 'Teddy', 'Giang', 'Male', 'user18@example.com', '123', 'nxq@iii', '2023-11-24 06:31:26', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(108, 128441249129019, 'Quyết', 'Anh', 'Male', 'user19@example.com', '123', 'nxq@iii', '2023-11-24 06:31:32', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(109, 128441249129020, 'Nguyễn Vaen', 'An', 'Male', 'user20@example.com', '123', 'nxq@iii', '2023-11-24 06:31:46', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(110, 128441249129021, 'Văn', 'Sơn', 'Male', 'user21@example.com', '123', 'nxq@iii', '2023-11-24 06:31:56', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(111, 128441249129022, 'Trần Đức', 'Đạt', 'Male', 'user22@example.com', '123', 'nxq@iii', '2023-11-24 06:32:12', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(112, 128441249129023, 'Thu', 'Uyên', 'Male', 'user23@example.com', '123', 'nxq@iii', '2023-11-24 06:32:22', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(113, 128441249129024, 'Lâm', 'Teddy', 'Male', 'user24@example.com', '123', 'nxq@iii', '2023-11-24 06:32:31', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(114, 128441249129025, 'Ánh', 'Dương', 'Male', 'user25@example.com', '123', 'nxq@iii', '2023-11-24 06:38:40', '', 'uploads/avatars/avatar_default.png', 238, 'public'),
+(165, 253284124912901, 'Vũ', 'Dương', 'Male', 'user1@huce.edu.vn', '123', 'social@huce', '2023-11-24 15:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(166, 253284124912902, 'Trịnh', 'Dương', 'Male', 'user2@huce.edu.vn', '123', 'social@huce', '2023-11-24 16:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(167, 253284124912903, 'Hoàng Long', 'Hùng', 'Male', 'user3@huce.edu.vn', '123', 'social@huce', '2023-11-24 04:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(168, 253284124912904, 'Ánh', 'NV', 'Male', 'user4@huce.edu.vn', '123', 'social@huce', '2023-11-23 21:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(169, 253284124912905, 'Hoàng', 'Nga', 'Male', 'user5@huce.edu.vn', '123', 'social@huce', '2023-11-23 20:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(170, 253284124912906, 'Ngô Xuân', 'NV', 'Male', 'user6@huce.edu.vn', '123', 'social@huce', '2023-11-24 13:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(171, 253284124912907, 'Ngô Xuân', 'Lâm', 'Male', 'user7@huce.edu.vn', '123', 'social@huce', '2023-11-23 19:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(172, 253284124912908, 'Lâm', 'Bình', 'Male', 'user8@huce.edu.vn', '123', 'social@huce', '2023-11-24 02:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(173, 253284124912909, 'Lâm', 'Thảo', 'Male', 'user9@huce.edu.vn', '123', 'social@huce', '2023-11-24 04:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(174, 2532841249129010, 'Nguyễn Vaen', 'Thảo', 'Male', 'user10@huce.edu.vn', '123', 'social@huce', '2023-11-24 13:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(175, 2532841249129011, 'Hoàng Long', 'Đinh', 'Male', 'user11@huce.edu.vn', '123', 'social@huce', '2023-11-24 08:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(176, 2532841249129012, 'Vũ', 'Thảo', 'Male', 'user12@huce.edu.vn', '123', 'social@huce', '2023-11-23 18:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(177, 2532841249129013, 'Nguyễn Vaen', 'Thảo', 'Male', 'user13@huce.edu.vn', '123', 'social@huce', '2023-11-24 04:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(178, 2532841249129014, 'Nguyễn Vaen', 'Thảo', 'Male', 'user14@huce.edu.vn', '123', 'social@huce', '2023-11-23 19:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(179, 2532841249129015, 'Ngô Xuân', 'Thảo', 'Male', 'user15@huce.edu.vn', '123', 'social@huce', '2023-11-24 01:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(180, 2532841249129016, 'Nguyễn Văn', 'Thảo', 'Male', 'user16@huce.edu.vn', '123', 'social@huce', '2023-11-24 10:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(181, 2532841249129017, 'Văn', 'Thảo', 'Male', 'user17@huce.edu.vn', '123', 'social@huce', '2023-11-24 07:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(182, 2532841249129018, 'Hoàng Long', 'Lâm', 'Male', 'user18@huce.edu.vn', '123', 'social@huce', '2023-11-24 05:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(183, 2532841249129019, 'Ánh', 'An', 'Male', 'user19@huce.edu.vn', '123', 'social@huce', '2023-11-24 04:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(184, 2532841249129020, 'Hoàng', 'Thảo', 'Male', 'user20@huce.edu.vn', '123', 'social@huce', '2023-11-23 21:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(185, 2532841249129021, 'Ngô Xuân', 'Giang', 'Male', 'user21@huce.edu.vn', '123', 'social@huce', '2023-11-24 14:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(186, 2532841249129022, 'Ngô Xuân', 'Hùng', 'Male', 'user22@huce.edu.vn', '123', 'social@huce', '2023-11-24 01:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(187, 2532841249129023, 'Ngọc', 'Thảo', 'Male', 'user23@huce.edu.vn', '123', 'social@huce', '2023-11-23 18:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(188, 2532841249129024, 'Trịnh', 'Thảo', 'Male', 'user24@huce.edu.vn', '123', 'social@huce', '2023-11-24 16:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(189, 2532841249129025, 'Quang', 'Quang', 'Male', 'user25@huce.edu.vn', '123', 'social@huce', '2023-11-24 10:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(190, 2532841249129026, 'Ánh', 'Anh', 'Male', 'user26@huce.edu.vn', '123', 'social@huce', '2023-11-24 13:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(191, 2532841249129027, 'Ngô Xuân', 'Anh', 'Male', 'user27@huce.edu.vn', '123', 'social@huce', '2023-11-24 03:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(192, 2532841249129028, 'Hoàng Tiến', 'Thảo', 'Male', 'user28@huce.edu.vn', '123', 'social@huce', '2023-11-23 17:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(193, 2532841249129029, 'Ngô Xuân', 'Thảo', 'Male', 'user29@huce.edu.vn', '123', 'social@huce', '2023-11-24 11:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(194, 2532841249129030, 'Ánh', 'Đạt', 'Male', 'user30@huce.edu.vn', '123', 'social@huce', '2023-11-24 01:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(195, 2532841249129031, 'Hoàng Long', 'Thảo', 'Male', 'user31@huce.edu.vn', '123', 'social@huce', '2023-11-24 11:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(196, 2532841249129032, 'Văn', 'Anh', 'Male', 'user32@huce.edu.vn', '123', 'social@huce', '2023-11-24 09:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(197, 2532841249129033, 'Hoàng', 'Quang', 'Male', 'user33@huce.edu.vn', '123', 'social@huce', '2023-11-24 12:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(198, 2532841249129034, 'Quyết', 'Quý', 'Male', 'user34@huce.edu.vn', '123', 'social@huce', '2023-11-24 04:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(199, 2532841249129035, 'Ngô Xuân', 'Hương', 'Male', 'user35@huce.edu.vn', '123', 'social@huce', '2023-11-24 02:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(200, 2532841249129036, 'Ngô Xuân', 'Hùng', 'Male', 'user36@huce.edu.vn', '123', 'social@huce', '2023-11-24 13:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(201, 2532841249129037, 'Trịnh', 'Thảo', 'Male', 'user37@huce.edu.vn', '123', 'social@huce', '2023-11-23 19:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(202, 2532841249129038, 'Đinh Minh', 'Thảo', 'Male', 'user38@huce.edu.vn', '123', 'social@huce', '2023-11-24 08:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(203, 2532841249129039, 'Teddy', 'Teddy', 'Male', 'user39@huce.edu.vn', '123', 'social@huce', '2023-11-23 22:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(204, 2532841249129040, 'Trịnh Hùng', 'Hương', 'Male', 'user40@huce.edu.vn', '123', 'social@huce', '2023-11-24 06:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(205, 2532841249129041, 'Quyết', 'Thảo', 'Male', 'user41@huce.edu.vn', '123', 'social@huce', '2023-11-24 03:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(206, 2532841249129042, 'Hoàng Long', 'Quý', 'Male', 'user42@huce.edu.vn', '123', 'social@huce', '2023-11-24 05:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(207, 2532841249129043, 'Teddy', 'Giang', 'Male', 'user43@huce.edu.vn', '123', 'social@huce', '2023-11-23 21:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(208, 2532841249129044, 'Ánh', 'Quý', 'Male', 'user44@huce.edu.vn', '123', 'social@huce', '2023-11-24 07:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(209, 2532841249129045, 'Vũ', 'Thảo', 'Male', 'user45@huce.edu.vn', '123', 'social@huce', '2023-11-24 09:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(210, 2532841249129046, 'Đinh Minh', 'Giang', 'Male', 'user46@huce.edu.vn', '123', 'social@huce', '2023-11-23 23:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(211, 2532841249129047, 'Quang', 'Thảo', 'Male', 'user47@huce.edu.vn', '123', 'social@huce', '2023-11-24 00:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(212, 2532841249129048, 'Ngọc', 'Long', 'Male', 'user48@huce.edu.vn', '123', 'social@huce', '2023-11-24 09:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(213, 2532841249129049, 'Teddy', 'Thảo', 'Male', 'user49@huce.edu.vn', '123', 'social@huce', '2023-11-23 18:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(214, 2532841249129050, 'Lâm', 'Thuận', 'Male', 'user50@huce.edu.vn', '123', 'social@huce', '2023-11-23 21:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public');
 
 -- --------------------------------------------------------
 
@@ -452,9 +594,13 @@ CREATE TABLE `users_status` (
 --
 
 INSERT INTO `users_status` (`id`, `userid`, `status`, `date`) VALUES
-(60, 3572325399739732623, 'offline', '2023-11-20 03:13:29'),
-(70, 4556887516696215, 'offline', '2023-11-20 03:13:28'),
-(311, 744177439385, 'offline', '2023-11-05 14:06:21');
+(60, 3572325399739732623, 'offline', '2023-11-24 06:33:27'),
+(70, 4556887516696215, 'online', '2023-11-24 06:13:25'),
+(311, 744177439385, 'offline', '2023-11-05 14:06:21'),
+(2498, 5128572912903, 'online', '2023-11-24 07:13:46'),
+(2510, 5128572996831, 'online', '2023-11-24 06:32:55'),
+(2518, 128441249129025, 'offline', '2023-11-24 06:39:20'),
+(2528, 9095530094254485, 'offline', '2023-11-24 07:10:53');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -571,7 +717,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT cho bảng `friendships`
 --
 ALTER TABLE `friendships`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `friend_requests`
@@ -583,19 +729,19 @@ ALTER TABLE `friend_requests`
 -- AUTO_INCREMENT cho bảng `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=594;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=610;
 
 --
 -- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 
 --
 -- AUTO_INCREMENT cho bảng `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
+  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- AUTO_INCREMENT cho bảng `recent_searches`
@@ -619,7 +765,7 @@ ALTER TABLE `share`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
 
 --
 -- AUTO_INCREMENT cho bảng `users_about`
@@ -631,7 +777,7 @@ ALTER TABLE `users_about`
 -- AUTO_INCREMENT cho bảng `users_status`
 --
 ALTER TABLE `users_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2246;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2571;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
