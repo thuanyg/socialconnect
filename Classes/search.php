@@ -3,7 +3,14 @@ class Search
 {
     function SearchUser($query)
     {
-        $sql = "SELECT * FROM users WHERE concat(first_name,' ',last_name) LIKE '%{$query}%' and privacy = 'public'";
+        $sql = "SELECT * FROM users WHERE concat(first_name,' ',last_name) LIKE '%{$query}%' and privacy = 'public' LIMIT 10";
+        $DB = new Database();
+        $result = $DB->Query($sql);
+        return $result;
+    }
+    function SearchNextUser($query, $offset)
+    {
+        $sql = "SELECT * FROM users WHERE concat(first_name,' ',last_name) LIKE '%{$query}%' and privacy = 'public' LIMIT 5 OFFSET {$offset}";
         $DB = new Database();
         $result = $DB->Query($sql);
         return $result;

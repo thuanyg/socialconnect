@@ -84,8 +84,12 @@ if (!isset($_SESSION["userid"])) {
                     <div class="header_search"><i class="uil-search-alt"></i>
                         <input value="" name="txtSearch" type="text" class="form-control" placeholder="Search for Friends , Videos and more.." autocomplete="off">
                         <div uk-drop="mode: click" class="header_search_dropdown">
+
                             <h4 class="search_title"> Results/Recently</h4>
                             <ul id="searchResults">
+                                <div id="search-loading" style="display: none;">
+                                    <img src="./assets/images/gif/loading_message_tab.svg">
+                                </div>
                             </ul>
                         </div>
                     </div>
@@ -341,35 +345,26 @@ if (!isset($_SESSION["userid"])) {
                 </div>
             </div>
         </header>
-
         <!-- sidebar -->
         <div class="sidebar">
-
             <div class="sidebar_inner btn-action" data-simplebar>
-
+                <h3 class="side-title" style="font-size: 25px; "> Search results </h3>
+                <h2 class="side-title"> Filters </h2>
                 <ul>
+                    <li class=" btn-search-results"><a href="">
+                            <span> All </span> </a>
+                    </li>
                     <li class=" btn-search-friend"><a href="">
-
                             <span> Friends </span> </a>
                     </li>
-
                     <li class="btn-search-post"><a href="">
-
                             <span> Posts</span></a>
                     </li>
-
-
                 </ul>
-
-
-
             </div>
-
             <!-- sidebar overly for mobile -->
             <div class="side_overly" uk-toggle="target: #wrapper ; cls: is-collapse is-active"></div>
-
         </div>
-
         <!-- Main Contents -->
         <div class="main_content">
             <div class="mcontainer">
@@ -379,15 +374,18 @@ if (!isset($_SESSION["userid"])) {
                     <div class="lg:w-3/4 lg:px-20 space-y-7" id="PostContaier">
 
 
-                        <!-- create post -->
-                        <div id="searchPageResults">
+                        <!-- Friends -->
+                        <div class="card lg:mx-0 uk-animation-slide-bottom-small card-friends">
+                            <h3 class="heading"> People </h3>
+                            <div id="searchPageResults">
 
+                            </div>
                         </div>
 
 
 
                         <!------------------------------------------------------------------------------------------------------------------------------------------------->
-                        <!-- Post with picture -->
+                        <!-- Posts -->
 
                         <div class="searchPostResults">
 
@@ -405,40 +403,69 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <?php include("./Websocket/src/Notification.php") ?>
     <script>
-        $(document).ready(function() {
-            $('.btn-action li:eq(0)').click();
-        });
-        // $(".searchPostResults").html(postSearchData);
-        $('.btn-search-friend').on('click', function(e) {
-            e.preventDefault();
-            var postSearchData = JSON.parse(localStorage.getItem("postSearchData"));
-            $("#PostContaier .card").empty();
-            var myData = JSON.parse(localStorage.getItem("myData"));
-            $("#searchPageResults").empty();
-            $("#searchPageResults").html(myData);
-        })
-        $('.btn-search-post').on('click', function(e) {
-            e.preventDefault();
+        var savedMyData = sessionStorage.getItem('myData');
+        var savedPostSearchData = sessionStorage.getItem('postSearchData');
+        if (savedMyData) {
+            savedMyData = JSON.parse(savedMyData);
+        }
+        if (savedPostSearchData) {
+            savedPostSearchData = JSON.parse(savedPostSearchData);
+        }
+        if (savedMyData) {
+            $('.btn-search-friend').on('click', function(e) {
+                e.preventDefault();
+                $("#PostContaier .card:not(:first)").remove();
+                $("#PostContaier .heading").text("People");
+                $("#searchPageResults").empty();
+                $("#searchPageResults").html(savedMyData);
+            })
+        } else {
+            $("#PostContaier .heading").text("No results");
+        }
 
-            var postSearchData = JSON.parse(localStorage.getItem("postSearchData"));
-            $("#PostContaier .card").empty();
-            $("#searchPageResults").empty();
-            var PostContaier = document.getElementById('PostContaier');
-            PostContaier.firstElementChild.insertAdjacentHTML('afterend', postSearchData);
+        if (savedPostSearchData) {
 
-        })
+            $('.btn-search-post').on('click', function(e) {
+                e.preventDefault();
+                $("#PostContaier .card:not(:first)").remove();
+                $("#PostContaier .heading").text("Posts");
+                $("#searchPageResults").empty();
+                var PostContaier = document.getElementById('PostContaier');
+                PostContaier.firstElementChild.insertAdjacentHTML('afterend', savedPostSearchData);
 
-        window.addEventListener('beforeunload', function() {
-            localStorage.removeItem('myData');
-            //console.log('Data removed before page change.');
-            localStorage.removeItem('postSearchData');
-            //console.log('Data removed before page change.');
-        });
+            })
+        } else {
+            $("#PostContaier .heading").text("No results");
+        }
+
+        if (savedPostSearchData && savedMyData) {
+            $('.btn-search-results').on('click', function(e) {
+                e.preventDefault();
+                // Remove all element
+                $("#searchPageResults").empty();
+                $("#PostContaier .card:not(:first)").remove();
+                $("#PostContaier .heading").text("People");
+                $("#searchPageResults").html(savedMyData);
+                var PostContaier = document.getElementById('PostContaier');
+                PostContaier.firstElementChild.insertAdjacentHTML('afterend', savedPostSearchData);
+            })
+        }
+
         $('.btn-action li').on('click', function(e) {
             e.preventDefault();
             $('.btn-action li').removeClass('active');
             $(this).addClass('active');
         })
+
+        $(document).ready(function() {
+            $('.btn-action li:eq(0)').click();
+        });
+
+
+        // window.addEventListener('beforeunload', function() {
+        //     localStorage.removeItem('myData');
+        //     localStorage.removeItem('postSearchData');
+        // });
     </script>
     <!-- Javascript
     ================================================== -->

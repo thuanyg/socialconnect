@@ -24,6 +24,27 @@ if (isset($_GET["action"])) {
             }
         }
     }
+    if ($_GET["action"] == "get-search-results-to-load") {
+        $query = $_GET["query"];
+        $offset = $_GET["offset"];
+        $s = new Search();
+        $result = $s->SearchNextUser($query, $offset);
+        if ($result != null) {
+            for ($i = 0; $i < sizeof($result); $i++) {
+?>
+                <li>
+                    <a href="profile.php?uid=<?php echo $result[$i]["userid"] ?>">
+                        <img src="<?php echo $result[$i]["avatar_image"] ?>" alt="" class="list-avatar">
+                        <div class="list-name"> <?php echo $result[$i]["first_name"] . " " . $result[$i]["last_name"] ?> </div>
+
+                    </a>
+                </li>
+            <?php
+            }
+        } else {
+            echo '<div style="text-align: center" hidden>Finished Searching</div>';
+        }
+    }
     if ($_GET["action"] == "search-message") {
         $query = $_GET["query"];
         $s = new Search();

@@ -177,7 +177,7 @@ if (isset($_POST["action"])) {
                                         $media = json_decode($mess_row["media"], true);
                                         for ($j = 0; $j < sizeof($media); $j++) {
                                             $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                                            $mime_type = finfo_file($finfo, "../uploads/posts/" . $media[$j]);
+                                            $mime_type = finfo_file($finfo, "../uploads/messages/" . $media[$j]);
 
                                     ?>
                                             <!-- Xu ly files end -->
@@ -185,7 +185,7 @@ if (isset($_POST["action"])) {
                                                 <?php
                                                 if (strpos($mime_type, 'image/') === 0) {
                                                 ?>
-                                                    <img class="image-chat-inner" style="max-width: 200px; max-height: 200px; border-radius: 10px; display: inline-block;" src="./uploads/posts/<?php echo $media[$j] ?>">
+                                                    <img class="image-chat-inner" style="max-width: 200px; max-height: 200px; border-radius: 10px; display: inline-block;" src="./uploads/messages/<?php echo $media[$j] ?>">
                                                 <?php
                                                 }
                                                 ?>
@@ -197,7 +197,7 @@ if (isset($_POST["action"])) {
                                                 ?>
                                                     <div class="w-full h-full" style="justify-content: right; display: flex;">
                                                         <video controls>
-                                                            <source src="./uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
+                                                            <source src="./uploads/messages/<?php echo $media[$j]; ?>" type="video/mp4">
                                                             Your browser does not support the video tag.
                                                         </video>
                                                     </div>
@@ -212,7 +212,7 @@ if (isset($_POST["action"])) {
                                                 if (strpos($mime_type, 'audio/') === 0) {
                                                 ?>
                                                     <audio controls>
-                                                        <source src="./uploads/posts/<?php echo $media[$j] ?>" type="audio/mpeg">
+                                                        <source src="./uploads/messages/<?php echo $media[$j] ?>" type="audio/mpeg">
                                                     </audio>
                                                 <?php
                                                 }
@@ -281,7 +281,7 @@ if (isset($_POST["action"])) {
                                         $media = json_decode($mess_row["media"], true);
                                         for ($j = 0; $j < sizeof($media); $j++) {
                                             $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                                            $mime_type = finfo_file($finfo, "../uploads/posts/" . $media[$j]);
+                                            $mime_type = finfo_file($finfo, "../uploads/messages/" . $media[$j]);
 
                                     ?>
                                             <!-- Xu ly files end -->
@@ -289,7 +289,7 @@ if (isset($_POST["action"])) {
                                                 <?php
                                                 if (strpos($mime_type, 'image/') === 0) {
                                                 ?>
-                                                    <img class="image-chat-inner" style="max-width: 200px; max-height: 200px; border-radius: 10px; display: inline-block;" src="./uploads/posts/<?php echo $media[$j] ?>">
+                                                    <img class="image-chat-inner" style="max-width: 200px; max-height: 200px; border-radius: 10px; display: inline-block;" src="./uploads/messages/<?php echo $media[$j] ?>">
                                                 <?php
                                                 }
                                                 ?>
@@ -301,7 +301,7 @@ if (isset($_POST["action"])) {
                                                 ?>
                                                     <div class="w-full h-full" style="justify-content: right; display: flex;">
                                                         <video controls>
-                                                            <source src="./uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
+                                                            <source src="./uploads/messages/<?php echo $media[$j]; ?>" type="video/mp4">
                                                             Your browser does not support the video tag.
                                                         </video>
                                                     </div>
@@ -314,7 +314,7 @@ if (isset($_POST["action"])) {
                                                 if (strpos($mime_type, 'audio/') === 0) {
                                                 ?>
                                                     <audio controls>
-                                                        <source src="./uploads/posts/<?php echo $media[$j] ?>" type="audio/mpeg">
+                                                        <source src="./uploads/messages/<?php echo $media[$j] ?>" type="audio/mpeg">
                                                     </audio>
                                                 <?php
                                                 }
@@ -478,7 +478,7 @@ if (isset($_POST["action"])) {
                                 $media = json_decode($mess_row["media"], true);
                                 for ($j = 0; $j < sizeof($media); $j++) {
                                     $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                                    $mime_type = finfo_file($finfo, "../uploads/posts/" . $media[$j]);
+                                    $mime_type = finfo_file($finfo, "../uploads/messages/" . $media[$j]);
 
                             ?>
                                     <!-- Xu ly files end -->
@@ -486,7 +486,7 @@ if (isset($_POST["action"])) {
                                         <?php
                                         if (strpos($mime_type, 'image/') === 0) {
                                         ?>
-                                            <img class="image-chat-inner" style="max-width: 200px; max-height: 200px; border-radius: 10px; display: inline-block;" src="./uploads/posts/<?php echo $media[$j] ?>">
+                                            <img class="image-chat-inner" style="max-width: 200px; max-height: 200px; border-radius: 10px; display: inline-block;" src="./uploads/messages/<?php echo $media[$j] ?>">
                                         <?php
                                         }
                                         ?>
@@ -498,7 +498,7 @@ if (isset($_POST["action"])) {
                                         ?>
                                             <div class="w-full h-full" style="justify-content: right; display: flex;">
                                                 <video controls>
-                                                    <source src="./uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
+                                                    <source src="./uploads/messages/<?php echo $media[$j]; ?>" type="video/mp4">
                                                     Your browser does not support the video tag.
                                                 </video>
                                             </div>
@@ -513,7 +513,7 @@ if (isset($_POST["action"])) {
                                         if (strpos($mime_type, 'audio/') === 0) {
                                         ?>
                                             <audio controls>
-                                                <source src="./uploads/posts/<?php echo $media[$j] ?>" type="audio/mpeg">
+                                                <source src="./uploads/messages/<?php echo $media[$j] ?>" type="audio/mpeg">
                                             </audio>
                                         <?php
                                         }
@@ -581,7 +581,7 @@ if (isset($_POST["action"])) {
                                 $media = json_decode($mess_row["media"], true);
                                 for ($j = 0; $j < sizeof($media); $j++) {
                                     $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                                    $mime_type = finfo_file($finfo, "../uploads/posts/" . $media[$j]);
+                                    $mime_type = finfo_file($finfo, "../uploads/messages/" . $media[$j]);
 
                             ?>
                                     <!-- Xu ly files end -->
@@ -589,7 +589,7 @@ if (isset($_POST["action"])) {
                                         <?php
                                         if (strpos($mime_type, 'image/') === 0) {
                                         ?>
-                                            <img class="image-chat-inner" style="max-width: 200px; max-height: 200px; border-radius: 10px; display: inline-block;" src="./uploads/posts/<?php echo $media[$j] ?>">
+                                            <img class="image-chat-inner" style="max-width: 200px; max-height: 200px; border-radius: 10px; display: inline-block;" src="./uploads/messages/<?php echo $media[$j] ?>">
                                         <?php
                                         }
                                         ?>
@@ -601,7 +601,7 @@ if (isset($_POST["action"])) {
                                         ?>
                                             <div class="w-full h-full" style="justify-content: right; display: flex;">
                                                 <video controls>
-                                                    <source src="./uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
+                                                    <source src="./uploads/messages/<?php echo $media[$j]; ?>" type="video/mp4">
                                                     Your browser does not support the video tag.
                                                 </video>
                                             </div>
@@ -616,7 +616,7 @@ if (isset($_POST["action"])) {
                                         if (strpos($mime_type, 'audio/') === 0) {
                                         ?>
                                             <audio controls>
-                                                <source src="./uploads/posts/<?php echo $media[$j] ?>" type="audio/mpeg">
+                                                <source src="./uploads/messages/<?php echo $media[$j] ?>" type="audio/mpeg">
                                             </audio>
                                         <?php
                                         }

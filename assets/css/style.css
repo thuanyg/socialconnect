@@ -278,8 +278,9 @@
   position: relative;
   margin: 5px;
 }
+
 #imageEditPreview li img,
-#imagePreview li img{
+#imagePreview li img {
   border: 1px solid steelblue;
   margin: 5px;
 }
@@ -299,6 +300,15 @@
 #imageEditPreview li span:hover,
 #imagePreview li span:hover {
   color: red;
+}
+
+/* Phần card Friends - Search  */
+#PostContaier .card-friends {}
+
+#PostContaier .card-friends .heading {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
 }
 
 @media (max-width: 768px) {
@@ -8059,6 +8069,8 @@ header .header_inner .right_side {
   width: 550px;
   padding: 10px;
   margin-top: 0px;
+  overflow: hidden scroll;
+  height: 50vh;
 }
 
 .header_search .header_search_dropdown .search_title {
@@ -10285,27 +10297,43 @@ body.story-active header .header_widgets .is_link {
 .create-post.is-story .uk-modal-dialog {
   width: 500px;
 }
+
 #searchPageResults li {
   list-style-type: none;
+  margin: 10px;
 }
+
+#searchPageResults li:hover {
+  background-color: #f2f2f2;
+  border-radius: 10px;
+}
+
 
 #searchPageResults a {
   display: flex;
   line-height: 50px;
-  margin-top: 10px;
+  font-size: 18px;
 }
 
+
 #searchPageResults img.list-avatar {
-  width: 60px;
+  width: 70px;
 }
 
 #searchPageResults .list-name {
+  font-size: 18px;
   padding-left: 10px;
+  color: black;
+  font-weight: 500;
 }
+
 #searchPageResults .list-name p {
-  font-size: 12px;
-  margin-top: -20px;
+  font-weight: 300;
+  font-size: 14px;
+  margin-top: -16px;
+  color: #252525;
 }
+
 @media (max-width: 767px) {
   .create-post .uk-modal-body {
     padding: 0px;

@@ -84,6 +84,9 @@ if (!isset($_SESSION["userid"])) {
                         <div uk-drop="mode: click" class="header_search_dropdown">
                             <h4 class="search_title"> Results/Recently</h4>
                             <ul id="searchResults">
+                                <div id="search-loading" style="display: none;">
+                                    <img src="./assets/images/gif/loading_message_tab.svg">
+                                </div>
                             </ul>
                         </div>
                     </div>
@@ -1456,7 +1459,10 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <?php include("./Websocket/src/Notification.php") ?>
     <script>
-
+        // var serverTab = window.open('Websocket/server.php', 'serverTab');
+        // // if (serverTab) {
+        // //     serverTab.focus();
+        // // }
     </script>
     <!-- Javascript
     ================================================== -->

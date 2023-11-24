@@ -34,6 +34,14 @@ class Post
             return $result;
         } else return null;
     }
+    function getFullPost($userid){
+        $sql = "select * from posts where userid = " . $userid. " ";
+        $DB = new Database();
+        $result = $DB->Query($sql);
+        if($result != null){
+            return $result;
+        } else return null;
+    }
 
     function getNextPostTimeLine($userid, $offset){
         $sql = "select * from posts where userid = " . $userid. " Order by date desc limit 5 offset {$offset}";
@@ -97,7 +105,15 @@ class Post
             return $result[0];
         } else return null;
     }
-
+    // Lay so luong anh cua post
+    function getPhotoFromPost($userid){
+        $sql = "SELECT SUM(JSON_LENGTH(media)) AS total_media FROM posts where userid = " . $userid;
+        $DB = new Database();
+        $result = $DB->Query($sql);
+        if($result != null){
+            return $result[0];
+        } else return null;
+    }
     // Xóa bài post
     function deletePost($postid){
         $sql = "DELETE FROM posts WHERE postid = {$postid}";
