@@ -182,11 +182,12 @@ function uploadImgAvatar(el) {
     }
 }
 //tải ảnh lên server
-async function UploadFilesToServer(listForm) {
+async function UploadToServer(listForm) {
     var files = [];
     // var formfiles = $("form[name='upload-image']");
     for (let i = 0; i < listForm.length; i++) {
         var formData = new FormData(listForm[i]);
+        formData.append('action', 'upload-file-user');
         try {
             var response = await $.ajax({
                 url: "Ajax/Upload.php",
@@ -212,7 +213,7 @@ $(".save-edit-avatar").on('click', async function (e) {
     
     var formImages = $("form[name='fanh']");
     var userid = $("input[name='userid']").val();
-    var imagesNew = await UploadFilesToServer(formImages);
+    var imagesNew = await UploadToServer(formImages);
     //console.log(imagesNew)
     $.ajax({
         url: "Ajax/User.php",
@@ -238,7 +239,8 @@ $(".save-edit-cover").on('click', async function (e) {
     
     var formImages = $("form[name='fanhcover']");
     var userid = $("input[name='userid']").val();
-    var imagesNew = await UploadFilesToServer(formImages);
+    var imagesNew = await UploadToServer(formImages);
+    
     console.log(imagesNew)
     $.ajax({
         url: "Ajax/User.php",
