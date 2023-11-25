@@ -519,6 +519,9 @@
   color: #aaa;
 }
 
+#post-details-modal .uk-modal-dialog {
+  width: 750px;
+}
 /* Buttons
 ------------------------------------- */
 button {
@@ -8234,6 +8237,7 @@ header .header_inner .right_side {
   width: 100%;
   image-rendering: -webkit-optimize-contrast;
   border-radius: 50%;
+  height: -webkit-fill-available;;
 }
 
 .header_dropdown ul li a .drop_avatar::after {
@@ -10319,8 +10323,9 @@ body.story-active header .header_widgets .is_link {
 
 #searchPageResults img.list-avatar {
   width: 70px;
-  height: 70px;
+  max-height: 70px;
   border-radius: 50%;
+  height: -webkit-fill-available;
 }
 
 #searchPageResults .list-name {
@@ -10961,5 +10966,4 @@ html.dark,
   .dark .header-search-icon {
     color: #f1f1f1 !important;
   }
-
-  .message-menu-btn
+}

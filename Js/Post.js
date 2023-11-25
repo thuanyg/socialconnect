@@ -189,6 +189,11 @@ async function CreatePost() {
         if (isValid) {
             var formImages = $("form[name='upload-image']");
             var formVideos = $("form[name='upload-video']");
+            var html = `<div class="loading-upload" style="overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                            <img src="./assets/images/gif/loading_createpost.svg" style="display: block; max-width: 100%; max-height: 100%;">
+                        </div>`;
+            $("#create-post-modal .uk-modal-dialog").append(html);
+            showNotification("Uploading...");
             var images = await UploadFilesToServer(formImages);
             var videos = await UploadFilesToServer(formVideos);
             var media = images.concat(videos);
@@ -208,6 +213,7 @@ async function CreatePost() {
                         showNotification("You have successfully posted the article");
                         var PostContaier = document.getElementById('PostContaier');
                         PostContaier.firstElementChild.insertAdjacentHTML('afterend', data);
+                        $("#create-post-modal .loading-upload").remove();
                         $("#closeModelPost").click();
                     } else {
                         showNotification("Something wrong!");
