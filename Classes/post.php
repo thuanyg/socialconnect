@@ -156,19 +156,7 @@ class Post
 
     }
     //share post
-    function setSharePost($postid, $userid) {
-       
-
-        $Sql = "INSERT INTO share (share_userid, postid ) VALUES ({$userid}, {$postid} )";
-        
-
-        
-        $DB = new Database();
-        $result = $DB->Execute($Sql);
-        return $result;
-        
-         
-    }
+    
     //share post
     function setSharePost($postid, $userid) {
        
