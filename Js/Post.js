@@ -307,7 +307,7 @@ $(".post-action .post-action-edit").on("click", function (e) {
         var formVideos = $("form[name='upload-edit-video']");
         var videosNew = await UploadFilesToServer(formVideos);
         var media = imagesNew.concat(videosNew).concat(filesAfter);
-        // console.log("Ảnh cũ sau khi xóa: " + filesAfter);
+         //console.log(media);
         var isValid = true;
         if (postText.length > 1000) {
             showNotification("Bài viết của bạn quá dài. Hãy kiểm tra lại");

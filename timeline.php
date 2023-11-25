@@ -934,10 +934,22 @@ if (!isset($_SESSION["userid"])) {
                                     </li> -->
                                 </ul>
                                 <div class="gap-3 grid grid-cols-3 mt-4">
-                                    <img src="assets/images/avatars/avatar-lg-2.jpg" alt="" class="object-cover rounded-lg col-span-full">
+                                    <!-- <img src="assets/images/avatars/avatar-lg-2.jpg" alt="" class="object-cover rounded-lg col-span-full">
                                     <img src="assets/images/avatars/avatar-2.jpg" alt="" class="rounded-lg">
                                     <img src="assets/images/avatars/avatar-4.jpg" alt="" class="rounded-lg">
-                                    <img src="assets/images/avatars/avatar-5.jpg" alt="" class="rounded-lg">
+                                    <img src="assets/images/avatars/avatar-5.jpg" alt="" class="rounded-lg"> -->
+                                    <?php 
+                                        if($about!=null){
+                                            $images = json_decode($about["about_image"]);
+                                            for($i=0;$i<4 && $i<sizeof($images);$i++){
+                                                if($i==0){
+                                                    echo "<img src='uploads/avatars/".$images[$i]. "' class='object-cover rounded-lg col-span-full'>";
+                                                }else {
+                                                   echo "<img src='uploads/avatars/".$images[$i]. "' class='rounded-lg'>";
+                                                }
+                                            }
+                                        } 
+                                    ?>
                                 </div>
                                 <a href="#" uk-toggle="target: #edit-about-image-modal" class="button gray mt-3 w-full btn-edit-about-image"> 
                                 <input type="hidden" value="<?php echo $_SESSION['userid']?>" name = "userid"></input>
@@ -1981,13 +1993,13 @@ if (!isset($_SESSION["userid"])) {
                         </label>
 
                         <form method="POST"  name="fanhAbout" enctype="multipart/form-data">
-                            <input type="file" hidden name="fileToUpload[]" multiple id="ImageAbout" onchange="uploadImgAvatar(this)">
+                            <input type="file" hidden name="fileToUpload[]" multiple id="ImageAbout" onchange="uploadEditImgAbout(this)">
                         </form>
                     </div>
 
                 </div>
             </div>
-            <div id="imagePreview" style="text-align: center; margin: 0 auto;">
+            <div id="imageAboutPreview" style="text-align: center; margin: 0 auto;">
                 <ul style="list-style-type: none;"></ul>
             </div>
             <div class="flex items-center w-full justify-between border-t p-3 Privacy">
@@ -1995,7 +2007,7 @@ if (!isset($_SESSION["userid"])) {
 
 
                 <div class="flex space-x-2">
-                    <a href="#" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium save-edit-cover" data-post-id=<?php ?>>
+                    <a href="#" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium save-edit-about-image" data-post-id=<?php ?>>
                     <input type="hidden" value="<?php echo $_SESSION['userid']?>" name = "userid"></input>
                         Done </a>
                 </div>
