@@ -8237,6 +8237,7 @@ header .header_inner .right_side {
   width: 100%;
   image-rendering: -webkit-optimize-contrast;
   border-radius: 50%;
+  height: -webkit-fill-available;;
 }
 
 .header_dropdown ul li a .drop_avatar::after {
@@ -10321,6 +10322,9 @@ body.story-active header .header_widgets .is_link {
 
 #searchPageResults img.list-avatar {
   width: 70px;
+  max-height: 70px;
+  border-radius: 50%;
+  height: -webkit-fill-available;
 }
 
 #searchPageResults .list-name {

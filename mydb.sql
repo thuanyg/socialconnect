@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 24, 2023 lúc 08:14 PM
+-- Thời gian đã tạo: Th10 25, 2023 lúc 05:34 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -285,15 +285,14 @@ INSERT INTO `posts` (`id`, `postid`, `post`, `userid`, `date`, `has_image`, `has
 (159, 562893352574, 'Đăng bài viết với ảnh\n', 4556887516696215, '2023-11-23 10:55:04', 1, 0, '[\"facebook-class-diagram.png\",\"395523956_847704387024316_2321997919254323069_n.jpg\"]', 'Public'),
 (161, 132061472680893, 'Post của thuận nhé', 4556887516696215, '2023-11-23 10:55:47', 1, 0, '[\"adadadasdas.jpg\"]', 'Public'),
 (166, 83318114147, 'pl\n', 3572325399739732623, '2023-11-24 05:36:18', 1, 0, '[\"profile-3.jpg\",\"profile-9.jpg\"]', 'Public'),
-(167, 213599485347330, '', 3572325399739732623, '2023-11-24 19:01:03', 1, 0, '[\"img-3.jpg\"]', 'Public'),
 (168, 182746900562, 'Test', 3572325399739732623, '2023-11-24 19:00:40', 1, 0, '[\"img-1.jpg\"]', 'Public'),
 (171, 950118002460448865, 'Để đây và không nói gì!', 4556887516696215, '2023-11-24 18:26:16', 1, 0, '[\"08c92192c0fc45a5b3d4fb5d74739ced~tplv-photomode-image.jpeg\"]', 'Public'),
 (172, 88322897687, 'Để đây và không nói gì :)))', 4556887516696215, '2023-11-24 18:26:40', 1, 0, '[\"nam.jpg\"]', 'Public'),
 (178, 174088333534974, 'Triết lý huấn hoa hồng!', 4556887516696215, '2023-11-24 18:39:10', 1, 0, '[\"3d9df25d226cd323338653cb4abc1e7c.mp4\",\"daef26fd26d08487b85177b1ceaec15e.mp4\"]', 'Public'),
 (180, 9937518659735607, '<iframe width=\"670\" height=\"400\" src=\"https://www.youtube.com/embed/dm5-tn1Rug0\" title=\"RHYDER - CHỊU CÁCH MÌNH NÓI THUA | ft. BAN x COOLKID | OFFICIAL MUSIC VIDEO\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>', 3572325399739732623, '2023-11-24 19:08:19', 1, 0, '', 'Public'),
 (182, 3534052449918946412, 'Youtube embed\n<iframe width=\"670\" height=\"400\" src=\"https://www.youtube.com/embed/lxPeCtiXor8\" title=\"HURRYKNG, REX, HIEUTHUHAI, Negav, MANBO - Mamma Mia (prod. by Kewtiie) [Official Video]\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>', 3572325399739732623, '2023-11-24 19:10:02', 1, 0, '', 'Public'),
-(183, 26857890593817802, '<iframe width=\"670\" height=\"400\" src=\"https://www.youtube.com/embed/i0nd3NPJ4MI\" title=\"HIEUTHUHAI - Không Thể Say (prod. by Kewtiie) l Official Video\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>', 3572325399739732623, '2023-11-24 19:10:54', 1, 0, '', 'Public'),
-(184, 506740946623, '<iframe width=\"670\" height=\"400\" src=\"https://www.youtube.com/embed/h7cOOfpdEfk\" title=\"KARIK - BẠN ĐỜI (FT. GDUCKY) | OFFICIAL MUSIC VIDEO\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>', 3572325399739732623, '2023-11-24 19:11:39', 1, 0, '', 'Public');
+(184, 506740946623, '<iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/h7cOOfpdEfk\" title=\"KARIK - BẠN ĐỜI (FT. GDUCKY) | OFFICIAL MUSIC VIDEO\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>', 3572325399739732623, '2023-11-25 02:36:12', 1, 0, '', 'Public'),
+(187, 19581001419442, '<iframe style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/track/0v834w6iDIfsUIRvVcEYLR?utm_source=generator\" width=\"100%\" height=\"352\" frameBorder=\"1\" allowfullscreen=\"\" allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\" loading=\"lazy\"></iframe>', 3572325399739732623, '2023-11-25 02:39:39', 1, 0, '', 'Public');
 
 -- --------------------------------------------------------
 
@@ -330,6 +329,20 @@ CREATE TABLE `share` (
   `id` int(11) NOT NULL,
   `postid` bigint(19) NOT NULL,
   `share_userid` bigint(19) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `stories`
+--
+
+CREATE TABLE `stories` (
+  `id` int(11) NOT NULL,
+  `userid` bigint(19) NOT NULL,
+  `story_id` bigint(19) NOT NULL,
+  `media` varchar(100) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -467,7 +480,7 @@ CREATE TABLE `users_about` (
 --
 
 INSERT INTO `users_about` (`id`, `userid`, `birthday`, `desc`, `address`, `edu`) VALUES
-(8, 3572325399739732623, '2003-08-26', 'My name is Thuannnne', 'Hanoi Vietnam', 'HUCE'),
+(8, 3572325399739732623, '2003-08-26', 'I don\'t like travelling because it wastes time and money. I just want to stay inside and sleep all day ', 'Hanoi Vietnam', 'HUCE'),
 (16, 4556887516696215, '2023-10-06', 'Hi xin chào mọi người lại là mình chao đây!!!', 'Bắc Ninh', 'HUCE'),
 (20, 5128572912903, '0001-01-01', '', 'Hanoi VietNam', 'HUST');
 
@@ -574,6 +587,13 @@ ALTER TABLE `share`
   ADD KEY `share_userid` (`share_userid`);
 
 --
+-- Chỉ mục cho bảng `stories`
+--
+ALTER TABLE `stories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userid` (`userid`,`story_id`);
+
+--
 -- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
@@ -636,7 +656,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT cho bảng `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
+  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 
 --
 -- AUTO_INCREMENT cho bảng `recent_searches`
@@ -657,6 +677,12 @@ ALTER TABLE `share`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT cho bảng `stories`
+--
+ALTER TABLE `stories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
@@ -666,7 +692,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `users_about`
 --
 ALTER TABLE `users_about`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT cho bảng `users_status`
@@ -717,6 +743,12 @@ ALTER TABLE `recent_searches`
 ALTER TABLE `share`
   ADD CONSTRAINT `share_ibfk_1` FOREIGN KEY (`postid`) REFERENCES `posts` (`postid`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `share_ibfk_2` FOREIGN KEY (`share_userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `stories`
+--
+ALTER TABLE `stories`
+  ADD CONSTRAINT `stories_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `users_about`
