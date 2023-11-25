@@ -445,7 +445,7 @@ $(".share-post-btn").on("click",function(e){
     e.preventDefault();
     var userID = $("input[name='txtUserid").val();
     var postID = $(this).parent().attr("post-id");
-    var data= {
+    var data = {
         userid : userID,
         postid : postID,
         action : "share-post"

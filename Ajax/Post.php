@@ -1099,7 +1099,30 @@ if (isset($_POST["action"])) {
             }
         }
     }
-    
+    //share post
+    if ($_POST["action"] == "share-post") {
+        $postid = $_POST["postid"];
+        $userid = $_POST["userid"];
+        $post = new Post();
+        $result = $post->setSharePost($postid, $userid);
+        if ($result) {
+            echo 1;
+        } else {
+            echo 0;
+        }
+    }
+    // like post
+    if ($_POST["action"] == "like-post") {
+        $postid = $_POST["postid"];
+        $userid = $_POST["userid"];
+        $post = new Post();
+        $result = $post->setLikePost($postid, $userid);
+        if ($result) {
+            echo 1;
+        } else {
+            echo 0;
+        }
+    }
 }
 
 
