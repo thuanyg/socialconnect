@@ -8454,6 +8454,7 @@ header .header_inner .right_side {
 
 .header_dropdown.profile_dropdown .user .user_avatar img {
   border-radius: 50%;
+  height: 45px;
 }
 
 .header_dropdown.profile_dropdown .user .user_name {

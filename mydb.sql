@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 25, 2023 lúc 05:34 AM
+-- Thời gian đã tạo: Th10 25, 2023 lúc 12:44 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
--- Phiên bản PHP: 8.0.28
+-- Phiên bản PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -125,6 +125,29 @@ INSERT INTO `friend_requests` (`id`, `sender_id`, `receiver_id`, `status`, `date
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `like`
+--
+
+CREATE TABLE `like` (
+  `id` int(11) NOT NULL,
+  `postid` bigint(19) NOT NULL,
+  `userid` bigint(19) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `like`
+--
+
+INSERT INTO `like` (`id`, `postid`, `userid`, `date`) VALUES
+(1, 19581001419442, 3572325399739732623, '2023-11-25 10:45:31'),
+(2, 19581001419442, 3572325399739732623, '2023-11-25 10:49:07'),
+(3, 19581001419442, 3572325399739732623, '2023-11-25 11:36:01'),
+(4, 19581001419442, 3572325399739732623, '2023-11-25 11:43:23');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `messages`
 --
 
@@ -234,6 +257,23 @@ CREATE TABLE `notifications` (
   `type` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `userid`, `content`, `date`, `isRead`, `related_object_id`, `type`) VALUES
+(189, 3572325399739732623, 'like', '2023-11-25 10:35:02', 0, 19581001419442, 'like'),
+(190, 3572325399739732623, 'like', '2023-11-25 10:35:03', 0, 19581001419442, 'like'),
+(191, 3572325399739732623, 'like', '2023-11-25 10:35:05', 0, 19581001419442, 'like'),
+(192, 3572325399739732623, 'like', '2023-11-25 10:36:05', 0, 19581001419442, 'like'),
+(193, 3572325399739732623, 'like', '2023-11-25 10:42:37', 0, 19581001419442, 'like'),
+(194, 3572325399739732623, 'like', '2023-11-25 10:42:48', 0, 19581001419442, 'like'),
+(195, 3572325399739732623, 'like', '2023-11-25 10:43:54', 0, 19581001419442, 'like'),
+(196, 3572325399739732623, 'like', '2023-11-25 10:45:31', 0, 19581001419442, 'like'),
+(197, 3572325399739732623, 'like', '2023-11-25 10:49:07', 0, 19581001419442, 'like'),
+(198, 3572325399739732623, 'like', '2023-11-25 11:36:01', 0, 19581001419442, 'like'),
+(199, 3572325399739732623, 'like', '2023-11-25 11:43:23', 0, 19581001419442, 'like');
+
 -- --------------------------------------------------------
 
 --
@@ -330,6 +370,13 @@ CREATE TABLE `share` (
   `postid` bigint(19) NOT NULL,
   `share_userid` bigint(19) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `share`
+--
+
+INSERT INTO `share` (`id`, `postid`, `share_userid`) VALUES
+(1, 19581001419442, 3572325399739732623);
 
 -- --------------------------------------------------------
 
@@ -543,6 +590,12 @@ ALTER TABLE `friend_requests`
   ADD KEY `sender_id_3` (`sender_id`,`receiver_id`);
 
 --
+-- Chỉ mục cho bảng `like`
+--
+ALTER TABLE `like`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `messages`
 --
 ALTER TABLE `messages`
@@ -641,6 +694,12 @@ ALTER TABLE `friend_requests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
+-- AUTO_INCREMENT cho bảng `like`
+--
+ALTER TABLE `like`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT cho bảng `messages`
 --
 ALTER TABLE `messages`
@@ -650,7 +709,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
 -- AUTO_INCREMENT cho bảng `posts`
@@ -674,7 +733,7 @@ ALTER TABLE `relatedobjects`
 -- AUTO_INCREMENT cho bảng `share`
 --
 ALTER TABLE `share`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `stories`

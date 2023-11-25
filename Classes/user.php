@@ -104,4 +104,10 @@ class User
         $result = $DB->Execute(($sql));
         return $result;
     }
+    function getAboutImage($userid) {
+        $DB=new Database();
+        $sql = "select about_image from users_about where userid={$userid}";
+        $result = $DB->Query($sql);
+        return $result;
+    }
 }
