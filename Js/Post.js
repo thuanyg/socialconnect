@@ -385,7 +385,7 @@ function DeleteFilesFromServer(media) {
 // Like post
 $(".like-post-btn").on("click", function (e) {
     var userID = $("input[name='txtUserid']").val();
-    e.preventDefault();
+    // e.preventDefault();
     var postID = $(this).parent().attr("post-id");
     // console.log(userID + " " + postID);
     var notify = {
@@ -394,6 +394,73 @@ $(".like-post-btn").on("click", function (e) {
         action: "like-post"
     };
     ws.send(JSON.stringify(notify));
+
+});
+// like post 
+$(".like-post-btn").click(function(e){
+      e.preventDefault();
+    var userID = $("input[name='txtUserid']").val();
+    var postID = $(this).parent().attr("post-id");
+    var data ={
+        userid: userID,
+        postid: postID,
+        action: "like-post"
+    };
+    $.ajax({
+        url: "Ajax/Post.php",
+        type: "POST",
+        data: data,
+        success: function (response) {
+            if (response) {
+            }
+        }
+    })
+    
+})
+
+//share post
+$(".share-post-btn").on("click",function(e){
+    e.preventDefault();
+    var userID = $("input[name='txtUserid").val();
+    var postID = $(this).parent().attr("post-id");
+    var data= {
+        userid : userID,
+        postid : postID,
+        action : "share-post"
+    };
+    console.log(data);
+    $.ajax({
+        url: "Ajax/Post.php",
+        type: "POST",
+        data: data,
+        success: function (response) {
+            if (response) {
+            }
+        }
+    })
+    
+});
+//share post
+$(".share-post-btn").on("click",function(e){
+    e.preventDefault();
+    var userID = $("input[name='txtUserid").val();
+    var postID = $(this).parent().attr("post-id");
+    var data= {
+        userid : userID,
+        postid : postID,
+        action : "share-post"
+    };
+    console.log(data);
+    $.ajax({
+        url: "Ajax/Post.php",
+        type: "POST",
+        data: data,
+        success: function (response) {
+            if (response) {
+            }
+        }
+    })
+    
 });
 // Delete post
 function deletePost(event, btn) {

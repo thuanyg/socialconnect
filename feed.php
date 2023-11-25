@@ -649,12 +649,27 @@ if (!isset($_SESSION["userid"])) {
                                             </div>
                                             <div class="flex items-center space-x-3 pt-2">
                                                 <div class="flex items-center">
-                                                    <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
-                                                    <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
-                                                    <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
+                                                    <?php
+                                                         $like = $p->getLikePost($post[$i]["postid"]);
+                                                          if($like!= null){
+                                                            for($j=0;$j<3&&$j<count($like);$j++){
+                                                               $userlike = $user->getUser($like[$j]["userid"]);
+                                                          
+                                                    ?>
+                                                    <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
+                                                    <?php
+                                                            }
+                                                        }
+                                                    ?>
                                                 </div>
                                                 <div class="dark:text-gray-100">
-                                                    Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
+                                                    Liked <strong> Johnson</strong> and <strong><?php
+                                                        $total = $p->getQuantityLike($post[$i]["postid"]);
+                                                        if($total!=null){
+                                                            echo $total[0]["total"];
+                                                        }
+                                                     ?> Others </strong>
+                                                    
                                                 </div>
                                             </div>
 
