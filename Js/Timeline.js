@@ -259,3 +259,19 @@ $(".save-edit-cover").on('click', async function (e) {
     })
     
 })
+
+$('.btn-edit-about-image').on('click',function(e){
+    e.preventDefault();
+    var userid = $("input[name='userid']").val();
+    $.ajax({
+        url: "Ajax/User.php",
+        type: "POST",
+        data: {
+            userid: userid,
+            action: "show-about-image",
+        },
+        success: function(data){
+            
+        }
+    })
+})

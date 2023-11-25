@@ -74,5 +74,9 @@
             } else echo "invalid";
             
         }
+        if($_POST["action"]=="show-about-image"){
+            $userid = $_POST["userid"];
+            $u->getAboutImage($userid);
+        }
     }
 ?>
