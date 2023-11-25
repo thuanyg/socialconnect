@@ -129,6 +129,27 @@ class Post
         $result = $DB->Execute($sql);
         return $result;
     }
+    //share post
+    function setSharePost($postid, $userid) {
+       
+        // Thực hiện truy vấn thông báo
+        $notificationSql = "INSERT INTO notifications (userid, related_object_id, content, type) VALUES ({$userid}, {$postid},'share','share')";
+        
+    
+        // Thực hiện truy vấn timeline
+        $timelineSql = "INSERT INTO timeline (userid, postid, type) VALUES ({$userid}, {$postid}, 'share')";
+
+        
+        $DB = new Database();
+        $notificationResult = $DB->Execute($notificationSql);
+        $timelineResult = $DB->Execute($timelineSql);
+         
+        if ($notificationResult && $timelineResult) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     //Edit post
     function updatePost($postid, $data){
         $DB = new Database();

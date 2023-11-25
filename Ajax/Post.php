@@ -1088,6 +1088,19 @@ if (isset($_POST["action"])) {
         $result = $post->updatePost($postid, $data);
         echo $result;
     }
+    //share post
+    if($_POST["action"]=="share-post"){
+        $postid = $_POST["postid"];
+        $post = new Post;
+        $result = $post->setSharePost($postid, $userid);
+        if($result){
+            echo 1;
+        }
+        else{
+            echo 0;
+        }
+    }
+    
     // Delete Images 
     if ($_POST["action"] == "delete-media" && isset($_POST["media"])) {
         $media = $_POST["media"];
