@@ -440,6 +440,28 @@ $(".share-post-btn").on("click",function(e){
     })
     
 });
+//share post
+$(".share-post-btn").on("click",function(e){
+    e.preventDefault();
+    var userID = $("input[name='txtUserid").val();
+    var postID = $(this).parent().attr("post-id");
+    var data= {
+        userid : userID,
+        postid : postID,
+        action : "share-post"
+    };
+    console.log(data);
+    $.ajax({
+        url: "Ajax/Post.php",
+        type: "POST",
+        data: data,
+        success: function (response) {
+            if (response) {
+            }
+        }
+    })
+    
+});
 // Delete post
 function deletePost(event, btn) {
     event.preventDefault();
