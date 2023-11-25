@@ -1091,7 +1091,8 @@ if (isset($_POST["action"])) {
     //share post
     if($_POST["action"]=="share-post"){
         $postid = $_POST["postid"];
-        $post = new Post;
+        $userid = $_POST["userid"];
+        $post = new Post();
         $result = $post->setSharePost($postid, $userid);
         if($result){
             echo 1;

@@ -132,23 +132,16 @@ class Post
     //share post
     function setSharePost($postid, $userid) {
        
-        // Thực hiện truy vấn thông báo
-        $notificationSql = "INSERT INTO notifications (userid, related_object_id, content, type) VALUES ({$userid}, {$postid},'share','share')";
+
+        $Sql = "INSERT INTO share (share_userid, postid ) VALUES ({$userid}, {$postid} )";
         
-    
-        // Thực hiện truy vấn timeline
-        $timelineSql = "INSERT INTO timeline (userid, postid, type) VALUES ({$userid}, {$postid}, 'share')";
 
         
         $DB = new Database();
-        $notificationResult = $DB->Execute($notificationSql);
-        $timelineResult = $DB->Execute($timelineSql);
+        $result = $DB->Execute($Sql);
+        return $result;
+        
          
-        if ($notificationResult && $timelineResult) {
-            return true;
-        } else {
-            return false;
-        }
     }
     //Edit post
     function updatePost($postid, $data){

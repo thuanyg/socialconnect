@@ -397,20 +397,25 @@ $(".like-post-btn").on("click", function (e) {
 });
 //share post
 $(".share-post-btn").on("click",function(e){
-    var userID = $("input[name='txtUserid").val();
-    console.log("User ID:", userID);
-    
     e.preventDefault();
-    var postID = $(this).parent().attr("postid");
-    console.log("Post ID:", postID);
-    var notify= {
+    var userID = $("input[name='txtUserid").val();
+    var postID = $(this).parent().attr("post-id");
+    var data= {
         userid : userID,
         postid : postID,
         action : "share-post"
-
     };
-     console.log("Notification Object:", notify);
-    ws.send(JSON.stringify(notify));
+    console.log(data);
+    $.ajax({
+        url: "Ajax/Post.php",
+        type: "POST",
+        data: data,
+        success: function (response) {
+            if (response) {
+            }
+        }
+    })
+    
 });
 // Delete post
 function deletePost(event, btn) {
