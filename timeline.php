@@ -668,7 +668,7 @@ if (!isset($_SESSION["userid"])) {
                         <div class="space-y-5 flex-shrink-0 md:w-7/12" id="PostContaier">
 
                             <!-- create post  -->
-                            <div class="card lg:mx-0 p-4" uk-toggle="target: #create-post-modal" >
+                            <div class="card lg:mx-0 p-4" uk-toggle="target: #create-post-modal">
                                 <div class="flex space-x-3">
                                     <img src="<?php echo $userCurrent["avatar_image"] ?>" class="w-10 h-10 rounded-full">
                                     <input placeholder="What's Your Mind ? Hamse!" class="bg-gray-100 hover:bg-gray-200 flex-1 h-10 px-6 rounded-full">
@@ -938,22 +938,22 @@ if (!isset($_SESSION["userid"])) {
                                     <img src="assets/images/avatars/avatar-2.jpg" alt="" class="rounded-lg">
                                     <img src="assets/images/avatars/avatar-4.jpg" alt="" class="rounded-lg">
                                     <img src="assets/images/avatars/avatar-5.jpg" alt="" class="rounded-lg"> -->
-                                    <?php 
-                                        if($about != null && $about["about_image"] != null){
-                                            $images = json_decode($about["about_image"]);
-                                            for($i=0;$i<4 && $i<sizeof($images);$i++){
-                                                if($i==0){
-                                                    echo "<img src='uploads/avatars/".$images[$i]. "' class='object-cover rounded-lg col-span-full'>";
-                                                }else {
-                                                   echo "<img src='uploads/avatars/".$images[$i]. "' class='rounded-lg'>";
-                                                }
+                                    <?php
+                                    if ($about != null && $about["about_image"] != null) {
+                                        $images = json_decode($about["about_image"]);
+                                        for ($i = 0; $i < 4 && $i < sizeof($images); $i++) {
+                                            if ($i == 0) {
+                                                echo "<img src='uploads/avatars/" . $images[$i] . "' style='cursor: pointer' class='about-image object-cover rounded-lg col-span-full'>";
+                                            } else {
+                                                echo "<img src='uploads/avatars/" . $images[$i] . "' style='cursor: pointer' class='about-image rounded-lg'>";
                                             }
-                                        } 
+                                        }
+                                    }
                                     ?>
                                 </div>
-                                <a href="#" uk-toggle="target: #edit-about-image-modal" class="button gray mt-3 w-full btn-edit-about-image"> 
-                                <input type="hidden" value="<?php echo $_SESSION['userid']?>" name = "userid"></input>
-                                Edit </a>
+                                <a href="#" uk-toggle="target: #edit-about-image-modal" class="button gray mt-3 w-full btn-edit-about-image">
+                                    <input type="hidden" value="<?php echo $_SESSION['userid'] ?>" name="userid"></input>
+                                    Edit </a>
                             </div>
 
                             <div class="widget card p-5 border-t">
@@ -1992,7 +1992,7 @@ if (!isset($_SESSION["userid"])) {
                             </svg>
                         </label>
 
-                        <form method="POST"  name="fanhAbout" enctype="multipart/form-data">
+                        <form method="POST" name="fanhAbout" enctype="multipart/form-data">
                             <input type="file" hidden name="fileToUpload[]" multiple id="ImageAbout" onchange="uploadEditImgAbout(this)">
                         </form>
                     </div>
@@ -2008,7 +2008,7 @@ if (!isset($_SESSION["userid"])) {
 
                 <div class="flex space-x-2">
                     <a href="#" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium save-edit-about-image" data-post-id=<?php ?>>
-                    <input type="hidden" value="<?php echo $_SESSION['userid']?>" name = "userid"></input>
+                        <input type="hidden" value="<?php echo $_SESSION['userid'] ?>" name="userid"></input>
                         Done </a>
                 </div>
 
@@ -2061,6 +2061,21 @@ if (!isset($_SESSION["userid"])) {
 
         </div>
     </div>
+    <!-- image about preview -->
+    <div class="preview-about-image uk-lightbox uk-overflow-hidden uk-lightbox-panel uk-active uk-transition-active">
+        <ul class="uk-lightbox-items">
+            <li class="uk-active uk-transition-active" style="" tabindex="-1"><img width="750" height="500" src="uploads/posts/img-1.jpg" style="" alt=""></li>
+        </ul>
+        <div class="uk-lightbox-toolbar uk-position-top uk-text-right uk-transition-slide-top uk-transition-opaque"> <button class="uk-lightbox-toolbar-icon uk-close-large uk-icon uk-close" type="button" uk-close=""><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close-large">
+                    <line fill="none" stroke="#000" stroke-width="1.4" x1="1" y1="1" x2="19" y2="19"></line>
+                    <line fill="none" stroke="#000" stroke-width="1.4" x1="19" y1="1" x2="1" y2="19"></line>
+                </svg></button> </div> <a class="uk-lightbox-button uk-position-center-left uk-position-medium uk-transition-fade uk-icon uk-slidenav-previous uk-slidenav uk-hidden" href="#" uk-slidenav-previous="" uk-lightbox-item="previous"><svg width="14px" height="24px" viewBox="0 0 14 24" xmlns="http://www.w3.org/2000/svg" data-svg="slidenav-previous">
+                <polyline fill="none" stroke="#000" stroke-width="1.4" points="12.775,1 1.225,12 12.775,23 "></polyline>
+            </svg></a> <a class="uk-lightbox-button uk-position-center-right uk-position-medium uk-transition-fade uk-icon uk-slidenav-next uk-slidenav uk-hidden" href="#" uk-slidenav-next="" uk-lightbox-item="next"><svg width="14px" height="24px" viewBox="0 0 14 24" xmlns="http://www.w3.org/2000/svg" data-svg="slidenav-next">
+                <polyline fill="none" stroke="#000" stroke-width="1.4" points="1.225,23 12.775,12 1.225,1 "></polyline>
+            </svg></a>
+        <div class="uk-lightbox-toolbar uk-lightbox-caption uk-position-bottom uk-text-center uk-transition-slide-bottom uk-transition-opaque" style="display: none;"></div>
+    </div>
     <!-- Post details modal-->
     <div id="post-details-modal" style="overflow-y: scroll;" class="create-post" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
@@ -2076,6 +2091,21 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- For Night mode -->
     <script>
+        $(".about-image").click(function(e) {
+            e.preventDefault()
+            $(".preview-about-image").addClass("uk-open");
+            $(".preview-about-image img").attr("src", $(this).attr("src"));
+        })
+        
+        $(".preview-about-image button").click(function(e) {
+            $(".preview-about-image").removeClass("uk-open");
+        })
+        
+        $(document).keydown(function(e) {
+            if (e.key === "Escape" || e.key === "Esc") {
+                $(".preview-about-image").removeClass("uk-open");
+            }
+        });
         // Open model edit about
         var openModalButton = document.getElementsByClassName("edit-about-btn")[0];
         var closeModalButton = document.getElementById("closeModalButton");

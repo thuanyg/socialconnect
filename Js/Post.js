@@ -168,19 +168,35 @@ async function UploadFilesToServer(listForm) {
     return files;
 }
 
+
+// Để chuyển đổi các ký tự đặc biệt thành HTML entities.
+function escapeHtml(input) {
+    return input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+// Biểu thức chính quy để tìm kiếm các thẻ nhúng từ web khác
+function containsExternalEmbed(input) {
+    var embedPattern = /<\s*iframe[^>]*src\s*=\s*["']([^"']+)["'][^>]*>/i;
+    return embedPattern.test(input);
+}
 // Tạo bài viết mới
 async function CreatePost() {
     var post = $("textarea[name='taPost']").val();
     var userid = $("input[name='txtUserid']").val();
     var privacy = $("#create-post-modal").find(".dropdown-toggle .filter-option").text();
     var isValid = true;
-
-    // if (fileInput.files.length == 0) {
-    //     if (post.trim().length == 0) {
-    //         showNotification("Hãy nhập nội dung bài viết");
-    //         isValid = false;
-    //     }
+    if (!validateInput(post)) {
+        showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
+        isValid = false;
+    }
+    // if (containsExternalEmbed(post)) {
+    //     setTimeout(() => {
+    //         showNotification("Lưu ý! Bài viết của bạn đang có một đoạn nhúng từ bên ngoài");
+    //     }, 2000);
     // }
+    if (validateInput(post)) {
+        showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
+        isValid = false;
+    }
     if (post.length > 1000) {
         showNotification("Bài viết của bạn quá dài. Hãy kiểm tra lại");
         isValid = false;
@@ -307,7 +323,7 @@ $(".post-action .post-action-edit").on("click", function (e) {
         var formVideos = $("form[name='upload-edit-video']");
         var videosNew = await UploadFilesToServer(formVideos);
         var media = imagesNew.concat(videosNew).concat(filesAfter);
-         //console.log(media);
+        //console.log(media);
         var isValid = true;
         if (postText.length > 1000) {
             showNotification("Bài viết của bạn quá dài. Hãy kiểm tra lại");
@@ -397,11 +413,11 @@ $(".like-post-btn").on("click", function (e) {
 
 });
 // like post 
-$(".like-post-btn").click(function(e){
-      e.preventDefault();
+$(".like-post-btn").click(function (e) {
+    e.preventDefault();
     var userID = $("input[name='txtUserid']").val();
     var postID = $(this).parent().attr("post-id");
-    var data ={
+    var data = {
         userid: userID,
         postid: postID,
         action: "like-post"
@@ -415,40 +431,18 @@ $(".like-post-btn").click(function(e){
             }
         }
     })
-    
+
 })
 
 //share post
-$(".share-post-btn").on("click",function(e){
-    e.preventDefault();
-    var userID = $("input[name='txtUserid").val();
-    var postID = $(this).parent().attr("post-id");
-    var data= {
-        userid : userID,
-        postid : postID,
-        action : "share-post"
-    };
-    console.log(data);
-    $.ajax({
-        url: "Ajax/Post.php",
-        type: "POST",
-        data: data,
-        success: function (response) {
-            if (response) {
-            }
-        }
-    })
-    
-});
-//share post
-$(".share-post-btn").on("click",function(e){
+$(".share-post-btn").on("click", function (e) {
     e.preventDefault();
     var userID = $("input[name='txtUserid").val();
     var postID = $(this).parent().attr("post-id");
     var data = {
-        userid : userID,
-        postid : postID,
-        action : "share-post"
+        userid: userID,
+        postid: postID,
+        action: "share-post"
     };
     console.log(data);
     $.ajax({
@@ -460,7 +454,29 @@ $(".share-post-btn").on("click",function(e){
             }
         }
     })
-    
+
+});
+//share post
+$(".share-post-btn").on("click", function (e) {
+    e.preventDefault();
+    var userID = $("input[name='txtUserid").val();
+    var postID = $(this).parent().attr("post-id");
+    var data = {
+        userid: userID,
+        postid: postID,
+        action: "share-post"
+    };
+    console.log(data);
+    $.ajax({
+        url: "Ajax/Post.php",
+        type: "POST",
+        data: data,
+        success: function (response) {
+            if (response) {
+            }
+        }
+    })
+
 });
 // Delete post
 function deletePost(event, btn) {
