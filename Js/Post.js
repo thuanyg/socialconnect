@@ -398,20 +398,7 @@ function DeleteFilesFromServer(media) {
         }
     })
 }
-// Like post
-// $(".like-post-btn").on("click", function (e) {
-//     var userID = $("input[name='txtUserid']").val();
-//     // e.preventDefault();
-//     var postID = $(this).parent().attr("post-id");
-//     // console.log(userID + " " + postID);
-//     var notify = {
-//         userid: userID,
-//         postid: postID,
-//         action: "like-post"
-//     };
-//     ws.send(JSON.stringify(notify));
 
-// });
 // like post 
 $(document).on('click', '.like-post-btn', function (e) {
     e.preventDefault();
