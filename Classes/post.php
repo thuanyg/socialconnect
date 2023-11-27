@@ -131,21 +131,16 @@ class Post
     // Like post
     function setLikePost($postid, $userid)
     {
-        $sql = "INSERT INTO notifications (userid, related_object_id, content, type) VALUES ({$userid}, {$postid},'like','like')";
-        $Sql = "INSERT INTO `like` (userid, postid) VALUES ({$userid}, {$postid} )";
+        // $sql = "INSERT INTO notifications (userid, related_object_id, content, type) VALUES ({$userid}, {$postid},'like','like')";
+        $sql = "CALL `sp_ToggleLike`({$userid}, {$postid});";
         $DB = new Database();
-        $result1 = $DB->Execute($sql);
-        $result2 = $DB->Execute($Sql);
-        if ($result1 && $result2) {
-            return 1;
-        } else {
-            return 0;
-        }
+        $result = $DB->Execute($sql);
+        return $result;
     }
     // get like post
     function getLikePost($postid)
     {
-        $sql = "select * from `like` where postid=$postid";
+        $sql = "select * from likes where postid = $postid order by date desc";
         $DB = new Database();
         $result = $DB->Query($sql);
         return $result;
@@ -153,7 +148,7 @@ class Post
     // lấy số lượng like 
     function getQuantityLike($postid)
     {
-        $sql = "Select count(*) as total  From `like` where postid = $postid";
+        $sql = "Select count(*) as total  From likes where postid = $postid";
         $DB = new Database();
         $result = $DB->Query($sql);
         return $result;

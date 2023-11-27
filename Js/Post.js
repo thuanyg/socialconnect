@@ -399,24 +399,25 @@ function DeleteFilesFromServer(media) {
     })
 }
 // Like post
-$(".like-post-btn").on("click", function (e) {
-    var userID = $("input[name='txtUserid']").val();
-    // e.preventDefault();
-    var postID = $(this).parent().attr("post-id");
-    // console.log(userID + " " + postID);
-    var notify = {
-        userid: userID,
-        postid: postID,
-        action: "like-post"
-    };
-    ws.send(JSON.stringify(notify));
+// $(".like-post-btn").on("click", function (e) {
+//     var userID = $("input[name='txtUserid']").val();
+//     // e.preventDefault();
+//     var postID = $(this).parent().attr("post-id");
+//     // console.log(userID + " " + postID);
+//     var notify = {
+//         userid: userID,
+//         postid: postID,
+//         action: "like-post"
+//     };
+//     ws.send(JSON.stringify(notify));
 
-});
+// });
 // like post 
-$(".like-post-btn").click(function (e) {
+$(document).on('click', '.like-post-btn', function (e) {
     e.preventDefault();
     var userID = $("input[name='txtUserid']").val();
     var postID = $(this).parent().attr("post-id");
+    var likeButton = $(this);
     var data = {
         userid: userID,
         postid: postID,
@@ -427,12 +428,49 @@ $(".like-post-btn").click(function (e) {
         type: "POST",
         data: data,
         success: function (response) {
-            if (response) {
+            if (response.trim() == "1") {
+                // Đổi màu button
+                var likeIcon = likeButton.find("svg");
+                var likeText = likeButton.find(".like-text");
+                var showLikeElement = likeButton.parent().parent().find("div.dark\\:text-gray-100:eq(0)");
+                var avatarUserLike = likeButton.parent().parent().find(".avatar-user-like");
+                var avatarUserCurrent = $("input[name='txtUserAvatar']").val();
+                if (likeIcon.attr("fill") == "currentColor") {
+                    likeIcon.attr("fill", "blue");
+                    likeText.css("color", "blue");
+                    // Cập nhật lượt like => Like
+                    var getOld = showLikeElement.text();
+                    var html = "";
+                    if(getOld.trim() != ""){
+                        html += '<strong> You </strong> and <strong>' + getOld + "</strong>";
+                    } else {
+                        html += '<strong> You liked</strong>';
+                    }
+                    showLikeElement.empty();
+                    showLikeElement.html(html);
+                    // Cập nhật avt người like
+                    var img = `<img src="${avatarUserCurrent}" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">`;
+                    avatarUserLike.children().last().remove();
+                    avatarUserLike.prepend(img);
+                } else {
+                    likeIcon.attr("fill", "currentColor");
+                    likeText.css("color", "#666666");
+                    // Cập nhật lượt like => Unlike
+                    var getOld = showLikeElement.text();
+                    var html = "";
+                    if(getOld.trim() != "You liked"){
+                        html += '<strong>' + getOld.match(/(\d+)\s*others/)[1] + " others</strong>";
+                    }
+                    showLikeElement.empty();
+                    showLikeElement.html(html);
+                    // Cập nhật avt người like
+                    avatarUserLike.children().first().remove();
+                }
             }
         }
     })
+});
 
-})
 
 //share post
 $(".share-post-btn").on("click", function (e) {
@@ -456,28 +494,7 @@ $(".share-post-btn").on("click", function (e) {
     })
 
 });
-//share post
-$(".share-post-btn").on("click", function (e) {
-    e.preventDefault();
-    var userID = $("input[name='txtUserid").val();
-    var postID = $(this).parent().attr("post-id");
-    var data = {
-        userid: userID,
-        postid: postID,
-        action: "share-post"
-    };
-    console.log(data);
-    $.ajax({
-        url: "Ajax/Post.php",
-        type: "POST",
-        data: data,
-        success: function (response) {
-            if (response) {
-            }
-        }
-    })
 
-});
 // Delete post
 function deletePost(event, btn) {
     event.preventDefault();

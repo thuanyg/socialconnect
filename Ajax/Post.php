@@ -176,6 +176,7 @@ if (isset($_POST["action"])) {
         $post = $p->getNextAllPostPublic($offset);
         if ($post != null) {
             for ($i = 0; $i < sizeof($post); $i++) {
+                $like = $p->getLikePost($post[$i]["postid"]);
                 if ($post[$i]['has_image'] == 1) {
                     $t = new Timer();
                     $time = $t->TimeSince($post[$i]["date"]); // Return array
@@ -185,7 +186,8 @@ if (isset($_POST["action"])) {
                     // Get user for each post
                     $user = new User();
                     $userOfPost = $user->getUser($post[$i]["userid"]);
-                    $userCurrent = $_SESSION["userid"];
+                    // $userCurrent = $_SESSION["userid"];
+                    $userCurrent = $user->getUser($_SESSION["userid"]);
                 ?>
 
                     <div class="card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
@@ -215,7 +217,7 @@ if (isset($_POST["action"])) {
                                             </a>
                                         </li> -->
                                         <?php
-                                        if ($userOfPost["userid"] ==  $userCurrent) {
+                                        if ($userOfPost["userid"] ==  $userCurrent["userid"]) {
                                         ?>
                                             <li class="post-action-edit" uk-toggle="target: #edit-post-modal" post-id="<?php echo $post[$i]["postid"] ?>">
                                                 <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
@@ -247,7 +249,7 @@ if (isset($_POST["action"])) {
                                             <hr class="-mx-2 my-2 dark:border-gray-800">
                                         </li>
                                         <?php
-                                        if ($userOfPost["userid"] ==  $userCurrent) {
+                                        if ($userOfPost["userid"] ==  $userCurrent["userid"]) {
                                         ?>
                                             <li data-post-id="<?php echo $post[$i]["postid"] ?>" onclick="deletePost(event, this)">
                                                 <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md dark:hover:bg-red-600">
@@ -314,17 +316,28 @@ if (isset($_POST["action"])) {
 
                         <!--Like comment share-->
                         <div class="p-4 space-y-3">
-
+                            <?php
+                            $liked = 0;
+                            if ($like != null) {
+                                for ($j = 0; $j < count($like); $j++) {
+                                    if ($like[$j]["userid"] == $userCurrent["userid"]) {
+                                        $liked = 1;
+                                        break;
+                                    }
+                                }
+                            }
+                            ?>
                             <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
-                                <a href="#" class="like-post-btn flex items-center space-x-2">
+                                <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
+                                                                                                            else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                             <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                         </svg>
                                     </div>
-                                    <div> Like</div>
-                                </a>
-                                <a href="#" class="comment-post-btn flex items-center space-x-2">
+                                    <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                </button>
+                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -342,20 +355,41 @@ if (isset($_POST["action"])) {
                                 </a>
                             </div>
                             <div class="flex items-center space-x-3 pt-2">
-                                <div class="flex items-center">
-                                    <img src="./uploads/avatars/avatar_default.png" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
-                                    <img src="./uploads/avatars/avatar_default.png" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
-                                    <img src="./uploads/avatars/avatar_default.png" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
+                                <div class="avatar-user-like flex items-center">
+                                    <?php
+                                    if ($like != null) {
+                                        for ($j = 0; $j < 3 && $j < count($like); $j++) {
+                                            $userlike = $user->getUser($like[$j]["userid"]);
+
+                                    ?>
+                                            <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
+                                    <?php
+                                        }
+                                    }
+                                    ?>
                                 </div>
                                 <div class="dark:text-gray-100">
-                                    Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
+                                    <?php
+                                    $total = $p->getQuantityLike($post[$i]["postid"]);
+                                    if ($liked == 1) {
+                                        if ($total != null && $total[0]["total"] > 1) {
+                                            echo '<strong> You </strong> and <strong>' . ($total[0]["total"] - 1) . ' others</strong>';
+                                        } else {
+                                            echo '<strong> You liked </strong>';
+                                        }
+                                    } else {
+                                        if ($total != null && $total[0]["total"] > 0) {
+                                            echo '<strong>' . $total[0]["total"] . ' others</strong>';
+                                        }
+                                    }
+                                    ?>
                                 </div>
                             </div>
 
                             <div class="border-t py-4 space-y-4 dark:border-gray-600">
                                 <div class="flex">
                                     <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                        <img src="./uploads/avatars/avatar_default.png" alt="" class="absolute h-full rounded-full w-full">
+                                        <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                     </div>
                                     <div>
                                         <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
@@ -371,7 +405,7 @@ if (isset($_POST["action"])) {
                                 </div>
                                 <div class="flex">
                                     <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                        <img src="./uploads/avatars/avatar_default.png" alt="" class="absolute h-full rounded-full w-full">
+                                        <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                     </div>
                                     <div>
                                         <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
@@ -423,6 +457,7 @@ if (isset($_POST["action"])) {
         $post = $p->getNextPostTimeLine($userid, $offset);
         if ($post != null) {
             for ($i = 0; $i < sizeof($post); $i++) {
+                $like = $p->getLikePost($post[$i]["postid"]);
                 if ($post[$i]['has_image'] == 1) {
                     $t = new Timer();
                     $time = $t->TimeSince($post[$i]["date"]); // Return array
@@ -432,7 +467,7 @@ if (isset($_POST["action"])) {
                     // Get user for each post
                     $user = new User();
                     $userOfPost = $user->getUser($userid);
-                    $userCurrent = $userid;
+                    $userCurrent = $user->getUser($userid);
                 ?>
 
                     <div class="card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
@@ -461,30 +496,24 @@ if (isset($_POST["action"])) {
                                                 <i class="uil-share-alt mr-1"></i> Share
                                             </a>
                                         </li> -->
-                                        <?php
-                                        if ($userOfPost["userid"] ==  $userCurrent) {
-                                        ?>
-                                            <li class="post-action-edit" uk-toggle="target: #edit-post-modal" post-id="<?php echo $post[$i]["postid"] ?>">
-                                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                    <i class="uil-edit-alt mr-1"></i> Edit Post
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                    <svg style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                                        <path d="M224 64c-44.2 0-80 35.8-80 80v48H384c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80V144C80 64.5 144.5 0 224 0c57.5 0 107 33.7 130.1 82.3c7.6 16 .8 35.1-15.2 42.6s-35.1 .8-42.6-15.2C283.4 82.6 255.9 64 224 64zm32 320c17.7 0 32-14.3 32-32s-14.3-32-32-32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h64z" />
-                                                    </svg> Privacy
-                                                </a>
-                                            </li>
-                                            <!-- <li>
+                                        <li class="post-action-edit" uk-toggle="target: #edit-post-modal" post-id="<?php echo $post[$i]["postid"] ?>">
+                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                                <i class="uil-edit-alt mr-1"></i> Edit Post
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                                <svg style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                                    <path d="M224 64c-44.2 0-80 35.8-80 80v48H384c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80V144C80 64.5 144.5 0 224 0c57.5 0 107 33.7 130.1 82.3c7.6 16 .8 35.1-15.2 42.6s-35.1 .8-42.6-15.2C283.4 82.6 255.9 64 224 64zm32 320c17.7 0 32-14.3 32-32s-14.3-32-32-32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h64z" />
+                                                </svg> Privacy
+                                            </a>
+                                        </li>
+                                        <!-- <li>
                                             <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                                                 <i class="uil-comment-slash mr-1"></i> Disable comments
                                             </a>
 
                                         </li> -->
-                                        <?php
-                                        }
-                                        ?>
                                         <!-- <li>
                                         <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                                             <i class="uil-favorite mr-1"></i> Add favorites
@@ -493,17 +522,11 @@ if (isset($_POST["action"])) {
                                         <li>
                                             <hr class="-mx-2 my-2 dark:border-gray-800">
                                         </li>
-                                        <?php
-                                        if ($userOfPost["userid"] ==  $userCurrent) {
-                                        ?>
-                                            <li data-post-id="<?php echo $post[$i]["postid"] ?>" onclick="deletePost(event, this)">
-                                                <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md dark:hover:bg-red-600">
-                                                    <i class="uil-trash-alt mr-1"></i> Delete
-                                                </a>
-                                            </li>
-                                        <?php
-                                        }
-                                        ?>
+                                        <li data-post-id="<?php echo $post[$i]["postid"] ?>" onclick="deletePost(event, this)">
+                                            <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md dark:hover:bg-red-600">
+                                                <i class="uil-trash-alt mr-1"></i> Delete
+                                            </a>
+                                        </li>
                                     </ul>
 
                                 </div>
@@ -561,17 +584,28 @@ if (isset($_POST["action"])) {
 
                         <!--Like comment share-->
                         <div class="p-4 space-y-3">
-
+                            <?php
+                            $liked = 0;
+                            if ($like != null) {
+                                for ($j = 0; $j < count($like); $j++) {
+                                    if ($like[$j]["userid"] == $userCurrent["userid"]) {
+                                        $liked = 1;
+                                        break;
+                                    }
+                                }
+                            }
+                            ?>
                             <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
-                                <a href="#" class="like-post-btn flex items-center space-x-2">
+                                <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
+                                                                                                            else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                             <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                         </svg>
                                     </div>
-                                    <div> Like</div>
-                                </a>
-                                <a href="#" class="comment-post-btn flex items-center space-x-2">
+                                    <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                </button>
+                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -589,20 +623,41 @@ if (isset($_POST["action"])) {
                                 </a>
                             </div>
                             <div class="flex items-center space-x-3 pt-2">
-                                <div class="flex items-center">
-                                    <img src="./uploads/avatars/avatar_default.png" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
-                                    <img src="./uploads/avatars/avatar_default.png" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
-                                    <img src="./uploads/avatars/avatar_default.png" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
+                                <div class="avatar-user-like flex items-center">
+                                    <?php
+                                    if ($like != null) {
+                                        for ($j = 0; $j < 3 && $j < count($like); $j++) {
+                                            $userlike = $user->getUser($like[$j]["userid"]);
+
+                                    ?>
+                                            <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
+                                    <?php
+                                        }
+                                    }
+                                    ?>
                                 </div>
                                 <div class="dark:text-gray-100">
-                                    Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
+                                    <?php
+                                    $total = $p->getQuantityLike($post[$i]["postid"]);
+                                    if ($liked == 1) {
+                                        if ($total != null && $total[0]["total"] > 1) {
+                                            echo '<strong> You </strong> and <strong>' . ($total[0]["total"] - 1) . ' others</strong>';
+                                        } else {
+                                            echo '<strong> You liked </strong>';
+                                        }
+                                    } else {
+                                        if ($total != null && $total[0]["total"] > 0) {
+                                            echo '<strong>' . $total[0]["total"] . ' others</strong>';
+                                        }
+                                    }
+                                    ?>
                                 </div>
                             </div>
 
                             <div class="border-t py-4 space-y-4 dark:border-gray-600">
                                 <div class="flex">
                                     <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                        <img src="./uploads/avatars/avatar_default.png" alt="" class="absolute h-full rounded-full w-full">
+                                        <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                     </div>
                                     <div>
                                         <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
@@ -618,7 +673,7 @@ if (isset($_POST["action"])) {
                                 </div>
                                 <div class="flex">
                                     <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                        <img src="./uploads/avatars/avatar_default.png" alt="" class="absolute h-full rounded-full w-full">
+                                        <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                     </div>
                                     <div>
                                         <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
@@ -669,6 +724,7 @@ if (isset($_POST["action"])) {
         $post = $p->getNextPostProfile($userid, $offset);
         if ($post != null) {
             for ($i = 0; $i < sizeof($post); $i++) {
+                $like = $p->getLikePost($post[$i]["postid"]);
                 if ($post[$i]['has_image'] == 1) {
                     $t = new Timer();
                     $time = $t->TimeSince($post[$i]["date"]); // Return array
@@ -678,7 +734,7 @@ if (isset($_POST["action"])) {
                     // Get user for each post
                     $user = new User();
                     $userOfPost = $user->getUser($userid);
-                    $userCurrent = $userid;
+                    $userCurrent = $user->getUser($_SESSION["userid"]);
                 ?>
 
                     <div class="card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
@@ -751,17 +807,28 @@ if (isset($_POST["action"])) {
 
                         <!--Like comment share-->
                         <div class="p-4 space-y-3">
-
+                            <?php
+                            $liked = 0;
+                            if ($like != null) {
+                                for ($j = 0; $j < count($like); $j++) {
+                                    if ($like[$j]["userid"] == $userCurrent["userid"]) {
+                                        $liked = 1;
+                                        break;
+                                    }
+                                }
+                            }
+                            ?>
                             <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
-                                <a href="#" class="like-post-btn flex items-center space-x-2">
+                                <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
+                                                                                                            else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                             <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                         </svg>
                                     </div>
-                                    <div> Like</div>
-                                </a>
-                                <a href="#" class="comment-post-btn flex items-center space-x-2">
+                                    <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                </button>
+                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -779,20 +846,41 @@ if (isset($_POST["action"])) {
                                 </a>
                             </div>
                             <div class="flex items-center space-x-3 pt-2">
-                                <div class="flex items-center">
-                                    <img src="./uploads/avatars/avatar_default.png" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
-                                    <img src="./uploads/avatars/avatar_default.png" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
-                                    <img src="./uploads/avatars/avatar_default.png" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
+                                <div class="avatar-user-like flex items-center">
+                                    <?php
+                                    if ($like != null) {
+                                        for ($j = 0; $j < 3 && $j < count($like); $j++) {
+                                            $userlike = $user->getUser($like[$j]["userid"]);
+
+                                    ?>
+                                            <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
+                                    <?php
+                                        }
+                                    }
+                                    ?>
                                 </div>
                                 <div class="dark:text-gray-100">
-                                    Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
+                                    <?php
+                                    $total = $p->getQuantityLike($post[$i]["postid"]);
+                                    if ($liked == 1) {
+                                        if ($total != null && $total[0]["total"] > 1) {
+                                            echo '<strong> You </strong> and <strong>' . ($total[0]["total"] - 1) . ' others</strong>';
+                                        } else {
+                                            echo '<strong> You liked </strong>';
+                                        }
+                                    } else {
+                                        if ($total != null && $total[0]["total"] > 0) {
+                                            echo '<strong>' . $total[0]["total"] . ' others</strong>';
+                                        }
+                                    }
+                                    ?>
                                 </div>
                             </div>
 
                             <div class="border-t py-4 space-y-4 dark:border-gray-600">
                                 <div class="flex">
                                     <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                        <img src="./uploads/avatars/avatar_default.png" alt="" class="absolute h-full rounded-full w-full">
+                                        <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                     </div>
                                     <div>
                                         <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
@@ -808,7 +896,7 @@ if (isset($_POST["action"])) {
                                 </div>
                                 <div class="flex">
                                     <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                        <img src="./uploads/avatars/avatar_default.png" alt="" class="absolute h-full rounded-full w-full">
+                                        <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                     </div>
                                     <div>
                                         <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
