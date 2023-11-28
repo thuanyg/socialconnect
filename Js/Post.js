@@ -184,19 +184,19 @@ async function CreatePost() {
     var userid = $("input[name='txtUserid']").val();
     var privacy = $("#create-post-modal").find(".dropdown-toggle .filter-option").text();
     var isValid = true;
-    if (!validateInput(post)) {
-        showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
-        isValid = false;
-    }
+    // if (!validateInput(post)) {
+    //     showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
+    //     isValid = false;
+    // }
     // if (containsExternalEmbed(post)) {
     //     setTimeout(() => {
     //         showNotification("Lưu ý! Bài viết của bạn đang có một đoạn nhúng từ bên ngoài");
     //     }, 2000);
     // }
-    if (validateInput(post)) {
-        showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
-        isValid = false;
-    }
+    // if (validateInput(post)) {
+    //     showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
+    //     isValid = false;
+    // }
     if (post.length > 1000) {
         showNotification("Bài viết của bạn quá dài. Hãy kiểm tra lại");
         isValid = false;
@@ -460,7 +460,7 @@ $(document).on('click', '.like-post-btn', function (e) {
 
 
 //share post
-$(".share-post-btn").on("click", function (e) {
+$(document).on('click', '.share-post-btn', function (e) {
     e.preventDefault();
     var userID = $("input[name='txtUserid").val();
     var postID = $(this).parent().attr("post-id");
@@ -480,6 +480,19 @@ $(".share-post-btn").on("click", function (e) {
         }
     })
 
+});
+
+// Show modal post details when click comment
+$(document).on('click', '.comment-post-btn', function (e) {
+    e.preventDefault();
+    // Reset modal
+    $("#post-details-modal .post-details-card").empty();
+    var postID = $(this).parent().attr("post-id");
+    console.log(postID);
+    var userOfPost = $(`.post-card[post-id=${postID}]:eq(0)`).find("a.text-black").text();
+    $("#post-details-modal h3").text(userOfPost + "'s post");
+    var postCardHTML = $(`.post-card[post-id=${postID}]`)[0].outerHTML;
+    $("#post-details-modal .post-details-card").html(postCardHTML);
 });
 
 // Delete post

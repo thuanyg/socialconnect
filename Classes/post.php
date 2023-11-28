@@ -28,7 +28,19 @@ class Post
 
     function getPost($userid)
     {
-        $sql = "select * from posts where userid = " . $userid . " Order by date desc limit 5";
+        $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
+        FROM (
+            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, privacy, 'share' as type
+            FROM share
+        
+            UNION ALL
+        
+            SELECT id, postid, userid, NULL AS post_share_id, date, post, has_image, has_video, media, privacy, 'post' as type
+            FROM posts
+        ) AS combined
+        WHERE userid = {$userid}
+        GROUP BY postid
+        ORDER BY MAX(date) DESC limit 5;";
         $DB = new Database();
         $result = $DB->Query($sql);
         if ($result != null) {
@@ -47,7 +59,19 @@ class Post
 
     function getNextPostTimeLine($userid, $offset)
     {
-        $sql = "select * from posts where userid = " . $userid . " Order by date desc limit 5 offset {$offset}";
+        $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
+        FROM (
+            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, privacy, 'share' as type
+            FROM share
+        
+            UNION ALL
+        
+            SELECT id, postid, userid, NULL AS post_share_id, date, post, has_image, has_video, media, privacy, 'post' as type
+            FROM posts
+        ) AS combined
+        WHERE userid = {$userid}
+        GROUP BY postid
+        ORDER BY MAX(date) DESC limit 5 Offset $offset";
         $DB = new Database();
         $result = $DB->Query($sql);
         if ($result != null) {
@@ -85,7 +109,19 @@ class Post
     }
     function getAllPostPublic()
     {
-        $sql = "select * from posts where privacy = 'public' Order by date desc limit 5";
+        // $sql = "select * from posts where privacy = 'public' Order by date desc limit 5";
+        $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
+        FROM (
+            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, privacy, 'share' as type
+            FROM share
+        
+            UNION ALL
+        
+            SELECT id, postid, userid, NULL AS post_share_id, date, post, has_image, has_video, media, privacy, 'post' as type
+            FROM posts
+        ) AS combined
+        GROUP BY postid
+        ORDER BY MAX(date) DESC limit 5;";
         $DB = new Database();
         $result = $DB->Query($sql);
         if ($result != null) {
@@ -94,7 +130,19 @@ class Post
     }
     function getNextAllPostPublic($offset)
     {
-        $sql = "select * from posts where privacy = 'public' Order by date desc limit 5 offset {$offset}";
+        // $sql = "select * from posts where privacy = 'public' Order by date desc limit 5 offset {$offset}";
+        $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
+        FROM (
+            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, privacy, 'share' as type
+            FROM share
+        
+            UNION ALL
+        
+            SELECT id, postid, userid, NULL AS post_share_id, date, post, has_image, has_video, media, privacy, 'post' as type
+            FROM posts
+        ) AS combined
+        GROUP BY postid
+        ORDER BY MAX(date) DESC limit 5 offset $offset;";
         $DB = new Database();
         $result = $DB->Query($sql);
         if ($result != null) {
@@ -154,12 +202,18 @@ class Post
         return $result;
     }
     //share post
-    function setSharePost($postid, $userid)
+    function setSharePost($post_share_id, $userid)
     {
-        $sql = "INSERT INTO share (share_userid, postid ) VALUES ({$userid}, {$postid})";
+        $postid = $this->create_postid();
+        $sql = "INSERT INTO share (share_userid, postid, post_share_id) VALUES ({$userid}, {$postid}, {$post_share_id})";
+        $sql2 = "INSERT INTO posts (postid, userid, post, has_image, media, privacy) VALUES ({$postid}, {$userid}, '', 1, '', 'Public')";
         $DB = new Database();
         $result = $DB->Execute($sql);
-        return $result;
+        $result2 = $DB->Execute($sql2);
+        if($result && $result2){
+            $r = 1;
+        } else $r = 0;
+        return $r;
     }
     //Edit post
     function updatePost($postid, $data)
