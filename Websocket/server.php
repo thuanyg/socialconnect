@@ -113,8 +113,8 @@ class YourWebSocketServer implements MessageComponentInterface
             $receiver = (new User())->getUser($receiverId["userid"]);
             $receiver_connection_id = $receiver["connection_id"];
             $userid = $message["userid"];
-            $p = new Post();
-            $p->setLikePost($postid, $userid);
+            // $p = new Post();
+            // $p->setLikePost($postid, $userid);
             // Lấy số lượng thông báo chưa đọc
             $sql = "SELECT COUNT(*) as 'total' FROM notifications WHERE userid = ".$userid." AND isRead = 0";
             $notification_quantity = $db->Query($sql)[0]["total"];
