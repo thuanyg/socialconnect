@@ -844,7 +844,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </div>
                                                         <div> Comment</div>
                                                     </a>
-                                                    <a href="#" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
+                                                    <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                                 <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
@@ -2033,6 +2033,44 @@ if (!isset($_SESSION["userid"])) {
             </div>
         </div>
     </div>
+    <!--sharepost-->
+    <div id="share-post-modal" class="create-post is-story" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
+
+            <div class="text-center py-3 border-b">
+                <h3 class="text-lg font-semibold"> Edit avatar </h3>
+                <button class="uk-modal-close-default bg-gray-100 rounded-full p-2.5 right-2" type="button" uk-close uk-tooltip="title: Close ; pos: bottom ;offset:7"></button>
+            </div>
+
+            <div class="bsolute bottom-0 p-4 space-x-4 w-full">
+                <div class="flex bg-gray-50 border border-purple-100 rounded-2xl p-2 shadow-sm items-center">
+
+                    <div class="flex flex-1 items-center justify-center space-x-2">
+                        <span style="font-size: 16px;">Choose your avatar</span>
+                        <label for="ImageInput"><svg class="bg-blue-100 h-9 p-1.5 rounded-full text-blue-600 w-9 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </label>
+
+                        <form method="POST" id="uploadForm" name="fanh" enctype="multipart/form-data">
+                            <input type="file" hidden name="fileToUpload[]" id="ImageInput" onchange="uploadImgAvatar(this)">
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div id="imagePreview" style="text-align: center; margin: 0 auto;">
+                <ul style="list-style-type: none;"></ul>
+            </div>
+            <div class="flex items-center w-full justify-center border-t p-3">
+                <div class="flex space-x-2">
+                    <a href="#" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium save-edit-avatar" data-post-id=<?php ?>>
+                        <input type="hidden" value="<?php echo $_SESSION['userid'] ?>" name="userid"></input>
+                        Done </a>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--edit cover modal-->
     <div id="edit-cover-modal" class="create-post is-story" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
@@ -2256,6 +2294,7 @@ if (!isset($_SESSION["userid"])) {
             }, false);
         })(window, document);
     </script>
+
     <!-- Javascript
     ================================================== -->
 
