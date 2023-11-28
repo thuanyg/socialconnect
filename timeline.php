@@ -939,7 +939,7 @@ if (!isset($_SESSION["userid"])) {
                                     <img src="assets/images/avatars/avatar-4.jpg" alt="" class="rounded-lg">
                                     <img src="assets/images/avatars/avatar-5.jpg" alt="" class="rounded-lg"> -->
                                     <?php 
-                                        if($about!=null){
+                                        if($about!=null&&$about["about_image"]!=null){
                                             $images = json_decode($about["about_image"]);
                                             for($i=0;$i<4 && $i<sizeof($images);$i++){
                                                 if($i==0){
