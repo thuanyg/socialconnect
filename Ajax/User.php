@@ -76,7 +76,18 @@
         }
         if($_POST["action"]=="show-about-image"){
             $userid = $_POST["userid"];
-            $u->getAboutImage($userid);
+            $u = new User();
+            $result = $u->getAboutImage($userid);
+            echo json_encode($result);
+        }
+        if($_POST["action"]=="save-edit-about-image"){
+            $userid = $_POST["userid"];
+            if (isset($_POST["media"])) {
+                $media = json_encode($_POST["media"]);
+            } else $media = "";
+            $u = new User();
+            $result = $u->setAboutImage($userid,$media);
+            echo json_encode($result);
         }
     }
 ?>

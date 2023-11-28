@@ -168,19 +168,35 @@ async function UploadFilesToServer(listForm) {
     return files;
 }
 
+
+// Để chuyển đổi các ký tự đặc biệt thành HTML entities.
+function escapeHtml(input) {
+    return input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+// Biểu thức chính quy để tìm kiếm các thẻ nhúng từ web khác
+function containsExternalEmbed(input) {
+    var embedPattern = /<\s*iframe[^>]*src\s*=\s*["']([^"']+)["'][^>]*>/i;
+    return embedPattern.test(input);
+}
 // Tạo bài viết mới
 async function CreatePost() {
     var post = $("textarea[name='taPost']").val();
     var userid = $("input[name='txtUserid']").val();
     var privacy = $("#create-post-modal").find(".dropdown-toggle .filter-option").text();
     var isValid = true;
-
-    // if (fileInput.files.length == 0) {
-    //     if (post.trim().length == 0) {
-    //         showNotification("Hãy nhập nội dung bài viết");
-    //         isValid = false;
-    //     }
+    if (!validateInput(post)) {
+        showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
+        isValid = false;
+    }
+    // if (containsExternalEmbed(post)) {
+    //     setTimeout(() => {
+    //         showNotification("Lưu ý! Bài viết của bạn đang có một đoạn nhúng từ bên ngoài");
+    //     }, 2000);
     // }
+    if (validateInput(post)) {
+        showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
+        isValid = false;
+    }
     if (post.length > 1000) {
         showNotification("Bài viết của bạn quá dài. Hãy kiểm tra lại");
         isValid = false;
@@ -307,7 +323,7 @@ $(".post-action .post-action-edit").on("click", function (e) {
         var formVideos = $("form[name='upload-edit-video']");
         var videosNew = await UploadFilesToServer(formVideos);
         var media = imagesNew.concat(videosNew).concat(filesAfter);
-        // console.log("Ảnh cũ sau khi xóa: " + filesAfter);
+        //console.log(media);
         var isValid = true;
         if (postText.length > 1000) {
             showNotification("Bài viết của bạn quá dài. Hãy kiểm tra lại");
@@ -382,20 +398,76 @@ function DeleteFilesFromServer(media) {
         }
     })
 }
-// Like post
-$(".like-post-btn").on("click",function(e)){
+
+// like post 
+$(document).on('click', '.like-post-btn', function (e) {
     e.preventDefault();
-    var
-}
+    var userID = $("input[name='txtUserid']").val();
+    var postID = $(this).parent().attr("post-id");
+    var likeButton = $(this);
+    var data = {
+        userid: userID,
+        postid: postID,
+        action: "like-post"
+    };
+    $.ajax({
+        url: "Ajax/Post.php",
+        type: "POST",
+        data: data,
+        success: function (response) {
+            if (response.trim() == "1") {
+                // Đổi màu button
+                var likeIcon = likeButton.find("svg");
+                var likeText = likeButton.find(".like-text");
+                var showLikeElement = likeButton.parent().parent().find("div.dark\\:text-gray-100:eq(0)");
+                var avatarUserLike = likeButton.parent().parent().find(".avatar-user-like");
+                var avatarUserCurrent = $("input[name='txtUserAvatar']").val();
+                if (likeIcon.attr("fill") == "currentColor") {
+                    likeIcon.attr("fill", "blue");
+                    likeText.css("color", "blue");
+                    // Cập nhật lượt like => Like
+                    var getOld = showLikeElement.text();
+                    var html = "";
+                    if(getOld.trim() != ""){
+                        html += '<strong> You </strong> and <strong>' + getOld + "</strong>";
+                    } else {
+                        html += '<strong> You liked</strong>';
+                    }
+                    showLikeElement.empty();
+                    showLikeElement.html(html);
+                    // Cập nhật avt người like
+                    var img = `<img src="${avatarUserCurrent}" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">`;
+                    avatarUserLike.children().last().remove();
+                    avatarUserLike.prepend(img);
+                } else {
+                    likeIcon.attr("fill", "currentColor");
+                    likeText.css("color", "#666666");
+                    // Cập nhật lượt like => Unlike
+                    var getOld = showLikeElement.text();
+                    var html = "";
+                    if(getOld.trim() != "You liked"){
+                        html += '<strong>' + getOld.match(/(\d+)\s*others/)[1] + " others</strong>";
+                    }
+                    showLikeElement.empty();
+                    showLikeElement.html(html);
+                    // Cập nhật avt người like
+                    avatarUserLike.children().first().remove();
+                }
+            }
+        }
+    })
+});
+
+
 //share post
-$(".share-post-btn").on("click",function(e){
+$(".share-post-btn").on("click", function (e) {
     e.preventDefault();
     var userID = $("input[name='txtUserid").val();
     var postID = $(this).parent().attr("post-id");
-    var data= {
-        userid : userID,
-        postid : postID,
-        action : "share-post"
+    var data = {
+        userid: userID,
+        postid: postID,
+        action: "share-post"
     };
     console.log(data);
     $.ajax({
@@ -407,8 +479,9 @@ $(".share-post-btn").on("click",function(e){
             }
         }
     })
-    
+
 });
+
 // Delete post
 function deletePost(event, btn) {
     event.preventDefault();

@@ -12,6 +12,10 @@ if (isset($_POST["action"])) {
         $targetDirectory = "../uploads/avatars/";
         uploadFiles($targetDirectory);
     }
+    if($_POST["action"] == "upload-file-about"){
+        $targetDirectory = "../uploads/avatars/";
+        uploadFiles($targetDirectory);
+    }
 }
 function uploadFiles($targetDirectory){
     if (!empty($_FILES['fileToUpload'])) {

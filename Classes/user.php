@@ -110,4 +110,10 @@ class User
         $result = $DB->Query($sql);
         return $result;
     }
+    function setAboutImage($userid,$media) {
+        $DB=new Database();
+        $sql = "update users_about set about_image = '{$media}' where userid = {$userid}";
+        $result = $DB->Execute($sql);
+        return $result;
+    }
 }

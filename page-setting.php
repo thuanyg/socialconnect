@@ -804,15 +804,15 @@ if (!isset($_SESSION["userid"])) {
                         <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
                             <div>
                                 <label for=""> First name</label>
-                                <input type="text" placeholder="" class="shadow-none with-border first-name">
+                                <input type="text" placeholder="" class="shadow-none with-border first-name" value="<?php echo $userCurrent["first_name"] ?>">
                             </div>
                             <div>
                                 <label for=""> Last name</label>
-                                <input type="text" placeholder="" class="shadow-none with-border last-name">
+                                <input type="text" placeholder="" class="shadow-none with-border last-name" value="<?php echo $userCurrent["last_name"] ?>">
                             </div>
                             <div class="col-span-2">
                                 <label for=""> Email</label>
-                                <input type="text" placeholder="" class="shadow-none with-border email">
+                                <input type="text" placeholder="" class="shadow-none with-border email" value="<?php echo $userCurrent["email"] ?>">
                             </div>
 
 
@@ -1053,73 +1053,10 @@ if (!isset($_SESSION["userid"])) {
             </div>
         </div>
     </div>
-
-
+    
     <!-- For Night mode -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
-        //Edit information user
-        $('.btn-save-setting').on('click', function(e) {
-            var first_name = $('.first-name').val();
-            var last_name = $('.last-name').val();
-            var email = $('.email').val();
-            var userid = $('#userid').val();
-            if (first_name.trim() != '' && last_name.trim() != '' && email.trim() != '') {
-                $.ajax({
-                    url: "Ajax/User.php",
-                    type: "POST",
-                    data: {
-                        first_name: first_name,
-                        last_name: last_name,
-                        email: email,
-                        userid: userid,
-                        action: "save-setting"
-                    },
-                    success: function(response) {
-                        if (response.trim() == "invalid") {
-                            showNotification("Email đã tồn tại");
-                            return;
-                        }
-                        if (response.trim() == "updated") {
-                            showNotification("Cập nhật thành công");
-                            return;
-                        }
-                        window.location.href = "page-setting.php";
-                    }
-                })
-            } else showNotification("Hãy nhập thông tin");
-        });
-        // Set Privacy
-        $('.checkbox-privacy').on('click', function(e) {
-            if ($(this).val() == "off") $(this).val('on');
-            else $(this).val('off');
-            var privacy = $(this).val();
-            var userid = $('#userid').val();
-            console.log(privacy);
-            $.ajax({
-                url: "Ajax/user.php",
-                type: "POST",
-                data: {
-                    userid: userid,
-                    privacy: privacy,
-                    action: 'setting-privacy'
-                },
-                success: function(response) {
-                    if (response.trim() == "setPublic") {
-                        showNotification("Đã thiết lập quyền riêng tư: Công khai");
-                        return;
-                    }
-                    if (response.trim() == "setPrivate") {
-                        showNotification("Đã thiết lập quyền riêng tư: Riêng tư");
-                        return;
-                    }
-                    showNotification("Có lỗi xảy ra. Vui lòng thử lại!");
-                }
-
-            })
-
-        });
-
         (function(window, document, undefined) {
             'use strict';
             if (!('localStorage' in window)) return;
@@ -1156,8 +1093,9 @@ if (!isset($_SESSION["userid"])) {
 
     <!-- Javascript
     ================================================== -->
+    <script src="Js/page-setting.js"></script>
     <script src="Js/Global.js"></script>
-    <script src="./Js/notification.js"></script>
+    <script src="Js/notification.js"></script>
     <script src="assets/js/tippy.all.min.js"></script>
     <script src="assets/js/uikit.js"></script>
     <script src="assets/js/simplebar.js"></script>

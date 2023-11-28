@@ -57,6 +57,7 @@ if (!isset($_SESSION["userid"])) {
         <button id="close-notification">X</button>
     </div>
     <input type="hidden" name="txtUserid" value="<?php echo $_SESSION["userid"] ?>">
+    <input type="hidden" name="txtUserAvatar" value="<?php echo $userCurrent["avatar_image"] ?>">
     <div id="wrapper">
         <!-- Header -->
         <header>
@@ -484,6 +485,7 @@ if (!isset($_SESSION["userid"])) {
                         <?php
                         if ($post != null) {
                             for ($i = 0; $i < sizeof($post); $i++) {
+                                $like = $p->getLikePost($post[$i]["postid"]);
                                 if ($post[$i]['has_image'] == 1) {
                                     $t = new Timer();
                                     $time = $t->TimeSince($post[$i]["date"]); // Return array
@@ -620,16 +622,27 @@ if (!isset($_SESSION["userid"])) {
 
                                         <!--Like comment share-->
                                         <div class="p-4 space-y-3">
-
+                                            <?php
+                                            $liked = 0;
+                                            if ($like != null) {
+                                                for ($j = 0; $j < count($like); $j++) {
+                                                    if ($like[$j]["userid"] == $userCurrent["userid"]) {
+                                                        $liked = 1;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            ?>
                                             <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
-                                                <a href="#" class="like-post-btn flex items-center space-x-2">
+                                                <button type="button" class="like-post-btn flex items-center space-x-2">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
+                                                                                                                            else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                                             <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                                         </svg>
                                                     </div>
-                                                    <div> Like</div>
-                                                </a>
+                                                    <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                                </button>
                                                 <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
@@ -648,13 +661,34 @@ if (!isset($_SESSION["userid"])) {
                                                 </a>
                                             </div>
                                             <div class="flex items-center space-x-3 pt-2">
-                                                <div class="flex items-center">
-                                                    <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
-                                                    <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
-                                                    <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
+                                                <div class="avatar-user-like flex items-center">
+                                                    <?php
+                                                    if ($like != null) {
+                                                        for ($j = 0; $j < 3 && $j < count($like); $j++) {
+                                                            $userlike = $user->getUser($like[$j]["userid"]);
+
+                                                    ?>
+                                                            <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
+                                                    <?php
+                                                        }
+                                                    }
+                                                    ?>
                                                 </div>
                                                 <div class="dark:text-gray-100">
-                                                    Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
+                                                    <?php
+                                                    $total = $p->getQuantityLike($post[$i]["postid"]);
+                                                    if ($liked == 1) {
+                                                        if ($total != null && $total[0]["total"] > 1) {
+                                                            echo '<strong> You </strong> and <strong>'.($total[0]["total"] - 1).' others</strong>';
+                                                        } else {
+                                                            echo '<strong> You liked </strong>';
+                                                        }  
+                                                    } else {
+                                                        if ($total != null && $total[0]["total"] > 0) {
+                                                            echo '<strong>'.$total[0]["total"].' others</strong>';
+                                                        }
+                                                    }
+                                                    ?>
                                                 </div>
                                             </div>
 
@@ -1424,7 +1458,7 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <?php include("./Websocket/src/Notification.php") ?>
     <script>
-        
+
     </script>
     <!-- Javascript
     ================================================== -->

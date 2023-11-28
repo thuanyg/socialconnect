@@ -99,7 +99,7 @@ if (!isset($_SESSION["userid"])) {
     <!-- Get Current UserID -->
     <input name="txtUserid" type="hidden" value="<?php echo $userCurrent["userid"] ?>">
     <input name="txtUserProfileId" type="hidden" value="<?php echo $userProfile["userid"] ?>">
-
+    <input type="hidden" name="txtUserAvatar" value="<?php echo $userCurrent["avatar_image"] ?>">
 
     <div id="wrapper">
 
@@ -753,6 +753,7 @@ if (!isset($_SESSION["userid"])) {
                             <?php
                             if ($post != null) {
                                 for ($i = 0; $i < sizeof($post); $i++) {
+                                    $like = $p->getLikePost($post[$i]["postid"]);
                                     if ($post[$i]['has_image'] == 1) {
                                         $t = new Timer();
                                         $time = $t->TimeSince($post[$i]["date"]); // Return array
@@ -831,16 +832,27 @@ if (!isset($_SESSION["userid"])) {
 
                                             <!--Like comment share-->
                                             <div class="p-4 space-y-3">
-
+                                                <?php
+                                                $liked = 0;
+                                                if ($like != null) {
+                                                    for ($j = 0; $j < count($like); $j++) {
+                                                        if ($like[$j]["userid"] == $userCurrent["userid"]) {
+                                                            $liked = 1;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                ?>
                                                 <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
-                                                    <a href="#" class="like-post-btn flex items-center space-x-2">
+                                                    <button type="button" class="like-post-btn flex items-center space-x-2">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
+                                                                                                                                else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                                                 <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                                             </svg>
                                                         </div>
-                                                        <div> Like </div>
-                                                    </a>
+                                                        <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                                    </button>
                                                     <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
@@ -859,24 +871,45 @@ if (!isset($_SESSION["userid"])) {
                                                     </a>
                                                 </div>
                                                 <div class="flex items-center space-x-3 pt-2">
-                                                    <div class="flex items-center">
-                                                        <img src="assets/images/avatars/avatar-1.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
-                                                        <img src="assets/images/avatars/avatar-4.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
-                                                        <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900 -ml-2">
+                                                    <div class="avatar-user-like flex items-center">
+                                                        <?php
+                                                        if ($like != null) {
+                                                            for ($j = 0; $j < 3 && $j < count($like); $j++) {
+                                                                $userlike = $user->getUser($like[$j]["userid"]);
+
+                                                        ?>
+                                                                <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
+                                                        <?php
+                                                            }
+                                                        }
+                                                        ?>
                                                     </div>
                                                     <div class="dark:text-gray-100">
-                                                        Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
+                                                        <?php
+                                                        $total = $p->getQuantityLike($post[$i]["postid"]);
+                                                        if ($liked == 1) {
+                                                            if ($total != null && $total[0]["total"] > 1) {
+                                                                echo '<strong> You </strong> and <strong>' . ($total[0]["total"] - 1) . ' others</strong>';
+                                                            } else {
+                                                                echo '<strong> You liked </strong>';
+                                                            }
+                                                        } else {
+                                                            if ($total != null && $total[0]["total"] > 0) {
+                                                                echo '<strong>' . $total[0]["total"] . ' others</strong>';
+                                                            }
+                                                        }
+                                                        ?>
                                                     </div>
                                                 </div>
 
                                                 <div class="border-t py-4 space-y-4 dark:border-gray-600">
                                                     <div class="flex">
                                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                            <img src="assets/images/avatars/avatar-1.jpg" alt="" class="absolute h-full rounded-full w-full">
+                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                         </div>
                                                         <div>
                                                             <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <p class="leading-6">In ut odio libero vulputate <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
+                                                                <p class="leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia aliquid hic molestiae provident eaque obcaecati eligendi explicabo distinctio dicta fuga rem asperiores itaque, dolor officiis doloribus, nobis illum assumenda et! <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
                                                                 <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                             </div>
                                                             <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
@@ -888,11 +921,11 @@ if (!isset($_SESSION["userid"])) {
                                                     </div>
                                                     <div class="flex">
                                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                            <img src="assets/images/avatars/avatar-1.jpg" alt="" class="absolute h-full rounded-full w-full">
+                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                         </div>
                                                         <div>
                                                             <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <p class="leading-6"> sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. David !<i class="uil-grin-tongue-wink-alt"></i> </p>
+                                                                <p class="leading-6"> Test cmt 2 !<i class="uil-grin-tongue-wink-alt"></i> </p>
                                                                 <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                             </div>
                                                             <div class="text-xs flex items-center space-x-3 mt-2 ml-5">
@@ -1984,6 +2017,7 @@ if (!isset($_SESSION["userid"])) {
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <?php include("./Websocket/src/Notification.php") ?>
     <!-- For Night mode -->
     <script>
         (function(window, document, undefined) {
@@ -2025,6 +2059,7 @@ if (!isset($_SESSION["userid"])) {
 
     <script src="Js/Global.js"></script>
     <script src="Js/Profile.js"></script>
+    <script src="Js/Post.js"></script>
     <script src="Js/notification.js"></script>
     <script src="Js/Friend.js"></script>
     <script src="../../code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

@@ -6,8 +6,9 @@ var postFetching = false;
 var offset = 5;
 var postDocument = $("#PostContaier");
 var shouldLoadMore = true;
-
-$(window).scroll(function() {
+var filesAfter = [];
+var filesDeleted = [];
+$(window).scroll(function () {
     if (shouldLoadMore) {
         var docHeight = postDocument.height();
         var scrollTop = $(this).scrollTop();
@@ -32,7 +33,7 @@ function getPostToLoad(userid, offset) {
             action: "get-post-timeline-to-load"
         },
         cache: false,
-        success: function(data) {
+        success: function (data) {
             postFetching = false;
             if (data.trim()) {
                 postDocument.append(data);
@@ -54,15 +55,15 @@ function ViewNextPost() {
     offset += 5;
 }
 // Click the tabs
-$(".friend-tab").on("click", function(e) {
+$(".friend-tab").on("click", function (e) {
     e.preventDefault();
-    $(".friend-tab").removeClass("active"); 
+    $(".friend-tab").removeClass("active");
     $(this).addClass("active");
-    if($(this).index() == 1){ // Tab recently
+    if ($(this).index() == 1) { // Tab recently
         $(".tab").hide();
         $(".recently-friend-tab").show();
     }
-    if($(this).index() == 0){ // Tab friend
+    if ($(this).index() == 0) { // Tab friend
         $(".tab").hide();
         $(".all-friend-tab").show();
     }
@@ -124,7 +125,7 @@ function showImage() {
         }
     });
 }
-$("#about-save-btn").click(function(e) {
+$("#about-save-btn").click(function (e) {
     // e.preventDefault();
     if (confirm("Do you want to change about?")) {
         var userid = $(".data-userid")[0].textContent;
@@ -145,7 +146,7 @@ $("#about-save-btn").click(function(e) {
                 desc: desc,
                 action: "add-about"
             },
-            success: function(data) {
+            success: function (data) {
                 if (data == 1) {
                     showNotification("You have successfully added about");
                     window.location.href = "timeline.php"
@@ -181,6 +182,40 @@ function uploadImgAvatar(el) {
         }
     }
 }
+
+function uploadEditImgAbout(el) {
+    var file_data = $(el).prop('files');
+    //$('#imageAboutPreview ul ').empty();
+
+    //console.log(file_data)
+    for (var i = 0; i < file_data.length; i++) {
+        var type = file_data[i].type;
+        var fileToLoad = file_data[i];
+        var fileReader = new FileReader();
+        if (type.startsWith('image/') && file_data[i].size <= (5 * 1024 * 1024)) {
+            fileReader.onload = function (fileLoadedEvent) {
+                var srcData = fileLoadedEvent.target.result;
+                var newImage = document.createElement('img');
+
+                newImage.src = srcData;
+                newImage.style.display = 'inline-block';
+                newImage.style.maxWidth = '200px';
+                newImage.style.maxHeight = '200px';
+                var li = document.createElement('li');
+                li.innerHTML = '<span onclick="DeleteOldFiles(this)" style="cursor: pointer" title="Delete">×</span>';
+
+                $('#imageAboutPreview ul').append(li);
+                $('#imageAboutPreview ul li:last').append(newImage.outerHTML);
+
+                $('#imageAboutPreview ul li:last span').show();
+            }
+            fileReader.readAsDataURL(fileToLoad);
+        } else {
+            showNotification('Hãy chọn một tệp hình ảnh có kích thước tối đa 5MB.');
+            $('#imageAboutPreview ul li').last().remove();
+        }
+    }
+}
 //tải ảnh lên server
 async function UploadToServer(listForm) {
     var files = [];
@@ -195,7 +230,31 @@ async function UploadToServer(listForm) {
                 data: formData,
                 processData: false,
                 contentType: false,
-                
+
+            });
+            var file = JSON.parse(response);
+            files = files.concat(file);
+        } catch (error) {
+            console.error("Error uploading image:", error);
+        }
+    }
+    return files;
+}
+//tải ảnh about lên server
+async function UploadAboutImgToServer(listForm) {
+    var files = [];
+    // var formfiles = $("form[name='upload-image']");
+    for (let i = 0; i < listForm.length; i++) {
+        var formData = new FormData(listForm[i]);
+        formData.append('action', 'upload-file-about');
+        try {
+            var response = await $.ajax({
+                url: "Ajax/Upload.php",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+
             });
             var file = JSON.parse(response);
             files = files.concat(file);
@@ -207,10 +266,9 @@ async function UploadToServer(listForm) {
 }
 
 
-
 $(".save-edit-avatar").on('click', async function (e) {
     e.preventDefault();
-    
+
     var formImages = $("form[name='fanh']");
     var userid = $("input[name='userid']").val();
     var imagesNew = await UploadToServer(formImages);
@@ -225,23 +283,23 @@ $(".save-edit-avatar").on('click', async function (e) {
         },
         success: function (response) {
             if (response) {
-                
-                window.location.href='timeline.php';
+
+                window.location.href = 'timeline.php';
             }
         }
     })
-    
+
 })
 
 
 $(".save-edit-cover").on('click', async function (e) {
     e.preventDefault();
-    
+
     var formImages = $("form[name='fanhcover']");
     var userid = $("input[name='userid']").val();
     var imagesNew = await UploadToServer(formImages);
-    
-    console.log(imagesNew)
+
+    //console.log(imagesNew)
     $.ajax({
         url: "Ajax/User.php",
         type: "POST",
@@ -252,17 +310,18 @@ $(".save-edit-cover").on('click', async function (e) {
         },
         success: function (response) {
             if (response) {
-                
-                window.location.href='timeline.php';
+
+                window.location.href = 'timeline.php';
             }
         }
     })
-    
+
 })
 
-$('.btn-edit-about-image').on('click',function(e){
+$('.btn-edit-about-image').on('click', function (e) {
     e.preventDefault();
     var userid = $("input[name='userid']").val();
+    var imagePreview = $('#imageAboutPreview ul');
     $.ajax({
         url: "Ajax/User.php",
         type: "POST",
@@ -270,8 +329,77 @@ $('.btn-edit-about-image').on('click',function(e){
             userid: userid,
             action: "show-about-image",
         },
-        success: function(data){
-            
+        success: function (data) {
+            $('#imageAboutPreview ul ').empty();
+            var data = JSON.parse(data);
+            //console.log(data);
+            var media = JSON.parse(data[0].about_image);
+            filesAfter = media;
+            for (var i = 0; i < media.length; i++) {
+                var img = document.createElement('img');
+                img.src = './uploads/avatars/' + media[i];
+                img.style.display = 'inline-block';
+                img.style.maxWidth = '200px';
+                img.style.maxHeight = '200px';
+                var li = document.createElement('li');
+                li.innerHTML = '<span onclick="DeleteOldFiles(this)" style="cursor: pointer" title="Delete">×</span>';
+                li.appendChild(img)
+                imagePreview.append(li);
+            }
         }
     })
 })
+
+$(".save-edit-about-image").on('click', async function (e) {
+    e.preventDefault();
+
+    var formImages = $("form[name='fanhAbout']");
+    var imagesNew = await UploadAboutImgToServer(formImages);
+    var media = imagesNew.concat(filesAfter);
+    if (media.length <= 4) {
+        //console.log(media)
+        $.ajax({
+            url: "Ajax/User.php",
+            type: "POST",
+            data: {
+                userid: userID,
+                media: media,
+                action: "save-edit-about-image"
+            },
+            success: function (response) {
+                if (response) {
+                    if (filesDeleted) {
+                        DeleteFilesFromServer(filesDeleted);
+                    }
+                    window.location.reload();
+                }
+            }
+        })
+    } else {
+        showNotification("Chỉ được chọn tối đa 4 ảnh!");
+        DeleteFilesFromServer(imagesNew);
+    }
+
+})
+
+
+function DeleteOldFiles(btn) {
+    var srcFile = btn.nextSibling.src;
+    var fileName = srcFile.match(/([^\/?#]+)$/);
+    var parentElement = btn.parentElement;
+    // Xóa phần tử cha (parentElement)
+    parentElement.remove();
+    if (fileName && fileName[1]) {
+        // Tìm index của fileName[1] trong mảng filesAfter
+        var file = decodeURIComponent(fileName[1]);
+        var index = filesAfter.indexOf(file);
+        // Nếu tìm thấy, loại bỏ phần tử từ mảng
+        if (index !== -1) {
+            if (filesDeleted.indexOf(file) === -1) {
+                filesDeleted.push(file);
+            }
+            filesAfter.splice(index, 1);
+        }
+    }
+    console.log(filesDeleted);
+}
