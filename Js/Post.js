@@ -428,7 +428,7 @@ $(document).on('click', '.like-post-btn', function (e) {
                     // Cập nhật lượt like => Like
                     var getOld = showLikeElement.text();
                     var html = "";
-                    if(getOld.trim() != ""){
+                    if (getOld.trim() != "") {
                         html += '<strong> You </strong> and <strong>' + getOld + "</strong>";
                     } else {
                         html += '<strong> You liked</strong>';
@@ -445,7 +445,7 @@ $(document).on('click', '.like-post-btn', function (e) {
                     // Cập nhật lượt like => Unlike
                     var getOld = showLikeElement.text();
                     var html = "";
-                    if(getOld.trim() != "You liked"){
+                    if (getOld.trim() != "You liked") {
                         html += '<strong>' + getOld.match(/(\d+)\s*others/)[1] + " others</strong>";
                     }
                     showLikeElement.empty();
@@ -462,22 +462,36 @@ $(document).on('click', '.like-post-btn', function (e) {
 //share post
 $(document).on('click', '.share-post-btn', function (e) {
     e.preventDefault();
+    // Show modal share details when click share
+    // Reset modal
+    $("#share-post-modal .share-details-card").empty();
+    var postID = $(this).parent().attr("post-id");
+    var postCardHTML = $(`.post-card[post-id=${postID}]`)[0].outerHTML;
+    $("#share-post-modal .share-details-card").html(postCardHTML);
+    $(`#share-post-modal .share-details-card .post-card`).find('.space-y-3').remove();
+    $("#share-post-modal").removeAttr("style");
     var userID = $("input[name='txtUserid").val();
     var postID = $(this).parent().attr("post-id");
-    var data = {
-        userid: userID,
-        postid: postID,
-        action: "share-post"
-    };
-    console.log(data);
-    $.ajax({
-        url: "Ajax/Post.php",
-        type: "POST",
-        data: data,
-        success: function (response) {
-            if (response) {
+    $(".btn-share-post").click(function(event){
+        event.preventDefault();
+        var data = {
+            userid: userID,
+            postid: postID,
+            action: "share-post"
+        };
+        console.log(data);
+        $.ajax({
+            url: "Ajax/Post.php",
+            type: "POST",
+            data: data,
+            success: function (response) {
+                if (response) {
+                    if(response.trim() == "1"){
+                        showNotification("Share post successfully.")
+                    }
+                }
             }
-        }
+        })
     })
 
 });
@@ -488,12 +502,12 @@ $(document).on('click', '.comment-post-btn', function (e) {
     // Reset modal
     $("#post-details-modal .post-details-card").empty();
     var postID = $(this).parent().attr("post-id");
-    console.log(postID);
     var userOfPost = $(`.post-card[post-id=${postID}]:eq(0)`).find("a.text-black").text();
     $("#post-details-modal h3").text(userOfPost + "'s post");
     var postCardHTML = $(`.post-card[post-id=${postID}]`)[0].outerHTML;
     $("#post-details-modal .post-details-card").html(postCardHTML);
 });
+
 
 // Delete post
 function deletePost(event, btn) {

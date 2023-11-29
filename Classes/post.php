@@ -30,15 +30,16 @@ class Post
     {
         $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
         FROM (
-            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, privacy, 'share' as type
+            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, NULL AS privacy, 'share' as type
             FROM share
         
             UNION ALL
         
             SELECT id, postid, userid, NULL AS post_share_id, date, post, has_image, has_video, media, privacy, 'post' as type
             FROM posts
+            WHERE privacy = 'Public' OR privacy = 'Friend'
         ) AS combined
-        WHERE userid = {$userid} AND (privacy = 'Public' OR privacy = 'Friend')
+        WHERE userid = {$userid}
         GROUP BY postid
         ORDER BY MAX(date) DESC limit 5";
         $DB = new Database();
@@ -52,7 +53,7 @@ class Post
     {
         $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
         FROM (
-            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, privacy, 'share' as type
+            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, NULL AS privacy, 'share' as type
             FROM share
         
             UNION ALL
@@ -85,7 +86,7 @@ class Post
     {
         $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
         FROM (
-            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, privacy, 'share' as type
+            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, NULL AS privacy, 'share' as type
             FROM share
         
             UNION ALL
@@ -107,15 +108,16 @@ class Post
     {
         $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
         FROM (
-            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, privacy, 'share' as type
+            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, NULL AS privacy, 'share' as type
             FROM share
         
             UNION ALL
         
             SELECT id, postid, userid, NULL AS post_share_id, date, post, has_image, has_video, media, privacy, 'post' as type
             FROM posts
+            WHERE privacy = 'Public' OR privacy = 'Friend'
         ) AS combined
-        WHERE userid = {$userid} AND ( privacy = 'Public' OR privacy = 'Friend' )
+        WHERE userid = {$userid} 
         GROUP BY postid
         ORDER BY MAX(date) DESC limit 5 offset {$offset}";
         $DB = new Database();
@@ -130,7 +132,7 @@ class Post
         // $sql = "select * from posts where postid = " . $postID;
         $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
         FROM (
-            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, privacy, 'share' as type
+            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, NULL AS privacy, 'share' as type
             FROM share
         
             UNION ALL
@@ -160,15 +162,15 @@ class Post
         // $sql = "select * from posts where privacy = 'public' Order by date desc limit 5";
         $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
         FROM (
-            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, privacy, 'share' as type
+            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, NULL AS privacy, 'share' as type
             FROM share
         
             UNION ALL
         
             SELECT id, postid, userid, NULL AS post_share_id, date, post, has_image, has_video, media, privacy, 'post' as type
             FROM posts
+            WHERE privacy = 'Public' OR privacy = 'Friend'
         ) AS combined
-        WHERE privacy = 'Public' OR privacy = 'Friend'
         GROUP BY postid
         ORDER BY MAX(date) DESC limit 5;";
         $DB = new Database();
@@ -182,15 +184,15 @@ class Post
         // $sql = "select * from posts where privacy = 'public' Order by date desc limit 5 offset {$offset}";
         $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
         FROM (
-            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, privacy, 'share' as type
+            SELECT id, postid, share_userid AS userid, post_share_id, date, NULL AS post, NULL AS has_image, NULL AS has_video, NULL AS media, NULL AS privacy, 'share' as type
             FROM share
         
             UNION ALL
         
             SELECT id, postid, userid, NULL AS post_share_id, date, post, has_image, has_video, media, privacy, 'post' as type
             FROM posts
+            WHERE privacy = 'Public' OR privacy = 'Friend'
         ) AS combined
-        WHERE privacy = 'Public' OR privacy = 'Friend'
         GROUP BY postid
         ORDER BY MAX(date) DESC limit 5 offset $offset;";
         $DB = new Database();

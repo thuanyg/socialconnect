@@ -952,7 +952,7 @@ if (!isset($_SESSION["userid"])) {
                                                     </div>
                                                     <div> Comment</div>
                                                 </a>
-                                                <a href="#" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
+                                                <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                             <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
@@ -1433,110 +1433,35 @@ if (!isset($_SESSION["userid"])) {
         </div>
     </div>
     <!--sharepost-->
-    <div id="share-post-modal" style="overflow-y: scroll;" class="create-post" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
+    <div id="share-post-modal" style="overflow-y: scroll !important" class="create-post" uk-modal>
+        <div style="width: 600px;" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
 
             <div class="text-center py-4 border-b">
                 <h3 class="text-lg font-semibold"> Share Post </h3>
                 <button id="closeModelPost" class="uk-modal-close-default bg-gray-100 rounded-full p-2.5 m-1 right-2" type="button" uk-close uk-tooltip="title: Close ; pos: bottom ;offset:7"></button>
             </div>
-            <div class="flex justify-between items-center lg:p-4 p-2.5">
-                <div class="flex flex-1 items-center space-x-4">
-                    <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>">
-                        <img src="<?php echo $userOfPost["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-10 h-10">
-                    </a>
-                    <div class="flex-1 font-semibold capitalize">
-                        <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?> </a>
-                        <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                        else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                        else echo $hours . " h " . $minutes . " phút trước";
-                                                                                        ?></span> <ion-icon name="people"></ion-icon></div>
-                    </div>
-                </div>
-                <div class="post-action">
-                    <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 dark:hover:bg-gray-700"></i> </a>
-                    <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
-
-                        <ul class="space-y-1">
-                            <!-- <li>
-                                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                                <i class="uil-share-alt mr-1"></i> Share
-                                                            </a>
-                                                        </li> -->
-                            <?php
-                            if ($userOfPost["userid"] ==  $userCurrent["userid"]) {
-                            ?>
-                                <li class="post-action-edit" uk-toggle="target: #edit-post-modal" post-id="<?php echo $post[$i]["postid"] ?>">
-                                    <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                        <i class="uil-edit-alt mr-1"></i> Edit Post
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                        <svg style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                            <path d="M224 64c-44.2 0-80 35.8-80 80v48H384c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80V144C80 64.5 144.5 0 224 0c57.5 0 107 33.7 130.1 82.3c7.6 16 .8 35.1-15.2 42.6s-35.1 .8-42.6-15.2C283.4 82.6 255.9 64 224 64zm32 320c17.7 0 32-14.3 32-32s-14.3-32-32-32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h64z" />
-                                        </svg> Privacy
-                                    </a>
-                                </li>
-                                <!-- <li>
-                                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                                <i class="uil-comment-slash mr-1"></i> Disable comments
-                                                            </a>
-
-                                                        </li> -->
-                            <?php
-                            }
-                            ?>
-                            <!-- <li>
-                                                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                            <i class="uil-favorite mr-1"></i> Add favorites
-                                                        </a>
-                                                    </li> -->
-                            <li>
-                                <hr class="-mx-2 my-2 dark:border-gray-800">
-                            </li>
-                            <?php
-                            if ($userOfPost["userid"] ==  $userCurrent["userid"]) {
-                            ?>
-                                <li data-post-id="<?php echo $post[$i]["postid"] ?>" onclick="deletePost(event, this)">
-                                    <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md dark:hover:bg-red-600">
-                                        <i class="uil-trash-alt mr-1"></i> Delete
-                                    </a>
-                                </li>
-                            <?php
-                            }
-                            ?>
-                        </ul>
-
-                    </div>
+            <div class="flex flex-1 items-start space-x-4 p-5">
+                <img src="<?php echo $userCurrent["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-11 h-11">
+                <div class="flex-1 pt-2">
+                    <textarea name="taPostShare" class="uk-textare text-black shadow-none focus:shadow-none text-xl font-medium resize-none" rows="5" placeholder="You want to share what from this article?"></textarea>
                 </div>
             </div>
-            <!-- Show Text Post -->
-            <div class="p-5 pt-0 border-b dark:border-gray-700">
-                <?php echo $post[$i]["post"]; ?>
+            <div style="text-align: center; font-family: 500;">You are sharing this article.</div>
+            <div class="share-details-card">
+                <!-- Append post share details here -->
             </div>
-
-            <!--Show Image Preview-->
-            <div id="imagePreview" style="text-align: center; margin: 0 auto;">
-                <ul>
-
-                </ul>
-            </div>
-
-            <!--EndPreview-->
             <div class="flex items-center w-full justify-between p-3 border-t">
                 <select class="selectpicker mt-2 col-4 story">
                     <option selected>Public</option>
                     <option>Friend</option>
                     <option>Private</option>
                 </select>
-
                 <div class="flex space-x-2">
-                    <a onclick="CreatePost()" style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium">
+                    <a style="cursor: pointer; color: whitesmoke;" class="btn-share-post bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium">
                         Share </a>
                 </div>
 
-                <a hidden class="bg-blue-600 flex h-9 items-center justify-center rounded-lg text-white px-12 font-semibold">
+                <a hidden class="btn-share-post bg-blue-600 flex h-9 items-center justify-center rounded-lg text-white px-12 font-semibold">
                     Share </a>
             </div>
         </div>
