@@ -439,6 +439,10 @@ $(document).on('click', '.like-post-btn', function (e) {
                     var img = `<img src="${avatarUserCurrent}" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">`;
                     avatarUserLike.children().last().remove();
                     avatarUserLike.prepend(img);
+
+                    // Send notification
+                    SaveNotification(likeButton, 'like');
+                    SendNotificationLike(likeButton);
                 } else {
                     likeIcon.attr("fill", "currentColor");
                     likeText.css("color", "#666666");

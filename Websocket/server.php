@@ -106,30 +106,25 @@ class YourWebSocketServer implements MessageComponentInterface
         }
 
         if ($message["action"] == "like-post") {
-            $postid = $message["postid"];
-            $sql = "select * from posts where postid = ".$postid;
             $db = new Database();
+            $user = new User();
+            $postid = $message["postid"];
+            $sql = "select userid from posts where postid = ".$postid;
             $receiverId = ($db->Query($sql))[0];
-            $receiver = (new User())->getUser($receiverId["userid"]);
+            $receiver = $user->getUser($receiverId["userid"]);
             $receiver_connection_id = $receiver["connection_id"];
             $userid = $message["userid"];
-            // $p = new Post();
-            // $p->setLikePost($postid, $userid);
-            // Lấy số lượng thông báo chưa đọc
-            $sql = "SELECT COUNT(*) as 'total' FROM notifications WHERE userid = ".$userid." AND isRead = 0";
-            $notification_quantity = $db->Query($sql)[0]["total"];
+            $sender = $user->getUser($userid);
             // Set value message
-            $message["avatar_image"] = $receiver["avatar_image"];
-            $message["first_name"] = $receiver["first_name"];
-            $message["last_name"] = $receiver["last_name"];
-            $message["notification_quantity"] = $notification_quantity;
-
+            $message["avatar_image"] = $sender["avatar_image"];
+            $message["first_name"] = $sender["first_name"];
+            $message["last_name"] = $sender["last_name"];
             foreach ($this->clients as $client) {
                 // Check if the client is the intended receiver
                 if ($from == $client) {
                     $message["sender"] = "Me";
                 } else {
-                    $message["sender"] = "Not me";
+                    $message["sender"] = $message["first_name"] . " " . $message["last_name"];
                 }
 
                 if ($client->resourceId == $receiver_connection_id || $from == $client) {

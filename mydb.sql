@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 29, 2023 lúc 06:17 AM
+-- Thời gian đã tạo: Th10 29, 2023 lúc 12:01 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -128,12 +128,14 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`id`, `postid`, `userid`, `date`) VALUES
-(32, 174088333534974, 3572325399739732623, '2023-11-27 08:16:05'),
 (95, 19581001419442, 744177439385, '2023-11-27 09:24:03'),
 (101, 174088333534974, 4623450327014144, '2023-11-27 09:29:47'),
 (114, 182746900562, 3572325399739732623, '2023-11-27 10:00:48'),
 (140, 19581001419442, 4556887516696215, '2023-11-27 15:01:04'),
-(150, 506740946623, 3572325399739732623, '2023-11-28 16:11:38');
+(150, 506740946623, 3572325399739732623, '2023-11-28 16:11:38'),
+(188, 88322897687, 3572325399739732623, '2023-11-29 10:19:35'),
+(189, 69278337688, 4556887516696215, '2023-11-29 10:22:19'),
+(191, 950118002460448865, 3572325399739732623, '2023-11-29 10:57:51');
 
 -- --------------------------------------------------------
 
@@ -240,6 +242,7 @@ INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `text`, `media`, `date
 CREATE TABLE `notifications` (
   `id` int(11) NOT NULL,
   `userid` bigint(19) NOT NULL,
+  `sender_id` bigint(19) NOT NULL,
   `content` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `isRead` tinyint(1) NOT NULL DEFAULT 0,
@@ -251,10 +254,11 @@ CREATE TABLE `notifications` (
 -- Đang đổ dữ liệu cho bảng `notifications`
 --
 
-INSERT INTO `notifications` (`id`, `userid`, `content`, `date`, `isRead`, `related_object_id`, `type`) VALUES
-(189, 3572325399739732623, 'like', '2023-11-25 15:24:37', 0, 9937518659735607, 'like'),
-(190, 3572325399739732623, 'like', '2023-11-25 15:52:48', 0, 19581001419442, 'like'),
-(191, 4556887516696215, 'like', '2023-11-25 16:06:31', 0, 506740946623, 'like');
+INSERT INTO `notifications` (`id`, `userid`, `sender_id`, `content`, `date`, `isRead`, `related_object_id`, `type`) VALUES
+(196, 4556887516696215, 3572325399739732623, '', '2023-11-29 10:19:36', 0, 88322897687, 'like'),
+(197, 3572325399739732623, 4556887516696215, '', '2023-11-29 10:22:19', 0, 69278337688, 'like'),
+(198, 4556887516696215, 3572325399739732623, '', '2023-11-29 10:27:42', 0, 950118002460448865, 'like'),
+(199, 4556887516696215, 3572325399739732623, '', '2023-11-29 10:57:51', 0, 950118002460448865, 'like');
 
 -- --------------------------------------------------------
 
@@ -316,8 +320,8 @@ INSERT INTO `posts` (`id`, `postid`, `post`, `userid`, `date`, `has_image`, `has
 (184, 506740946623, '<iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/h7cOOfpdEfk\" title=\"KARIK - BẠN ĐỜI (FT. GDUCKY) | OFFICIAL MUSIC VIDEO\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>', 3572325399739732623, '2023-11-25 02:36:12', 1, 0, '', 'Public'),
 (187, 19581001419442, '<iframe style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/track/0v834w6iDIfsUIRvVcEYLR?utm_source=generator\" width=\"100%\" height=\"352\" frameBorder=\"1\" allowfullscreen=\"\" allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\" loading=\"lazy\"></iframe>', 3572325399739732623, '2023-11-25 02:39:39', 1, 0, '', 'Public'),
 (213, 15757241685613675, 'Test đăng và share', 3572325399739732623, '2023-11-28 15:04:02', 1, 0, '[\"advss.jpg\"]', 'Public'),
-(215, 8899161937375, '', 4556887516696215, '2023-11-28 15:48:11', 1, 0, '', 'Public'),
-(217, 41361443174300470, 'Share!', 3572325399739732623, '2023-11-29 05:16:09', 1, 0, '', 'Friend');
+(217, 41361443174300470, 'Share!?', 3572325399739732623, '2023-11-29 07:02:23', 1, 0, '', 'Public'),
+(220, 69278337688, '', 3572325399739732623, '2023-11-29 08:51:30', 1, 0, '', 'Public');
 
 -- --------------------------------------------------------
 
@@ -356,16 +360,16 @@ CREATE TABLE `share` (
   `postid` bigint(19) NOT NULL,
   `share_userid` bigint(19) NOT NULL,
   `content` varchar(200) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `privacy` varchar(20) NOT NULL DEFAULT ''
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `share`
 --
 
-INSERT INTO `share` (`id`, `post_share_id`, `postid`, `share_userid`, `content`, `date`, `privacy`) VALUES
-(20, 19581001419442, 41361443174300470, 3572325399739732623, '', '2023-11-29 04:59:53', '');
+INSERT INTO `share` (`id`, `post_share_id`, `postid`, `share_userid`, `content`, `date`) VALUES
+(20, 19581001419442, 41361443174300470, 3572325399739732623, '', '2023-11-29 07:03:31'),
+(23, 15757241685613675, 69278337688, 3572325399739732623, '', '2023-11-29 08:51:30');
 
 -- --------------------------------------------------------
 
@@ -408,8 +412,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `userid`, `first_name`, `last_name`, `gender`, `email`, `password`, `url_address`, `date`, `cover_image`, `avatar_image`, `connection_id`, `privacy`) VALUES
-(10, 4556887516696215, 'Hoàng Tiến', 'Thuận', 'Male', 'cryptocard.268@gmail.com', 'htthuan2468', 'hoàng.thuận', '2023-11-24 15:31:05', 'uploads/avatars/feed-5.jpg', 'uploads/avatars/profile-8.jpg', 163, 'public'),
-(31, 3572325399739732623, 'Hoàng', 'Thuận', 'Male', 'thuan2682k3@gmail.com', 'htthuan6041', 'thuan.teddy', '2023-11-27 15:07:36', 'uploads/avatars/img-1.jpg', 'uploads/avatars/profile-1.jpg', 302, 'public'),
+(10, 4556887516696215, 'Hoàng Tiến', 'Thuận', 'Male', 'cryptocard.268@gmail.com', 'htthuan2468', 'hoàng.thuận', '2023-11-29 10:58:00', 'uploads/avatars/feed-5.jpg', 'uploads/avatars/profile-8.jpg', 110, 'public'),
+(31, 3572325399739732623, 'Hoàng', 'Thuận', 'Male', 'thuan2682k3@gmail.com', 'htthuan6041', 'thuan.teddy', '2023-11-29 10:57:30', 'uploads/avatars/img-1.jpg', 'uploads/avatars/profile-1.jpg', 54, 'public'),
 (32, 4623450327014144, 'Teddy', 'IsMe', 'Male', 'thuan0205766@huce.edu.vn', 'htthuan4902', 'teddy.isme', '2023-10-26 09:16:30', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (33, 744177439385, 'Ngô Tùng', 'Sơn', 'Male', 'aaa@aaa.vn', '123', 'nam.vu', '2023-11-27 09:23:35', 'uploads/avatars/img-5.jpg', 'uploads/avatars/avatar-lg-4.jpg', 508, 'public'),
 (34, 9095530094254485, 'Hoàng', 'Hiếu', 'Male', 'hieu0189366@huce.edu.vn', 'htthuan6807', 'ho?ng.hi?u', '2023-11-24 07:10:20', '', 'uploads/avatars/avatar_default.png', 346, 'public'),
@@ -539,8 +543,8 @@ CREATE TABLE `users_status` (
 --
 
 INSERT INTO `users_status` (`id`, `userid`, `status`, `date`) VALUES
-(60, 3572325399739732623, 'offline', '2023-11-27 15:08:17'),
-(70, 4556887516696215, 'online', '2023-11-24 06:13:25'),
+(60, 3572325399739732623, 'online', '2023-11-29 10:56:07'),
+(70, 4556887516696215, 'online', '2023-11-29 10:58:00'),
 (311, 744177439385, 'offline', '2023-11-05 14:06:21'),
 (2498, 5128572912903, 'offline', '2023-11-24 07:39:52'),
 (2510, 5128572996831, 'online', '2023-11-24 06:32:55'),
@@ -690,7 +694,7 @@ ALTER TABLE `friend_requests`
 -- AUTO_INCREMENT cho bảng `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
 
 --
 -- AUTO_INCREMENT cho bảng `messages`
@@ -702,13 +706,13 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
 -- AUTO_INCREMENT cho bảng `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
+  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
 
 --
 -- AUTO_INCREMENT cho bảng `recent_searches`
@@ -726,7 +730,7 @@ ALTER TABLE `relatedobjects`
 -- AUTO_INCREMENT cho bảng `share`
 --
 ALTER TABLE `share`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `stories`
@@ -750,7 +754,7 @@ ALTER TABLE `users_about`
 -- AUTO_INCREMENT cho bảng `users_status`
 --
 ALTER TABLE `users_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2648;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2744;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

@@ -82,6 +82,16 @@ class Post
         } else return null;
     }
 
+    function getPostOnID($postid)
+    {
+        $sql = "select * from posts where postid = " . $postid . " ";
+        $DB = new Database();
+        $result = $DB->Query($sql);
+        if ($result != null) {
+            return $result;
+        } else return null;
+    }
+
     function getNextPostTimeLine($userid, $offset)
     {
         $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
