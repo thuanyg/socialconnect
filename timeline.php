@@ -14,7 +14,7 @@ if (!isset($_SESSION["userid"])) {
     $userCurrent = $user->getUser($_SESSION["userid"]); // Return Array (userCurrent = result[0])
     $about = $user->getAbout($userCurrent["userid"]);
     $p = new Post();
-    $post = $p->getPost($userCurrent["userid"]);
+    $post = $p->getOwnPost($userCurrent["userid"]);
     $f = new Friend();
     $friends = $f->getListFriend($userCurrent["userid"]);
 }
@@ -966,7 +966,7 @@ if (!isset($_SESSION["userid"])) {
     
                                         </div>
                                     <?php
-                                    } else if ($post[$i]['type'] == "share" && $post[$i]['privacy'] == "Public") {
+                                    } else if ($post[$i]['type'] == "share") {
                                         $t = new Timer();
                                         $time = $t->TimeSince($post[$i]["date"]); // Return array
                                         $hours = $time["hours"];

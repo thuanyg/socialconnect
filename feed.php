@@ -486,7 +486,13 @@ if (!isset($_SESSION["userid"])) {
                         if ($post != null) {
                             for ($i = 0; $i < sizeof($post); $i++) {
                                 $like = $p->getLikePost($post[$i]["postid"]);
-                                if ($post[$i]['has_image'] == 1 && $post[$i]['type'] == "post") {
+                                $isFriend = $f->isFriend($userCurrent["userid"], $post[$i]["userid"]);
+                                $isFriendCondition = ($isFriend == 1 && $post[$i]['privacy'] == "Friend");
+                                $isPublicCondition = $post[$i]['privacy'] == "Public";
+                                $isPostCondition = $post[$i]['type'] == "post";
+                                $isPostShareCondition = $post[$i]['type'] == "share";
+                                $isOwnPostCondition = $post[$i]['userid'] == $userCurrent["userid"];
+                                if (($isFriendCondition || $isPublicCondition || $isOwnPostCondition) && $isPostCondition) {
                                     $t = new Timer();
                                     $time = $t->TimeSince($post[$i]["date"]); // Return array
                                     $hours = $time["hours"];
@@ -749,7 +755,7 @@ if (!isset($_SESSION["userid"])) {
 
                                     </div>
                                 <?php
-                                } else if ($post[$i]['type'] == "share" && $post[$i]['privacy'] == "Public") {
+                                } else if (($isFriendCondition || $isPublicCondition || $isOwnPostCondition) && $isPostShareCondition) {
                                     $t = new Timer();
                                     $time = $t->TimeSince($post[$i]["date"]); // Return array
                                     $hours = $time["hours"];
@@ -1425,207 +1431,6 @@ if (!isset($_SESSION["userid"])) {
 
             </div>
         </div>
-    </div>q\
-
-    <!-- story-preview -->
-    <div class="story-prev">
-
-        <div class="story-sidebar uk-animation-slide-left-medium">
-            <div class="md:flex justify-between items-center py-2 hidden">
-                <h3 class="text-2xl font-semibold"> All Story </h3>
-                <a href="#" class="text-blue-600"> Setting</a>
-            </div>
-
-            <div class="story-sidebar-scrollbar" data-simplebar>
-                <h3 class="text-lg font-medium"> Your Story </h3>
-
-                <a class="flex space-x-4 items-center hover:bg-gray-100 md:my-2 py-2 rounded-lg hover:text-gray-700" href="#">
-                    <svg class="w-12 h-12 p-3 bg-gray-200 rounded-full text-blue-500 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    <div class="flex-1">
-                        <div class="text-lg font-semibold"> Create a story </div>
-                        <div class="text-sm -mt-0.5"> Share a photo or write something. </div>
-                    </div>
-                </a>
-
-                <h3 class="text-lg font-medium lg:mt-3 mt-1"> Friends Story </h3>
-
-                <div class="story-users-list" uk-switcher="connect: #story_slider ; toggle: > * ; animation: uk-animation-slide-right-medium, uk-animation-slide-left-medium ">
-
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Dennis Han</div>
-                            <p> <span class="story-count"> 2 new </span> <span class="story-time"> 4Mn ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Adrian Mohani</div>
-                            <p> <span class="story-count"> 1 new </span> <span class="story-time"> 1hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username">Alex Dolgove </div>
-                            <p> <span class="story-count"> 3 new </span> <span class="story-time"> 2hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-4.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Stella Johnson </div>
-                            <p> <span class="story-count"> 2 new </span> <span class="story-time"> 3hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Adrian Mohani </div>
-                            <p> <span class="story-count"> 1 new </span> <span class="story-time"> 4hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Dennis Han</div>
-                            <p> <span class="story-count"> 2 new </span> <span class="story-time"> 8Hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Adrian Mohani</div>
-                            <p> <span class="story-count"> 1 new </span> <span class="story-time"> 12hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username">Alex Dolgove </div>
-                            <p> <span class="story-count"> 3 new </span> <span class="story-time"> 22hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Stella Johnson </div>
-                            <p> <span class="story-count"> 2 new </span> <span class="story-time"> 3Dy ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Adrian Mohani </div>
-                            <p> <span class="story-count"> 1 new </span> <span class="story-time"> 4Dy ago</span> </p>
-                        </div>
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-        </div>
-        <div class="story-content">
-
-            <ul class="uk-switcher uk-animation-scale-up" id="story_slider">
-                <li class="relative">
-
-                    <span uk-switcher-item="previous" class="slider-icon is-left"> </span>
-                    <span uk-switcher-item="next" class="slider-icon is-right"> </span>
-
-                    <div uk-lightbox>
-                        <a href="assets/images/avatars/avatar-lg-2.jpg" data-alt="Image">
-                            <img src="assets/images/avatars/avatar-lg-2.jpg" class="story-slider-image" data-alt="Image">
-                        </a>
-                    </div>
-
-                </li>
-                <li class="relative">
-
-                    <span uk-switcher-item="previous" class="slider-icon is-left"> </span>
-                    <span uk-switcher-item="next" class="slider-icon is-right"> </span>
-
-                    <div uk-lightbox>
-                        <a href="assets/images/avatars/avatar-lg-1.jpg" data-alt="Image">
-                            <img src="assets/images/avatars/avatar-lg-1.jpg" class="story-slider-image" data-alt="Image">
-                        </a>
-                    </div>
-
-                </li>
-                <li class="relative">
-
-                    <span uk-switcher-item="previous" class="slider-icon is-left"> </span>
-                    <span uk-switcher-item="next" class="slider-icon is-right"> </span>
-
-                    <div uk-lightbox>
-                        <a href="assets/images/avatars/avatar-lg-4.jpg" data-alt="Image">
-                            <img src="assets/images/avatars/avatar-lg-4.jpg" class="story-slider-image" data-alt="Image">
-                        </a>
-                    </div>
-
-                </li>
-
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-            </ul>
-
-        </div>
-
-        <!-- story colose button-->
-        <span class="story-btn-close" uk-toggle="target: body ; cls: story-active" uk-tooltip="title:Close story ; pos: left">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </span>
-
     </div>
     <!--sharepost-->
     <div id="share-post-modal" style="overflow-y: scroll;" class="create-post" uk-modal>
@@ -1636,81 +1441,81 @@ if (!isset($_SESSION["userid"])) {
                 <button id="closeModelPost" class="uk-modal-close-default bg-gray-100 rounded-full p-2.5 m-1 right-2" type="button" uk-close uk-tooltip="title: Close ; pos: bottom ;offset:7"></button>
             </div>
             <div class="flex justify-between items-center lg:p-4 p-2.5">
-                                            <div class="flex flex-1 items-center space-x-4">
-                                                <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>">
-                                                    <img src="<?php echo $userOfPost["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-10 h-10">
-                                                </a>
-                                                <div class="flex-1 font-semibold capitalize">
-                                                    <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?> </a>
-                                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                                    else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
-                                                </div>
-                                            </div>
-                                            <div class="post-action">
-                                                <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 dark:hover:bg-gray-700"></i> </a>
-                                                <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
+                <div class="flex flex-1 items-center space-x-4">
+                    <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>">
+                        <img src="<?php echo $userOfPost["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-10 h-10">
+                    </a>
+                    <div class="flex-1 font-semibold capitalize">
+                        <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?> </a>
+                        <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
+                                                                                        else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
+                                                                                        else echo $hours . " h " . $minutes . " phút trước";
+                                                                                        ?></span> <ion-icon name="people"></ion-icon></div>
+                    </div>
+                </div>
+                <div class="post-action">
+                    <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 dark:hover:bg-gray-700"></i> </a>
+                    <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
 
-                                                    <ul class="space-y-1">
-                                                        <!-- <li>
+                        <ul class="space-y-1">
+                            <!-- <li>
                                                             <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                                                                 <i class="uil-share-alt mr-1"></i> Share
                                                             </a>
                                                         </li> -->
-                                                        <?php
-                                                        if ($userOfPost["userid"] ==  $userCurrent["userid"]) {
-                                                        ?>
-                                                            <li class="post-action-edit" uk-toggle="target: #edit-post-modal" post-id="<?php echo $post[$i]["postid"] ?>">
-                                                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                                    <i class="uil-edit-alt mr-1"></i> Edit Post
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                                    <svg style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                                                        <path d="M224 64c-44.2 0-80 35.8-80 80v48H384c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80V144C80 64.5 144.5 0 224 0c57.5 0 107 33.7 130.1 82.3c7.6 16 .8 35.1-15.2 42.6s-35.1 .8-42.6-15.2C283.4 82.6 255.9 64 224 64zm32 320c17.7 0 32-14.3 32-32s-14.3-32-32-32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h64z" />
-                                                                    </svg> Privacy
-                                                                </a>
-                                                            </li>
-                                                            <!-- <li>
+                            <?php
+                            if ($userOfPost["userid"] ==  $userCurrent["userid"]) {
+                            ?>
+                                <li class="post-action-edit" uk-toggle="target: #edit-post-modal" post-id="<?php echo $post[$i]["postid"] ?>">
+                                    <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                        <i class="uil-edit-alt mr-1"></i> Edit Post
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                        <svg style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path d="M224 64c-44.2 0-80 35.8-80 80v48H384c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80V144C80 64.5 144.5 0 224 0c57.5 0 107 33.7 130.1 82.3c7.6 16 .8 35.1-15.2 42.6s-35.1 .8-42.6-15.2C283.4 82.6 255.9 64 224 64zm32 320c17.7 0 32-14.3 32-32s-14.3-32-32-32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h64z" />
+                                        </svg> Privacy
+                                    </a>
+                                </li>
+                                <!-- <li>
                                                             <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                                                                 <i class="uil-comment-slash mr-1"></i> Disable comments
                                                             </a>
 
                                                         </li> -->
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                        <!-- <li>
+                            <?php
+                            }
+                            ?>
+                            <!-- <li>
                                                         <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                                                             <i class="uil-favorite mr-1"></i> Add favorites
                                                         </a>
                                                     </li> -->
-                                                        <li>
-                                                            <hr class="-mx-2 my-2 dark:border-gray-800">
-                                                        </li>
-                                                        <?php
-                                                        if ($userOfPost["userid"] ==  $userCurrent["userid"]) {
-                                                        ?>
-                                                            <li data-post-id="<?php echo $post[$i]["postid"] ?>" onclick="deletePost(event, this)">
-                                                                <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md dark:hover:bg-red-600">
-                                                                    <i class="uil-trash-alt mr-1"></i> Delete
-                                                                </a>
-                                                            </li>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </ul>
+                            <li>
+                                <hr class="-mx-2 my-2 dark:border-gray-800">
+                            </li>
+                            <?php
+                            if ($userOfPost["userid"] ==  $userCurrent["userid"]) {
+                            ?>
+                                <li data-post-id="<?php echo $post[$i]["postid"] ?>" onclick="deletePost(event, this)">
+                                    <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md dark:hover:bg-red-600">
+                                        <i class="uil-trash-alt mr-1"></i> Delete
+                                    </a>
+                                </li>
+                            <?php
+                            }
+                            ?>
+                        </ul>
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Show Text Post -->
-                                        <div class="p-5 pt-0 border-b dark:border-gray-700">
-                                            <?php echo $post[$i]["post"]; ?>
-                                        </div>           
-                            
+                    </div>
+                </div>
+            </div>
+            <!-- Show Text Post -->
+            <div class="p-5 pt-0 border-b dark:border-gray-700">
+                <?php echo $post[$i]["post"]; ?>
+            </div>
+
             <!--Show Image Preview-->
             <div id="imagePreview" style="text-align: center; margin: 0 auto;">
                 <ul>
