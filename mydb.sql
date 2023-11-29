@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 28, 2023 lúc 05:39 PM
+-- Thời gian đã tạo: Th10 29, 2023 lúc 06:17 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -310,13 +310,14 @@ INSERT INTO `posts` (`id`, `postid`, `post`, `userid`, `date`, `has_image`, `has
 (168, 182746900562, 'Test', 3572325399739732623, '2023-11-24 19:00:40', 1, 0, '[\"img-1.jpg\"]', 'Public'),
 (171, 950118002460448865, 'Để đây và không nói gì!', 4556887516696215, '2023-11-24 18:26:16', 1, 0, '[\"08c92192c0fc45a5b3d4fb5d74739ced~tplv-photomode-image.jpeg\"]', 'Public'),
 (172, 88322897687, 'Để đây và không nói gì :)))', 4556887516696215, '2023-11-24 18:26:40', 1, 0, '[\"nam.jpg\"]', 'Public'),
-(178, 174088333534974, 'Triết lý huấn hoa hồng!', 4556887516696215, '2023-11-24 18:39:10', 1, 0, '[\"3d9df25d226cd323338653cb4abc1e7c.mp4\",\"daef26fd26d08487b85177b1ceaec15e.mp4\"]', 'Public'),
+(178, 174088333534974, 'Triết lý huấn hoa hồng!', 4556887516696215, '2023-11-29 03:22:59', 1, 0, '[\"3d9df25d226cd323338653cb4abc1e7c.mp4\",\"daef26fd26d08487b85177b1ceaec15e.mp4\"]', 'Friend'),
 (180, 9937518659735607, '<iframe width=\"670\" height=\"400\" src=\"https://www.youtube.com/embed/dm5-tn1Rug0\" title=\"RHYDER - CHỊU CÁCH MÌNH NÓI THUA | ft. BAN x COOLKID | OFFICIAL MUSIC VIDEO\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>', 3572325399739732623, '2023-11-24 19:08:19', 1, 0, '', 'Public'),
 (182, 3534052449918946412, 'Youtube embed\n<iframe width=\"670\" height=\"400\" src=\"https://www.youtube.com/embed/lxPeCtiXor8\" title=\"HURRYKNG, REX, HIEUTHUHAI, Negav, MANBO - Mamma Mia (prod. by Kewtiie) [Official Video]\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>', 3572325399739732623, '2023-11-24 19:10:02', 1, 0, '', 'Public'),
 (184, 506740946623, '<iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/h7cOOfpdEfk\" title=\"KARIK - BẠN ĐỜI (FT. GDUCKY) | OFFICIAL MUSIC VIDEO\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>', 3572325399739732623, '2023-11-25 02:36:12', 1, 0, '', 'Public'),
 (187, 19581001419442, '<iframe style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/track/0v834w6iDIfsUIRvVcEYLR?utm_source=generator\" width=\"100%\" height=\"352\" frameBorder=\"1\" allowfullscreen=\"\" allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\" loading=\"lazy\"></iframe>', 3572325399739732623, '2023-11-25 02:39:39', 1, 0, '', 'Public'),
 (213, 15757241685613675, 'Test đăng và share', 3572325399739732623, '2023-11-28 15:04:02', 1, 0, '[\"advss.jpg\"]', 'Public'),
-(215, 8899161937375, '', 4556887516696215, '2023-11-28 15:48:11', 1, 0, '', 'Public');
+(215, 8899161937375, '', 4556887516696215, '2023-11-28 15:48:11', 1, 0, '', 'Public'),
+(217, 41361443174300470, 'Share!', 3572325399739732623, '2023-11-29 05:16:09', 1, 0, '', 'Friend');
 
 -- --------------------------------------------------------
 
@@ -356,7 +357,7 @@ CREATE TABLE `share` (
   `share_userid` bigint(19) NOT NULL,
   `content` varchar(200) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `privacy` varchar(20) NOT NULL DEFAULT 'Public'
+  `privacy` varchar(20) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -364,13 +365,7 @@ CREATE TABLE `share` (
 --
 
 INSERT INTO `share` (`id`, `post_share_id`, `postid`, `share_userid`, `content`, `date`, `privacy`) VALUES
-(7, 19581001419442, 8999825413355, 3572325399739732623, '', '2023-11-28 14:15:58', 'Public'),
-(8, 506740946623, 363657272957654, 3572325399739732623, '', '2023-11-28 14:16:23', 'Public'),
-(9, 3534052449918946412, 1902999913535464, 3572325399739732623, '', '2023-11-28 14:16:24', 'Public'),
-(10, 9937518659735607, 32054313343893953, 3572325399739732623, '', '2023-11-28 14:16:26', 'Public'),
-(11, 15757241685613675, 3528269433569103, 3572325399739732623, '', '2023-11-28 15:04:14', 'Public'),
-(15, 15757241685613675, 6428826078916610, 4556887516696215, '', '2023-11-28 15:05:57', 'Public'),
-(18, 174088333534974, 8899161937375, 4556887516696215, '', '2023-11-28 15:48:11', 'Public');
+(20, 19581001419442, 41361443174300470, 3572325399739732623, '', '2023-11-29 04:59:53', '');
 
 -- --------------------------------------------------------
 
@@ -695,7 +690,7 @@ ALTER TABLE `friend_requests`
 -- AUTO_INCREMENT cho bảng `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT cho bảng `messages`
@@ -713,7 +708,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT cho bảng `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=217;
+  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
 
 --
 -- AUTO_INCREMENT cho bảng `recent_searches`
@@ -731,7 +726,7 @@ ALTER TABLE `relatedobjects`
 -- AUTO_INCREMENT cho bảng `share`
 --
 ALTER TABLE `share`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `stories`
