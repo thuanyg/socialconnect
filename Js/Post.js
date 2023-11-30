@@ -553,7 +553,30 @@ $(document).on("click",".add-comment-btn",function(e){
                     action: "add-comment"
                 },            
                 success: function(response){
-                    alert(response);
+                    $(".comment-container[post-id='"+postID+"']").html("");
+                    var commentData = JSON.parse(response);
+                    console.log(commentData);
+                    $.each(commentData, function(key, value){
+                        $(".comment-container[post-id='"+postID+"']").append('<div class="flex">\
+                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">\
+                            <img src="'+value.user["avatar_image"]+'" alt="" class="absolute h-full rounded-full w-full">\
+                        </div>\
+                        <div>\
+                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">\
+                                <span><b>'+value.user["first_name"]+' '+value.user["last_name"]+'</b></span>\
+                                <p class="leading-6">'+value.cmt["comment_msg"]+'<urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>\
+                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>\
+                            </div>\
+                            <div class="text-sm flex items-center space-x-3 mt-2 ml-5">\
+                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>\
+                                <button class="reply-btn">Reply</button>\
+                                <button class="view-reply-btn">View replies</button>\
+                                <span>'+value.cmt["date"]+'</span>\
+                            </div>\
+                        </div>\
+                    </div>'
+                        );
+                    });
                 }
             });
         } catch (error) {

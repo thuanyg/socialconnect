@@ -391,32 +391,35 @@ if (isset($_POST["action"])) {
 
                             
                             <?php
-                                            if ($comment != null) {
-                                                for ($c = 0; $c < sizeof($comment); $c++) {
-                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                            ?>
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container">
+                                            if ($comment != null) { ?>
+                                            
+                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                                    <?php
+                                                        for ($c = 0; $c < sizeof($comment); $c++) {
+                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                    ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                                 <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                             </div>
                                                             <div>
                                                                 <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
+                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
                                                                     <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
                                                                     <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <a href="#"> Replay </a>
+                                                                    <button class="reply-btn">Reply</button>
+                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $comment[$c]["date"] ?></span>
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        <?php
+                                                    }   ?>
                                                     </div>
                                                 <?php
-                                                }
                                             } else {
                                                 ?>
                                                 <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
@@ -676,32 +679,35 @@ if (isset($_POST["action"])) {
                             </div>
 
                             <?php
-                                            if ($comment != null) {
-                                                for ($c = 0; $c < sizeof($comment); $c++) {
-                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                            ?>
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container">
+                                            if ($comment != null) { ?>
+                                            
+                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                                    <?php
+                                                        for ($c = 0; $c < sizeof($comment); $c++) {
+                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                    ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                                 <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                             </div>
                                                             <div>
                                                                 <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
+                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
                                                                     <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
                                                                     <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <a href="#"> Replay </a>
+                                                                    <button class="reply-btn">Reply</button>
+                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $comment[$c]["date"] ?></span>
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        <?php
+                                                    }   ?>
                                                     </div>
                                                 <?php
-                                                }
                                             } else {
                                                 ?>
                                                 <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
@@ -944,32 +950,35 @@ if (isset($_POST["action"])) {
                             </div>
 
                             <?php
-                                            if ($comment != null) {
-                                                for ($c = 0; $c < sizeof($comment); $c++) {
-                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                            ?>
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container">
+                                            if ($comment != null) { ?>
+                                            
+                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                                    <?php
+                                                        for ($c = 0; $c < sizeof($comment); $c++) {
+                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                    ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                                 <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                             </div>
                                                             <div>
                                                                 <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
+                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
                                                                     <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
                                                                     <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <a href="#"> Replay </a>
+                                                                    <button class="reply-btn">Reply</button>
+                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $comment[$c]["date"] ?></span>
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        <?php
+                                                    }   ?>
                                                     </div>
                                                 <?php
-                                                }
                                             } else {
                                                 ?>
                                                 <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
@@ -1229,32 +1238,35 @@ if (isset($_POST["action"])) {
                             </div>
 
                             <?php
-                                            if ($comment != null) {
-                                                for ($c = 0; $c < sizeof($comment); $c++) {
-                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                            ?>
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container">
+                                            if ($comment != null) { ?>
+                                            
+                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                                    <?php
+                                                        for ($c = 0; $c < sizeof($comment); $c++) {
+                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                    ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                                 <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                             </div>
                                                             <div>
                                                                 <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
+                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
                                                                     <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
                                                                     <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <a href="#"> Replay </a>
+                                                                    <button class="reply-btn">Reply</button>
+                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $comment[$c]["date"] ?></span>
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        <?php
+                                                    }   ?>
                                                     </div>
                                                 <?php
-                                                }
                                             } else {
                                                 ?>
                                                 <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
@@ -1445,32 +1457,35 @@ if (isset($_POST["action"])) {
                             </div>
 
                             <?php
-                                            if ($comment != null) {
-                                                for ($c = 0; $c < sizeof($comment); $c++) {
-                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                            ?>
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container">
+                                            if ($comment != null) { ?>
+                                            
+                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                                    <?php
+                                                        for ($c = 0; $c < sizeof($comment); $c++) {
+                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                    ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                                 <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                             </div>
                                                             <div>
                                                                 <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
+                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
                                                                     <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
                                                                     <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <a href="#"> Replay </a>
+                                                                    <button class="reply-btn">Reply</button>
+                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $comment[$c]["date"] ?></span>
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        <?php
+                                                    }   ?>
                                                     </div>
                                                 <?php
-                                                }
                                             } else {
                                                 ?>
                                                 <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
@@ -1679,11 +1694,13 @@ if (isset($_POST["action"])) {
                             </div>
 
                             <?php
-                                            if ($comment != null) {
-                                                for ($c = 0; $c < sizeof($comment); $c++) {
-                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                            ?>
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container">
+                                            if ($comment != null) { ?>
+                                            
+                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                                    <?php
+                                                        for ($c = 0; $c < sizeof($comment); $c++) {
+                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                    ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                                 <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
@@ -1696,15 +1713,16 @@ if (isset($_POST["action"])) {
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <a href="#"> Replay </a>
+                                                                    <button class="reply-btn">Reply</button>
+                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $comment[$c]["date"] ?></span>
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        <?php
+                                                    }   ?>
                                                     </div>
                                                 <?php
-                                                }
                                             } else {
                                                 ?>
                                                 <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
@@ -1803,7 +1821,7 @@ if (isset($_POST["action"])) {
             ?>
         </div>
         <div class="image-big">
-            <span class="close">&times;</span>
+            <span class="close-image">&times;</span>
             <img class="image-big-content">
         </div>
         <div class="album-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5" style="display: none;">
@@ -2010,7 +2028,14 @@ if (isset($_POST["action"])) {
         );
         $p = new Post();
         if( $p -> createComment($data,$data["userID"],$data["postID"])){
-            echo 1;
+            $array_result = [];
+            $comment = $p->getCommentPost($data["postID"]);
+            foreach($comment as $row){
+                $user_id = $row["comment_userid"]; 
+                $cmt_user = $user->getUser($user_id);
+                array_push($array_result,['cmt'=>$row,'user'=>$cmt_user]);
+            }
+            echo json_encode($array_result);
         } else echo 0;
     }
 }

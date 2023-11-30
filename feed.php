@@ -709,13 +709,14 @@ if (!isset($_SESSION["userid"])) {
                                                     ?>
                                                 </div>
                                             </div>
-
                                             <?php
-                                            if ($comment != null) {
-                                                for ($c = 0; $c < sizeof($comment); $c++) {
-                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                            ?>
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container">
+                                            if ($comment != null) { ?>
+                                            
+                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                                    <?php
+                                                        for ($c = 0; $c < sizeof($comment); $c++) {
+                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                    ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                                 <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
@@ -728,15 +729,16 @@ if (!isset($_SESSION["userid"])) {
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <a href="#"> Replay </a>
+                                                                    <button class="reply-btn">Reply</button>
+                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $comment[$c]["date"] ?></span>
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        <?php
+                                                    }   ?>
                                                     </div>
                                                 <?php
-                                                }
                                             } else {
                                                 ?>
                                                 <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
@@ -752,6 +754,7 @@ if (!isset($_SESSION["userid"])) {
                                                     <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
                                                         Comment </a>
                                                 </div>
+
 
                                         </div>
 
@@ -1010,11 +1013,13 @@ if (!isset($_SESSION["userid"])) {
 
                                             
                                             <?php
-                                            if ($comment != null) {
-                                                for ($c = 0; $c < sizeof($comment); $c++) {
-                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                            ?>
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container">
+                                            if ($comment != null) { ?>
+                                            
+                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                                    <?php
+                                                        for ($c = 0; $c < sizeof($comment); $c++) {
+                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                    ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                                 <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
@@ -1027,15 +1032,16 @@ if (!isset($_SESSION["userid"])) {
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <a href="#"> Replay </a>
+                                                                    <button class="reply-btn">Reply</button>
+                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $comment[$c]["date"] ?></span>
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        <?php
+                                                    }   ?>
                                                     </div>
                                                 <?php
-                                                }
                                             } else {
                                                 ?>
                                                 <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php

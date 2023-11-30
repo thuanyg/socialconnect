@@ -282,7 +282,11 @@ class Post
         $DB = new Database();
         $sql = "select * from comment where postid = $postid order by date desc";
         $result = $DB ->Query($sql);
-        return $result;
+        if ($result) {
+            return $result;
+        } else {
+            return null;
+        }
         
     }
     function createComment($data, $userid, $postid) { 
@@ -294,6 +298,7 @@ class Post
             return $result;
         } else return 1;
     }
+    
     //Edit post
     function updatePost($postid, $data)
     {

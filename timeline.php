@@ -594,7 +594,7 @@ if (!isset($_SESSION["userid"])) {
                             <ul uk-switcher="connect: #timeline-tab; animation: uk-animation-fade">
                                 <li><a href="#">Timeline</a></li>
                                 <li><a href="#">Friends <span><?php echo $f->getQuantityFriend($userCurrent["userid"]) ?></span> </a></li>
-                                <li><a href="#" onclick="showImage()">Photos </a></li>
+                                <li><a href="#" onclick="showImageOfYou()">Photos </a></li>
                                 <li><a href="#">Pages</a></li>
                                 <li><a href="#">Groups</a></li>
                                 <li><a href="#">Videos</a></li>
@@ -1638,7 +1638,7 @@ if (!isset($_SESSION["userid"])) {
                             ?>
                         </div>
                         <div class="image-big">
-                            <span class="close">&times;</span>
+                            <span class="close-image">&times;</span>
                             <img class="image-big-content">
                         </div>
                         <div class="album-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5" style="display: none;">

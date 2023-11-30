@@ -545,7 +545,7 @@ if (!isset($_SESSION["userid"])) {
                             <ul uk-switcher="connect: #timeline-tab; animation: uk-animation-fade">
                                 <li><a href="#">Timeline</a></li>
                                 <li><a href="#">Friend <span>3,243</span> </a></li>
-                                <li><a href="#" onclick="getPhoto()">Photoes </a></li>
+                                <li><a href="#" onclick="showImageOfOther()" userprofile="<?php echo $userProfile["userid"] ?>">Photoes </a></li>
                                 <li><a href="#">Pages</a></li>
                                 <li><a href="#">Groups</a></li>
                                 <li><a href="#">Videos</a></li>
@@ -1520,11 +1520,14 @@ if (!isset($_SESSION["userid"])) {
                                         ?>
                                         <li class="photo-tab photo active"><a href="#"> Photos of you
                                                 <span><?php
-                                                        if ($postsize["total_media"] == null) {
-                                                            echo "0";
-                                                        } else {
-                                                            echo $postsize["total_media"];
-                                                        } ?>
+                                                        if ($postsize != null) {
+                                                            if ($postsize["total_media"] == null) {
+                                                                echo "0";
+                                                            } else {
+                                                                echo $postsize["total_media"];
+                                                            }
+                                                        }
+                                                        ?>
                                                 </span>
                                             </a></li>
                                         <li class="photo-tab album"><a href="#"> Albums </a></li>
@@ -1573,7 +1576,7 @@ if (!isset($_SESSION["userid"])) {
                             ?>
                         </div>
                         <div class="image-big">
-                            <span class="close">&times;</span>
+                            <span class="close-image">&times;</span>
                             <img class="image-big-content">
                         </div>
                         <div class="album-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5" style="display: none;">
