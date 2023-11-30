@@ -1,9 +1,12 @@
 
 // Search users - Ajax
+var userID = $("input[name='txtUserid']").val();
 var searchDocument = $("#searchResults");
 var scrolledOnce = false;
 var searchFetching = false;
+var notifyFetching = false;
 var offset = 10;
+var notifyOffset = 10;
 var shouldLoadMore = true;
 $("input[name='txtSearch']").on("input", function () {
     var query = $(this).val();
@@ -43,7 +46,7 @@ $("input[name='txtSearch']").on("input", function () {
                             $("#searchResults #search-loading").before(data);
                             if (data.trim() == '<div style="text-align: center" hidden>Finished Searching</div>') {
                                 shouldLoadMore = false;
-                                $(window).off('scroll');
+                                $(".header_search_dropdown").off('scroll');
                                 $("#search-loading").hide();
                             }
                         } else {
@@ -130,7 +133,6 @@ function SearchPost(query) {
 
 function SaveNotification(btn, type) {
     var postID = btn.parent().attr("post-id");
-    var userID = $("input[name='txtUserid']").val();
     var action = "";
     if (type == "like") {
         action = "like-post";
@@ -151,14 +153,13 @@ function SaveNotification(btn, type) {
         type: "POST",
         data: notify,
         success: function (data) {
-            
+
         }
     })
 }
 
 function SendNotificationLike(btn) {
     var postID = btn.parent().attr("post-id");
-    var userID = $("input[name='txtUserid']").val();
     // console.log(userID + " " + postID);
     var notify = {
         userid: userID,
@@ -167,11 +168,11 @@ function SendNotificationLike(btn) {
     };
     ws.send(JSON.stringify(notify));
 }
-
+var isNotificationOpen = false;
 $(".notification-btn").on("click", function (e) {
     e.preventDefault();
-    if ($(this).attr('aria-expanded') == 'false') {
-        var userID = $("input[name='txtUserid']").val();
+    if (!isNotificationOpen) {
+        isNotificationOpen = true;
         $.ajax({
             url: "Ajax/Notification.php",
             type: "POST",
@@ -180,7 +181,7 @@ $(".notification-btn").on("click", function (e) {
                 action: "get-notification"
             },
             success: function (data) {
-                if (data.trim() != "") {
+                if (data.trim() != "[]") {
                     var data = JSON.parse(data);
                     $(".list-notification").empty();
                     data.forEach(item => {
@@ -198,16 +199,70 @@ $(".notification-btn").on("click", function (e) {
                                         </li>`
                         $(".list-notification").append(htmlLike);
                     });
+                    notifyOffset = 10;
                 }
             }
         })
     }
+
+    // Load notification
+    $(".simplebar-content:eq(1)").scroll(function () {
+        var scrollTop = $(this).scrollTop();
+        var windowHeight = $(this).height();
+        var docHeight = $(".list-notification").height();
+        // console.log(scrollTop + " -- " + docHeight + " -- " + windowHeigh);
+        if (scrollTop + windowHeight > docHeight - 50) {
+            ViewNextNotification()
+        }
+    });
 });
+
+function getNotificationToLoad(notifyOffset) {
+    notifyFetching = true;
+    $.ajax({
+        url: "Ajax/Notification.php",
+        type: "POST",
+        data: {
+            offset: notifyOffset,
+            userid: userID,
+            action: "get-notification-to-load"
+        },
+        cache: false,
+        success: function (data) {
+            if (data.trim() != "[]") {
+                var data = JSON.parse(data);
+                data.forEach(item => {
+                    var htmlLike = `<li>
+                                        <a href="post.php?p=${item.related_object_id}">
+                                            <div class="drop_avatar"> <img src="${item.sender.avatar_image}" alt=""></div>
+                                                <div class="drop_text">
+                                                    <p>
+                                                        <strong>${item.sender.last_name}</strong> Liked Your Post
+                                                        <span class="text-link"></span>
+                                                    </p>
+                                                    <time> ${timeAgo(item.date)} </time>
+                                            </div>
+                                        </a>
+                                    </li>`
+                    $(".list-notification").append(htmlLike);
+                });
+                notifyFetching = false;
+            }
+        },
+    });
+}
+
+function ViewNextNotification() {
+    if(notifyFetching) return;
+    getNotificationToLoad(notifyOffset);
+    notifyOffset += 5;
+}
+
+
 function timeAgo(dateString) {
     const currentDate = new Date();
     const pastDate = new Date(dateString);
     const timeDifference = currentDate - pastDate;
-
     const seconds = Math.floor(timeDifference / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
@@ -223,6 +278,9 @@ function timeAgo(dateString) {
         return "1 phút trước";
     }
 }
+
+
+
 // Kiểm tra điều kiện đầu vào hợp lệ
 // function validateInput(input) {
 //     return !/<script\b[^<]*<\/script>/i.test(input);

@@ -521,14 +521,7 @@ if (!isset($_SESSION["userid"])) {
                     <div class="profiles_banner">
                         <img src="<?php echo $userProfile["cover_image"] ?>" alt="">
                         <div class="profile_action absolute bottom-0 right-0 space-x-1.5 p-3 text-sm z-50 hidden lg:flex">
-                            <a href="#" class="flex items-center justify-center h-8 px-3 rounded-md bg-gray-700 bg-opacity-70 text-white space-x-1.5">
-                                <ion-icon name="crop-outline" class="text-xl"></ion-icon>
-                                <span> Crop </span>
-                            </a>
-                            <a href="#" class="flex items-center justify-center h-8 px-3 rounded-md bg-gray-700 bg-opacity-70 text-white space-x-1.5">
-                                <ion-icon name="create-outline" class="text-xl"></ion-icon>
-                                <span> Edit </span>
-                            </a>
+
                         </div>
                     </div>
                     <div class="profiles_content">
@@ -538,7 +531,6 @@ if (!isset($_SESSION["userid"])) {
                                 <img src="<?php echo $userProfile["avatar_image"] ?>" alt="">
                             </div>
                             <div class="user_status status_online"></div>
-                            <div class="icon_change_photo" style="display: none;"> <ion-icon name="camera" class="text-xl"></ion-icon> </div>
                         </div>
 
                         <div class="profile_info">
@@ -752,7 +744,7 @@ if (!isset($_SESSION["userid"])) {
                             <!------------------------------------------------------------------------------------------------------------------------------------------------->
                             <!-- Post with picture -->
                             <?php
-                            
+
                             if ($post != null) {
                                 $isFriend = $f->isFriend($userCurrent["userid"], $userProfile["userid"]);
                                 for ($i = 0; $i < sizeof($post); $i++) {
@@ -782,7 +774,20 @@ if (!isset($_SESSION["userid"])) {
                                                         <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
                                                                                                                         else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
                                                                                                                         else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                                        ?></span> <ion-icon name="people"></ion-icon></div>
+                                                                                                                        ?></span>
+                                                            <?php
+                                                            if ($isPublicCondition) {
+                                                            ?>
+                                                                <ion-icon name="earth"></ion-icon>
+                                                            <?php
+                                                            }
+                                                            if ($isFriendCondition) {
+                                                            ?>
+                                                                <ion-icon name="people"></ion-icon>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -850,7 +855,7 @@ if (!isset($_SESSION["userid"])) {
                                                     }
                                                 }
                                                 ?>
-                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
+                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                                     <button type="button" class="like-post-btn flex items-center space-x-2">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -990,7 +995,18 @@ if (!isset($_SESSION["userid"])) {
                                                                     else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
                                                                     else echo $hours . " h " . $minutes . " phút trước";
                                                                     ?>
-                                                            </span> <ion-icon name="people"></ion-icon>
+                                                            </span><?php
+                                                                    if ($isPublicCondition) {
+                                                                    ?>
+                                                                <ion-icon name="earth"></ion-icon>
+                                                            <?php
+                                                                    }
+                                                                    if ($isFriendCondition) {
+                                                            ?>
+                                                                <ion-icon name="people"></ion-icon>
+                                                            <?php
+                                                                    }
+                                                            ?></ion-icon>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1067,7 +1083,8 @@ if (!isset($_SESSION["userid"])) {
                                                                             <?php if ($hours <= 0) echo $minutes . " phút trước";
                                                                             else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
                                                                             else echo $hours . " h " . $minutes . " phút trước";
-                                                                            ?></span> <ion-icon name="people"></ion-icon>
+                                                                            ?></span>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1094,7 +1111,7 @@ if (!isset($_SESSION["userid"])) {
                                                     }
                                                 }
                                                 ?>
-                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
+                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                                     <button type="button" class="like-post-btn flex items-center space-x-2">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -2319,7 +2336,9 @@ if (!isset($_SESSION["userid"])) {
     <script src="assets/js/simplebar.js"></script>
     <script src="assets/js/custom.js"></script>
     <script src="assets/js/bootstrap-select.min.js"></script>
-    <script src="../../unpkg.com/ionicons%405.2.3/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 
 </body>
 

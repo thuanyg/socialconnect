@@ -565,12 +565,8 @@ if (!isset($_SESSION["userid"])) {
                         <img src="<?php echo $userCurrent["cover_image"] ?>" alt="">
                         <div class="profile_action absolute bottom-0 right-0 space-x-1.5 p-3 text-sm z-50 hidden lg:flex">
                             <a href="#" uk-toggle="target: #edit-cover-modal" class="flex items-center justify-center h-8 px-3 rounded-md bg-gray-700 bg-opacity-70 text-white space-x-1.5">
-                                <ion-icon name="crop-outline" class="text-xl"></ion-icon>
+                                <ion-icon name="image-outline" class="text-xl"></ion-icon>
                                 <span> Edit cover </span>
-                            </a>
-                            <a href="#" uk-toggle="target: #edit-avatar-modal" class=" flex items-center justify-center h-8 px-3 rounded-md bg-gray-700 bg-opacity-70 text-white space-x-1.5 ">
-                                <ion-icon name="create-outline" class="text-xl"></ion-icon>
-                                <span> Edit Avatar</span>
                             </a>
                         </div>
                     </div>
@@ -581,7 +577,7 @@ if (!isset($_SESSION["userid"])) {
                                 <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="">
                             </div>
                             <div class="user_status status_online"></div>
-                            <div class="icon_change_photo" style="display: none;"> <ion-icon name="camera" class="text-xl"></ion-icon> </div>
+                            <div class="icon_change_photo" uk-toggle="target: #edit-avatar-modal"> <ion-icon name="camera" class="text-xl"></ion-icon> </div>
                         </div>
 
                         <div class="profile_info">
@@ -703,6 +699,9 @@ if (!isset($_SESSION["userid"])) {
                             if ($post != null) {
                                 for ($i = 0; $i < sizeof($post); $i++) {
                                     $like = $p->getLikePost($post[$i]["postid"]);
+                                    $isFriendCondition = $post[$i]['privacy'] == "Friend";
+                                    $isPublicCondition = $post[$i]['privacy'] == "Public";
+                                    $isPrivateCondition = $post[$i]['privacy'] == "Private";
                                     if ($post[$i]['has_image'] == 1 && $post[$i]['type'] == "post") {
                                         $t = new Timer();
                                         $time = $t->TimeSince($post[$i]["date"]); // Return array
@@ -712,9 +711,9 @@ if (!isset($_SESSION["userid"])) {
                                         // Get user for each post
                                         $userOfPost = $user->getUser($post[$i]["userid"]);
                             ?>
-    
+
                                         <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
-    
+
                                             <!-- post header-->
                                             <div class="flex justify-between items-center lg:p-4 p-2.5">
                                                 <div class="flex flex-1 items-center space-x-4">
@@ -726,13 +725,31 @@ if (!isset($_SESSION["userid"])) {
                                                         <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
                                                                                                                         else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
                                                                                                                         else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                                        ?></span> <ion-icon name="people"></ion-icon></div>
+                                                                                                                        ?></span>
+                                                            <?php
+                                                            if ($isPublicCondition) {
+                                                            ?>
+                                                                <ion-icon name="earth"></ion-icon>
+                                                            <?php
+                                                            }
+                                                            if ($isFriendCondition) {
+                                                            ?>
+                                                                <ion-icon name="people"></ion-icon>
+                                                            <?php
+                                                            }
+                                                            if ($isPrivateCondition) {
+                                                            ?>
+                                                                <ion-icon name="lock-closed"></ion-icon>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="post-action">
                                                     <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 dark:hover:bg-gray-700"></i> </a>
                                                     <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
-    
+
                                                         <ul class="space-y-1">
                                                             <!-- <li>
                                                                 <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
@@ -783,7 +800,7 @@ if (!isset($_SESSION["userid"])) {
                                                             }
                                                             ?>
                                                         </ul>
-    
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -791,7 +808,7 @@ if (!isset($_SESSION["userid"])) {
                                             <div class="p-5 pt-0 border-b dark:border-gray-700">
                                                 <?php echo $post[$i]["post"]; ?>
                                             </div>
-    
+
                                             <!-- Show Image/Video Post -->
                                             <div uk-lightbox>
                                                 <div class="grid grid-cols-2 gap-2 px-5">
@@ -807,7 +824,7 @@ if (!isset($_SESSION["userid"])) {
                                                     ?>
                                                                 <a href="uploads/posts/<?php echo $media[$j]; ?>" class="col-span-3 relative">
                                                                     <img src="uploads/posts/<?php echo $media[$j]; ?>" alt="<?php echo $media[$j]; ?>" class="rounded-md w-full lg:h-76 object-cover">
-    
+
                                                                 </a>
                                                             <?php
                                                             } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
@@ -818,8 +835,8 @@ if (!isset($_SESSION["userid"])) {
                                                                         Your browser does not support the video tag.
                                                                     </video>
                                                                 </div>
-    
-    
+
+
                                                     <?php
                                                             }
                                                         }
@@ -832,11 +849,11 @@ if (!isset($_SESSION["userid"])) {
                                                             <img src="assets/images/post/img-3.jpg" alt="" class="rounded-md w-full h-full">
                                                             <div class="absolute bg-gray-900 bg-opacity-30 flex justify-center items-center text-white rounded-md inset-0 text-2xl"> + 15 more </div>
                                                         </a> -->
-    
+
                                                 </div>
                                             </div>
-    
-    
+
+
                                             <!--Like comment share-->
                                             <div class="p-4 space-y-3">
                                                 <?php
@@ -850,7 +867,7 @@ if (!isset($_SESSION["userid"])) {
                                                     }
                                                 }
                                                 ?>
-                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
+                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                                     <button type="button" class="like-post-btn flex items-center space-x-2">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -883,7 +900,7 @@ if (!isset($_SESSION["userid"])) {
                                                         if ($like != null) {
                                                             for ($j = 0; $j < 3 && $j < count($like); $j++) {
                                                                 $userlike = $user->getUser($like[$j]["userid"]);
-    
+
                                                         ?>
                                                                 <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
                                                         <?php
@@ -908,7 +925,7 @@ if (!isset($_SESSION["userid"])) {
                                                         ?>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="border-t py-4 space-y-4 dark:border-gray-600">
                                                     <div class="flex">
                                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
@@ -942,11 +959,11 @@ if (!isset($_SESSION["userid"])) {
                                                             </div>
                                                         </div>
                                                     </div>
-    
+
                                                 </div>
-    
+
                                                 <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-    
+
                                                 <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
                                                     <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
                                                     <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
@@ -961,9 +978,9 @@ if (!isset($_SESSION["userid"])) {
                                                         </a>
                                                     </div>
                                                 </div>
-    
+
                                             </div>
-    
+
                                         </div>
                                     <?php
                                     } else if ($post[$i]['type'] == "share") {
@@ -975,7 +992,7 @@ if (!isset($_SESSION["userid"])) {
                                         // Get user for each post
                                         $userOfPost = $user->getUser($post[$i]["userid"]);
                                     ?>
-    
+
                                         <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
                                             <!-- post header-->
                                             <div class="flex justify-between items-center lg:p-4 p-2.5">
@@ -989,13 +1006,31 @@ if (!isset($_SESSION["userid"])) {
                                                         <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
                                                                                                                         else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
                                                                                                                         else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                                        ?></span> <ion-icon name="people"></ion-icon></div>
+                                                                                                                        ?></span>
+                                                            <?php
+                                                            if ($isPublicCondition) {
+                                                            ?>
+                                                                <ion-icon name="earth"></ion-icon>
+                                                            <?php
+                                                            }
+                                                            if ($isFriendCondition) {
+                                                            ?>
+                                                                <ion-icon name="people"></ion-icon>
+                                                            <?php
+                                                            }
+                                                            if ($isPrivateCondition) {
+                                                            ?>
+                                                                <ion-icon name="lock-closed"></ion-icon>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="post-action">
                                                     <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 dark:hover:bg-gray-700"></i> </a>
                                                     <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
-    
+
                                                         <ul class="space-y-1">
                                                             <li>
                                                                 <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
@@ -1046,7 +1081,7 @@ if (!isset($_SESSION["userid"])) {
                                                             }
                                                             ?>
                                                         </ul>
-    
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -1054,7 +1089,7 @@ if (!isset($_SESSION["userid"])) {
                                             <div class="p-5 pt-0 border-b dark:border-gray-700">
                                                 <?php echo $post[$i]["post"]; ?>
                                             </div>
-    
+
                                             <!-- Show post share -->
                                             <div uk-lightbox>
                                                 <div class="grid grid-cols-1 gap-2 px-5">
@@ -1084,7 +1119,7 @@ if (!isset($_SESSION["userid"])) {
                                                                 ?>
                                                                             <a href="uploads/posts/<?php echo $media[$j]; ?>" class="col-span-3 relative">
                                                                                 <img src="uploads/posts/<?php echo $media[$j]; ?>" alt="<?php echo $media[$j]; ?>" class="rounded-md w-full lg:h-76 object-cover">
-    
+
                                                                             </a>
                                                                         <?php
                                                                         } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
@@ -1095,8 +1130,8 @@ if (!isset($_SESSION["userid"])) {
                                                                                     Your browser does not support the video tag.
                                                                                 </video>
                                                                             </div>
-    
-    
+
+
                                                                 <?php
                                                                         }
                                                                     }
@@ -1118,7 +1153,8 @@ if (!isset($_SESSION["userid"])) {
                                                                             <?php if ($hours <= 0) echo $minutes . " phút trước";
                                                                             else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
                                                                             else echo $hours . " h " . $minutes . " phút trước";
-                                                                            ?></span> <ion-icon name="people"></ion-icon>
+                                                                            ?></span>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1130,8 +1166,8 @@ if (!isset($_SESSION["userid"])) {
                                                     </div>
                                                 </div>
                                             </div>
-    
-    
+
+
                                             <!--Like comment share-->
                                             <div class="p-4 space-y-3">
                                                 <?php
@@ -1145,7 +1181,7 @@ if (!isset($_SESSION["userid"])) {
                                                     }
                                                 }
                                                 ?>
-                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
+                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                                     <button type="button" class="like-post-btn flex items-center space-x-2">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -1178,7 +1214,7 @@ if (!isset($_SESSION["userid"])) {
                                                         if ($like != null) {
                                                             for ($j = 0; $j < 3 && $j < count($like); $j++) {
                                                                 $userlike = $user->getUser($like[$j]["userid"]);
-    
+
                                                         ?>
                                                                 <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
                                                         <?php
@@ -1203,7 +1239,7 @@ if (!isset($_SESSION["userid"])) {
                                                         ?>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="border-t py-4 space-y-4 dark:border-gray-600">
                                                     <div class="flex">
                                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
@@ -1237,11 +1273,11 @@ if (!isset($_SESSION["userid"])) {
                                                             </div>
                                                         </div>
                                                     </div>
-    
+
                                                 </div>
-    
+
                                                 <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-    
+
                                                 <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
                                                     <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
                                                     <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
@@ -1256,9 +1292,9 @@ if (!isset($_SESSION["userid"])) {
                                                         </a>
                                                     </div>
                                                 </div>
-    
+
                                             </div>
-    
+
                                         </div>
                             <?php
                                     }
@@ -1308,7 +1344,8 @@ if (!isset($_SESSION["userid"])) {
                                     if ($about != null) {
                                     ?>
                                         <li class="flex items-center space-x-2">
-                                            <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon>
+                                            <ion-icon name="home"></ion-icon>
+                                            <!-- <ion-icon name="home" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Live In <strong> <?php echo $about["address"] ?> </strong>
                                         </li>
                                     <?php
@@ -1317,21 +1354,24 @@ if (!isset($_SESSION["userid"])) {
                                         $formattedDate = date("d-m-Y", strtotime($about["birthday"]));
                                     ?>
                                         <li class="flex items-center space-x-2">
-                                            <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon>
+                                            <ion-icon name="calendar"></ion-icon>
+                                            <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Birthday <strong> <?php echo $formattedDate ?> </strong>
                                         <?php
                                     }
                                     if ($about != null) {
                                         ?>
                                         <li class="flex items-center space-x-2">
-                                            <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon>
+                                            <ion-icon name="school"></ion-icon>
+                                            <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Education <strong> <?php echo $about["edu"] ?> </strong>
                                         <?php
                                     }
                                     if ($about != null) {
                                         ?>
                                         <li class="flex items-center space-x-2">
-                                            <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon>
+                                            <ion-icon name="planet"></ion-icon>
+                                            <!-- <ion-icon name="information-circle" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Bio <strong> <?php echo $about["desc"] ?> </strong>
                                         <?php
                                     }
@@ -2628,6 +2668,8 @@ if (!isset($_SESSION["userid"])) {
     <script src="assets/js/custom.js"></script>
     <script src="assets/js/bootstrap-select.min.js"></script>
     <script src="../../unpkg.com/ionicons%405.2.3/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
 </body>
 <!-- Mirrored from demo.foxthemes.net/socialite/timeline.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 20 Jul 2023 17:42:27 GMT -->

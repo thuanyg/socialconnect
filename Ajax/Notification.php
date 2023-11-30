@@ -7,6 +7,7 @@ $p = new Post();
 $user = new User();
 $notify = new Notification();
 if (isset($_REQUEST["action"])) {
+    
     if ($_POST["action"] == "get-notification") {
         $userid = $_POST["userid"];
         // Get Post_Related
@@ -20,6 +21,24 @@ if (isset($_REQUEST["action"])) {
         }
         echo json_encode($notify);
     }
+
+    if ($_POST["action"] == "get-notification-to-load") {
+        $userid = $_POST["userid"];
+        $offset = $_POST["offset"];
+        // Get Post_Related
+        $notify = $notify->getNextNotification($userid, $offset);
+        if($notify != null){
+            for ($i=0; $i < count($notify); $i++) { 
+                $senderID = $notify[$i]["sender_id"];
+                $sender = $user->getUser($senderID);
+                $notify[$i]["sender"] = $sender;
+            }
+        }
+        echo json_encode($notify);
+    }
+
+
+
     if ($_POST["action"] == "like-post") {
         $userid = $_POST["userid"];
         $postid = $_POST["postid"];

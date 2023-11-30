@@ -9,6 +9,13 @@ class Notification
         return $result;
     }
 
+    function getNextNotification($userid, $offset){
+        $DB = new Database();
+        $sql = "SELECT * FROM notifications WHERE userid = {$userid} ORDER BY date DESC LIMIT 5 OFFSET {$offset}";
+        $result = $DB->Query($sql);
+        return $result;
+    }
+
     function setNotification($userid, $sender_id, $related_object_id, $type){
         $DB = new Database();
         $sql = "INSERT INTO notifications (userid, sender_id, related_object_id, `type`) VALUES ({$userid}, {$sender_id}, {$related_object_id}, '$type')";

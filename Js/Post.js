@@ -404,6 +404,7 @@ $(document).on('click', '.like-post-btn', function (e) {
     e.preventDefault();
     var userID = $("input[name='txtUserid']").val();
     var postID = $(this).parent().attr("post-id");
+    var authorID = $(this).parent().attr("author-id");
     var likeButton = $(this);
     var data = {
         userid: userID,
@@ -441,8 +442,10 @@ $(document).on('click', '.like-post-btn', function (e) {
                     avatarUserLike.prepend(img);
 
                     // Send notification
-                    SaveNotification(likeButton, 'like');
-                    SendNotificationLike(likeButton);
+                    if (userID != authorID) {
+                        SaveNotification(likeButton, 'like');
+                        SendNotificationLike(likeButton);
+                    }
                 } else {
                     likeIcon.attr("fill", "currentColor");
                     likeText.css("color", "#666666");
@@ -476,7 +479,7 @@ $(document).on('click', '.share-post-btn', function (e) {
     $("#share-post-modal").removeAttr("style");
     var userID = $("input[name='txtUserid").val();
     var postID = $(this).parent().attr("post-id");
-    $(".btn-share-post").click(function(event){
+    $(".btn-share-post").click(function (event) {
         event.preventDefault();
         var data = {
             userid: userID,
@@ -490,7 +493,7 @@ $(document).on('click', '.share-post-btn', function (e) {
             data: data,
             success: function (response) {
                 if (response) {
-                    if(response.trim() == "1"){
+                    if (response.trim() == "1") {
                         showNotification("Share post successfully.")
                     }
                 }

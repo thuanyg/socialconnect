@@ -215,14 +215,14 @@ if (!isset($_SESSION["userid"])) {
                                 </svg>
                                 <span class="notification-quantity">
                                     <?php
-                                        $noti = $notify->getNotificationUnread($userCurrent["userid"]);
-                                        if($noti != null){
-                                            echo $noti[0]["total"];
-                                        }
+                                    $noti = $notify->getNotificationUnread($userCurrent["userid"]);
+                                    if ($noti != null) {
+                                        echo $noti[0]["total"];
+                                    }
                                     ?>
                                 </span>
                             </a>
-                            <div uk-drop="mode: click" class="header_dropdown">
+                            <div uk-drop="mode: click" class="notification-content header_dropdown">
                                 <div class="dropdown_scrollbar" data-simplebar>
                                     <div class="drop_headline">
                                         <h4>Notifications </h4>
@@ -236,19 +236,7 @@ if (!isset($_SESSION["userid"])) {
                                         </div>
                                     </div>
                                     <ul class="list-notification">
-                                        <!-- <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Quang</strong> Replay Your Comments in
-                                                        <span class="text-link">Programming for Games</span>
-                                                    </p>
-                                                    <time> 9 hours ago </time>
-                                                </div>
-                                            </a>
-                                        </li> -->
+                                        <!-- Append Notification Here -->
                                     </ul>
                                 </div>
                             </div>
@@ -497,6 +485,7 @@ if (!isset($_SESSION["userid"])) {
                                 $like = $p->getLikePost($post[$i]["postid"]);
                                 $isFriend = $f->isFriend($userCurrent["userid"], $post[$i]["userid"]);
                                 $isFriendCondition = ($isFriend == 1 && $post[$i]['privacy'] == "Friend");
+                                $isFriendPrivacy = $post[$i]['privacy'] == "Friend";
                                 $isPublicCondition = $post[$i]['privacy'] == "Public";
                                 $isPostCondition = $post[$i]['type'] == "post";
                                 $isPostShareCondition = $post[$i]['type'] == "share";
@@ -524,7 +513,20 @@ if (!isset($_SESSION["userid"])) {
                                                     <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
                                                                                                                     else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
                                                                                                                     else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                                                                                                    ?></span>
+                                                        <?php
+                                                        if ($isPublicCondition) {
+                                                        ?>
+                                                            <ion-icon name="earth"></ion-icon>
+                                                        <?php
+                                                        }
+                                                        if ($isFriendPrivacy) {
+                                                        ?>
+                                                            <ion-icon name="people"></ion-icon>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="post-action">
@@ -648,7 +650,7 @@ if (!isset($_SESSION["userid"])) {
                                                 }
                                             }
                                             ?>
-                                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
+                                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -787,7 +789,20 @@ if (!isset($_SESSION["userid"])) {
                                                     <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
                                                                                                                     else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
                                                                                                                     else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                                                                                                    ?></span>
+                                                        <?php
+                                                        if ($isPublicCondition) {
+                                                        ?>
+                                                            <ion-icon name="earth"></ion-icon>
+                                                        <?php
+                                                        }
+                                                        if ($isFriendPrivacy) {
+                                                        ?>
+                                                            <ion-icon name="people"></ion-icon>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="post-action">
@@ -916,7 +931,7 @@ if (!isset($_SESSION["userid"])) {
                                                                         <?php if ($hours <= 0) echo $minutes . " phút trước";
                                                                         else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
                                                                         else echo $hours . " h " . $minutes . " phút trước";
-                                                                        ?></span> <ion-icon name="people"></ion-icon>
+                                                                        ?></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -943,7 +958,7 @@ if (!isset($_SESSION["userid"])) {
                                                 }
                                             }
                                             ?>
-                                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>">
+                                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -1613,7 +1628,8 @@ if (!isset($_SESSION["userid"])) {
     <script src="assets/js/simplebar.js"></script>
     <script src="assets/js/custom.js"></script>
     <script src="assets/js/bootstrap-select.min.js"></script>
-
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
 </body>
 
