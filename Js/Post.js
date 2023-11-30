@@ -513,8 +513,54 @@ $(document).on('click', '.comment-post-btn', function (e) {
     $("#post-details-modal h3").text(userOfPost + "'s post");
     var postCardHTML = $(`.post-card[post-id=${postID}]`)[0].outerHTML;
     $("#post-details-modal .post-details-card").html(postCardHTML);
+    $("#post-details-modal .comment-textbox").focus();
 });
-
+//comment
+$(document).on("click",".add-comment-btn",function(e){  
+    e.preventDefault;
+    var userID = $("input[name='txtUserid']").val();
+    var postID = $(this).attr('post-id');
+    var msg1 = $(".comment-textbox[post-id='" + postID + "']").val();
+    var msg2 = $("#post-details-modal .comment-textbox[post-id='" + postID + "']").val();
+    var msg;
+    if(msg2 === undefined){
+        msg = msg1;
+    }else{
+        msg = msg2;
+    }
+    console.log(msg);
+    console.log(postID);
+    if ($.trim(msg).length == 0) {
+        error_msg = "Nhập comment đê";
+        $("#error_status[post-id='"+postID+"']").text(error_msg);
+    }else{
+        error_msg = "ok";
+        $("#error_status[post-id='"+postID+"']").text(error_msg);
+    }
+    if(error_msg != "ok"){
+        return false;
+    }
+    else{
+        try {
+            $.ajax({
+                url: "Ajax/Post.php",
+                method: "POST",
+                dataType: "html",
+                data: {
+                    msg: msg,
+                    userID: userID,
+                    postID: postID,
+                    action: "add-comment"
+                },            
+                success: function(response){
+                    alert(response);
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+});
 
 // Delete post
 function deletePost(event, btn) {

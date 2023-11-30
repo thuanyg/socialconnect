@@ -483,6 +483,7 @@ if (!isset($_SESSION["userid"])) {
                         if ($post != null) {
                             for ($i = 0; $i < sizeof($post); $i++) {
                                 $like = $p->getLikePost($post[$i]["postid"]);
+                                $comment = $p->getCommentPost($post[$i]["postid"]);
                                 $isFriend = $f->isFriend($userCurrent["userid"], $post[$i]["userid"]);
                                 $isFriendCondition = ($isFriend == 1 && $post[$i]['privacy'] == "Friend");
                                 $isFriendPrivacy = $post[$i]['privacy'] == "Friend";
@@ -709,58 +710,47 @@ if (!isset($_SESSION["userid"])) {
                                                 </div>
                                             </div>
 
-                                            <div class="border-t py-4 space-y-4 dark:border-gray-600">
-                                                <div class="flex">
-                                                    <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                        <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                    </div>
-                                                    <div>
-                                                        <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                            <p class="leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia aliquid hic molestiae provident eaque obcaecati eligendi explicabo distinctio dicta fuga rem asperiores itaque, dolor officiis doloribus, nobis illum assumenda et! <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                            <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                            <?php
+                                            if ($comment != null) {
+                                                for ($c = 0; $c < sizeof($comment); $c++) {
+                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                            ?>
+                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container">
+                                                        <div class="flex">
+                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                                            </div>
+                                                            <div>
+                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
+                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                                </div>
+                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                                    <a href="#"> Replay </a>
+                                                                    <span><?php echo $comment[$c]["date"] ?></span>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                            <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                            <a href="#"> Replay </a>
-                                                            <span> 3d </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="flex">
-                                                    <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                        <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                    </div>
-                                                    <div>
-                                                        <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                            <p class="leading-6"> Test cmt 2 !<i class="uil-grin-tongue-wink-alt"></i> </p>
-                                                            <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                        </div>
-                                                        <div class="text-xs flex items-center space-x-3 mt-2 ml-5">
-                                                            <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                            <a href="#"> Replay </a>
-                                                            <span> 3d </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                            </div>
+                                                    </div>
+                                                <?php
+                                                }
+                                            } else {
+                                                ?>
+                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
+                                            }
+                                                ?> 
+                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
+                                                <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?> ">
 
-                                            <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-
-                                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
-                                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                    <a href="#">
-                                                        <ion-icon name="happy-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </a>
-                                                    <a href="#">
-                                                        <ion-icon name="image-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </a>
-                                                    <a href="#">
-                                                        <ion-icon name="link-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </a>
                                                 </div>
-                                            </div>
+                                                <div class="flex space-x-2">
+                                                    <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                                        Comment </a>
+                                                </div>
 
                                         </div>
 
@@ -1017,58 +1007,48 @@ if (!isset($_SESSION["userid"])) {
                                                 </div>
                                             </div>
 
-                                            <div class="border-t py-4 space-y-4 dark:border-gray-600">
-                                                <div class="flex">
-                                                    <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                        <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                    </div>
-                                                    <div>
-                                                        <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                            <p class="leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia aliquid hic molestiae provident eaque obcaecati eligendi explicabo distinctio dicta fuga rem asperiores itaque, dolor officiis doloribus, nobis illum assumenda et! <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                            <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                            
+                                            <?php
+                                            if ($comment != null) {
+                                                for ($c = 0; $c < sizeof($comment); $c++) {
+                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                            ?>
+                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container">
+                                                        <div class="flex">
+                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                                            </div>
+                                                            <div>
+                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
+                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                                </div>
+                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                                    <a href="#"> Replay </a>
+                                                                    <span><?php echo $comment[$c]["date"] ?></span>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                            <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                            <a href="#"> Replay </a>
-                                                            <span> 3d </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="flex">
-                                                    <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                        <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                    </div>
-                                                    <div>
-                                                        <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                            <p class="leading-6"> Test cmt 2 !<i class="uil-grin-tongue-wink-alt"></i> </p>
-                                                            <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                        </div>
-                                                        <div class="text-xs flex items-center space-x-3 mt-2 ml-5">
-                                                            <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                            <a href="#"> Replay </a>
-                                                            <span> 3d </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                            </div>
+                                                    </div>
+                                                <?php
+                                                }
+                                            } else {
+                                                ?>
+                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
+                                            }
+                                                ?> 
+                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
+                                                <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?> ">
 
-                                            <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-
-                                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
-                                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                    <a href="#">
-                                                        <ion-icon name="happy-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </a>
-                                                    <a href="#">
-                                                        <ion-icon name="image-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </a>
-                                                    <a href="#">
-                                                        <ion-icon name="link-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </a>
                                                 </div>
-                                            </div>
+                                                <div class="flex space-x-2">
+                                                    <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                                        Comment </a>
+                                                </div>
 
                                         </div>
 

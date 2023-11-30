@@ -277,6 +277,23 @@ class Post
         } else $r = 0;
         return $r;
     }
+    //comment post
+    function getCommentPost($postid){
+        $DB = new Database();
+        $sql = "select * from comment where postid = $postid order by date desc";
+        $result = $DB ->Query($sql);
+        return $result;
+        
+    }
+    function createComment($data, $userid, $postid) { 
+        $DB = new Database(); 
+        $msg = $DB->escapedString($data["msg"]);
+        $sql = "INSERT INTO comment (comment_msg, comment_userid, postid) VALUES ('$msg', $userid, $postid)";
+        $result = $DB->Execute($sql);
+        if($result != null){
+            return $result;
+        } else return 1;
+    }
     //Edit post
     function updatePost($postid, $data)
     {
