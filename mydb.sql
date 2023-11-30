@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 29, 2023 lúc 12:01 PM
--- Phiên bản máy phục vụ: 10.4.28-MariaDB
--- Phiên bản PHP: 8.0.28
+-- Host: 127.0.0.1
+-- Generation Time: Nov 30, 2023 at 03:11 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,12 +18,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `mydb`
+-- Database: `mydb`
 --
 
 DELIMITER $$
 --
--- Thủ tục
+-- Procedures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ToggleLike` (IN `p_userId` BIGINT, IN `p_postId` BIGINT)   BEGIN
     DECLARE existingLikeCount INT;
@@ -50,20 +50,31 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `comment`
+-- Table structure for table `comment`
 --
 
 CREATE TABLE `comment` (
   `id` int(11) NOT NULL,
+  `comment_msg` text NOT NULL,
   `postid` bigint(19) NOT NULL,
   `comment_userid` bigint(19) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`id`, `comment_msg`, `postid`, `comment_userid`, `date`) VALUES
+(1, 'luffy art', 297449209171719053, 512857291296221, '2023-11-30 13:58:01'),
+(2, 'share har', 69278337688, 512857291296221, '2023-11-30 13:58:23'),
+(3, 'mui to ao tuong suc manh', 88322897687, 512857291296221, '2023-11-30 13:58:44'),
+(4, '1 thanh nien bj ngao dien tro', 88322897687, 512857291296221, '2023-11-30 13:59:06');
+
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `friendships`
+-- Table structure for table `friendships`
 --
 
 CREATE TABLE `friendships` (
@@ -75,7 +86,7 @@ CREATE TABLE `friendships` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `friendships`
+-- Dumping data for table `friendships`
 --
 
 INSERT INTO `friendships` (`id`, `user1_id`, `user2_id`, `status`, `date`) VALUES
@@ -88,7 +99,7 @@ INSERT INTO `friendships` (`id`, `user1_id`, `user2_id`, `status`, `date`) VALUE
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `friend_requests`
+-- Table structure for table `friend_requests`
 --
 
 CREATE TABLE `friend_requests` (
@@ -100,7 +111,7 @@ CREATE TABLE `friend_requests` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `friend_requests`
+-- Dumping data for table `friend_requests`
 --
 
 INSERT INTO `friend_requests` (`id`, `sender_id`, `receiver_id`, `status`, `date`) VALUES
@@ -113,7 +124,7 @@ INSERT INTO `friend_requests` (`id`, `sender_id`, `receiver_id`, `status`, `date
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `likes`
+-- Table structure for table `likes`
 --
 
 CREATE TABLE `likes` (
@@ -124,7 +135,7 @@ CREATE TABLE `likes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `likes`
+-- Dumping data for table `likes`
 --
 
 INSERT INTO `likes` (`id`, `postid`, `userid`, `date`) VALUES
@@ -135,12 +146,13 @@ INSERT INTO `likes` (`id`, `postid`, `userid`, `date`) VALUES
 (150, 506740946623, 3572325399739732623, '2023-11-28 16:11:38'),
 (188, 88322897687, 3572325399739732623, '2023-11-29 10:19:35'),
 (189, 69278337688, 4556887516696215, '2023-11-29 10:22:19'),
-(191, 950118002460448865, 3572325399739732623, '2023-11-29 10:57:51');
+(191, 950118002460448865, 3572325399739732623, '2023-11-29 10:57:51'),
+(192, 19581001419442, 512857291296221, '2023-11-30 13:41:42');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `messages`
+-- Table structure for table `messages`
 --
 
 CREATE TABLE `messages` (
@@ -156,7 +168,7 @@ CREATE TABLE `messages` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `messages`
+-- Dumping data for table `messages`
 --
 
 INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `text`, `media`, `date`, `deleted_by_sender`, `deleted_by_receiver`, `read`) VALUES
@@ -236,7 +248,7 @@ INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `text`, `media`, `date
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `notifications`
+-- Table structure for table `notifications`
 --
 
 CREATE TABLE `notifications` (
@@ -251,19 +263,20 @@ CREATE TABLE `notifications` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `notifications`
+-- Dumping data for table `notifications`
 --
 
 INSERT INTO `notifications` (`id`, `userid`, `sender_id`, `content`, `date`, `isRead`, `related_object_id`, `type`) VALUES
 (196, 4556887516696215, 3572325399739732623, '', '2023-11-29 10:19:36', 0, 88322897687, 'like'),
 (197, 3572325399739732623, 4556887516696215, '', '2023-11-29 10:22:19', 0, 69278337688, 'like'),
 (198, 4556887516696215, 3572325399739732623, '', '2023-11-29 10:27:42', 0, 950118002460448865, 'like'),
-(199, 4556887516696215, 3572325399739732623, '', '2023-11-29 10:57:51', 0, 950118002460448865, 'like');
+(199, 4556887516696215, 3572325399739732623, '', '2023-11-29 10:57:51', 0, 950118002460448865, 'like'),
+(200, 3572325399739732623, 512857291296221, '', '2023-11-30 13:41:42', 0, 19581001419442, 'like');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `posts`
+-- Table structure for table `posts`
 --
 
 CREATE TABLE `posts` (
@@ -279,7 +292,7 @@ CREATE TABLE `posts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `posts`
+-- Dumping data for table `posts`
 --
 
 INSERT INTO `posts` (`id`, `postid`, `post`, `userid`, `date`, `has_image`, `has_video`, `media`, `privacy`) VALUES
@@ -321,12 +334,13 @@ INSERT INTO `posts` (`id`, `postid`, `post`, `userid`, `date`, `has_image`, `has
 (187, 19581001419442, '<iframe style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/track/0v834w6iDIfsUIRvVcEYLR?utm_source=generator\" width=\"100%\" height=\"352\" frameBorder=\"1\" allowfullscreen=\"\" allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\" loading=\"lazy\"></iframe>', 3572325399739732623, '2023-11-25 02:39:39', 1, 0, '', 'Public'),
 (213, 15757241685613675, 'Test đăng và share', 3572325399739732623, '2023-11-28 15:04:02', 1, 0, '[\"advss.jpg\"]', 'Public'),
 (217, 41361443174300470, 'Share!?', 3572325399739732623, '2023-11-29 07:02:23', 1, 0, '', 'Public'),
-(220, 69278337688, '', 3572325399739732623, '2023-11-29 08:51:30', 1, 0, '', 'Public');
+(220, 69278337688, '', 3572325399739732623, '2023-11-29 08:51:30', 1, 0, '', 'Public'),
+(221, 297449209171719053, '', 512857291296221, '2023-11-30 13:15:32', 1, 0, '[\"_one_piece-The End.jpg\"]', 'Public');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `recent_searches`
+-- Table structure for table `recent_searches`
 --
 
 CREATE TABLE `recent_searches` (
@@ -339,7 +353,7 @@ CREATE TABLE `recent_searches` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `relatedobjects`
+-- Table structure for table `relatedobjects`
 --
 
 CREATE TABLE `relatedobjects` (
@@ -351,7 +365,7 @@ CREATE TABLE `relatedobjects` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `share`
+-- Table structure for table `share`
 --
 
 CREATE TABLE `share` (
@@ -364,7 +378,7 @@ CREATE TABLE `share` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `share`
+-- Dumping data for table `share`
 --
 
 INSERT INTO `share` (`id`, `post_share_id`, `postid`, `share_userid`, `content`, `date`) VALUES
@@ -374,7 +388,7 @@ INSERT INTO `share` (`id`, `post_share_id`, `postid`, `share_userid`, `content`,
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `stories`
+-- Table structure for table `stories`
 --
 
 CREATE TABLE `stories` (
@@ -388,7 +402,7 @@ CREATE TABLE `stories` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -408,7 +422,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `userid`, `first_name`, `last_name`, `gender`, `email`, `password`, `url_address`, `date`, `cover_image`, `avatar_image`, `connection_id`, `privacy`) VALUES
@@ -503,7 +517,7 @@ INSERT INTO `users` (`id`, `userid`, `first_name`, `last_name`, `gender`, `email
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users_about`
+-- Table structure for table `users_about`
 --
 
 CREATE TABLE `users_about` (
@@ -517,7 +531,7 @@ CREATE TABLE `users_about` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `users_about`
+-- Dumping data for table `users_about`
 --
 
 INSERT INTO `users_about` (`id`, `userid`, `birthday`, `desc`, `address`, `edu`, `about_image`) VALUES
@@ -528,7 +542,7 @@ INSERT INTO `users_about` (`id`, `userid`, `birthday`, `desc`, `address`, `edu`,
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users_status`
+-- Table structure for table `users_status`
 --
 
 CREATE TABLE `users_status` (
@@ -539,7 +553,7 @@ CREATE TABLE `users_status` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `users_status`
+-- Dumping data for table `users_status`
 --
 
 INSERT INTO `users_status` (`id`, `userid`, `status`, `date`) VALUES
@@ -552,11 +566,11 @@ INSERT INTO `users_status` (`id`, `userid`, `status`, `date`) VALUES
 (2528, 9095530094254485, 'offline', '2023-11-24 07:10:53');
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `comment`
+-- Indexes for table `comment`
 --
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`id`),
@@ -564,7 +578,7 @@ ALTER TABLE `comment`
   ADD KEY `comment_userid` (`comment_userid`);
 
 --
--- Chỉ mục cho bảng `friendships`
+-- Indexes for table `friendships`
 --
 ALTER TABLE `friendships`
   ADD PRIMARY KEY (`id`),
@@ -573,7 +587,7 @@ ALTER TABLE `friendships`
   ADD KEY `user2_id` (`user2_id`);
 
 --
--- Chỉ mục cho bảng `friend_requests`
+-- Indexes for table `friend_requests`
 --
 ALTER TABLE `friend_requests`
   ADD PRIMARY KEY (`id`),
@@ -584,7 +598,7 @@ ALTER TABLE `friend_requests`
   ADD KEY `sender_id_3` (`sender_id`,`receiver_id`);
 
 --
--- Chỉ mục cho bảng `likes`
+-- Indexes for table `likes`
 --
 ALTER TABLE `likes`
   ADD PRIMARY KEY (`id`),
@@ -592,20 +606,20 @@ ALTER TABLE `likes`
   ADD KEY `fk_likes_users` (`userid`);
 
 --
--- Chỉ mục cho bảng `messages`
+-- Indexes for table `messages`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sender_id` (`sender_id`,`receiver_id`);
 
 --
--- Chỉ mục cho bảng `notifications`
+-- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `posts`
+-- Indexes for table `posts`
 --
 ALTER TABLE `posts`
   ADD PRIMARY KEY (`id`),
@@ -614,7 +628,7 @@ ALTER TABLE `posts`
   ADD KEY `userid` (`userid`);
 
 --
--- Chỉ mục cho bảng `recent_searches`
+-- Indexes for table `recent_searches`
 --
 ALTER TABLE `recent_searches`
   ADD PRIMARY KEY (`id`),
@@ -622,13 +636,13 @@ ALTER TABLE `recent_searches`
   ADD KEY `userid_2` (`userid`);
 
 --
--- Chỉ mục cho bảng `relatedobjects`
+-- Indexes for table `relatedobjects`
 --
 ALTER TABLE `relatedobjects`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `share`
+-- Indexes for table `share`
 --
 ALTER TABLE `share`
   ADD PRIMARY KEY (`id`),
@@ -637,14 +651,14 @@ ALTER TABLE `share`
   ADD KEY `postid_2` (`post_share_id`,`share_userid`);
 
 --
--- Chỉ mục cho bảng `stories`
+-- Indexes for table `stories`
 --
 ALTER TABLE `stories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `userid` (`userid`,`story_id`);
 
 --
--- Chỉ mục cho bảng `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
@@ -652,7 +666,7 @@ ALTER TABLE `users`
   ADD KEY `userid` (`userid`,`first_name`,`last_name`,`gender`,`email`,`url_address`,`date`);
 
 --
--- Chỉ mục cho bảng `users_about`
+-- Indexes for table `users_about`
 --
 ALTER TABLE `users_about`
   ADD PRIMARY KEY (`id`),
@@ -660,7 +674,7 @@ ALTER TABLE `users_about`
   ADD KEY `userid` (`userid`);
 
 --
--- Chỉ mục cho bảng `users_status`
+-- Indexes for table `users_status`
 --
 ALTER TABLE `users_status`
   ADD PRIMARY KEY (`id`),
@@ -669,158 +683,158 @@ ALTER TABLE `users_status`
   ADD KEY `userid` (`userid`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `comment`
+-- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT cho bảng `friendships`
+-- AUTO_INCREMENT for table `friendships`
 --
 ALTER TABLE `friendships`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT cho bảng `friend_requests`
+-- AUTO_INCREMENT for table `friend_requests`
 --
 ALTER TABLE `friend_requests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
--- AUTO_INCREMENT cho bảng `likes`
+-- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
 
 --
--- AUTO_INCREMENT cho bảng `messages`
+-- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=611;
 
 --
--- AUTO_INCREMENT cho bảng `notifications`
+-- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
 
 --
--- AUTO_INCREMENT cho bảng `posts`
+-- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
+  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
 
 --
--- AUTO_INCREMENT cho bảng `recent_searches`
+-- AUTO_INCREMENT for table `recent_searches`
 --
 ALTER TABLE `recent_searches`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `relatedobjects`
+-- AUTO_INCREMENT for table `relatedobjects`
 --
 ALTER TABLE `relatedobjects`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `share`
+-- AUTO_INCREMENT for table `share`
 --
 ALTER TABLE `share`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT cho bảng `stories`
+-- AUTO_INCREMENT for table `stories`
 --
 ALTER TABLE `stories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
 
 --
--- AUTO_INCREMENT cho bảng `users_about`
+-- AUTO_INCREMENT for table `users_about`
 --
 ALTER TABLE `users_about`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT cho bảng `users_status`
+-- AUTO_INCREMENT for table `users_status`
 --
 ALTER TABLE `users_status`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2744;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
--- Các ràng buộc cho bảng `comment`
+-- Constraints for table `comment`
 --
 ALTER TABLE `comment`
   ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`postid`) REFERENCES `posts` (`postid`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`comment_userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `friendships`
+-- Constraints for table `friendships`
 --
 ALTER TABLE `friendships`
   ADD CONSTRAINT `friendships_ibfk_1` FOREIGN KEY (`user1_id`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `friendships_ibfk_2` FOREIGN KEY (`user2_id`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `friend_requests`
+-- Constraints for table `friend_requests`
 --
 ALTER TABLE `friend_requests`
   ADD CONSTRAINT `friend_requests_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `friend_requests_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `likes`
+-- Constraints for table `likes`
 --
 ALTER TABLE `likes`
   ADD CONSTRAINT `fk_likes_posts` FOREIGN KEY (`postid`) REFERENCES `posts` (`postid`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_likes_users` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `posts`
+-- Constraints for table `posts`
 --
 ALTER TABLE `posts`
   ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `recent_searches`
+-- Constraints for table `recent_searches`
 --
 ALTER TABLE `recent_searches`
   ADD CONSTRAINT `recent_searches_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Các ràng buộc cho bảng `share`
+-- Constraints for table `share`
 --
 ALTER TABLE `share`
   ADD CONSTRAINT `share_ibfk_1` FOREIGN KEY (`post_share_id`) REFERENCES `posts` (`postid`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `share_ibfk_2` FOREIGN KEY (`share_userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `stories`
+-- Constraints for table `stories`
 --
 ALTER TABLE `stories`
   ADD CONSTRAINT `stories_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `users_about`
+-- Constraints for table `users_about`
 --
 ALTER TABLE `users_about`
   ADD CONSTRAINT `users_about_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Các ràng buộc cho bảng `users_status`
+-- Constraints for table `users_status`
 --
 ALTER TABLE `users_status`
   ADD CONSTRAINT `users_status_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;

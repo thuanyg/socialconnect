@@ -722,6 +722,7 @@ if (!isset($_SESSION["userid"])) {
                                                             </div>
                                                             <div>
                                                                 <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
                                                                     <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
                                                                     <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                                 </div>
@@ -1020,6 +1021,7 @@ if (!isset($_SESSION["userid"])) {
                                                             </div>
                                                             <div>
                                                                 <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
                                                                     <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
                                                                     <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                                 </div>
