@@ -42,16 +42,16 @@ class YourWebSocketServer implements MessageComponentInterface
     // Xử lý khi nhận được một tin nhắn từ client
     public function onMessage(ConnectionInterface $from, $msg)
     {
+        $user_obj = new User();
         $message = json_decode($msg, true);
+        $senderId = $message['senderId'];
+        $receiverId = $message['receiverId'];
+        // get user information
+        $sen = $user_obj->getUser($senderId);
+        $re = $user_obj->getUser($receiverId);
+        $receiver_connection_id = $re["connection_id"];
         if ($message["action"] == "private") {
             // Chuyển nội tin nhắn thành kiểu html special (XSS)
-            $senderId = $message['senderId'];
-            $receiverId = $message['receiverId'];
-            $user_obj = new User();
-            // get user information
-            $sen = $user_obj->getUser($senderId);
-            $re = $user_obj->getUser($receiverId);
-            $receiver_connection_id = $re["connection_id"];
             $messageContent = htmlspecialchars($message['messageContent'], ENT_QUOTES, 'UTF-8');
             // Gán lại tin nhắn để gửi tới người
             $message['messageContent'] = $messageContent;
