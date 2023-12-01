@@ -219,7 +219,7 @@ if (!isset($_SESSION["userid"])) {
                                             <a href="#" data-tippy-placement="left" title="Notifications">
                                                 <ion-icon name="settings-outline"></ion-icon>
                                             </a>
-                                            <a href="#" data-tippy-placement="left" title="Mark as read all">
+                                            <a href="#" class="btn-read-all-notification" data-tippy-placement="left" title="Mark as read all">
                                                 <ion-icon name="checkbox-outline"></ion-icon>
                                             </a>
                                         </div>
@@ -257,7 +257,7 @@ if (!isset($_SESSION["userid"])) {
                                             <a href="#" data-tippy-placement="left" title="Notifications">
                                                 <ion-icon name="settings-outline" uk-tooltip="title: Message settings ; pos: left"></ion-icon>
                                             </a>
-                                            <a href="#" data-tippy-placement="left" title="Mark as read all">
+                                            <a href="#" class="btn-read-all-message" data-tippy-placement="left" title="Mark as read all">
                                                 <ion-icon name="checkbox-outline"></ion-icon>
                                             </a>
                                         </div>

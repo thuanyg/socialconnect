@@ -185,7 +185,8 @@ $(".notification-btn").on("click", function (e) {
                     var data = JSON.parse(data);
                     $(".list-notification").empty();
                     data.forEach(item => {
-                        var htmlLike = `<li>
+                        var status = (item.isRead == "1") ? "" : "un-read";
+                        var htmlLike = `<li class="${status}">
                                             <a href="post.php?p=${item.related_object_id}">
                                                 <div class="drop_avatar"> <img src="${item.sender.avatar_image}" alt=""></div>
                                                     <div class="drop_text">
@@ -196,6 +197,27 @@ $(".notification-btn").on("click", function (e) {
                                                         <time> ${timeAgo(item.date)} </time>
                                                 </div>
                                             </a>
+                                            <div class="options-notify-button" title="Options">
+                                                <ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon>
+                                            </div>
+                                            <div class="options-notify-list" style="position: absolute" data-notify-id=${item.id}>                                            
+                                                <ul>
+                                                    <li><a href="" class="btn-read-notification">
+                                                        <ion-icon name="checkmark-outline"></ion-icon>
+                                                        Mark as read </a>
+                                                    </li>
+                                                    <li><a href="" class="btn-remove-notification">
+                                                        <ion-icon name="close-circle-outline"></ion-icon>
+                                                        Remove this notification
+                                                        </a>
+                                                    </li>
+                                                    <li><a href="">
+                                                        <ion-icon name="flag-outline"></ion-icon>
+                                                        Report issue
+                                                        </a>
+                                                    </li>
+                                               </ul>
+                                            </div>
                                         </li>`
                         $(".list-notification").append(htmlLike);
                     });
@@ -232,7 +254,7 @@ function getNotificationToLoad(notifyOffset) {
             if (data.trim() != "[]") {
                 var data = JSON.parse(data);
                 data.forEach(item => {
-                    var htmlLike = `<li>
+                    var htmlLike = `<li class="un-read">
                                         <a href="post.php?p=${item.related_object_id}">
                                             <div class="drop_avatar"> <img src="${item.sender.avatar_image}" alt=""></div>
                                                 <div class="drop_text">
@@ -243,6 +265,27 @@ function getNotificationToLoad(notifyOffset) {
                                                     <time> ${timeAgo(item.date)} </time>
                                             </div>
                                         </a>
+                                        <div class="options-notify-button" title="Options">
+                                                <ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon>
+                                        </div>
+                                        <div class="options-notify-list" style="position: absolute" data-notify-id=${item.id}>                                            
+                                                <ul>
+                                                    <li><a href="" class="btn-read-notification">
+                                                        <ion-icon name="checkmark-outline"></ion-icon>
+                                                        Mark as read </a>
+                                                    </li>
+                                                    <li><a href="" class="btn-remove-notification">
+                                                        <ion-icon name="close-circle-outline"></ion-icon>
+                                                        Remove this notification
+                                                        </a>
+                                                    </li>
+                                                    <li><a href="">
+                                                        <ion-icon name="flag-outline"></ion-icon>
+                                                        Report issue
+                                                        </a>
+                                                    </li>
+                                               </ul>
+                                        </div>
                                     </li>`
                     $(".list-notification").append(htmlLike);
                 });
@@ -253,11 +296,110 @@ function getNotificationToLoad(notifyOffset) {
 }
 
 function ViewNextNotification() {
-    if(notifyFetching) return;
+    if (notifyFetching) return;
     getNotificationToLoad(notifyOffset);
     notifyOffset += 5;
 }
 
+//Mark as read all notification
+$(".btn-read-all-notification").click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        url: "Ajax/Notification.php",
+        type: "POST",
+        data: {
+            userid: userID,
+            action: "read-all-notification"
+        },
+        success: function (response) {
+            if (response.trim() == "1") {
+                showNotification("Marked all as read.")
+            }
+        }
+    })
+})
+// Mark as read notification
+$(document).on("click", ".btn-read-notification", function (e) {
+    e.preventDefault()
+    var notifyItem = $(this).parents().eq(3);
+    var notifyID = $(this).parents().eq(2).data("notify-id");
+    var notifyUnreadNumber = $(".notification-quantity");
+    if (notifyItem.hasClass("un-read")) {
+        $.ajax({
+            url: "Ajax/Notification.php",
+            type: "POST",
+            data: {
+                notifyID: notifyID,
+                action: "read-notification"
+            },
+            success: function (response) {
+                if (response.trim() == "1") {
+                    notifyItem.removeClass("un-read");
+                    var currentNum = Number(notifyUnreadNumber.text());
+                    switch (currentNum) {
+                        case 1:
+                            notifyUnreadNumber.remove();
+                            break;
+                        default:
+                            notifyUnreadNumber.text(currentNum - 1);
+                            break;
+                    }
+                }
+            }
+        })
+    } else {
+        showNotification("You have read this notification already.")
+    }
+})
+// Remove notification
+$(".btn-read-all-notification").click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        url: "Ajax/Notification.php",
+        type: "POST",
+        data: {
+            userid: userID,
+            action: "read-all-notification"
+        },
+        success: function (response) {
+            if (response.trim() == "1") {
+                showNotification("Marked all as read.")
+            }
+        }
+    })
+})
+// Remove notification
+$(document).on("click", ".btn-remove-notification", function (e) {
+    e.preventDefault()
+    var notifyItem = $(this).parents().eq(3);
+    var notifyID = $(this).parents().eq(2).data("notify-id");
+    var notifyUnreadNumber = $(".notification-quantity");
+    $.ajax({
+        url: "Ajax/Notification.php",
+        type: "POST",
+        data: {
+            notifyID: notifyID,
+            action: "delete-notification"
+        },
+        success: function (response) {
+            if (response.trim() == "1") {
+                if(notifyItem.hasClass("un-read")){
+                    var currentNum = Number(notifyUnreadNumber.text());
+                    switch (currentNum) {
+                        case 1:
+                            notifyUnreadNumber.remove();
+                            break;
+                        default:
+                            notifyUnreadNumber.text(currentNum - 1);
+                            break;
+                    }
+                }
+                showNotification("Removed!!!")
+                notifyItem.remove();
+            }
+        }
+    })
+})
 
 function timeAgo(dateString) {
     const currentDate = new Date();
@@ -285,3 +427,11 @@ function timeAgo(dateString) {
 // function validateInput(input) {
 //     return !/<script\b[^<]*<\/script>/i.test(input);
 // }
+
+// Event GUI
+$(document).on("click", ".options-notify-button", function (e) {
+    var listOption = $(this).next();
+    if (listOption.hasClass("active")) {
+        listOption.removeClass("active");
+    } else listOption.addClass("active");
+})

@@ -48,5 +48,23 @@ if (isset($_REQUEST["action"])) {
         $result = $notify->setNotification($receiverID, $userid, $postid, 'like');
         echo $result;
     }
+
+    if ($_POST["action"] == "read-notification") {
+        $notifyID = $_POST["notifyID"];
+        $result = $notify->readNotification($notifyID);
+        echo $result;
+    }
+
+    if ($_POST["action"] == "read-all-notification") {
+        $userid = $_POST["userid"];
+        $result = $notify->readAllNotification($userid);
+        echo $result;
+    }
+
+    if ($_POST["action"] == "delete-notification") {
+        $notifyID = $_POST["notifyID"];
+        $result = $notify->deleteNotification($notifyID);
+        echo $result;
+    }
 }
 ?>

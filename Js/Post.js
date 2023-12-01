@@ -427,6 +427,13 @@ $(document).on('click', '.like-post-btn', function (e) {
                     likeIcon.attr("fill", "blue");
                     likeText.css("color", "blue");
                     // Cập nhật lượt like => Like
+                    var quantityLike = likeText.find("span");
+                    var currentLikes = parseInt(quantityLike.text().replace(/\D/g, ''), 10);
+                    if (!isNaN(currentLikes)) {
+                        // Tăng giá trị lên 1 và cập nhật lại nội dung của thẻ <span>
+                        var newLikes = currentLikes + 1;
+                        quantityLike.text("(" + newLikes + ")");
+                    }
                     var getOld = showLikeElement.text();
                     var html = "";
                     if (getOld.trim() != "") {
@@ -450,6 +457,13 @@ $(document).on('click', '.like-post-btn', function (e) {
                     likeIcon.attr("fill", "currentColor");
                     likeText.css("color", "#666666");
                     // Cập nhật lượt like => Unlike
+                    var quantityLike = likeText.find("span");
+                    var currentLikes = parseInt(quantityLike.text().replace(/\D/g, ''), 10);
+                    if (!isNaN(currentLikes)) {
+                        // Tăng giá trị lên 1 và cập nhật lại nội dung của thẻ <span>
+                        var newLikes = currentLikes - 1;
+                        quantityLike.text("(" + newLikes + ")");
+                    }
                     var getOld = showLikeElement.text();
                     var html = "";
                     if (getOld.trim() != "You liked") {
@@ -515,76 +529,172 @@ $(document).on('click', '.comment-post-btn', function (e) {
     $("#post-details-modal .post-details-card").html(postCardHTML);
     $("#post-details-modal .comment-textbox").focus();
 });
-//comment
-$(document).on("click",".add-comment-btn",function(e){  
+// Add comment 
+// Event phim enter
+$(document).on("keyup", ".comment-textbox", function (e) {
+    if (e.which == 13 && e.which != 16) {
+        var userID = $("input[name='txtUserid']").val();
+        var postID = $(this).attr('post-id');
+        var msg = $(".comment-textbox[post-id='" + postID + "']").val();
+        console.log(msg);
+        if (msg.trim().length == 0) {
+            showNotification("Please enter text to comment!")
+        } else {
+            CreateComment(userID, postID, msg);
+        }
+    }
+})
+// Event click vao nut gui comment
+$(document).on("click", ".add-comment-btn", function (e) {
     e.preventDefault;
     var userID = $("input[name='txtUserid']").val();
     var postID = $(this).attr('post-id');
-    var msg1 = $(".comment-textbox[post-id='" + postID + "']").val();
-    var msg2 = $("#post-details-modal .comment-textbox[post-id='" + postID + "']").val();
-    var msg;
-    if(msg2 === undefined){
-        msg = msg1;
-    }else{
-        msg = msg2;
+    var msg = $(".comment-textbox[post-id='" + postID + "']").val();
+    if (msg.trim().length == 0) {
+        showNotification("Please enter text to comment!")
+    } else {
+        CreateComment(userID, postID, msg);
     }
-    console.log(msg);
-    console.log(postID);
-    if ($.trim(msg).length == 0) {
-        error_msg = "Nhập comment đê";
-        $("#error_status[post-id='"+postID+"']").text(error_msg);
-    }else{
-        error_msg = "ok";
-        $("#error_status[post-id='"+postID+"']").text(error_msg);
-    }
-    if(error_msg != "ok"){
-        return false;
-    }
-    else{
-        try {
-            $.ajax({
-                url: "Ajax/Post.php",
-                method: "POST",
-                dataType: "html",
-                data: {
-                    msg: msg,
-                    userID: userID,
-                    postID: postID,
-                    action: "add-comment"
-                },            
-                success: function(response){
-                    $(".comment-container[post-id='"+postID+"']").html("");
-                    var commentData = JSON.parse(response);
-                    console.log(commentData);
-                    $.each(commentData, function(key, value){
-                        $(".comment-container[post-id='"+postID+"']").append('<div class="flex">\
+    
+});
+function CreateComment(userID, postID, msg) {
+    $.ajax({
+        url: "Ajax/Post.php",
+        method: "POST",
+        dataType: "html",
+        data: {
+            msg: msg,
+            userID: userID,
+            postID: postID,
+            action: "add-comment"
+        },
+        success: function (response) {
+            $(".comment-container[post-id='" + postID + "']").html("");
+            var commentData = JSON.parse(response);
+            console.log(commentData);
+            $.each(commentData, function (key, value) {
+                var time = timeAgo(value.cmt["date"]);
+                $(".comment-container[post-id='" + postID + "']").append('<div class="flex">\
                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">\
-                            <img src="'+value.user["avatar_image"]+'" alt="" class="absolute h-full rounded-full w-full">\
+                            <a href="profile.php?uid='+ value.user.userid + '">\
+                            <img src="'+ value.user["avatar_image"] + '" alt="" class="absolute h-full rounded-full w-full">\
+                            </a>\
                         </div>\
                         <div>\
                             <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">\
-                                <span><b>'+value.user["first_name"]+' '+value.user["last_name"]+'</b></span>\
-                                <p class="leading-6">'+value.cmt["comment_msg"]+'<urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>\
+                                <a href="profile.php?uid='+ value.user.userid + '">\
+                                    <b>'+ value.user["first_name"] + ' ' + value.user["last_name"] + '</b>\
+                                </a>\
+                                <p class="leading-6">'+ value.cmt["comment_msg"] + '</p>\
                                 <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>\
                             </div>\
                             <div class="text-sm flex items-center space-x-3 mt-2 ml-5">\
                                 <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>\
-                                <button class="reply-btn">Reply</button>\
+                                <button class="reply-comment-btn">Reply</button>\
                                 <button class="view-reply-btn">View replies</button>\
-                                <span>'+value.cmt["date"]+'</span>\
+                                <span>'+ time + '</span>\
+                            </div>\
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" style="display: none;">\
+                                <input placeholder="Reply '+ value.user.last_name +'" class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="'+ postID +'">\
+                                   <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">\
+                                       <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="'+ postID +'">\
+                                           <ion-icon name="arrow-redo-outline"></ion-icon>\
+                                       </button>\
+                                   </div>\
+                            </div>\
+                        </div>\
+                    </div>'
+                );
+            });
+        }
+    });
+}
+// View more comment
+$(document).on("click", ".btn-view-more-comment", function (e) {
+    e.preventDefault();
+    var postID = $(this).prev().attr("post-id");
+    var offset = $(this).data("next-offset");
+    var addCommentButton = $(this);
+    var btnShow = addCommentButton.prev().prev().prev().find(".comment-post-btn")[0];
+    if ($("#post-details-modal").hasClass("uk-open")) {
+        ViewMoreComment();
+    } else {
+        btnShow.click();
+        ViewMoreComment();
+    }
+    function ViewMoreComment() {
+        $.ajax({
+            url: "Ajax/Post.php",
+            type: "POST",
+            data: {
+                postid: postID,
+                offset: offset,
+                action: "view-more-comment"
+            },
+            success: function (response) {
+                if (response.trim() != "[]" && response.trim() != "0") {
+                    var cmtData = JSON.parse(response);
+                    $.each(cmtData, function (key, value) {
+                        var time = timeAgo(value.cmt["date"]);
+                        $("#post-details-modal .comment-container").append('<div class="flex">\
+                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">\
+                            <a href="profile.php?uid='+ value.user.userid + '">\
+                            <img src="'+ value.user["avatar_image"] + '" alt="" class="absolute h-full rounded-full w-full">\
+                            </a>\
+                        </div>\
+                        <div>\
+                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">\
+                                <a href="profile.php?uid='+ value.user.userid + '">\
+                                    <b>'+ value.user["first_name"] + ' ' + value.user["last_name"] + '</b>\
+                                </a>\
+                                <p class="leading-6">'+ value.cmt["comment_msg"] + '</p>\
+                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>\
+                            </div>\
+                            <div class="text-sm flex items-center space-x-3 mt-2 ml-5">\
+                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>\
+                                <button class="reply-comment-btn">Reply</button>\
+                                <button class="view-reply-btn">View replies</button>\
+                                <span>'+ time + '</span>\
+                            </div>\
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" style="display: none;">\
+                                <input placeholder="Reply '+ value.user.last_name +'" class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="'+ postID +'">\
+                                   <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">\
+                                       <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="'+ postID +'">\
+                                           <ion-icon name="arrow-redo-outline"></ion-icon>\
+                                       </button>\
+                                   </div>\
                             </div>\
                         </div>\
                     </div>'
                         );
                     });
-                }
-            });
-        } catch (error) {
-            console.error(error);
-        }
-    }
-});
+                    // Offset tiep theo = offset ban dau (2) + so luong ban ghi (20) | (#NextOffset = So comment dang duoc hien thi ra)
+                    var nextOffet = offset + 20;
+                    if (nextOffet > cmtData[0].totalComment) nextOffet = cmtData[0].totalComment;
+                    // Hien thi "View more xxx comment" | xxx = TongSoCmt cua bai post - next offset | (#remainingQuantity = So comment con lai chua hien thi)
+                    var remainingQuantity = cmtData[0].totalComment - nextOffet;
+                    $("#post-details-modal .btn-view-more-comment").data("next-offset", nextOffet);
+                    $("#post-details-modal .btn-view-more-comment").text(`View more ${remainingQuantity} Comments `)
+                    $("#post-details-modal .count-cmt").remove();
+                    $("#post-details-modal .btn-view-more-comment").after(`<span class="count-cmt" style="margin-left: 68%">${nextOffet}/${cmtData[0].totalComment}</span>`);
+                    if (remainingQuantity <= 0) {
+                        $("#post-details-modal .btn-view-more-comment").remove();
+                        $("#post-details-modal .count-cmt").css("margin-left", "90%");
+                    }
 
+                }
+            }
+        })
+    }
+})
+// Reply comment
+// Event 1
+$(document).on("click", ".reply-comment-btn", function (e) {
+    var inputReply = $(this).parent().next();
+    if(inputReply.css("display") == "none"){
+        inputReply.show();
+    } else inputReply.hide();
+})
 // Delete post
 function deletePost(event, btn) {
     event.preventDefault();
@@ -638,6 +748,26 @@ function getFileType(fileName) {
         return 'video';
     } else {
         return 'unknown';
+    }
+}
+
+function timeAgo(dateString) {
+    const currentDate = new Date();
+    const pastDate = new Date(dateString);
+    const timeDifference = currentDate - pastDate;
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+        return days + " ngày trước";
+    } else if (hours > 0) {
+        return hours + " giờ trước";
+    } else if (minutes > 0) {
+        return minutes + " phút trước";
+    } else {
+        return "vài giây trước";
     }
 }
 

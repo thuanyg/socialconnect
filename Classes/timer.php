@@ -24,6 +24,26 @@ class Timer
         return $time;
     }
 
+    function timeAgo($dateString) {
+        $currentDate = new DateTime();
+        $pastDate = new DateTime($dateString);
+        $timeDifference = $currentDate->getTimestamp() - $pastDate->getTimestamp();
+        $seconds = floor($timeDifference);
+        $minutes = floor($seconds / 60);
+        $hours = floor($minutes / 60);
+        $days = floor($hours / 24);
+    
+        if ($days > 0) {
+            return $days . " ngày trước";
+        } elseif ($hours > 0) {
+            return $hours . " giờ trước";
+        } elseif ($minutes > 0) {
+            return $minutes . " phút trước";
+        } else {
+            return "vài giây trước";
+        }
+    }
+
     function formatHourMinute($datetime){
         $dateTime = new DateTime($datetime);
         // Định dạng theo giờ:phút (24-hour format)

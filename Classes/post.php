@@ -280,14 +280,37 @@ class Post
     //comment post
     function getCommentPost($postid){
         $DB = new Database();
-        $sql = "select * from comment where postid = $postid order by date desc";
+        $sql = "select * from comment where postid = $postid order by date desc limit 2";
         $result = $DB ->Query($sql);
         if ($result) {
             return $result;
         } else {
             return null;
         }
-        
+       
+    }
+
+    function getQuantityCommentPost($postid){
+        $DB = new Database();
+        $sql = "select COUNT(*) as 'total' from comment where postid = $postid";
+        $result = $DB ->Query($sql);
+        if ($result) {
+            return $result;
+        } else {
+            return null;
+        }
+    }
+
+    function getCommentPostToLoad($postid, $offset){
+        $DB = new Database();
+        $sql = "select * from comment where postid = $postid order by date desc limit 20 offset $offset";
+        $result = $DB ->Query($sql);
+        if ($result) {
+            return $result;
+        } else {
+            return null;
+        }
+       
     }
     function createComment($data, $userid, $postid) { 
         $DB = new Database(); 
@@ -298,6 +321,7 @@ class Post
             return $result;
         } else return 1;
     }
+    
     
     //Edit post
     function updatePost($postid, $data)

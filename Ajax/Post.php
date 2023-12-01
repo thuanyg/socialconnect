@@ -136,7 +136,7 @@ if (isset($_POST["action"])) {
 
                         <!--Like comment share-->
                         <div class="p-4 space-y-3">
-                        <div class="flex space-x-4 lg:font-bold" >
+                            <div class="flex space-x-4 lg:font-bold">
                                 <a href="#" class="flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
@@ -330,7 +330,7 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"]?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -389,52 +389,56 @@ if (isset($_POST["action"])) {
                                 </div>
                             </div>
 
-                            
-                            <?php
-                                            if ($comment != null) { ?>
-                                            
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
-                                                    <?php
-                                                        for ($c = 0; $c < sizeof($comment); $c++) {
-                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                    ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-btn">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
-                                                                    <span><?php echo $comment[$c]["date"] ?></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <?php
-                                                    }   ?>
-                                                    </div>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
-                                            }
-                                                ?> 
-                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-                                                <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?> ">
 
+                            <?php
+                            if ($comment != null) { ?>
+
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                    <?php
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                    ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <span><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></span>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                 </div>
-                                                <div class="flex space-x-2">
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="view-reply-btn">View replies</button>
+                                                    <span><?php echo $comment[$c]["date"] ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }   ?>
+                                </div>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
+                                                                                        }
+                                                                                            ?>
+                            <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- <div class="flex space-x-2">
                                                     <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
                                                         Comment </a>
-                                                </div>
+                                                </div> -->
 
                         </div>
 
@@ -619,7 +623,7 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"]?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -679,50 +683,54 @@ if (isset($_POST["action"])) {
                             </div>
 
                             <?php
-                                            if ($comment != null) { ?>
-                                            
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
-                                                    <?php
-                                                        for ($c = 0; $c < sizeof($comment); $c++) {
-                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                    ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-btn">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
-                                                                    <span><?php echo $comment[$c]["date"] ?></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <?php
-                                                    }   ?>
-                                                    </div>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
-                                            }
-                                                ?> 
-                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-                                                <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                            if ($comment != null) { ?>
 
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                    <?php
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                    ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <span><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></span>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                 </div>
-                                                <div class="flex space-x-2">
-                                                    <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
-                                                        Comment </a>
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="view-reply-btn">View replies</button>
+                                                    <span><?php echo $comment[$c]["date"] ?></span>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }   ?>
+                                </div>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
+                                                                                        }
+                                                                                            ?>
+                            <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- <div class="flex space-x-2">
+                                <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                    Comment </a>
+                            </div> -->
 
                         </div>
 
@@ -890,7 +898,7 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"]?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -950,50 +958,54 @@ if (isset($_POST["action"])) {
                             </div>
 
                             <?php
-                                            if ($comment != null) { ?>
-                                            
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
-                                                    <?php
-                                                        for ($c = 0; $c < sizeof($comment); $c++) {
-                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                    ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-btn">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
-                                                                    <span><?php echo $comment[$c]["date"] ?></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <?php
-                                                    }   ?>
-                                                    </div>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
-                                            }
-                                                ?> 
-                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-                                                <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                            if ($comment != null) { ?>
 
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                    <?php
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                    ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <span><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></span>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                 </div>
-                                                <div class="flex space-x-2">
-                                                    <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
-                                                        Comment </a>
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="view-reply-btn">View replies</button>
+                                                    <span><?php echo $comment[$c]["date"] ?></span>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }   ?>
+                                </div>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
+                                                                                        }
+                                                                                            ?>
+                            <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- <div class="flex space-x-2">
+                                <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                    Comment </a>
+                            </div> -->
 
                         </div>
 
@@ -1178,7 +1190,7 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"]?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -1238,50 +1250,54 @@ if (isset($_POST["action"])) {
                             </div>
 
                             <?php
-                                            if ($comment != null) { ?>
-                                            
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
-                                                    <?php
-                                                        for ($c = 0; $c < sizeof($comment); $c++) {
-                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                    ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-btn">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
-                                                                    <span><?php echo $comment[$c]["date"] ?></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <?php
-                                                    }   ?>
-                                                    </div>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
-                                            }
-                                                ?> 
-                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-                                                <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                            if ($comment != null) { ?>
 
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                    <?php
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                    ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <span><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></span>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                 </div>
-                                                <div class="flex space-x-2">
-                                                    <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
-                                                        Comment </a>
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="view-reply-btn">View replies</button>
+                                                    <span><?php echo $comment[$c]["date"] ?></span>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }   ?>
+                                </div>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
+                                                                                        }
+                                                                                            ?>
+                            <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- <div class="flex space-x-2">
+                                <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                    Comment </a>
+                            </div> -->
 
                         </div>
 
@@ -1315,7 +1331,7 @@ if (isset($_POST["action"])) {
                     $minutes = $time["minutes"];
                     $seconds = $time["seconds"];
                     // Upload picture
-        ?>
+                ?>
 
                     <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
                         <!-- post header-->
@@ -1397,7 +1413,7 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                           <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"]?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -1457,50 +1473,54 @@ if (isset($_POST["action"])) {
                             </div>
 
                             <?php
-                                            if ($comment != null) { ?>
-                                            
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
-                                                    <?php
-                                                        for ($c = 0; $c < sizeof($comment); $c++) {
-                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                    ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-btn">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
-                                                                    <span><?php echo $comment[$c]["date"] ?></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <?php
-                                                    }   ?>
-                                                    </div>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
-                                            }
-                                                ?> 
-                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-                                                <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                            if ($comment != null) { ?>
 
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                    <?php
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                    ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <span><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></span>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                 </div>
-                                                <div class="flex space-x-2">
-                                                    <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
-                                                        Comment </a>
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="view-reply-btn">View replies</button>
+                                                    <span><?php echo $comment[$c]["date"] ?></span>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }   ?>
+                                </div>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
+                                                                                        }
+                                                                                            ?>
+                            <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- <div class="flex space-x-2">
+                                <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                    Comment </a>
+                            </div> -->
 
                         </div>
 
@@ -1634,7 +1654,7 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"]?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -1694,50 +1714,54 @@ if (isset($_POST["action"])) {
                             </div>
 
                             <?php
-                                            if ($comment != null) { ?>
-                                            
-                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
-                                                    <?php
-                                                        for ($c = 0; $c < sizeof($comment); $c++) {
-                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                    ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <span><b><?php echo $cmt_user["first_name"]." ".$cmt_user["last_name"]?></b></span>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-btn">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
-                                                                    <span><?php echo $comment[$c]["date"] ?></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <?php
-                                                    }   ?>
-                                                    </div>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
-                                            }
-                                                ?> 
-                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-                                                <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                            if ($comment != null) { ?>
 
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                    <?php
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                    ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <span><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></span>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?><urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                 </div>
-                                                <div class="flex space-x-2">
-                                                    <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
-                                                        Comment </a>
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="view-reply-btn">View replies</button>
+                                                    <span><?php echo $comment[$c]["date"] ?></span>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }   ?>
+                                </div>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6> <?php
+                                                                                        }
+                                                                                            ?>
+                            <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- <div class="flex space-x-2">
+                                <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                    Comment </a>
+                            </div> -->
 
                         </div>
 
@@ -2020,23 +2044,42 @@ if (isset($_POST["action"])) {
             echo 0;
         }
     }
-    if($_POST["action"] == "add-comment"){
+    if ($_POST["action"] == "add-comment") {
         $data = array(
             "msg" => $_POST["msg"],
             "userID" => $_POST["userID"],
             "postID" => $_POST["postID"],
         );
         $p = new Post();
-        if( $p -> createComment($data,$data["userID"],$data["postID"])){
+        if ($p->createComment($data, $data["userID"], $data["postID"])) {
             $array_result = [];
             $comment = $p->getCommentPost($data["postID"]);
-            foreach($comment as $row){
-                $user_id = $row["comment_userid"]; 
+            foreach ($comment as $row) {
+                $user_id = $row["comment_userid"];
                 $cmt_user = $user->getUser($user_id);
-                array_push($array_result,['cmt'=>$row,'user'=>$cmt_user]);
+                array_push($array_result, ['cmt' => $row, 'user' => $cmt_user]);
             }
             echo json_encode($array_result);
         } else echo 0;
+    }
+    // View more comment
+    if ($_POST["action"] == "view-more-comment") {
+        $postid = $_POST["postid"];
+        $offset = $_POST["offset"];
+        $post = new Post();
+        $result = $post->getCommentPostToLoad($postid, $offset);
+        $totalCmt = $post->getQuantityCommentPost($postid)[0]["total"];
+        if ($result) {
+            $array_result = [];
+            foreach ($result as $row) {
+                $user_id = $row["comment_userid"];
+                $cmt_user = $user->getUser($user_id);
+                array_push($array_result, ['cmt' => $row, 'user' => $cmt_user, 'totalComment' => $totalCmt]);
+            }
+            echo json_encode($array_result);
+        } else {
+            echo 0;
+        }
     }
 }
 
