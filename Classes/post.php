@@ -315,14 +315,34 @@ class Post
     function createComment($data, $userid, $postid) { 
         $DB = new Database(); 
         $msg = $DB->escapedString($data["msg"]);
-        $sql = "INSERT INTO comment (comment_msg, comment_userid, postid) VALUES ('$msg', $userid, $postid)";
+        $commentid = $this ->create_commentid();
+        $sql = "INSERT INTO comment (comment_id, comment_msg, comment_userid, postid) VALUES ($commentid, '$msg', $userid, $postid)";
         $result = $DB->Execute($sql);
         if($result != null){
             return $result;
         } else return 1;
     }
-    
-    
+    public function create_commentid()
+    {
+        $length = rand(10, 19);
+        $commentid = "";
+        for ($i = 0; $i <= $length; $i++) {
+            $new_rand  = rand(0, 9);
+            $commentid .= $new_rand;
+        }
+        return $commentid;
+    }
+    //reply comment
+    public function createReply($msg,$userid,$commentid,$postid){
+        $DB = new Database();
+        $msgr = $DB->escapedString($msg);
+        $sql = "INSERT INTO comment_reply (comment_id, comment_msg, comment_userid, postid) VALUES ($commentid, '$msgr', $userid, $postid)";
+        $result = $DB -> Execute($sql);
+        if($result != null){
+            return $result;
+        }else return 1;
+    }
+
     //Edit post
     function updatePost($postid, $data)
     {
@@ -335,4 +355,5 @@ class Post
         $result = $DB->Execute($sql);
         return $result;
     }
+
 }

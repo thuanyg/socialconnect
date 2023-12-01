@@ -2044,7 +2044,12 @@ if (isset($_POST["action"])) {
             echo 0;
         }
     }
+<<<<<<< HEAD
     if ($_POST["action"] == "add-comment") {
+=======
+    // Comment post
+    if($_POST["action"] == "add-comment"){
+>>>>>>> 8d44099aa71533e49db31f15ab5546e9aedaa7dc
         $data = array(
             "msg" => $_POST["msg"],
             "userID" => $_POST["userID"],
@@ -2080,6 +2085,18 @@ if (isset($_POST["action"])) {
         } else {
             echo 0;
         }
+    }
+    // Reply comment
+    if($_POST["action"] == "add-reply-comment"){
+        $msg = $_POST["msg"];
+        $postid = $_POST["postID"];
+        $commentid = $_POST["commentID"];
+        $userid = $_POST["userID"];
+        $p = new Post();
+        if( $p -> createReply($msg,$userid,$commentid,$postid)){
+            echo 1;
+            
+        }else echo 0;
     }
 }
 

@@ -590,7 +590,7 @@ function CreateComment(userID, postID, msg) {
                             </div>\
                             <div class="text-sm flex items-center space-x-3 mt-2 ml-5">\
                                 <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>\
-                                <button class="reply-comment-btn">Reply</button>\
+                                <button class="reply-comment-btn" commentid="'+value.cmt["comment_id"]+'">Reply</button>\
                                 <button class="view-reply-btn">View replies</button>\
                                 <span>'+ time + '</span>\
                             </div>\
@@ -665,7 +665,16 @@ $(document).on("click", ".btn-view-more-comment", function (e) {
                                    </div>\
                             </div>\
                         </div>\
-                    </div>'
+                    </div>\
+                    <div class="rep-comment" style="display: none;" commentid="'+value.cmt["comment_id"]+'">\
+                    <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">\
+                        <input placeholder="Reply..." class="bg-transparent max-h-10 shadow-none px-5 comment-reply" data-visualcompletion="ignore" commentid="'+value.cmt["comment_id"]+'">\
+                    </div>\
+                    <div class="flex space-x-2">\
+                        <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium reply-comment-btn" commentid="'+value.cmt["comment_id"]+'" post-id="'+postID+'">Reply </a>\
+                        <a style="cursor: pointer; color: whitesmoke;" class="bg-red-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium cancel-comment-btn" commentid="'+value.cmt["comment_id"]+'">Cancel </a>\
+                    </div>\
+                </div>'
                         );
                     });
                     // Offset tiep theo = offset ban dau (2) + so luong ban ghi (20) | (#NextOffset = So comment dang duoc hien thi ra)
