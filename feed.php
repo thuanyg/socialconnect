@@ -746,7 +746,6 @@ if (!isset($_SESSION["userid"])) {
                                                     ?>
                                                 </div>
                                             </div>
-                                            <div>
                                             <?php
                                             if ($comment != null) { ?>
                                                 <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
@@ -770,31 +769,18 @@ if (!isset($_SESSION["userid"])) {
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
                                                                     <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
-                                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" style="display: none;">
+                                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
                                                                     <input type="text" placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
                                                                     <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
                                                                             <ion-icon name="arrow-redo-outline"></ion-icon>
                                                                         </button>
                                                                     </div>
                                                                 </div>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                        <div class="rep-comment" style="display: none;" commentid="<?php echo $comment[$c]["comment_id"] ?>" >
-                                                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                                <input placeholder="Reply..." class="bg-transparent max-h-10 shadow-none px-5 comment-reply" data-visualcompletion="ignore" commentid="<?php echo $comment[$c]["comment_id"] ?>">
-
-                                                            </div>
-                                                            <div class="flex space-x-2">
-                                                                <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                            Reply </a>
-                                                                <a style="cursor: pointer; color: whitesmoke;" class="bg-red-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium cancel-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">
-                                                                            Cancel </a>
                                                             </div>
                                                         </div>
                                                     <?php
@@ -1109,14 +1095,14 @@ if (!isset($_SESSION["userid"])) {
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-btn">Reply</button>
+                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
                                                                     <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
-                                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" style="display: none;">
-                                                                    <input type="text" placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
+                                                                    <input type="text" placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
                                                                     <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
                                                                             <ion-icon name="arrow-redo-outline"></ion-icon>
                                                                         </button>
                                                                     </div>

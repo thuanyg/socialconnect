@@ -410,9 +410,17 @@ if (isset($_POST["action"])) {
                                                 </div>
                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
                                                     <button class="view-reply-btn">View replies</button>
                                                     <span><?php echo $comment[$c]["date"] ?></span>
+                                                </div>
+                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" style="display: none;">
+                                                    <input type="text" placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -702,9 +710,17 @@ if (isset($_POST["action"])) {
                                                 </div>
                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
                                                     <button class="view-reply-btn">View replies</button>
                                                     <span><?php echo $comment[$c]["date"] ?></span>
+                                                </div>
+                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" style="display: none;">
+                                                    <input type="text" placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -977,9 +993,17 @@ if (isset($_POST["action"])) {
                                                 </div>
                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
                                                     <button class="view-reply-btn">View replies</button>
                                                     <span><?php echo $comment[$c]["date"] ?></span>
+                                                </div>
+                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" style="display: none;">
+                                                    <input type="text" placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1269,9 +1293,17 @@ if (isset($_POST["action"])) {
                                                 </div>
                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
                                                     <button class="view-reply-btn">View replies</button>
                                                     <span><?php echo $comment[$c]["date"] ?></span>
+                                                </div>
+                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" style="display: none;">
+                                                    <input type="text" placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1492,9 +1524,17 @@ if (isset($_POST["action"])) {
                                                 </div>
                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
                                                     <button class="view-reply-btn">View replies</button>
                                                     <span><?php echo $comment[$c]["date"] ?></span>
+                                                </div>
+                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" style="display: none;">
+                                                    <input type="text" placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1733,9 +1773,17 @@ if (isset($_POST["action"])) {
                                                 </div>
                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                    <button class="reply-btn">Reply</button>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
                                                     <button class="view-reply-btn">View replies</button>
                                                     <span><?php echo $comment[$c]["date"] ?></span>
+                                                </div>
+                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" style="display: none;">
+                                                    <input type="text" placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -2082,16 +2130,15 @@ if (isset($_POST["action"])) {
         }
     }
     // Reply comment
-    if($_POST["action"] == "add-reply-comment"){
+    if ($_POST["action"] == "add-reply-comment") {
         $msg = $_POST["msg"];
         $postid = $_POST["postID"];
         $commentid = $_POST["commentID"];
         $userid = $_POST["userID"];
         $p = new Post();
-        if( $p -> createReply($msg,$userid,$commentid,$postid)){
+        if ($p->createReply($msg, $userid, $commentid, $postid)) {
             echo 1;
-            
-        }else echo 0;
+        } else echo 0;
     }
 }
 
