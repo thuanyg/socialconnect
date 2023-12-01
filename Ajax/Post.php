@@ -2044,12 +2044,7 @@ if (isset($_POST["action"])) {
             echo 0;
         }
     }
-<<<<<<< HEAD
     if ($_POST["action"] == "add-comment") {
-=======
-    // Comment post
-    if($_POST["action"] == "add-comment"){
->>>>>>> 8d44099aa71533e49db31f15ab5546e9aedaa7dc
         $data = array(
             "msg" => $_POST["msg"],
             "userID" => $_POST["userID"],
