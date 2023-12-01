@@ -2020,6 +2020,7 @@ if (isset($_POST["action"])) {
             echo 0;
         }
     }
+    // Comment post
     if($_POST["action"] == "add-comment"){
         $data = array(
             "msg" => $_POST["msg"],
@@ -2037,6 +2038,19 @@ if (isset($_POST["action"])) {
             }
             echo json_encode($array_result);
         } else echo 0;
+    }
+
+    // Reply comment
+    if($_POST["action"] == "add-reply-comment"){
+        $msg = $_POST["msg"];
+        $postid = $_POST["postID"];
+        $commentid = $_POST["commentID"];
+        $userid = $_POST["userID"];
+        $p = new Post();
+        if( $p -> createReply($msg,$userid,$commentid,$postid)){
+            echo 1;
+            
+        }else echo 0;
     }
 }
 

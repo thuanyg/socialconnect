@@ -709,6 +709,7 @@ if (!isset($_SESSION["userid"])) {
                                                     ?>
                                                 </div>
                                             </div>
+                                            <div>
                                             <?php
                                             if ($comment != null) { ?>
                                             
@@ -729,10 +730,23 @@ if (!isset($_SESSION["userid"])) {
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-btn">Reply</button>
+                                                                    <button class="reply-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
                                                                     <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $comment[$c]["date"] ?></span>
                                                                 </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="rep-comment" style="display: none;" commentid="<?php echo $comment[$c]["comment_id"] ?>" >
+                                                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                                                <input placeholder="Reply..." class="bg-transparent max-h-10 shadow-none px-5 comment-reply" data-visualcompletion="ignore" commentid="<?php echo $comment[$c]["comment_id"] ?>">
+
+                                                            </div>
+                                                            <div class="flex space-x-2">
+                                                                <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                                            Reply </a>
+                                                                <a style="cursor: pointer; color: whitesmoke;" class="bg-red-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium cancel-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">
+                                                                            Cancel </a>
                                                             </div>
                                                         </div>
                                                         <?php
@@ -747,15 +761,15 @@ if (!isset($_SESSION["userid"])) {
                                                 <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
                                                 <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
                                                 <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" data-visualcompletion="ignore" post-id="<?php echo $post[$i]["postid"]; ?> ">
 
                                                 </div>
                                                 <div class="flex space-x-2">
                                                     <a style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?> ">
                                                         Comment </a>
                                                 </div>
-
-
+                                
+                                            </div>
                                         </div>
 
                                     </div>

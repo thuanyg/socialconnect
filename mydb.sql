@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2023 at 03:11 PM
+-- Generation Time: Dec 01, 2023 at 06:39 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -55,6 +55,7 @@ DELIMITER ;
 
 CREATE TABLE `comment` (
   `id` int(11) NOT NULL,
+  `comment_id` bigint(19) NOT NULL,
   `comment_msg` text NOT NULL,
   `postid` bigint(19) NOT NULL,
   `comment_userid` bigint(19) NOT NULL,
@@ -65,11 +66,40 @@ CREATE TABLE `comment` (
 -- Dumping data for table `comment`
 --
 
-INSERT INTO `comment` (`id`, `comment_msg`, `postid`, `comment_userid`, `date`) VALUES
-(1, 'luffy art', 297449209171719053, 512857291296221, '2023-11-30 13:58:01'),
-(2, 'share har', 69278337688, 512857291296221, '2023-11-30 13:58:23'),
-(3, 'mui to ao tuong suc manh', 88322897687, 512857291296221, '2023-11-30 13:58:44'),
-(4, '1 thanh nien bj ngao dien tro', 88322897687, 512857291296221, '2023-11-30 13:59:06');
+INSERT INTO `comment` (`id`, `comment_id`, `comment_msg`, `postid`, `comment_userid`, `date`) VALUES
+(1, 5572576446948, 'Dành sự chú ý của ta về người ấy', 98916316802, 61211065191727, '2023-12-01 15:27:49'),
+(2, 112643974377456892, 'vợ tui', 164832125872229102, 61211065191727, '2023-12-01 15:28:52'),
+(4, 8429072708280377242, 'xinh', 164832125872229102, 61211065191727, '2023-12-01 15:43:07'),
+(5, 11823376621505293, 'ra vậy', 98916316802, 61211065191727, '2023-12-01 15:46:27'),
+(6, 283171057631378, 'ơ', 98916316802, 61211065191727, '2023-12-01 15:46:55'),
+(7, 5975869497452931, 'okela', 98916316802, 61211065191727, '2023-12-01 15:47:13'),
+(8, 302108997423470, 'xinh thực sự', 164832125872229102, 61211065191727, '2023-12-01 16:35:41'),
+(9, 659931635869, 'xin', 98916316802, 61211065191727, '2023-12-01 17:32:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comment_reply`
+--
+
+CREATE TABLE `comment_reply` (
+  `id` int(11) NOT NULL,
+  `comment_id` bigint(19) NOT NULL,
+  `comment_msg` text NOT NULL,
+  `comment_userid` int(11) NOT NULL,
+  `postid` bigint(19) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `comment_reply`
+--
+
+INSERT INTO `comment_reply` (`id`, `comment_id`, `comment_msg`, `comment_userid`, `postid`, `date`) VALUES
+(1, 5975869497452931, '0', 2147483647, 98916316802, '2023-12-01 17:15:07'),
+(5, 5572576446948, '0', 2147483647, 98916316802, '2023-12-01 17:29:18'),
+(6, 5572576446948, '0', 2147483647, 98916316802, '2023-12-01 17:31:44'),
+(7, 5572576446948, 'okroiday', 2147483647, 98916316802, '2023-12-01 17:36:23');
 
 -- --------------------------------------------------------
 
@@ -335,7 +365,10 @@ INSERT INTO `posts` (`id`, `postid`, `post`, `userid`, `date`, `has_image`, `has
 (213, 15757241685613675, 'Test đăng và share', 3572325399739732623, '2023-11-28 15:04:02', 1, 0, '[\"advss.jpg\"]', 'Public'),
 (217, 41361443174300470, 'Share!?', 3572325399739732623, '2023-11-29 07:02:23', 1, 0, '', 'Public'),
 (220, 69278337688, '', 3572325399739732623, '2023-11-29 08:51:30', 1, 0, '', 'Public'),
-(221, 297449209171719053, '', 512857291296221, '2023-11-30 13:15:32', 1, 0, '[\"_one_piece-The End.jpg\"]', 'Public');
+(221, 297449209171719053, '', 512857291296221, '2023-11-30 13:15:32', 1, 0, '[\"_one_piece-The End.jpg\"]', 'Public'),
+(222, 164832125872229102, '', 512857291296221, '2023-11-30 14:28:21', 1, 0, '[\"274818466_1118001902317965_6002550582890574445_n.jpg\"]', 'Public'),
+(225, 98916316802, 'góc thắc mắc', 61211065191727, '2023-12-01 06:04:47', 1, 0, '[\"1112023.jpg\"]', 'Public'),
+(226, 0, 'oke', 128441249129014, '2023-12-01 15:15:05', 1, 0, '[\"tong the.jpg\"]', 'public');
 
 -- --------------------------------------------------------
 
@@ -512,7 +545,8 @@ INSERT INTO `users` (`id`, `userid`, `first_name`, `last_name`, `gender`, `email
 (211, 2532841249129047, 'Quang', 'Thảo', 'Male', 'user47@huce.edu.vn', '123', 'social@huce', '2023-11-24 00:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (212, 2532841249129048, 'Ngọc', 'Long', 'Male', 'user48@huce.edu.vn', '123', 'social@huce', '2023-11-24 09:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (213, 2532841249129049, 'Teddy', 'Thảo', 'Male', 'user49@huce.edu.vn', '123', 'social@huce', '2023-11-23 18:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
-(214, 2532841249129050, 'Lâm', 'Thuận', 'Male', 'user50@huce.edu.vn', '123', 'social@huce', '2023-11-23 21:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public');
+(214, 2532841249129050, 'Lâm', 'Thuận', 'Male', 'user50@huce.edu.vn', '123', 'social@huce', '2023-11-23 21:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
+(215, 61211065191727, 'Mít', 'MOi', 'Male', 'moi@gmail.com', '123', 'm?t.moi', '2023-12-01 05:24:21', '', 'uploads/avatars/momleo.jpg', 0, 'public');
 
 -- --------------------------------------------------------
 
@@ -575,7 +609,16 @@ INSERT INTO `users_status` (`id`, `userid`, `status`, `date`) VALUES
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`id`),
   ADD KEY `postid` (`postid`,`comment_userid`),
-  ADD KEY `comment_userid` (`comment_userid`);
+  ADD KEY `comment_userid` (`comment_userid`),
+  ADD KEY `comment_id` (`comment_id`);
+
+--
+-- Indexes for table `comment_reply`
+--
+ALTER TABLE `comment_reply`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `comment_id` (`comment_id`,`comment_userid`),
+  ADD KEY `postid` (`postid`);
 
 --
 -- Indexes for table `friendships`
@@ -690,7 +733,13 @@ ALTER TABLE `users_status`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `comment_reply`
+--
+ALTER TABLE `comment_reply`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `friendships`
@@ -726,7 +775,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
+  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=227;
 
 --
 -- AUTO_INCREMENT for table `recent_searches`
@@ -756,7 +805,7 @@ ALTER TABLE `stories`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
 
 --
 -- AUTO_INCREMENT for table `users_about`
