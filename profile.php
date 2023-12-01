@@ -545,7 +545,7 @@ if (!isset($_SESSION["userid"])) {
                             <ul uk-switcher="connect: #timeline-tab; animation: uk-animation-fade">
                                 <li><a href="#">Timeline</a></li>
                                 <li><a href="#">Friend <span>3,243</span> </a></li>
-                                <li><a href="#" onclick="showImageOfOther()" userprofile="<?php echo $userProfile["userid"] ?>">Photoes </a></li>
+                                <li><a href="#" onclick="showImageOfOther()" class="image-orther" userprofile="<?php echo $userProfile["userid"] ?>">Photoes </a></li>
                                 <li><a href="#">Pages</a></li>
                                 <li><a href="#">Groups</a></li>
                                 <li><a href="#">Videos</a></li>
@@ -2327,7 +2327,7 @@ if (!isset($_SESSION["userid"])) {
 
     <!-- Javascript
     ================================================== -->
-
+    
     <script src="Js/Global.js"></script>
     <script src="Js/Profile.js"></script>
     <script src="Js/Post.js"></script>

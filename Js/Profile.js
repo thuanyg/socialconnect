@@ -56,14 +56,16 @@ function ViewNextPost() {
     offset += 5;
 }
 
-function getPhoto(){
-    console.log(profileID);
+function showImageOfOther() {
+
+    var userid = $(".image-orther").attr('userprofile');
+    console.log(userid);
     $.ajax({
         url: "Ajax/Post.php",
         method: "POST",
         dataType: "html",
         data: {
-            userid: profileID,
+            userid: userid,
             action: "show-image-of-orther"
         },
         success: function (data) {
@@ -92,7 +94,7 @@ function getPhoto(){
                 });
 
                 //dong anh lon
-                $('.image-big .close').on('click', function () {
+                $('.image-big .close-image').on('click', function () {
                     $('.image-big').css({ "display": "none", "opacity": "0" });
                 });
             });

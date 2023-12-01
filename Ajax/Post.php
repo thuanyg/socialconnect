@@ -1930,7 +1930,7 @@ if (isset($_POST["action"])) {
             ?>
         </div>
         <div class="image-big">
-            <span class="close">&times;</span>
+            <span class="close-image">&times;</span>
             <img class="image-big-content">
         </div>
         <div class="album-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5" style="display: none;">
