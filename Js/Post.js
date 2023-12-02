@@ -529,13 +529,19 @@ $(document).on('click', '.comment-post-btn', function (e) {
     $("#post-details-modal .post-details-card").html(postCardHTML);
     $("#post-details-modal .comment-textbox").focus();
 });
+$(window).keyup(function(e){
+    if (e.which == 27) {
+        $("#post-details-modal .post-details-card").empty();
+    }
+})
 // Add comment 
 // Event phim enter
 $(document).on("keyup", ".comment-textbox", function (e) {
     if (e.which == 13 && e.which != 16) {
         var userID = $("input[name='txtUserid']").val();
         var postID = $(this).attr('post-id');
-        var msg = $(".comment-textbox[post-id='" + postID + "']").val();
+        // Sua thanh 
+        var msg = $(this).val();
         console.log(msg);
         if (msg.trim().length == 0) {
             showNotification("Please enter text to comment!")
@@ -549,7 +555,7 @@ $(document).on("click", ".add-comment-btn", function (e) {
     e.preventDefault;
     var userID = $("input[name='txtUserid']").val();
     var postID = $(this).attr('post-id');
-    var msg = $(".comment-textbox[post-id='" + postID + "']").val();
+    var msg = $(this).parent().prev().val();
     if (msg.trim().length == 0) {
         showNotification("Please enter text to comment!")
     } else {
@@ -709,10 +715,10 @@ $(document).on('click', '.reply-comment-btn', function (e) {
     if (msg.trim().length == 0) {
         showNotification("Please enter text to reply comment!")
     } else {
-        createReplyComment(commentID,postID,userID,msg);
+        createReplyComment(commentID, postID, userID, msg);
     }
 
-    function createReplyComment(commentID,postID,userID,msg){
+    function createReplyComment(commentID, postID, userID, msg) {
         $.ajax({
             url: "Ajax/Post.php",
             method: "POST",
