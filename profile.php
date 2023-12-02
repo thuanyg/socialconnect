@@ -914,7 +914,7 @@ if (!isset($_SESSION["userid"])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="border-t py-4 space-y-4 dark:border-gray-600">
+                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"];?>">
                                                     <div class="flex">
                                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                             <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
@@ -1170,7 +1170,7 @@ if (!isset($_SESSION["userid"])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="border-t py-4 space-y-4 dark:border-gray-600">
+                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"];?>">
                                                     <div class="flex">
                                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                             <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">

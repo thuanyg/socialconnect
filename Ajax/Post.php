@@ -393,7 +393,7 @@ if (isset($_POST["action"])) {
                             <?php
                             if ($comment != null) { ?>
 
-                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
                                     <?php
                                     for ($c = 0; $c < sizeof($comment); $c++) {
                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
@@ -436,7 +436,7 @@ if (isset($_POST["action"])) {
                             <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
                             <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
                             <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
                                 <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
                                     <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
                                         <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
@@ -693,7 +693,7 @@ if (isset($_POST["action"])) {
                             <?php
                             if ($comment != null) { ?>
 
-                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
                                     <?php
                                     for ($c = 0; $c < sizeof($comment); $c++) {
                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
@@ -736,7 +736,7 @@ if (isset($_POST["action"])) {
                             <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
                             <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
                             <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
                                 <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
                                     <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
                                         <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
@@ -976,7 +976,7 @@ if (isset($_POST["action"])) {
                             <?php
                             if ($comment != null) { ?>
 
-                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
                                     <?php
                                     for ($c = 0; $c < sizeof($comment); $c++) {
                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
@@ -1019,7 +1019,7 @@ if (isset($_POST["action"])) {
                             <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
                             <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
                             <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
                                 <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
                                     <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
                                         <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
@@ -1276,7 +1276,7 @@ if (isset($_POST["action"])) {
                             <?php
                             if ($comment != null) { ?>
 
-                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
                                     <?php
                                     for ($c = 0; $c < sizeof($comment); $c++) {
                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
@@ -1319,7 +1319,7 @@ if (isset($_POST["action"])) {
                             <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
                             <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
                             <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
                                 <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
                                     <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
                                         <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
@@ -1507,7 +1507,7 @@ if (isset($_POST["action"])) {
                             <?php
                             if ($comment != null) { ?>
 
-                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
                                     <?php
                                     for ($c = 0; $c < sizeof($comment); $c++) {
                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
@@ -1550,7 +1550,7 @@ if (isset($_POST["action"])) {
                             <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
                             <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
                             <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
                                 <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
                                     <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
                                         <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
@@ -1756,7 +1756,7 @@ if (isset($_POST["action"])) {
                             <?php
                             if ($comment != null) { ?>
 
-                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?> ">
+                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
                                     <?php
                                     for ($c = 0; $c < sizeof($comment); $c++) {
                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
@@ -1799,7 +1799,7 @@ if (isset($_POST["action"])) {
                             <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
                             <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
                             <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
                                 <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
                                     <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
                                         <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>

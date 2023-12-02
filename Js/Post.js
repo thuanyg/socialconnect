@@ -537,7 +537,7 @@ $(window).keyup(function(e){
 // Add comment 
 // Event phim enter
 $(document).on("keyup", ".comment-textbox", function (e) {
-    if (e.which == 13 && e.which != 16) {
+    if (e.which === 13 && !e.shiftKey) {
         var userID = $("input[name='txtUserid']").val();
         var postID = $(this).attr('post-id');
         // Sua thanh 
