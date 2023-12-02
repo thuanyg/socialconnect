@@ -529,11 +529,7 @@ $(document).on('click', '.comment-post-btn', function (e) {
     $("#post-details-modal .post-details-card").html(postCardHTML);
     $("#post-details-modal .comment-textbox").focus();
 });
-$(window).keyup(function(e){
-    if (e.which == 27) {
-        $("#post-details-modal .post-details-card").empty();
-    }
-})
+
 // Add comment 
 // Event phim enter
 $(document).on("keyup", ".comment-textbox", function (e) {
