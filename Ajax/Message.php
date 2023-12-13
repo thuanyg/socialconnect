@@ -648,6 +648,14 @@ if (isset($_POST["action"])) {
         }
     }
 
+    if ($_POST["action"] == "send-message") {
+        $senderId = $_POST["senderId"];
+        $receiverId = $_POST["receiverId"];
+        $messageContent = $_POST["messageContent"];
+        $mess = new Message();
+        echo $mess->saveMessage($senderId, $receiverId, $messageContent, "");
+    }
+
     if ($_POST["action"] == "delete-conversation") {
         $userid = $_POST["userid"];
         $receiverId = $_POST["receiverID"];

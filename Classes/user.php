@@ -116,4 +116,11 @@ class User
         $result = $DB->Execute($sql);
         return $result;
     }
+
+    function getBirthday($friendID){
+        $DB=new Database();
+        $sql = "SELECT birthday FROM Users_about WHERE userid = $friendID";
+        $result = $DB->Query($sql);
+        return $result;
+    }
 }

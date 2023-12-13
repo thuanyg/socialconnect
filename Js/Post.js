@@ -563,7 +563,6 @@ function CreateComment(userID, postID, msg) {
     $.ajax({
         url: "Ajax/Post.php",
         method: "POST",
-        dataType: "html",
         data: {
             msg: msg,
             userID: userID,
