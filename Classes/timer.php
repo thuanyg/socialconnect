@@ -52,6 +52,7 @@ class Timer
         $timeString = $dateTime->format('H:i');
         return $timeString; // Output: "15:09"
     }
+    
     function DateCompare($date1, $date2)
     {
         $dateTime1 = new DateTime($date1);
