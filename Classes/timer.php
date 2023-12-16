@@ -52,24 +52,43 @@ class Timer
         $timeString = $dateTime->format('H:i');
         return $timeString; // Output: "15:09"
     }
-    
+
     function DateCompare($date1, $date2)
     {
         $dateTime1 = new DateTime($date1);
         $dateTime2 = new DateTime($date2);
-    
+
         $dateString1 = $dateTime1->format('m-d');
         $dateString2 = $dateTime2->format('m-d');
-    
+
         if ($dateString1 < $dateString2) {
-            return 1; // $date1 đứng trước $date2 và chênh lệch không quá 3 ngày
+            return 1; // $date1 đứng trước $date2
         } elseif ($dateString1 > $dateString2) {
             return -1; // $date1 đứng sau $date2
         } else {
-            return 0; // $date1 và $date2 bằng nhau hoặc chênh lệch ngày lớn hơn 3
+            return 0; // $date1 và $date2 bằng nhau 
         }
     }
-    
+
+    function DayDifference($date1, $date2)
+    {
+        $dateTime1 = new DateTime($date1);
+        $dateTime2 = new DateTime($date2);
+
+        // Lấy chỉ tháng và ngày
+        $ngay1_month_day = $dateTime1->format('m-d');
+        $ngay2_month_day = $dateTime2->format('m-d');
+
+        // Tạo một DateTime mới dựa trên cùng một năm
+        $dummyYear = 2000; // Năm "giả" không quan trọng, chỉ để tạo đối tượng DateTime
+        $dummyDate1 = DateTime::createFromFormat('Y-m-d', $dummyYear . '-' . $ngay1_month_day);
+        $dummyDate2 = DateTime::createFromFormat('Y-m-d', $dummyYear . '-' . $ngay2_month_day);
+
+        // Tính toán độ chênh lệch giữa hai ngày
+        $difference = $dummyDate1->diff($dummyDate2);
+
+        return $difference->days;
+    }
 
     function calculateAge($birthday)
     {

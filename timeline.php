@@ -449,17 +449,32 @@ if (!isset($_SESSION["userid"])) {
             <div class="sidebar_inner" data-simplebar>
 
                 <ul>
+                    <li class="active"><a href="profile.php">
+                            <div class="user_avatar">
+                                <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="avatar" style="width: 35px; border-radius: 50%; margin-right: 15px;">
+                            </div>
+                            <span> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </span>
+                        </a>
+                    </li>
                     <li><a href="feed.php">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-600">
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                             </svg>
                             <span> Feed </span> </a>
                     </li>
-                    <li><a href="pages.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-yellow-500">
-                                <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span> Pages </span> </a>
+                    <li><a href="groups.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-500">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                            </svg><span> Friends </span></a>
+                    </li>
+                    <li><a href="chats-friend.php">
+                            <img src="./assets/images/chat.png" alt="" style="width: 26px; margin-right: 8px">
+                            <span> Messages </span></a>
+                    </li>
+                    <li><a href="albums.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-purple-500">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                            </svg> <span> Photos </span></a>
                     </li>
                     <li><a href="videos.html">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
@@ -467,27 +482,12 @@ if (!isset($_SESSION["userid"])) {
                             </svg>
                             <span> Video</span></a>
                     </li>
-                    <li><a href="groups.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-500">
-                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-                            </svg><span> Groups </span></a>
+                    <li id="more-veiw" hidden><a href="products.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
+                                <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
+                            </svg>
+                            <span> Products</span></a>
                     </li>
-
-
-
-
-                    <li id="more-veiw" hidden><a href="events.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-yellow-500">
-                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                            </svg><span> Events </span></a>
-                    </li>
-
-                    <li id="more-veiw" hidden><a href="albums.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-purple-500">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
-                            </svg> <span> Photos </span></a>
-                    </li>
-
 
                     <li id="more-veiw" hidden><a href="birthdays.html">
                             <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -496,7 +496,6 @@ if (!isset($_SESSION["userid"])) {
                             </svg>
                             <span> Birthdays </span> <span class="new">N</span></a>
                     </li>
-
                 </ul>
 
                 <a href="#" class="see-mover h-10 flex my-1 pl-2 rounded-xl text-gray-600" uk-toggle="target: #more-veiw; animation: uk-animation-fade">
@@ -527,7 +526,9 @@ if (!isset($_SESSION["userid"])) {
                                     <img src="<?php echo $friend["avatar_image"] ?>" alt="avatar">
                                     <span class="user_status status_online"></span>
                                 </div>
-                                <div class="contact-username"> <?php echo $friend["first_name"] . " " . $friend["last_name"] ?> </div>
+                                <div class="contact-username">
+                                    <?php echo $friend["first_name"] . " " . $friend["last_name"] ?>
+                                </div>
                             </a>
                     <?php
                         }
@@ -536,10 +537,40 @@ if (!isset($_SESSION["userid"])) {
 
                 </div>
 
+                <ul class="side_links" data-sub-title="Actions">
+
+
+                    <li><a href="page-setting.php"> <ion-icon name="settings-outline" class="side-icon"></ion-icon> <span>
+                                Setting </span> </a>
+
+                    </li>
+                    <!-- <li><a href="#"> <ion-icon name="document-outline" class="side-icon"></ion-icon> <span> Create
+                                Content </span> </a>
+                        <ul>
+                            <li><a href="create-group.html"> Create Group </a></li>
+                            <li><a href="create-page.html"> Create Page </a></li>
+                        </ul>
+                    </li> -->
+                    <li><a href="#"> <ion-icon name="code-slash-outline" class="side-icon"></ion-icon> <span>
+                                Development </span> </a>
+                        <ul>
+                            <li><a href="development-components.html"> Compounents </a></li>
+                            <li><a href="development-plugins.html"> Plugins </a></li>
+                            <li><a href="development-icons.html"> Icons </a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"> <ion-icon name="log-in-outline" class="side-icon"></ion-icon> <span> Authentication
+                            </span> </a>
+                        <ul>
+                            <li><a href="form-register.php">Form Sign-up </a></li>
+                            <li><a href="logout.php">Logout</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
 
                 <div class="footer-links">
                     <a href="#">About</a>
-                    <a href="#">Blog </a>
                     <a href="#">Careers</a>
                     <a href="#">Support</a>
                     <a href="#">Contact Us </a>
@@ -926,7 +957,7 @@ if (!isset($_SESSION["userid"])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"];?>">
+                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
                                                     <div class="flex">
                                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                             <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
@@ -1243,7 +1274,7 @@ if (!isset($_SESSION["userid"])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"];?>">
+                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
                                                     <div class="flex">
                                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                             <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">

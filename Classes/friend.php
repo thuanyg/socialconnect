@@ -117,6 +117,14 @@ class Friend
         $result = $DB->Query($sql);
         return $result;
     }
+    // Lấy 1 vài yêu cầu kết bạn mới nhất
+    public function getSomeRequests($userid)
+    {
+        $DB = new Database();
+        $sql = "SELECT * FROM friend_requests WHERE receiver_id = {$userid} ORDER BY `date` DESC LIMIT 3";
+        $result = $DB->Query($sql);
+        return $result;
+    }
 
     // Lấy tất cả các yêu cầu đã gửi
     public function getResponses($userid)
