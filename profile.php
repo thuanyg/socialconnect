@@ -97,6 +97,9 @@ if (!isset($_SESSION["userid"])) {
         <span id="notification-text"></span>
         <button id="close-notification">X</button>
     </div>
+    <div id="loader">
+        <div class="loader-global"></div>
+    </div>
     <!-- Get Current UserID -->
     <input name="txtUserid" type="hidden" value="<?php echo $userCurrent["userid"] ?>">
     <input name="txtUserProfileId" type="hidden" value="<?php echo $userProfile["userid"] ?>">
@@ -131,7 +134,22 @@ if (!isset($_SESSION["userid"])) {
                             <h4 class="search_title"> Results/Recently</h4>
                             <ul id="searchResults">
                                 <div id="search-loading" style="display: none;">
-                                    <img src="./assets/images/gif/loading_message_tab.svg">
+                                    <div id="wifi-loader">
+                                        <svg class="circle-outer" viewBox="0 0 86 86">
+                                            <circle class="back" cx="43" cy="43" r="40"></circle>
+                                            <circle class="front" cx="43" cy="43" r="40"></circle>
+                                            <circle class="new" cx="43" cy="43" r="40"></circle>
+                                        </svg>
+                                        <svg class="circle-middle" viewBox="0 0 60 60">
+                                            <circle class="back" cx="30" cy="30" r="27"></circle>
+                                            <circle class="front" cx="30" cy="30" r="27"></circle>
+                                        </svg>
+                                        <svg class="circle-inner" viewBox="0 0 34 34">
+                                            <circle class="back" cx="17" cy="17" r="14"></circle>
+                                            <circle class="front" cx="17" cy="17" r="14"></circle>
+                                        </svg>
+                                        <div class="text" data-text="Searching"></div>
+                                    </div>
                                 </div>
                             </ul>
                         </div>
@@ -435,7 +453,7 @@ if (!isset($_SESSION["userid"])) {
                     </li>
 
 
-                    <li id="more-veiw" hidden><a href="birthdays.html">
+                    <li id="more-veiw" hidden><a href="birthdays.php">
                             <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path>
                                 <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path>
@@ -914,7 +932,7 @@ if (!isset($_SESSION["userid"])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"];?>">
+                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
                                                     <div class="flex">
                                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                             <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
@@ -1170,7 +1188,7 @@ if (!isset($_SESSION["userid"])) {
                                                     </div>
                                                 </div>
 
-                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"];?>">
+                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
                                                     <div class="flex">
                                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                             <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
@@ -2327,7 +2345,7 @@ if (!isset($_SESSION["userid"])) {
 
     <!-- Javascript
     ================================================== -->
-    
+
     <script src="Js/Global.js"></script>
     <script src="Js/Profile.js"></script>
     <script src="Js/Post.js"></script>

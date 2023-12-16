@@ -121,7 +121,7 @@ class Friend
     public function getSomeRequests($userid)
     {
         $DB = new Database();
-        $sql = "SELECT * FROM friend_requests WHERE receiver_id = {$userid} ORDER BY `date` DESC LIMIT 3";
+        $sql = "SELECT * FROM friend_requests WHERE receiver_id = {$userid} AND `status` = 'Pending' ORDER BY `date` DESC LIMIT 3";
         $result = $DB->Query($sql);
         return $result;
     }

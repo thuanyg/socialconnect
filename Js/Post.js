@@ -213,6 +213,7 @@ async function CreatePost() {
             var images = await UploadFilesToServer(formImages);
             var videos = await UploadFilesToServer(formVideos);
             var media = images.concat(videos);
+            $("#loader").show();
             $.ajax({
                 url: "Ajax/Post.php",
                 method: "POST",
@@ -225,12 +226,13 @@ async function CreatePost() {
                     action: "create-post"
                 },
                 success: function (data) {
-                    if (data) {
+                    if (data.trim() != "") {
                         showNotification("You have successfully posted the article");
                         var PostContaier = document.getElementById('PostContaier');
                         PostContaier.firstElementChild.insertAdjacentHTML('afterend', data);
                         $("#create-post-modal .loading-upload").remove();
-                        $("#closeModelPost").click();
+                        $("#create-post-modal #closeModelPost").click();
+                        $("#loader").hide();
                     } else {
                         showNotification("Something wrong!");
                     }

@@ -18,27 +18,47 @@ $(window).scroll(function() {
 
 function getPostToLoad(offset) {
     postFetching = true;
-    $.ajax({
-        url: "Ajax/Post.php",
-        type: "POST",
-        data: {
-            offset: offset,
-            action: "get-post-to-load"
-        },
-        cache: false,
-        success: function(data) {
-            postFetching = false;
-            if (data.trim()) {
-                postDocument.append(data);
-                if (data.trim() == '<div style="text-align: center">Không còn bài viết</div>') {
-                    $(window).off('scroll');
+
+    var loadingHTML = `<div class="loader">
+                            <div class="wrapper">
+                                <div class="circle"></div>
+                                <div class="line-1"></div>
+                                <div class="line-2"></div>
+                                <div class="line-3"></div>
+                                <div class="line-4"></div>
+                            </div>
+                        </div>`;
+
+    postDocument.append(loadingHTML);
+
+    setTimeout(() => {
+        $.ajax({
+            url: "Ajax/Post.php",
+            type: "POST",
+            data: {
+                offset: offset,
+                action: "get-post-to-load"
+            },
+            cache: false,
+            success: function(data) {
+                postFetching = false;
+                if (data.trim()) {
+                    postDocument.children().last().remove();           
+                    postDocument.append(data);
+                    if (data.trim() == '<div style="text-align: center">Không còn bài viết</div>') {
+                        $(window).off('scroll');
+                    }
+                } else {
+                    return;
                 }
-            } else {
-                return;
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX errors
             }
-        },
-    });
+        });
+    }, 1000);
 }
+
 
 function ViewNextPost() {
     // console.log("Calling ViewNextPost");

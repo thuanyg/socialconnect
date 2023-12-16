@@ -401,7 +401,7 @@ if (!isset($_SESSION["userid"])) {
                             <span> Products</span></a>
                     </li>
 
-                    <li id="more-veiw" hidden><a href="birthdays.html">
+                    <li id="more-veiw" hidden><a href="birthdays.php">
                             <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"

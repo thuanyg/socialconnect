@@ -49,45 +49,6 @@ if (!isset($_SESSION["userid"])) {
     <link rel="stylesheet" href="assets/css/uikit.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="assets/css/tailwind.css" rel="stylesheet">
-
-    <style>
-        .options-notify-button {
-            /* display: none; */
-            position: absolute;
-            right: 25px;
-            top: 17px;
-            cursor: pointer;
-            font-size: 27px;
-        }
-
-        .options-notify-button .hydrated {
-            border-radius: 50%;
-            background: #fff;
-        }
-
-        .options-notify-button:hover .hydrated {
-            background: wheat;
-        }
-
-        .options-notify-list {
-            display: none;
-        }
-
-        .options-notify-list.active {
-            display: block;
-            background: #dde7fb;
-            z-index: 110;
-            right: 40px;
-            top: 42px;
-            overflow: auto;
-            border-radius: 5px;
-        }
-
-        .options-notify-list .hydrated {
-            line-height: 16px;
-            margin-right: 5px;
-        }
-    </style>
 </head>
 
 <body>
@@ -95,6 +56,9 @@ if (!isset($_SESSION["userid"])) {
     <div class="notification" id="notification">
         <span id="notification-text"></span>
         <button id="close-notification">X</button>
+    </div>
+    <div id="loader">
+        <div class="loader-global"></div>
     </div>
     <input type="hidden" name="txtUserid" value="<?php echo $_SESSION["userid"] ?>">
     <input type="hidden" name="txtUserAvatar" value="<?php echo $userCurrent["avatar_image"] ?>">
@@ -126,7 +90,22 @@ if (!isset($_SESSION["userid"])) {
                             <h4 class="search_title"> Results/Recently</h4>
                             <ul id="searchResults">
                                 <div id="search-loading" style="display: none;">
-                                    <img src="./assets/images/gif/loading_message_tab.svg">
+                                    <div id="wifi-loader">
+                                        <svg class="circle-outer" viewBox="0 0 86 86">
+                                            <circle class="back" cx="43" cy="43" r="40"></circle>
+                                            <circle class="front" cx="43" cy="43" r="40"></circle>
+                                            <circle class="new" cx="43" cy="43" r="40"></circle>
+                                        </svg>
+                                        <svg class="circle-middle" viewBox="0 0 60 60">
+                                            <circle class="back" cx="30" cy="30" r="27"></circle>
+                                            <circle class="front" cx="30" cy="30" r="27"></circle>
+                                        </svg>
+                                        <svg class="circle-inner" viewBox="0 0 34 34">
+                                            <circle class="back" cx="17" cy="17" r="14"></circle>
+                                            <circle class="front" cx="17" cy="17" r="14"></circle>
+                                        </svg>
+                                        <div class="text" data-text="Searching"></div>
+                                    </div>
                                 </div>
                             </ul>
                         </div>
@@ -424,7 +403,7 @@ if (!isset($_SESSION["userid"])) {
                             <span> Products</span></a>
                     </li>
 
-                    <li id="more-veiw" hidden><a href="birthdays.html">
+                    <li id="more-veiw" hidden><a href="birthdays.php">
                             <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path>
                                 <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path>
@@ -556,8 +535,6 @@ if (!isset($_SESSION["userid"])) {
                                 </div>
                             </div>
                         </div>
-
-
 
                         <!------------------------------------------------------------------------------------------------------------------------------------------------->
                         <!-- Post with picture -->
@@ -1241,7 +1218,7 @@ if (!isset($_SESSION["userid"])) {
                             </div>
                         </a>
                         <div>
-                            <h3 style="display: inline-block; padding-right: 50px;" class="text-xl font-semibold"> Friend requests</h3>
+                            <h3 style="display: inline-block; padding-right: 45px;" class="text-xl font-semibold"> Friend requests</h3>
                             <a style="color: #2563eb" class="see-all-friend-request" href="#">See All</a>
                         </div>
                         <div class="">
@@ -1670,11 +1647,11 @@ if (!isset($_SESSION["userid"])) {
 
                 <div class="flex space-x-2">
                     <a onclick="CreatePost()" style="cursor: pointer; color: whitesmoke;" class="bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium">
-                        Share </a>
+                        Create </a>
                 </div>
 
                 <a hidden class="bg-blue-600 flex h-9 items-center justify-center rounded-lg text-white px-12 font-semibold">
-                    Share </a>
+                    Create </a>
             </div>
         </div>
     </div>
@@ -1747,18 +1724,18 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <?php include("./Websocket/src/Notification.php") ?>
     <script>
-        $(".confirm-req").click(function(e){
+        $(".confirm-req").click(function(e) {
             e.preventDefault();
             var reqID = $(this).data("request-id");
             $.ajax({
                 url: "Ajax/Friend.php",
                 type: "POST",
-                data:{
+                data: {
                     userid: reqID,
                     action: "accept-request"
                 },
-                success: function(data){
-                    if(data.trim() != ""){
+                success: function(data) {
+                    if (data.trim() != "") {
                         window.location.reload();
                     }
                 }
