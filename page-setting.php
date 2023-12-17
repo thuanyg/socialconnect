@@ -363,7 +363,7 @@ if (!isset($_SESSION["userid"])) {
                             </svg>
                             <span> Feed </span> </a>
                     </li>
-                    <li><a href="groups.html">
+                    <li><a href="friends.php">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                 class="text-blue-500">
                                 <path

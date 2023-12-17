@@ -83,11 +83,13 @@ class Timer
         $dummyYear = 2000; // Năm "giả" không quan trọng, chỉ để tạo đối tượng DateTime
         $dummyDate1 = DateTime::createFromFormat('Y-m-d', $dummyYear . '-' . $ngay1_month_day);
         $dummyDate2 = DateTime::createFromFormat('Y-m-d', $dummyYear . '-' . $ngay2_month_day);
-
-        // Tính toán độ chênh lệch giữa hai ngày
-        $difference = $dummyDate1->diff($dummyDate2);
-
-        return $difference->days;
+        if ($dummyDate1 > $dummyDate2) {
+            // $dummyDate1 đại diện cho ngày lớn hơn $dummyDate2
+            // Tính toán độ chênh lệch giữa hai ngày
+            $difference = $dummyDate1->diff($dummyDate2);
+            return $difference->days;
+        }
+        return 1111;
     }
 
     function calculateAge($birthday)

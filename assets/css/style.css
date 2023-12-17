@@ -457,6 +457,8 @@
 }
 
 .message-option img {
+  width: 60px;
+  height: 60px;
   object-fit: cover;
   border-radius: 50%;
   border: 1px transparent;
