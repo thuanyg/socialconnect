@@ -1723,24 +1723,7 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <?php include("./Websocket/src/Notification.php") ?>
     <script>
-        $(".confirm-req").click(function(e) {
-            e.preventDefault();
-            var reqID = $(this).data("request-id");
-            $.ajax({
-                url: "Ajax/Friend.php",
-                type: "POST",
-                data: {
-                    userid: reqID,
-                    action: "accept-request"
-                },
-                success: function(data) {
-                    if (data.trim() != "") {
-                        window.location.reload();
-                    }
-                }
-            })
-
-        })
+        
     </script>
     <!-- Javascript
     ================================================== -->

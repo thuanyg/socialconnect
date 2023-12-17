@@ -351,7 +351,7 @@ $(document).on("click", ".btn-read-notification", function (e) {
         showNotification("You have read this notification already.")
     }
 })
-// Remove notification
+// Read notification
 $(".btn-read-all-notification").click(function (e) {
     e.preventDefault();
     $.ajax({
@@ -401,6 +401,25 @@ $(document).on("click", ".btn-remove-notification", function (e) {
     })
 })
 
+// Confirm friend request
+$(".confirm-req").click(function(e) {
+    e.preventDefault();
+    var reqID = $(this).data("request-id");
+    $.ajax({
+        url: "Ajax/Friend.php",
+        type: "POST",
+        data: {
+            userid: reqID,
+            action: "accept-request"
+        },
+        success: function(data) {
+            if (data.trim() != "") {
+                window.location.reload();
+            }
+        }
+    })
+
+})
 function timeAgo(dateString) {
     const currentDate = new Date();
     const pastDate = new Date(dateString);

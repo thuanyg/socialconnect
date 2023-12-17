@@ -8,9 +8,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- Mirrored from demo.foxthemes.net/socialite/landing.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 20 Jul 2023 17:43:27 GMT -->
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

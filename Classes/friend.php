@@ -113,7 +113,7 @@ class Friend
     public function getRequests($userid)
     {
         $DB = new Database();
-        $sql = "SELECT * FROM friend_requests WHERE receiver_id = {$userid}";
+        $sql = "SELECT * FROM friend_requests WHERE receiver_id = {$userid} AND `status` = 'Pending' ORDER BY `date` DESC";
         $result = $DB->Query($sql);
         return $result;
     }
