@@ -13,7 +13,9 @@ if (!isset($_SESSION["userid"])) {
 } else {
     $f = new Friend();
     $user = new User();
+    
     $userCurrent = $user->getUser($_SESSION["userid"]); // Return Array (userCurrent = result[0])
+    
     if (isset($_GET["uid"])) {
         if ($user->getUser($_GET["uid"])) {
             $userProfile = $user->getUser($_GET["uid"]);
@@ -22,6 +24,7 @@ if (!isset($_SESSION["userid"])) {
             exit();
         }
     }
+    $about = $user->getAbout($userProfile["userid"]);
     if ($_GET["uid"] == $_SESSION["userid"] || !isset($_GET["uid"])) {
         header("Location: timeline.php");
     }
@@ -1280,33 +1283,79 @@ if (!isset($_SESSION["userid"])) {
                         <!-- Sidebar -->
                         <div class="w-full space-y-6">
 
-                            <div class="widget card p-5">
-                                <h4 class="text-lg font-semibold"> About </h4>
+                        <div class="widget card p-5">
+                                <h4 class="text-lg font-semibold"> About
+                                    <i class="fa fa-edit edit-about-btn" style="margin-left: 10px; cursor: pointer;" title="Change About"></i>
+                                </h4>
                                 <ul class="text-gray-600 space-y-3 mt-3">
-                                    <li class="flex items-center space-x-2">
-                                        <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon>
-                                        Live In <strong> Cairo , Eygept </strong>
-                                    </li>
-                                    <li class="flex items-center space-x-2">
+                                    <?php
+                                    if ($about != null) {
+                                    ?>
+                                        <li class="flex items-center space-x-2">
+                                            <ion-icon name="home"></ion-icon>
+                                            <!-- <ion-icon name="home" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                            Live In <strong> <?php echo $about["address"] ?> </strong>
+                                        </li>
+                                    <?php
+                                    }
+                                    if ($about != null) {
+                                        $formattedDate = date("d-m-Y", strtotime($about["birthday"]));
+                                    ?>
+                                        <li class="flex items-center space-x-2">
+                                            <ion-icon name="calendar"></ion-icon>
+                                            <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                            Birthday <strong> <?php echo $formattedDate ?> </strong>
+                                        <?php
+                                    }
+                                    if ($about != null) {
+                                        ?>
+                                        <li class="flex items-center space-x-2">
+                                            <ion-icon name="school"></ion-icon>
+                                            <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                            Education <strong> <?php echo $about["edu"] ?> </strong>
+                                        <?php
+                                    }
+                                    if ($about != null) {
+                                        ?>
+                                        <li class="flex items-center space-x-2">
+                                            <ion-icon name="planet"></ion-icon>
+                                            <!-- <ion-icon name="information-circle" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                            Bio <strong> <?php echo $about["desc"] ?> </strong>
+                                        <?php
+                                    }
+                                        ?>
+                                        <!-- <li class="flex items-center space-x-2">
                                         <ion-icon name="globe" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon>
                                         From <strong> Aden , Yemen </strong>
-                                    </li>
-                                    <li class="flex items-center space-x-2">
+                                    </li> -->
+                                        <!-- <li class="flex items-center space-x-2">
                                         <ion-icon name="heart-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon>
                                         From <strong> Relationship </strong>
-                                    </li>
-                                    <li class="flex items-center space-x-2">
+                                    </li> -->
+                                        <!-- <li class="flex items-center space-x-2">
                                         <ion-icon name="logo-rss" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon>
                                         Flowwed By <strong> 3,240 People </strong>
-                                    </li>
+                                    </li> -->
                                 </ul>
                                 <div class="gap-3 grid grid-cols-3 mt-4">
-                                    <img src="assets/images/avatars/avatar-lg-2.jpg" alt="" class="object-cover rounded-lg col-span-full">
+                                    <!-- <img src="assets/images/avatars/avatar-lg-2.jpg" alt="" class="object-cover rounded-lg col-span-full">
                                     <img src="assets/images/avatars/avatar-2.jpg" alt="" class="rounded-lg">
                                     <img src="assets/images/avatars/avatar-4.jpg" alt="" class="rounded-lg">
-                                    <img src="assets/images/avatars/avatar-5.jpg" alt="" class="rounded-lg">
+                                    <img src="assets/images/avatars/avatar-5.jpg" alt="" class="rounded-lg"> -->
+                                    <?php
+                                    if ($about != null && $about["about_image"] != null) {
+                                        $images = json_decode($about["about_image"]);
+                                        for ($i = 0; $i < 4 && $i < sizeof($images); $i++) {
+                                            if ($i == 0) {
+                                                echo "<img src='uploads/avatars/" . $images[$i] . "' style='cursor: pointer' class='about-image object-cover rounded-lg col-span-full'>";
+                                            } else {
+                                                echo "<img src='uploads/avatars/" . $images[$i] . "' style='cursor: pointer' class='about-image rounded-lg'>";
+                                            }
+                                        }
+                                    }
+                                    ?>
                                 </div>
-                                <a href="#" class="button gray mt-3 w-full"> Edit </a>
+                                
                             </div>
 
                             <div class="widget card p-5 border-t">
