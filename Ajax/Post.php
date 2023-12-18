@@ -2102,8 +2102,10 @@ if (isset($_POST["action"])) {
     if ($_POST["action"] == "share-post") {
         $postid = $_POST["postid"];
         $userid = $_POST["userid"];
+        $tapostShare = $_POST["tapostshare"];
+        $privacy = $_POST["privacy"];
         $post = new Post();
-        $result = $post->setSharePost($postid, $userid);
+        $result = $post->setSharePost($postid, $userid, $privacy, $tapostShare);
         if ($result) {
             echo 1;
         } else {
