@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2023 at 04:36 AM
+-- Generation Time: Dec 19, 2023 at 07:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,21 +50,6 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categories`
---
-
-CREATE TABLE `categories` (
-  `cid` int(11) NOT NULL,
-  `cname` varchar(50) NOT NULL,
-  `cimage` varchar(100) NOT NULL,
-  `cdesc` varchar(200) NOT NULL,
-  `cdate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `cstatus` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `comment`
 --
 
@@ -94,13 +79,10 @@ INSERT INTO `comment` (`id`, `comment_id`, `comment_msg`, `postid`, `comment_use
 (47, 227061259213580344, 'wtd\'\'', 297449209171719053, 3572325399739732623, '2023-12-02 06:43:26'),
 (48, 5994370949002, 'dcma', 164832125872229102, 3572325399739732623, '2023-12-02 06:52:10'),
 (49, 8024960682733026, 'VVV', 164832125872229102, 3572325399739732623, '2023-12-02 06:53:02'),
-(50, 66004485980383, 'del dc', 69278337688, 3572325399739732623, '2023-12-02 06:53:10'),
-(51, 9223372036854775807, 'd', 41361443174300470, 3572325399739732623, '2023-12-02 06:57:23'),
 (52, 96484814376, '1', 174088333534974, 3572325399739732623, '2023-12-02 06:57:33'),
 (53, 6891262859912379602, '1', 19581001419442, 3572325399739732623, '2023-12-02 06:57:40'),
 (54, 68299463039514, 'Youtubb=e', 3534052449918946412, 3572325399739732623, '2023-12-02 07:00:35'),
 (55, 6608523576398, 'v', 98916316802, 3572325399739732623, '2023-12-02 07:31:56'),
-(56, 70566863479628, 'cc', 41361443174300470, 3572325399739732623, '2023-12-02 07:54:21'),
 (57, 723282056224212, 'Khay', 9937518659735607, 3572325399739732623, '2023-12-02 07:54:30'),
 (58, 5634792643946460308, 'a', 98916316802, 3572325399739732623, '2023-12-02 08:21:06'),
 (59, 8862292620723599, 'ab', 98916316802, 3572325399739732623, '2023-12-02 08:21:07'),
@@ -168,7 +150,9 @@ INSERT INTO `comment_reply` (`id`, `comment_id`, `comment_msg`, `comment_userid`
 (5, 5572576446948, '0', 2147483647, 98916316802, '2023-12-01 17:29:18'),
 (6, 5572576446948, '0', 2147483647, 98916316802, '2023-12-01 17:31:44'),
 (7, 5572576446948, 'okroiday', 2147483647, 98916316802, '2023-12-01 17:36:23'),
-(8, 6608523576398, 'CC', 2147483647, 98916316802, '2023-12-02 08:02:42');
+(8, 6608523576398, 'CC', 2147483647, 98916316802, '2023-12-02 08:02:42'),
+(9, 9223372036854775807, 'sss', 2147483647, 98916316802, '2023-12-19 17:37:40'),
+(10, 9223372036854775807, 'rep2', 2147483647, 98916316802, '2023-12-19 17:38:54');
 
 -- --------------------------------------------------------
 
@@ -196,7 +180,8 @@ INSERT INTO `friendships` (`id`, `user1_id`, `user2_id`, `status`, `date`) VALUE
 (11, 3572325399739732623, 9095530094254485, 'isFriend', '2023-11-24 06:48:27'),
 (15, 12844124912908, 3572325399739732623, 'isFriend', '2023-12-17 03:32:06'),
 (16, 128441249129010, 3572325399739732623, 'isFriend', '2023-12-17 03:32:22'),
-(17, 12844124912909, 3572325399739732623, 'isFriend', '2023-12-17 03:35:05');
+(17, 12844124912909, 3572325399739732623, 'isFriend', '2023-12-17 03:35:05'),
+(18, 128441249129011, 3572325399739732623, 'isFriend', '2023-12-19 03:39:16');
 
 -- --------------------------------------------------------
 
@@ -223,9 +208,7 @@ INSERT INTO `friend_requests` (`id`, `sender_id`, `receiver_id`, `status`, `date
 (108, 4556887516696215, 4623450327014144, 'Accepted', '2023-10-26 13:25:47'),
 (114, 3572325399739732623, 9095530094254485, 'Accepted', '2023-11-24 06:48:27'),
 (115, 3572325399739732623, 61211065191727, 'Pending', '2023-12-02 08:24:49'),
-(116, 128441249129013, 3572325399739732623, 'Pending', '2023-12-17 03:17:58'),
-(117, 128441249129012, 3572325399739732623, 'Pending', '2023-12-17 03:20:24'),
-(118, 128441249129011, 3572325399739732623, 'Pending', '2023-12-17 03:20:43'),
+(118, 128441249129011, 3572325399739732623, 'Accepted', '2023-12-19 03:39:16'),
 (119, 128441249129011, 61211065191727, 'Pending', '2023-12-17 03:21:02'),
 (120, 128441249129010, 61211065191727, 'Pending', '2023-12-17 03:21:15'),
 (121, 128441249129010, 3572325399739732623, 'Accepted', '2023-12-17 03:32:22'),
@@ -258,13 +241,13 @@ CREATE TABLE `likes` (
 INSERT INTO `likes` (`id`, `postid`, `userid`, `date`) VALUES
 (95, 19581001419442, 744177439385, '2023-11-27 09:24:03'),
 (101, 174088333534974, 4623450327014144, '2023-11-27 09:29:47'),
-(114, 182746900562, 3572325399739732623, '2023-11-27 10:00:48'),
 (140, 19581001419442, 4556887516696215, '2023-11-27 15:01:04'),
 (150, 506740946623, 3572325399739732623, '2023-11-28 16:11:38'),
 (188, 88322897687, 3572325399739732623, '2023-11-29 10:19:35'),
-(189, 69278337688, 4556887516696215, '2023-11-29 10:22:19'),
 (191, 950118002460448865, 3572325399739732623, '2023-11-29 10:57:51'),
-(192, 19581001419442, 512857291296221, '2023-11-30 13:41:42');
+(192, 19581001419442, 512857291296221, '2023-11-30 13:41:42'),
+(210, 182746900562, 3572325399739732623, '2023-12-19 18:44:10'),
+(215, 297449209171719053, 3572325399739732623, '2023-12-19 18:44:20');
 
 -- --------------------------------------------------------
 
@@ -396,7 +379,20 @@ INSERT INTO `notifications` (`id`, `userid`, `sender_id`, `content`, `date`, `is
 (201, 61211065191727, 3572325399739732623, '', '2023-12-02 06:06:28', 0, 98916316802, 'like'),
 (202, 61211065191727, 3572325399739732623, '', '2023-12-02 08:02:37', 0, 98916316802, 'like'),
 (203, 61211065191727, 3572325399739732623, '', '2023-12-02 08:22:22', 0, 98916316802, 'like'),
-(204, 61211065191727, 3572325399739732623, '', '2023-12-13 06:09:16', 0, 98916316802, 'like');
+(204, 61211065191727, 3572325399739732623, '', '2023-12-13 06:09:16', 0, 98916316802, 'like'),
+(205, 61211065191727, 3572325399739732623, '', '2023-12-19 16:40:37', 0, 98916316802, 'like'),
+(206, 61211065191727, 3572325399739732623, '', '2023-12-19 16:40:43', 0, 98916316802, 'like'),
+(207, 61211065191727, 3572325399739732623, '', '2023-12-19 16:40:44', 0, 98916316802, 'like'),
+(208, 61211065191727, 3572325399739732623, '', '2023-12-19 16:40:44', 0, 98916316802, 'like'),
+(209, 61211065191727, 3572325399739732623, '', '2023-12-19 16:40:44', 0, 98916316802, 'like'),
+(210, 61211065191727, 3572325399739732623, '', '2023-12-19 16:40:44', 0, 98916316802, 'like'),
+(211, 61211065191727, 3572325399739732623, '', '2023-12-19 16:40:45', 0, 98916316802, 'like'),
+(212, 61211065191727, 3572325399739732623, '', '2023-12-19 16:40:46', 0, 98916316802, 'like'),
+(213, 512857291296221, 3572325399739732623, '', '2023-12-19 18:44:15', 0, 297449209171719053, 'like'),
+(214, 512857291296221, 3572325399739732623, '', '2023-12-19 18:44:16', 0, 297449209171719053, 'like'),
+(215, 512857291296221, 3572325399739732623, '', '2023-12-19 18:44:16', 0, 297449209171719053, 'like'),
+(216, 512857291296221, 3572325399739732623, '', '2023-12-19 18:44:19', 0, 297449209171719053, 'like'),
+(217, 512857291296221, 3572325399739732623, '', '2023-12-19 18:44:20', 0, 297449209171719053, 'like');
 
 -- --------------------------------------------------------
 
@@ -439,7 +435,6 @@ INSERT INTO `posts` (`id`, `postid`, `post`, `userid`, `date`, `has_image`, `has
 (149, 23083850604, 'Post 13', 3572325399739732623, '2023-11-23 07:44:30', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
 (150, 67575010962, 'Post 14', 3572325399739732623, '2023-11-23 07:44:34', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
 (151, 53882132807655, 'Post 15', 3572325399739732623, '2023-11-23 07:44:37', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
-(152, 9223372036854775807, 'Post 16', 3572325399739732623, '2023-11-23 07:44:41', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
 (153, 8215521464980, 'Post 17', 3572325399739732623, '2023-11-23 07:44:45', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
 (154, 77779784021268926, 'Post 18', 3572325399739732623, '2023-11-23 07:44:48', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
 (155, 9141438685695273, 'Post 19', 3572325399739732623, '2023-11-23 07:44:52', 1, 0, '[\"facebook-class-diagram.png\"]', 'Public'),
@@ -457,13 +452,11 @@ INSERT INTO `posts` (`id`, `postid`, `post`, `userid`, `date`, `has_image`, `has
 (182, 3534052449918946412, 'Youtube embed\n<iframe width=\"670\" height=\"400\" src=\"https://www.youtube.com/embed/lxPeCtiXor8\" title=\"HURRYKNG, REX, HIEUTHUHAI, Negav, MANBO - Mamma Mia (prod. by Kewtiie) [Official Video]\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>', 3572325399739732623, '2023-11-24 19:10:02', 1, 0, '', 'Public'),
 (184, 506740946623, '<iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/h7cOOfpdEfk\" title=\"KARIK - BẠN ĐỜI (FT. GDUCKY) | OFFICIAL MUSIC VIDEO\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>', 3572325399739732623, '2023-11-25 02:36:12', 1, 0, '', 'Public'),
 (187, 19581001419442, '<iframe style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/track/0v834w6iDIfsUIRvVcEYLR?utm_source=generator\" width=\"100%\" height=\"352\" frameBorder=\"1\" allowfullscreen=\"\" allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\" loading=\"lazy\"></iframe>', 3572325399739732623, '2023-11-25 02:39:39', 1, 0, '', 'Public'),
-(213, 15757241685613675, 'Test đăng và share', 3572325399739732623, '2023-11-28 15:04:02', 1, 0, '[\"advss.jpg\"]', 'Public'),
-(217, 41361443174300470, 'Share!?', 3572325399739732623, '2023-11-29 07:02:23', 1, 0, '', 'Public'),
-(220, 69278337688, '', 3572325399739732623, '2023-11-29 08:51:30', 1, 0, '', 'Public'),
 (221, 297449209171719053, '', 512857291296221, '2023-11-30 13:15:32', 1, 0, '[\"_one_piece-The End.jpg\"]', 'Public'),
 (222, 164832125872229102, '', 512857291296221, '2023-11-30 14:28:21', 1, 0, '[\"274818466_1118001902317965_6002550582890574445_n.jpg\"]', 'Public'),
 (225, 98916316802, 'góc thắc mắc', 61211065191727, '2023-12-01 06:04:47', 1, 0, '[\"1112023.jpg\"]', 'Public'),
-(226, 0, 'oke', 128441249129014, '2023-12-01 15:15:05', 1, 0, '[\"tong the.jpg\"]', 'public');
+(226, 0, 'oke', 128441249129014, '2023-12-19 18:15:24', 1, 0, '[\"tong the.jpg\"]', 'Public'),
+(249, 531276638635271201, 'Đây là share bài black pink', 3572325399739732623, '2023-12-19 18:04:09', 1, 0, '', 'Private');
 
 -- --------------------------------------------------------
 
@@ -528,22 +521,7 @@ CREATE TABLE `share` (
 --
 
 INSERT INTO `share` (`id`, `post_share_id`, `postid`, `share_userid`, `content`, `date`) VALUES
-(20, 19581001419442, 41361443174300470, 3572325399739732623, '', '2023-11-29 07:03:31'),
-(23, 15757241685613675, 69278337688, 3572325399739732623, '', '2023-11-29 08:51:30');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `stories`
---
-
-CREATE TABLE `stories` (
-  `id` int(11) NOT NULL,
-  `userid` bigint(19) NOT NULL,
-  `story_id` bigint(19) NOT NULL,
-  `media` varchar(100) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(55, 164832125872229102, 531276638635271201, 3572325399739732623, '', '2023-12-19 17:04:51');
 
 -- --------------------------------------------------------
 
@@ -596,7 +574,6 @@ INSERT INTO `users` (`id`, `userid`, `first_name`, `last_name`, `gender`, `email
 (99, 128441249129010, 'Hà', 'Anh', 'Male', 'user10@example.com', '123', 'nxq@iii', '2023-11-24 06:31:03', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (100, 128441249129011, 'Vũ', 'Bình', 'Male', 'user11@example.com', '123', 'nxq@iii', '2023-11-24 06:31:09', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (101, 128441249129012, 'Minh', 'Thảo', 'Male', 'user12@example.com', '123', 'nxq@iii', '2023-11-24 06:31:12', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
-(102, 128441249129013, 'Đinh Minh', 'Thảo', 'Male', 'user13@example.com', '123', 'nxq@iii', '2023-11-23 04:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (103, 128441249129014, 'Giang', 'Thảo', 'Male', 'user14@example.com', '123', 'nxq@iii', '2023-11-24 06:31:20', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (104, 128441249129015, 'Ngô Xuân', 'Thảo', 'Male', 'user15@example.com', '123', 'nxq@iii', '2023-11-23 07:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
 (105, 128441249129016, 'Nguyễn Văn', 'Quý', 'Male', 'user16@example.com', '123', 'nxq@iii', '2023-11-23 12:00:00', '', 'uploads/avatars/avatar_default.png', 0, 'public'),
@@ -682,7 +659,7 @@ CREATE TABLE `users_about` (
 --
 
 INSERT INTO `users_about` (`id`, `userid`, `birthday`, `desc`, `address`, `edu`, `about_image`) VALUES
-(8, 3572325399739732623, '2004-12-16', 'I don\'t like travelling because it wastes time and money. I just want to stay inside and sleep all day ', 'Hanoi Vietnam', 'HUCE', '[\"listing-5.jpg\",\"img-2.jpg\"]'),
+(8, 3572325399739732623, '2004-12-20', 'I don\'t like travelling because it wastes time and money. I just want to stay inside and sleep all day ', 'Hanoi Vietnam', 'HUCE', '[\"listing-5.jpg\"]'),
 (16, 4556887516696215, '2004-12-16', 'Hi xin chào mọi người lại là mình chao đây!!!', 'Bắc Ninh', 'HUCE', '[\"FB_IMG_1691838852371.jpg\"]'),
 (20, 5128572912903, '0001-01-01', '', 'Hanoi VietNam', 'HUST', ''),
 (25, 744177439385, '2003-12-17', '', '', '', '');
@@ -716,12 +693,6 @@ INSERT INTO `users_status` (`id`, `userid`, `status`, `date`) VALUES
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`cid`);
 
 --
 -- Indexes for table `comment`
@@ -773,13 +744,16 @@ ALTER TABLE `likes`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `sender_id` (`sender_id`,`receiver_id`);
+  ADD KEY `sender_id` (`sender_id`,`receiver_id`),
+  ADD KEY `receiver_id` (`receiver_id`);
 
 --
 -- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userid` (`userid`,`sender_id`),
+  ADD KEY `sender_id` (`sender_id`);
 
 --
 -- Indexes for table `posts`
@@ -815,16 +789,11 @@ ALTER TABLE `relatedobjects`
 --
 ALTER TABLE `share`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `post_share_id` (`post_share_id`,`postid`,`share_userid`),
   ADD KEY `postid` (`post_share_id`,`share_userid`),
   ADD KEY `share_userid` (`share_userid`),
-  ADD KEY `postid_2` (`post_share_id`,`share_userid`);
-
---
--- Indexes for table `stories`
---
-ALTER TABLE `stories`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `userid` (`userid`,`story_id`);
+  ADD KEY `postid_2` (`post_share_id`,`share_userid`),
+  ADD KEY `postid_3` (`postid`);
 
 --
 -- Indexes for table `users`
@@ -856,12 +825,6 @@ ALTER TABLE `users_status`
 --
 
 --
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
@@ -871,13 +834,13 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT for table `comment_reply`
 --
 ALTER TABLE `comment_reply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `friendships`
 --
 ALTER TABLE `friendships`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `friend_requests`
@@ -889,7 +852,7 @@ ALTER TABLE `friend_requests`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -901,13 +864,13 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
+  MODIFY `id` int(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -931,13 +894,7 @@ ALTER TABLE `relatedobjects`
 -- AUTO_INCREMENT for table `share`
 --
 ALTER TABLE `share`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
---
--- AUTO_INCREMENT for table `stories`
---
-ALTER TABLE `stories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -949,7 +906,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_about`
 --
 ALTER TABLE `users_about`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `users_status`
@@ -990,6 +947,20 @@ ALTER TABLE `likes`
   ADD CONSTRAINT `fk_likes_users` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `messages`
+--
+ALTER TABLE `messages`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`userid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`userid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `users` (`userid`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `posts`
 --
 ALTER TABLE `posts`
@@ -1006,13 +977,8 @@ ALTER TABLE `recent_searches`
 --
 ALTER TABLE `share`
   ADD CONSTRAINT `share_ibfk_1` FOREIGN KEY (`post_share_id`) REFERENCES `posts` (`postid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `share_ibfk_2` FOREIGN KEY (`share_userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `stories`
---
-ALTER TABLE `stories`
-  ADD CONSTRAINT `stories_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `share_ibfk_2` FOREIGN KEY (`share_userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `share_ibfk_3` FOREIGN KEY (`postid`) REFERENCES `posts` (`postid`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `users_about`
