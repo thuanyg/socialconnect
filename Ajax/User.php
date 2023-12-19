@@ -8,7 +8,8 @@
                 "birthday" => $_POST["birthday"],
                 "address" => $_POST["address"],
                 "education" => $_POST["education"],
-                "desc" => $_POST["desc"]
+                "desc" => $_POST["desc"],
+                "media"=> ""
             );
             $u = new User();
             if($u->addAbout($data["userid"], $data)){
@@ -82,11 +83,24 @@
         }
         if($_POST["action"]=="save-edit-about-image"){
             $userid = $_POST["userid"];
+            
             if (isset($_POST["media"])) {
                 $media = json_encode($_POST["media"]);
             } else $media = "";
+            $data = array(
+                "userid" =>"",
+                "birthday" => "",
+                "address" =>"",
+                "education" => "",
+                "desc" =>"",
+                "media"=> $media
+            );
             $u = new User();
-            $result = $u->setAboutImage($userid,$media);
+            if($u->getAbout($userid)){
+                $result = $u->updateAboutImage($userid,$media);
+            }else{
+                $result = $u->addAbout($userid,$data);
+            }
             echo json_encode($result);
         }
     }

@@ -403,3 +403,24 @@ function DeleteOldFiles(btn) {
     }
     console.log(filesDeleted);
 }
+$(".see-all-btn").on('click', async function (e) {
+    e.preventDefault();
+
+   
+    var userid = $("input[name='userid']").val();
+   
+    //console.log(imagesNew)
+    $.ajax({
+        url: "Ajax/Friend.php",
+        type: "POST",
+        data: {
+            userid: userid,
+            
+            action: "see-all-btn"
+        },
+        success: function (response) {
+           $(".show-friend").html(response);
+        }
+    })
+
+})

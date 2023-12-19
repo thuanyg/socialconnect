@@ -31,6 +31,8 @@ if (!isset($_SESSION["userid"])) {
     $p = new Post();
     $post = $p->getPost($userProfile["userid"]);
     $friends = $f->getListFriend($userCurrent["userid"]);
+    $friendProfiles = $f->getListFriend($userProfile["userid"]);
+
 }
 
 ?>
@@ -1297,8 +1299,16 @@ if (!isset($_SESSION["userid"])) {
                                             Live In <strong> <?php echo $about["address"] ?> </strong>
                                         </li>
                                     <?php
+                                    }else {
+                                    ?>
+                                        <li class="flex items-center space-x-2">
+                                            <ion-icon name="home"></ion-icon>
+                                            <!-- <ion-icon name="home" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                            Live In 
+                                        </li>
+                                    <?php
                                     }
-                                    if ($about != null) {
+                                    if ($about != null && $about["birthday"] !=NULL) {
                                         $formattedDate = date("d-m-Y", strtotime($about["birthday"]));
                                     ?>
                                         <li class="flex items-center space-x-2">
@@ -1306,6 +1316,11 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Birthday <strong> <?php echo $formattedDate ?> </strong>
                                         <?php
+                                    }else {
+                                        echo '<li class="flex items-center space-x-2">
+                                        <ion-icon name="calendar"></ion-icon>
+                                        <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                        Birthday ';
                                     }
                                     if ($about != null) {
                                         ?>
@@ -1314,6 +1329,11 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Education <strong> <?php echo $about["edu"] ?> </strong>
                                         <?php
+                                    }else{
+                                        echo '<li class="flex items-center space-x-2">
+                                        <ion-icon name="school"></ion-icon>
+                                        <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                        Education </li>';
                                     }
                                     if ($about != null) {
                                         ?>
@@ -1322,6 +1342,11 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="information-circle" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Bio <strong> <?php echo $about["desc"] ?> </strong>
                                         <?php
+                                    }else{
+                                        echo '<li class="flex items-center space-x-2">
+                                        <ion-icon name="planet"></ion-icon>
+                                        <!-- <ion-icon name="information-circle" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                        Bio </li>';
                                     }
                                         ?>
                                         <!-- <li class="flex items-center space-x-2">
@@ -1362,49 +1387,29 @@ if (!isset($_SESSION["userid"])) {
                                 <div class="flex items-center justify-between mb-4">
                                     <div>
                                         <h4 class="text-lg font-semibold"> Friends </h4>
-                                        <p class="text-sm"> 3,4510 Friends</p>
+                                     
+                                        <p class="text-sm"> <?php echo $f->getQuantityFriend($userProfile["userid"]) . " Friends" ?></p>
                                     </div>
                                     <a href="#" class="text-blue-600 ">See all</a>
                                 </div>
+
                                 <div class="grid grid-cols-3 gap-3 text-gray-600 font-semibold">
-                                    <a href="#">
-                                        <div class="avatar relative rounded-md overflow-hidden w-full h-24 mb-2">
-                                            <img src="assets/images/avatars/avatar-1.jpg" alt="" class="w-full h-full object-cover absolute">
-                                        </div>
-                                        <div class="text-sm truncate"> Dennis Han </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="avatar relative rounded-md overflow-hidden w-full h-24 mb-2">
-                                            <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-full h-full object-cover absolute">
-                                        </div>
-                                        <div class="text-sm truncate"> Erica Jones </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="avatar relative rounded-md overflow-hidden w-full h-24 mb-2">
-                                            <img src="assets/images/avatars/avatar-3.jpg" alt="" class="w-full h-full object-cover absolute">
-                                        </div>
-                                        <div class="text-sm truncate"> Stella Johnson </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="avatar relative rounded-md overflow-hidden w-full h-24 mb-2">
-                                            <img src="assets/images/avatars/avatar-4.jpg" alt="" class="w-full h-full object-cover absolute">
-                                        </div>
-                                        <div class="text-sm truncate"> Alex Dolgove</div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="avatar relative rounded-md overflow-hidden w-full h-24 mb-2">
-                                            <img src="assets/images/avatars/avatar-5.jpg" alt="" class="w-full h-full object-cover absolute">
-                                        </div>
-                                        <div class="text-sm truncate"> Jonathan Ali </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="avatar relative rounded-md overflow-hidden w-full h-24 mb-2">
-                                            <img src="assets/images/avatars/avatar-6.jpg" alt="" class="w-full h-full object-cover absolute">
-                                        </div>
-                                        <div class="text-sm truncate"> Erica Han </div>
-                                    </a>
+                                     <?php
+                                    for ($i = 0; $i < sizeof($friendProfiles); $i++) {
+                                        $friendProfile = $user->getUser($friendProfiles[$i]["friend_id"]);
+                                    ?>
+                                        <a href="profile.php?uid=<?php echo $friendProfile["userid"] ?>">
+                                            <div class="avatar relative rounded-md overflow-hidden w-full h-24 mb-2">
+                                                <img src="<?php echo $friendProfile["avatar_image"] ?>" alt="" class="w-full h-full object-cover absolute">
+                                            </div>
+                                            <div class="text-sm truncate"> <?php echo $friendProfile["first_name"] . " " .$friendProfile["last_name"] ?> </div>
+                                        </a>
+
+                                    <?php
+                                    } ?>
+                                   
                                 </div>
-                                <a href="#" class="button gray mt-3 w-full"> See all </a>
+                                <a href="#" class="button gray mt-3 w-full"useridProfile = "<?php $userProfile['userid']?>"> See all </a>
                             </div>
 
                             <div class="widget card p-5 border-t">
