@@ -21,6 +21,7 @@
             $result = $f->CancelRequest($sender_id, $receiver_id);
             echo $result;
         }
+        
 
         if($_POST["action"] == "accept-request"){
             $sender_id = $_POST["userid"]; // User gửi lời mời
