@@ -1472,10 +1472,11 @@ if (!isset($_SESSION["userid"])) {
                                     </div>
                                     <a href="#" class="text-blue-600 ">See all</a>
                                 </div>
-                                <div class="grid grid-cols-3 gap-3 text-gray-600 font-semibold">
+                                <div class="grid grid-cols-3 gap-3 text-gray-600 font-semibold show-friend">
                                     <?php
-                                    for ($i = 0; $i < sizeof($friends); $i++) {
-                                        $friend = $user->getUser($friends[$i]["friend_id"]);
+                                    $friend1 = $f->getFriendToLoad($userCurrent["userid"]);
+                                    for ($i = 0; $i < sizeof($friend1); $i++) {
+                                        $friend = $user->getUser($friend1[$i]["friend_id"]);
                                     ?>
                                         <a href="profile.php?uid=<?php echo $friend["userid"] ?>">
                                             <div class="avatar relative rounded-md overflow-hidden w-full h-24 mb-2">
@@ -1485,9 +1486,11 @@ if (!isset($_SESSION["userid"])) {
                                         </a>
 
                                     <?php
+
                                     } ?>
+
                                 </div>
-                                <a href="#" class="button gray mt-3 w-full"> See all </a>
+                                <a href="#" class="button gray mt-3 w-full see-all-btn "> See all </a>
                             </div>
 
                             <div class="widget card p-5 border-t">

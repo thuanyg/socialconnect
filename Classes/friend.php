@@ -174,6 +174,22 @@ class Friend
         $result = $DB->Query($sql);
         return $result;
     }
+
+    public function getFriendToLoad($userid)
+    {
+        $sql = "SELECT user1_id AS friend_id , `date` AS date_added
+        FROM friendships
+        WHERE user2_id = {$userid} AND status = 'isFriend'
+        UNION
+        SELECT user2_id AS friend_id, `date` AS date_added
+        FROM friendships
+        WHERE user1_id = {$userid} AND status = 'isFriend'
+        ORDER BY date_added DESC 
+        LIMIT 6 ";
+        $DB = new Database();
+        $result = $DB->Query($sql);
+        return $result;
+    }
 }
 
 //Test

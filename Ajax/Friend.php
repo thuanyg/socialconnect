@@ -19,6 +19,7 @@
             $result = $f->CancelRequest($sender_id, $receiver_id);
             echo $result;
         }
+        
 
         if($_POST["action"] == "accept-request"){
             $sender_id = $_POST["userid"]; // User gửi lời mời
@@ -38,6 +39,32 @@
 
         if($_POST["action"] == "response"){
             echo "response";
+        }
+        
+        if($_POST["action"] == "see-all-btn"){
+          
+            $user_id = $_POST["userid"]; // User nhận
+            $f = new Friend();
+            $user = new user ();
+            ?>
+            <?php
+                                    $friend1 = $f->getListFriend($user_id);
+                                    for ($i = 0; $i < sizeof($friend1); $i++) {
+                                        $friend = $user->getUser($friend1[$i]["friend_id"]);
+                                    ?>
+                                        <a href="profile.php?uid=<?php echo $friend["userid"] ?>">
+                                            <div class="avatar relative rounded-md overflow-hidden w-full h-24 mb-2">
+                                                <img src="<?php echo $friend["avatar_image"] ?>" alt="" class="w-full h-full object-cover absolute">
+                                            </div>
+                                            <div class="text-sm truncate"> <?php echo $friend["first_name"] . " " . $friend["last_name"] ?> </div>
+                                        </a>
+
+                                    <?php
+
+                                    } ?>
+
+                                </div>
+                                <?php
         }
     }
 ?>
