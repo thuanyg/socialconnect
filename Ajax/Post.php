@@ -180,7 +180,9 @@ if (isset($_POST["action"])) {
                 $comment = $p->getCommentPost($post[$i]["postid"]);
                 $isFriend = $f->isFriend($userCurrent["userid"], $post[$i]["userid"]);
                 $isFriendCondition = ($isFriend == 1 && $post[$i]['privacy'] == "Friend");
+                $isFriendPrivacy = $post[$i]['privacy'] == "Friend";
                 $isPublicCondition = $post[$i]['privacy'] == "Public";
+                $isPrivateCondition = $post[$i]['privacy'] == "Private";
                 $isPostCondition = $post[$i]['type'] == "post";
                 $isPostShareCondition = $post[$i]['type'] == "share";
                 $isOwnPostCondition = $post[$i]['userid'] == $userCurrent["userid"];
@@ -206,7 +208,25 @@ if (isset($_POST["action"])) {
                                     <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
                                                                                                     else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
                                                                                                     else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                                                                                    ?></span>
+                                        <?php
+                                        if ($isPublicCondition) {
+                                        ?>
+                                            <ion-icon name="earth"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isFriendCondition) {
+                                        ?>
+                                            <ion-icon name="people"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isPrivateCondition) {
+                                        ?>
+                                            <ion-icon name="lock-closed"></ion-icon>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="post-action">
@@ -340,7 +360,7 @@ if (isset($_POST["action"])) {
                                     </div>
                                     <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                 </button>
-                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -390,79 +410,79 @@ if (isset($_POST["action"])) {
                             </div>
                             <!-- Comment container -->
                             <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <?php
-                                                if ($comment != null) {
-                                                    for ($c = 0; $c < sizeof($comment); $c++) {
-                                                        $timer = new Timer();
-                                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
-                                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
-                                                ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
-                                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                                </a>
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <span><?php echo $timeAgo ?></span>
-                                                                </div>
-                                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
-                                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
-                                                        </div>
-                                                        <?php
-                                                        if ($quantityRep <= 0) {
-                                                        } else {
-                                                        ?>
-                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
-                                                <?php
-                                                        }
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <?php
-                                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
-                                            if ($quantityCmt > 2) {
-                                            ?>
-                                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
-                                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                <?php
+                                if ($comment != null) {
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $timer = new Timer();
+                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
+                                ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
+                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                 </a>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
-                                            <?php
-                                            }
-                                            ?>
-                                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </button>
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                </div>
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                    <span><?php echo $timeAgo ?></span>
+                                                </div>
+                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
+                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
+                                        </div>
+                                        <?php
+                                        if ($quantityRep <= 0) {
+                                        } else {
+                                        ?>
+                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
+                                <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </div>
+                            <?php
+                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
+                            if ($quantityCmt > 2) {
+                            ?>
+                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
+                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                </a>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
+                            <?php
+                            }
+                            ?>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php
                 } else if (($isFriendCondition || $isPublicCondition || $isOwnPostCondition) && $isPostShareCondition) {
                     $t = new Timer();
@@ -653,7 +673,7 @@ if (isset($_POST["action"])) {
                                     </div>
                                     <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                 </button>
-                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -703,79 +723,79 @@ if (isset($_POST["action"])) {
                             </div>
                             <!-- Comment container -->
                             <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <?php
-                                                if ($comment != null) {
-                                                    for ($c = 0; $c < sizeof($comment); $c++) {
-                                                        $timer = new Timer();
-                                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
-                                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
-                                                ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
-                                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                                </a>
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <span><?php echo $timeAgo ?></span>
-                                                                </div>
-                                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
-                                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
-                                                        </div>
-                                                        <?php
-                                                        if ($quantityRep <= 0) {
-                                                        } else {
-                                                        ?>
-                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
-                                                <?php
-                                                        }
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <?php
-                                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
-                                            if ($quantityCmt > 2) {
-                                            ?>
-                                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
-                                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                <?php
+                                if ($comment != null) {
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $timer = new Timer();
+                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
+                                ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
+                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                 </a>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
-                                            <?php
-                                            }
-                                            ?>
-                                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </button>
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                </div>
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                    <span><?php echo $timeAgo ?></span>
+                                                </div>
+                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
+                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
+                                        </div>
+                                        <?php
+                                        if ($quantityRep <= 0) {
+                                        } else {
+                                        ?>
+                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
+                                <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </div>
+                            <?php
+                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
+                            if ($quantityCmt > 2) {
+                            ?>
+                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
+                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                </a>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
+                            <?php
+                            }
+                            ?>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php
                 }
             }
@@ -792,6 +812,9 @@ if (isset($_POST["action"])) {
             for ($i = 0; $i < sizeof($post); $i++) {
                 $like = $p->getLikePost($post[$i]["postid"]);
                 $comment = $p->getCommentPost($post[$i]["postid"]);
+                $isFriendCondition = $post[$i]['privacy'] == "Friend";
+                $isPublicCondition = $post[$i]['privacy'] == "Public";
+                $isPrivateCondition = $post[$i]['privacy'] == "Private";
                 if ($post[$i]['has_image'] == 1 && $post[$i]['type'] == "post") {
                     $t = new Timer();
                     $time = $t->TimeSince($post[$i]["date"]); // Return array
@@ -815,7 +838,25 @@ if (isset($_POST["action"])) {
                                     <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
                                                                                                     else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
                                                                                                     else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                                                                                    ?></span>
+                                        <?php
+                                        if ($isPublicCondition) {
+                                        ?>
+                                            <ion-icon name="earth"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isFriendCondition) {
+                                        ?>
+                                            <ion-icon name="people"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isPrivateCondition) {
+                                        ?>
+                                            <ion-icon name="lock-closed"></ion-icon>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="post-action">
@@ -949,7 +990,7 @@ if (isset($_POST["action"])) {
                                     </div>
                                     <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                 </button>
-                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -999,79 +1040,79 @@ if (isset($_POST["action"])) {
                             </div>
                             <!-- Comment container -->
                             <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <?php
-                                                if ($comment != null) {
-                                                    for ($c = 0; $c < sizeof($comment); $c++) {
-                                                        $timer = new Timer();
-                                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
-                                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
-                                                ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
-                                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                                </a>
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <span><?php echo $timeAgo ?></span>
-                                                                </div>
-                                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
-                                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
-                                                        </div>
-                                                        <?php
-                                                        if ($quantityRep <= 0) {
-                                                        } else {
-                                                        ?>
-                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
-                                                <?php
-                                                        }
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <?php
-                                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
-                                            if ($quantityCmt > 2) {
-                                            ?>
-                                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
-                                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                <?php
+                                if ($comment != null) {
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $timer = new Timer();
+                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
+                                ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
+                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                 </a>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
-                                            <?php
-                                            }
-                                            ?>
-                                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </button>
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                </div>
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                    <span><?php echo $timeAgo ?></span>
+                                                </div>
+                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
+                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
+                                        </div>
+                                        <?php
+                                        if ($quantityRep <= 0) {
+                                        } else {
+                                        ?>
+                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
+                                <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </div>
+                            <?php
+                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
+                            if ($quantityCmt > 2) {
+                            ?>
+                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
+                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                </a>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
+                            <?php
+                            }
+                            ?>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php
                 } else if ($post[$i]['type'] == "share") {
                     $t = new Timer();
@@ -1262,7 +1303,7 @@ if (isset($_POST["action"])) {
                                     </div>
                                     <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                 </button>
-                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -1312,79 +1353,79 @@ if (isset($_POST["action"])) {
                             </div>
                             <!-- Comment container -->
                             <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <?php
-                                                if ($comment != null) {
-                                                    for ($c = 0; $c < sizeof($comment); $c++) {
-                                                        $timer = new Timer();
-                                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
-                                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
-                                                ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
-                                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                                </a>
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <span><?php echo $timeAgo ?></span>
-                                                                </div>
-                                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
-                                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
-                                                        </div>
-                                                        <?php
-                                                        if ($quantityRep <= 0) {
-                                                        } else {
-                                                        ?>
-                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
-                                                <?php
-                                                        }
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <?php
-                                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
-                                            if ($quantityCmt > 2) {
-                                            ?>
-                                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
-                                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                <?php
+                                if ($comment != null) {
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $timer = new Timer();
+                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
+                                ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
+                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                 </a>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
-                                            <?php
-                                            }
-                                            ?>
-                                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </button>
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                </div>
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                    <span><?php echo $timeAgo ?></span>
+                                                </div>
+                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
+                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
+                                        </div>
+                                        <?php
+                                        if ($quantityRep <= 0) {
+                                        } else {
+                                        ?>
+                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
+                                <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </div>
+                            <?php
+                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
+                            if ($quantityCmt > 2) {
+                            ?>
+                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
+                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                </a>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
+                            <?php
+                            }
+                            ?>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php
                 }
             }
@@ -1506,7 +1547,7 @@ if (isset($_POST["action"])) {
                                     </div>
                                     <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                 </button>
-                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -1556,79 +1597,79 @@ if (isset($_POST["action"])) {
                             </div>
                             <!-- Comment container -->
                             <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <?php
-                                                if ($comment != null) {
-                                                    for ($c = 0; $c < sizeof($comment); $c++) {
-                                                        $timer = new Timer();
-                                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
-                                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
-                                                ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
-                                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                                </a>
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <span><?php echo $timeAgo ?></span>
-                                                                </div>
-                                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
-                                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
-                                                        </div>
-                                                        <?php
-                                                        if ($quantityRep <= 0) {
-                                                        } else {
-                                                        ?>
-                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
-                                                <?php
-                                                        }
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <?php
-                                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
-                                            if ($quantityCmt > 2) {
-                                            ?>
-                                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
-                                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                <?php
+                                if ($comment != null) {
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $timer = new Timer();
+                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
+                                ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
+                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                 </a>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
-                                            <?php
-                                            }
-                                            ?>
-                                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </button>
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                </div>
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                    <span><?php echo $timeAgo ?></span>
+                                                </div>
+                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
+                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
+                                        </div>
+                                        <?php
+                                        if ($quantityRep <= 0) {
+                                        } else {
+                                        ?>
+                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
+                                <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </div>
+                            <?php
+                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
+                            if ($quantityCmt > 2) {
+                            ?>
+                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
+                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                </a>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
+                            <?php
+                            }
+                            ?>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php
                 } else if (($isFriendCondition || $isPublicCondition) && $isPostShareCondition) {
                     $t = new Timer();
@@ -1768,7 +1809,7 @@ if (isset($_POST["action"])) {
                                     </div>
                                     <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                 </button>
-                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -1818,79 +1859,79 @@ if (isset($_POST["action"])) {
                             </div>
                             <!-- Comment container -->
                             <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <?php
-                                                if ($comment != null) {
-                                                    for ($c = 0; $c < sizeof($comment); $c++) {
-                                                        $timer = new Timer();
-                                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
-                                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
-                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
-                                                ?>
-                                                        <div class="flex">
-                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
-                                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                                </a>
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
-                                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
-                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                                </div>
-                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <span><?php echo $timeAgo ?></span>
-                                                                </div>
-                                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
-                                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
-                                                        </div>
-                                                        <?php
-                                                        if ($quantityRep <= 0) {
-                                                        } else {
-                                                        ?>
-                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
-                                                <?php
-                                                        }
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <?php
-                                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
-                                            if ($quantityCmt > 2) {
-                                            ?>
-                                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
-                                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                <?php
+                                if ($comment != null) {
+                                    for ($c = 0; $c < sizeof($comment); $c++) {
+                                        $timer = new Timer();
+                                        $timeAgo = $timer->timeAgo($comment[$c]["date"]);
+                                        $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
+                                ?>
+                                        <div class="flex">
+                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
+                                                    <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
                                                 </a>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
-                                            <?php
-                                            }
-                                            ?>
-                                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
-                                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                    </button>
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
+                                                    <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                </div>
+                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                    <span><?php echo $timeAgo ?></span>
+                                                </div>
+                                                <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
+                                                    <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                        <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
+                                        </div>
+                                        <?php
+                                        if ($quantityRep <= 0) {
+                                        } else {
+                                        ?>
+                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
+                                <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </div>
+                            <?php
+                            $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
+                            if ($quantityCmt > 2) {
+                            ?>
+                                <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
+                                    View more <?php echo $quantityCmt - 2 ?> Comments
+                                </a>
+                            <?php
+                            } else {
+                            ?>
+                                <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
+                            <?php
+                            }
+                            ?>
+                            <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
+                            <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                    <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                        <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
         <?php
                 }
             }
@@ -2210,30 +2251,30 @@ if (isset($_POST["action"])) {
         }
     }
     // Reply comment
-    if ($_POST["action"] == "add-reply-comment"){
+    if ($_POST["action"] == "add-reply-comment") {
         $postid  = $_POST["postID"];
         $commentid = $_POST["commentID"];
         $userid = $_POST["userID"];
         $msg = $_POST["msg"];
         $p = new Post();
         $totalCmt = $p->getQuantityCommentPost($postid)[0]["total"];
-        if($p -> createReply($msg,$userid,$commentid,$postid)){
+        if ($p->createReply($msg, $userid, $commentid, $postid)) {
             $array_result = [];
-            $comment = $p -> getReplyComment($commentid);
-            foreach ($comment as $row){
+            $comment = $p->getReplyComment($commentid);
+            foreach ($comment as $row) {
                 $user_id = $row["comment_userid"];
                 $cmt_user = $user->getUser($user_id);
-                array_push($array_result, ['cmt' => $row, 'user' => $cmt_user, 'totalComment'=> $totalCmt]);
+                array_push($array_result, ['cmt' => $row, 'user' => $cmt_user, 'totalComment' => $totalCmt]);
             }
             echo json_encode($array_result);
-        }else echo 0;
+        } else echo 0;
     }
-    if($_POST["action"] == "view-more-reply-comment"){
+    if ($_POST["action"] == "view-more-reply-comment") {
         $commentid = $_POST["commentid"];
         $offset = $_POST["offset"];
         $post = new Post();
-        $result = $post->getReplyCommentToLoad($commentid ,$offset);
-        $totalCmtr = $post -> getQuantityReplyComment($commentid)[0]["total"];
+        $result = $post->getReplyCommentToLoad($commentid, $offset);
+        $totalCmtr = $post->getQuantityReplyComment($commentid)[0]["total"];
         if ($result) {
             $array_result = [];
             foreach ($result as $row) {

@@ -387,7 +387,7 @@ if (!isset($_SESSION["userid"])) {
                             if ($isPrivateCondition || !$isFriendCondition && !$isOwnPostCondition) {
                                 echo "<div style='font-weight: 500; font-size: 18px'>Bài viết không tồn tại hoặc đang được đặt ở chế độ riêng tư!</div>";
                             }
-    
+
                             if (($isFriendCondition || $isPublicCondition) && $isPostCondition) {
                                 $t = new Timer();
                                 $time = $t->TimeSince($post[0]["date"]); // Return array
@@ -535,7 +535,7 @@ if (!isset($_SESSION["userid"])) {
                                             }
                                         }
                                         ?>
-                                        <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[0]["postid"] ?>"  author-id="<?php echo $post[0]["userid"]?>">
+                                        <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[0]["postid"] ?>" author-id="<?php echo $post[0]["userid"] ?>">
                                             <button type="button" class="like-post-btn flex items-center space-x-2">
                                                 <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -545,7 +545,7 @@ if (!isset($_SESSION["userid"])) {
                                                 </div>
                                                 <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                             </button>
-                                            <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                            <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                 <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                         <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -594,7 +594,7 @@ if (!isset($_SESSION["userid"])) {
                                             </div>
                                         </div>
 
-                                        <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[0]["postid"];?>">
+                                        <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[0]["postid"]; ?>">
                                             <div class="flex">
                                                 <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                     <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
@@ -830,7 +830,7 @@ if (!isset($_SESSION["userid"])) {
                                             }
                                         }
                                         ?>
-                                        <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[0]["postid"] ?>" author-id="<?php echo $post[0]["userid"]?>">
+                                        <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[0]["postid"] ?>" author-id="<?php echo $post[0]["userid"] ?>">
                                             <button type="button" class="like-post-btn flex items-center space-x-2">
                                                 <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -840,7 +840,7 @@ if (!isset($_SESSION["userid"])) {
                                                 </div>
                                                 <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                             </button>
-                                            <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                            <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                 <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                         <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -889,7 +889,7 @@ if (!isset($_SESSION["userid"])) {
                                             </div>
                                         </div>
 
-                                        <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[0]["postid"];?>">
+                                        <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[0]["postid"]; ?>">
                                             <div class="flex">
                                                 <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                     <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">

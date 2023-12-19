@@ -495,8 +495,8 @@ if (!isset($_SESSION["userid"])) {
                         <h2 class="text-2xl font-semibold"> Friends </h2>
                         <nav class="responsive-nav border-b md:m-0 -mx-4">
                             <ul>
-                                <li class="tab friend-request-tab active"><a href="#" class="lg:px-2"> Friend requests </a></li>
-                                <li class="tab all-friend-tab"><a href="#" class="lg:px-2"> All friends </a></li>
+                                <li class="tab friend-request-tab active"><a href="#friend-request" class="lg:px-2"> Friend requests </a></li>
+                                <li class="tab all-friend-tab"><a href="#all-friend" class="lg:px-2"> All friends </a></li>
                                 <li class="tab custom-tab"><a href="#" class="lg:px-2"> Custom lists </a></li>
                             </ul>
                         </nav>
@@ -603,7 +603,7 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(".tab").click(function(e) {
-            e.preventDefault();
+            // e.preventDefault();
             $(".tab").removeClass("active");
             $(this).addClass("active");
             $(".tab-content").hide();
@@ -612,13 +612,23 @@ if (!isset($_SESSION["userid"])) {
             }
             if ($(this).hasClass("all-friend-tab")) {
                 $(".all-friend").show();
-
             }
             if ($(this).hasClass("custom-tab")) {
                 $(".custom-list").show();
             }
-
         })
+
+        // Lấy URL hiện tại của trang
+        var currentURL = window.location.href;
+        // Tách phần tag từ URL
+        var tagFromURL = currentURL.split('#')[1];
+        if(tagFromURL == "all-friend"){
+            $(".all-friend-tab")[0].click()
+        }
+        if(tagFromURL == "friend-request"){
+            $(".friend-request-tab")[0].click()
+        }
+        
     </script>
 
     <!-- Javascript
