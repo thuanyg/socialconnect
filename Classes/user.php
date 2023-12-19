@@ -16,12 +16,23 @@ class User
     {
         $DB = new Database();
         $birthday = $data["birthday"];
+        if(!$birthday){
+            $birthday = NULL;
+        }
         $desc = $DB->escapedString($data["desc"]);
         $address = $DB->escapedString($data["address"]);
         $education = $DB->escapedString($data["education"]);
-        $sql = "INSERT INTO users_about (userid, birthday, `desc`, `address`, edu) 
-                VALUES ({$userid}, '{$birthday}', '{$desc}', '{$address}', '{$education}')
-                ON DUPLICATE KEY UPDATE birthday = '{$birthday}', `desc` = '{$desc}', `address` = '{$address}', edu = '{$education}'";
+        $media = $data["media"];
+        if($birthday){
+            $sql = "INSERT INTO users_about (userid, birthday, `desc`, `address`, edu,about_image) 
+                VALUES ({$userid}, '{$birthday}', '{$desc}', '{$address}', '{$education}','{$media}')
+                ON DUPLICATE KEY UPDATE birthday = '{$birthday}', `desc` = '{$desc}', `address` = '{$address}', edu = '{$education}',about_image ='{$media}'";
+        }else {
+            $sql = "INSERT INTO users_about (userid, birthday, `desc`, `address`, edu,about_image) 
+            VALUES ({$userid}, NULL, '{$desc}', '{$address}', '{$education}','{$media}')
+            ON DUPLICATE KEY UPDATE birthday = NULL, `desc` = '{$desc}', `address` = '{$address}', edu = '{$education}',about_image ='{$media}'";
+        }
+        
         $result = $DB->Execute($sql);
         if ($result) {
             return true;
@@ -110,7 +121,7 @@ class User
         $result = $DB->Query($sql);
         return $result;
     }
-    function setAboutImage($userid,$media) {
+    function updateAboutImage($userid,$media) {
         $DB=new Database();
         $sql = "update users_about set about_image = '{$media}' where userid = {$userid}";
         $result = $DB->Execute($sql);
@@ -123,4 +134,6 @@ class User
         $result = $DB->Query($sql);
         return $result;
     }
+
+    
 }

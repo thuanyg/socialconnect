@@ -151,6 +151,21 @@ class Friend
         // print_r($result);
 
     }
+    public function getListFriendLimit($userid,$offset,$limit)
+    {
+        $DB = new Database();
+        $sql = "SELECT user1_id AS friend_id
+        FROM friendships
+        WHERE user2_id = {$userid} AND status = 'isFriend'
+        UNION
+        SELECT user2_id AS friend_id
+        FROM friendships
+        WHERE user1_id = {$userid} AND status = 'isFriend' limit $offset ,$limit ";
+        $result = $DB->Query($sql);
+        return $result;
+        // print_r($result);
+
+    }
 
     // Lấy số lượng bạn bè
     public function getQuantityFriend($userid)

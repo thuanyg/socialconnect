@@ -1401,8 +1401,16 @@ if (!isset($_SESSION["userid"])) {
                                             Live In <strong> <?php echo $about["address"] ?> </strong>
                                         </li>
                                     <?php
+                                    }else {
+                                    ?>
+                                        <li class="flex items-center space-x-2">
+                                            <ion-icon name="home"></ion-icon>
+                                            <!-- <ion-icon name="home" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                            Live In 
+                                        </li>
+                                    <?php
                                     }
-                                    if ($about != null) {
+                                    if ($about != null && $about["birthday"] !=NULL) {
                                         $formattedDate = date("d-m-Y", strtotime($about["birthday"]));
                                     ?>
                                         <li class="flex items-center space-x-2">
@@ -1410,6 +1418,11 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Birthday <strong> <?php echo $formattedDate ?> </strong>
                                         <?php
+                                    }else {
+                                        echo '<li class="flex items-center space-x-2">
+                                        <ion-icon name="calendar"></ion-icon>
+                                        <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                        Birthday ';
                                     }
                                     if ($about != null) {
                                         ?>
@@ -1418,6 +1431,11 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Education <strong> <?php echo $about["edu"] ?> </strong>
                                         <?php
+                                    }else{
+                                        echo '<li class="flex items-center space-x-2">
+                                        <ion-icon name="school"></ion-icon>
+                                        <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                        Education </li>';
                                     }
                                     if ($about != null) {
                                         ?>
@@ -1426,6 +1444,11 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="information-circle" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Bio <strong> <?php echo $about["desc"] ?> </strong>
                                         <?php
+                                    }else{
+                                        echo '<li class="flex items-center space-x-2">
+                                        <ion-icon name="planet"></ion-icon>
+                                        <!-- <ion-icon name="information-circle" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                        Bio </li>';
                                     }
                                         ?>
                                         <!-- <li class="flex items-center space-x-2">

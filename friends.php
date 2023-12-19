@@ -500,7 +500,7 @@ if (!isset($_SESSION["userid"])) {
                                 <li class="tab custom-tab"><a href="#" class="lg:px-2"> Custom lists </a></li>
                             </ul>
                         </nav>
-                    </div>                    
+                    </div>
                 </div>
                 <!-- Friend requests -->
                 <div class="tab-content friend-request">
@@ -718,8 +718,35 @@ if (!isset($_SESSION["userid"])) {
                 </div>
                 <!-- All Friend -->
                 <div class="tab-content all-friend" style="display: none;">
-                    Phần all friend
+                    <div class="list-friends tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-x-2 gap-y-4 mt-3">
+                        <?php
+                        $friendLimit = $f->getListFriendLimit($userCurrent["userid"], 0, 8);
+                        for ($i = 0; $i < sizeof($friendLimit); $i++) {
+                            $friend = $user->getUser($friendLimit[$i]["friend_id"]);
+                        ?>
+                            <div class="card p-2">
+                                <a href="profile.php?uid=<?php echo $friend["userid"] ?>">
+                                    <img src="<?php echo $friend["avatar_image"] ?>" class="h-36 object-cover rounded-md shadow-sm w-full">
+                                </a>
+                                <div class="pt-3 px-1">
+                                    <a href="profile.php?uid=<?php echo $friend["userid"] ?>" class="text-base font-semibold mb-0.5"> <?php echo $friend["first_name"] . " " . $friend["last_name"] ?> </a>
+                                    <p class="font-medium text-sm"><?php echo $f->getQuantityFriend($friend["userid"]) . " Friend" ?> </p>
+                                    <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
+                                        Friend
+                                    </button>
+                                </div>
+                            </div>
+                        <?php
+                        }
+                        ?>
+                        
+                    </div>
+                    <div class="flex justify-center mt-6">
+                            <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white btn-loadMore">
+                                Load more ..</a>
+                        </div>
                 </div>
+
                 <!-- Custom -->
                 <div class="tab-content custom-list" style="display: none;">
                     Phần custom
@@ -937,6 +964,7 @@ if (!isset($_SESSION["userid"])) {
             }
             if ($(this).hasClass("all-friend-tab")) {
                 $(".all-friend").show();
+
             }
             if ($(this).hasClass("custom-tab")) {
                 $(".custom-list").show();
@@ -949,6 +977,8 @@ if (!isset($_SESSION["userid"])) {
     ================================================== -->
     <script src="Js/Global.js"></script>
     <script src="Js/notification.js"></script>
+    <script src="Js/Friend.js"></script>
+
     <script src="assets/js/tippy.all.min.js"></script>
     <script src="assets/js/uikit.js"></script>
     <script src="assets/js/simplebar.js"></script>
