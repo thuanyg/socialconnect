@@ -691,7 +691,7 @@ if (!isset($_SESSION["userid"])) {
                                         <hr class="-mx-2 my-2 dark:border-gray-800">
                                     </li>
                                     <li>
-                                        <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-50 hover:text-red-500 rounded-md dark:hover:bg-red-600">
+                                        <a href="#" class="delete-account-btn flex items-center px-3 py-2 text-red-500 hover:bg-red-50 hover:text-red-500 rounded-md dark:hover:bg-red-600">
                                             <ion-icon name="stop-circle-outline" class="pr-2 text-xl"></ion-icon> Delete account
                                         </a>
                                     </li>

@@ -1239,8 +1239,8 @@ if (!isset($_SESSION["userid"])) {
                                             </div>
                                         </a>
                                         <div style="text-align: center;">
-                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="height: 35px;" type="button" class="confirm-req button primary flex-1 block mr-1"> Confirm </button>
-                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="background-color: #97A5B8; height: 35px" type="button" class="delete-req button primary flex-1 block mr-1"> Delete </button>
+                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="height: 30px;" type="button" class="confirm-req button primary flex-1 block mr-1"> Confirm </button>
+                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="background-color: #97A5B8; height: 30px" type="button" class="delete-req button primary flex-1 block mr-1"> Delete </button>
                                         </div>
                                         <div uk-drop="pos: left-center ;animation: uk-animation-slide-left-small">
                                             <div class="contact-list-box">

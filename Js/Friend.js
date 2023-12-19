@@ -116,11 +116,12 @@ $(document).ready(function () {
     var number = 0;
     $(".btn-loadMore").on('click',function(e){
         e.preventDefault();
+        number+=8;
         $.ajax({
             url : 'Ajax/Friend.php',
             type : "POST",
             data : {
-                number : number+8,
+                number : number,
                 action : 'get_more_friends' ,
             },success : function(data){
              $(".list-friends").append(data);
