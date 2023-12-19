@@ -380,7 +380,7 @@ if (!isset($_SESSION["userid"])) {
                             <img src="./assets/images/chat.png" alt="" style="width: 26px; margin-right: 8px">
                             <span> Messages </span></a>
                     </li>
-                    <li><a href="albums.html">
+                    <li><a href="albums.php">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-purple-500">
                                 <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
                             </svg> <span> Photos </span></a>
@@ -495,237 +495,237 @@ if (!isset($_SESSION["userid"])) {
                         <h2 class="text-2xl font-semibold"> Friends </h2>
                         <nav class="responsive-nav border-b md:m-0 -mx-4">
                             <ul>
-                                <li class="active"><a href="#" class="lg:px-2"> Friend requests </a></li>
-                                <li><a href="#" class="lg:px-2"> All friends </a></li>
-                                <li><a href="#" class="lg:px-2"> Custom lists </a></li>
+                                <li class="tab friend-request-tab active"><a href="#" class="lg:px-2"> Friend requests </a></li>
+                                <li class="tab all-friend-tab"><a href="#" class="lg:px-2"> All friends </a></li>
+                                <li class="tab custom-tab"><a href="#" class="lg:px-2"> Custom lists </a></li>
                             </ul>
                         </nav>
-                    </div>
-                    <a href="create-group.html" class="flex items-center justify-center h-9 lg:px-5 px-2 rounded-md bg-blue-600 text-white space-x-1.5 absolute right-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="md:block hidden"> Create </span>
-                    </a>
+                    </div>                    
                 </div>
+                <!-- Friend requests -->
+                <div class="tab-content friend-request">
+                    <div class="relative" uk-slider="finite: true">
 
-                <div class="relative" uk-slider="finite: true">
-
-                    <div class="uk-slider-container px-1 py-3">
-                        <ul class="uk-child-width-1-4@m uk-child-width-1-3@s uk-grid-small uk-grid">
-                            <?php
-                            $listFriendRequest = $f->getRequests($userCurrent["userid"]);
-                            if ($listFriendRequest != null) {
-                                foreach ($listFriendRequest as $key => $value) {
-                                    $userReq = $user->getUser($value["sender_id"]);
-                                    $quantityReq = $f->getQuantityFriend($value["sender_id"]);
-                            ?>
-                                    <li>
-                                        <div class="card">
-                                            <div class="card-media h-28">
-                                                <div class="card-media-overly"></div>
-                                                <img src="<?php if($userReq["cover_image"] != "") echo $userReq["cover_image"]; else echo "./images/cover.jpg"; ?>" alt="" class="">
-                                                <div class="absolute bg-red-100 font-semibold px-2.5 py-1 rounded-lg text-red-500 text-xs top-2.5 left-2.5"> </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <a href="timeline-group.html" class="font-semibold text-lg truncate"> <?php echo $userReq["first_name"]." ".$userReq["last_name"] ?> </a>
-                                                <div class="flex items-center flex-wrap space-x-1 mt-1 text-sm text-gray-500 capitalize">
-                                                    <a href="#"> <span> <?php echo $quantityReq ?> friend </span> </a>
-                                                    <a href="#"> <span> 1.7k post a day </span> </a>
+                        <div class="uk-slider-container px-1 py-3">
+                            <ul class="uk-child-width-1-4@m uk-child-width-1-3@s uk-grid-small uk-grid">
+                                <?php
+                                $listFriendRequest = $f->getRequests($userCurrent["userid"]);
+                                if ($listFriendRequest != null) {
+                                    foreach ($listFriendRequest as $key => $value) {
+                                        $userReq = $user->getUser($value["sender_id"]);
+                                        $quantityReq = $f->getQuantityFriend($value["sender_id"]);
+                                ?>
+                                        <li>
+                                            <div class="card">
+                                                <div class="card-media h-28">
+                                                    <div class="card-media-overly"></div>
+                                                    <img src="<?php if ($userReq["cover_image"] != "") echo $userReq["cover_image"];
+                                                                else echo "./images/cover.jpg"; ?>" alt="" class="">
+                                                    <div class="absolute bg-red-100 font-semibold px-2.5 py-1 rounded-lg text-red-500 text-xs top-2.5 left-2.5"> </div>
                                                 </div>
-                                                <div class="flex mt-3.5 space-x-2">
-                                                    <div class="flex items-center -space-x-2 -mt-1">
-                                                        <img alt="Image placeholder" src="assets/images/avatars/avatar-6.jpg" class="border-2 border-white rounded-full w-7">
-                                                        <img alt="Image placeholder" src="assets/images/avatars/avatar-5.jpg" class="border-2 border-white rounded-full w-7">
+                                                <div class="card-body">
+                                                    <a href="timeline-group.html" class="font-semibold text-lg truncate"> <?php echo $userReq["first_name"] . " " . $userReq["last_name"] ?> </a>
+                                                    <div class="flex items-center flex-wrap space-x-1 mt-1 text-sm text-gray-500 capitalize">
+                                                        <a href="#"> <span> <?php echo $quantityReq ?> friend </span> </a>
+                                                        <a href="#"> <span> 1.7k post a day </span> </a>
                                                     </div>
-                                                    <div class="flex-1 leading-5 text-sm">
-                                                        <div> <strong>Johnson</strong> and 5 freind are members </div>
+                                                    <div class="flex mt-3.5 space-x-2">
+                                                        <div class="flex items-center -space-x-2 -mt-1">
+                                                            <img alt="Image placeholder" src="assets/images/avatars/avatar-6.jpg" class="border-2 border-white rounded-full w-7">
+                                                            <img alt="Image placeholder" src="assets/images/avatars/avatar-5.jpg" class="border-2 border-white rounded-full w-7">
+                                                        </div>
+                                                        <div class="flex-1 leading-5 text-sm">
+                                                            <div> <strong>Johnson</strong> and 5 freind are members </div>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="flex mt-3.5 space-x-2 text-sm font-medium">
-                                                    <a href="#" class="confirm-req bg-blue-600 flex flex-1 h-8 items-center justify-center rounded-md text-white capitalize" data-request-id="<?php echo $userReq["userid"] ?>">
-                                                        Accept
-                                                    </a>
-                                                    <a href="#" class="delete-req bg-gray-200 flex flex-1 h-8 items-center justify-center rounded-md capitalize" data-request-id="<?php echo $userReq["userid"] ?>">
-                                                        Delete
-                                                    </a>
-                                                </div>
+                                                    <div class="flex mt-3.5 space-x-2 text-sm font-medium">
+                                                        <a href="#" class="confirm-req bg-blue-600 flex flex-1 h-8 items-center justify-center rounded-md text-white capitalize" data-request-id="<?php echo $userReq["userid"] ?>">
+                                                            Accept
+                                                        </a>
+                                                        <a href="#" class="delete-req bg-gray-200 flex flex-1 h-8 items-center justify-center rounded-md capitalize" data-request-id="<?php echo $userReq["userid"] ?>">
+                                                            Delete
+                                                        </a>
+                                                    </div>
 
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                            <?php
-                                }
-                            } else echo "<div>You don't have any requests!</div>";
-                            ?>
+                                        </li>
+                                <?php
+                                    }
+                                } else echo "<div>You don't have any requests!</div>";
+                                ?>
+                            </ul>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="my-6 flex items-center justify-between border-b pb-3">
+                        <div>
+                            <h2 class="text-xl font-semibold"> Suggestions </h2>
+                            <p class="font-medium text-gray-500 leading-6"> Find a groups You Might Be Interested In. </p>
+                        </div>
+                        <a href="#" class="text-blue-500 sm:block hidden"> See all </a>
+                    </div>
 
+                    <div class="grid md:grid-cols-2 divide divide-gray-200 gap-x-6 gap-y-4">
 
+                        <div class="flex items-center space-x-4">
+                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
+                                <img src="assets/images/group/group-4.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
+                            </div>
+                            <div class="flex-1 border-b pb-3">
+                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Mountain Riders</a>
+                                <div class="flex space-x-2 items-center text-sm">
+                                    <div> 16K Members</div>
+                                    <div>·</div>
+                                    <div> 12 posts a week</div>
+                                </div>
+                                <div class="flex items-center mt-2">
+                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
+                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
+                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
+                                </div>
 
+                            </div>
+                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                                </svg>Follow
+                            </a>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
+                                <img src="assets/images/group/group-5.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
+                            </div>
+                            <div class="flex-1 border-b pb-3">
+                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Property Rent And Sale </a>
+                                <div class="flex space-x-2 items-center text-sm">
+                                    <div> 16K Members</div>
+                                    <div>·</div>
+                                    <div> 12 posts a week</div>
+                                </div>
+                                <div class="flex items-center mt-2">
+                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
+                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
+                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
+                                </div>
 
-                        </ul>
+                            </div>
+                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                                </svg>Follow
+                            </a>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
+                                <img src="assets/images/group/group-3.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
+                            </div>
+                            <div class="flex-1 border-b pb-3">
+                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Graphic Design </a>
+                                <div class="flex space-x-2 items-center text-sm">
+                                    <div> 16K Members</div>
+                                    <div>·</div>
+                                    <div> 12 posts a week</div>
+                                </div>
+                                <div class="flex items-center mt-2">
+                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
+                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
+                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
+                                </div>
+
+                            </div>
+                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                                </svg>Follow
+                            </a>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
+                                <img src="assets/images/group/group-2.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
+                            </div>
+                            <div class="flex-1 border-b pb-3">
+                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Coffee Addicts </a>
+                                <div class="flex space-x-2 items-center text-sm">
+                                    <div> 16K Members</div>
+                                    <div>·</div>
+                                    <div> 12 posts a week</div>
+                                </div>
+                                <div class="flex items-center mt-2">
+                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
+                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
+                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
+                                </div>
+
+                            </div>
+                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                                </svg>Follow
+                            </a>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
+                                <img src="assets/images/group/group-1.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
+                            </div>
+                            <div class="flex-1 border-b pb-3">
+                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Property Rent And Sale </a>
+                                <div class="flex space-x-2 items-center text-sm">
+                                    <div> 16K Members</div>
+                                    <div>·</div>
+                                    <div> 12 posts a week</div>
+                                </div>
+                                <div class="flex items-center mt-2">
+                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
+                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
+                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
+                                </div>
+
+                            </div>
+                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                                </svg>Follow
+                            </a>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
+                                <img src="assets/images/group/group-cover-3.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
+                            </div>
+                            <div class="flex-1 border-b pb-3">
+                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Architecture </a>
+                                <div class="flex space-x-2 items-center text-sm">
+                                    <div> 16K Members</div>
+                                    <div>·</div>
+                                    <div> 12 posts a week</div>
+                                </div>
+                                <div class="flex items-center mt-2">
+                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
+                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
+                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
+                                </div>
+
+                            </div>
+                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                                </svg>Follow
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <br>
-                <div class="my-6 flex items-center justify-between border-b pb-3">
-                    <div>
-                        <h2 class="text-xl font-semibold"> Suggestions </h2>
-                        <p class="font-medium text-gray-500 leading-6"> Find a groups You Might Be Interested In. </p>
-                    </div>
-                    <a href="#" class="text-blue-500 sm:block hidden"> See all </a>
+                <!-- All Friend -->
+                <div class="tab-content all-friend" style="display: none;">
+                    Phần all friend
                 </div>
-
-                <div class="grid md:grid-cols-2 divide divide-gray-200 gap-x-6 gap-y-4">
-
-                    <div class="flex items-center space-x-4">
-                        <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                            <img src="assets/images/group/group-4.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                        </div>
-                        <div class="flex-1 border-b pb-3">
-                            <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Mountain Riders</a>
-                            <div class="flex space-x-2 items-center text-sm">
-                                <div> 16K Members</div>
-                                <div>·</div>
-                                <div> 12 posts a week</div>
-                            </div>
-                            <div class="flex items-center mt-2">
-                                <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                            </div>
-
-                        </div>
-                        <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                            </svg>Follow
-                        </a>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                            <img src="assets/images/group/group-5.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                        </div>
-                        <div class="flex-1 border-b pb-3">
-                            <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Property Rent And Sale </a>
-                            <div class="flex space-x-2 items-center text-sm">
-                                <div> 16K Members</div>
-                                <div>·</div>
-                                <div> 12 posts a week</div>
-                            </div>
-                            <div class="flex items-center mt-2">
-                                <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                            </div>
-
-                        </div>
-                        <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                            </svg>Follow
-                        </a>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                            <img src="assets/images/group/group-3.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                        </div>
-                        <div class="flex-1 border-b pb-3">
-                            <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Graphic Design </a>
-                            <div class="flex space-x-2 items-center text-sm">
-                                <div> 16K Members</div>
-                                <div>·</div>
-                                <div> 12 posts a week</div>
-                            </div>
-                            <div class="flex items-center mt-2">
-                                <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                            </div>
-
-                        </div>
-                        <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                            </svg>Follow
-                        </a>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                            <img src="assets/images/group/group-2.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                        </div>
-                        <div class="flex-1 border-b pb-3">
-                            <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Coffee Addicts </a>
-                            <div class="flex space-x-2 items-center text-sm">
-                                <div> 16K Members</div>
-                                <div>·</div>
-                                <div> 12 posts a week</div>
-                            </div>
-                            <div class="flex items-center mt-2">
-                                <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                            </div>
-
-                        </div>
-                        <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                            </svg>Follow
-                        </a>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                            <img src="assets/images/group/group-1.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                        </div>
-                        <div class="flex-1 border-b pb-3">
-                            <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Property Rent And Sale </a>
-                            <div class="flex space-x-2 items-center text-sm">
-                                <div> 16K Members</div>
-                                <div>·</div>
-                                <div> 12 posts a week</div>
-                            </div>
-                            <div class="flex items-center mt-2">
-                                <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                            </div>
-
-                        </div>
-                        <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                            </svg>Follow
-                        </a>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                            <img src="assets/images/group/group-cover-3.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                        </div>
-                        <div class="flex-1 border-b pb-3">
-                            <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Architecture </a>
-                            <div class="flex space-x-2 items-center text-sm">
-                                <div> 16K Members</div>
-                                <div>·</div>
-                                <div> 12 posts a week</div>
-                            </div>
-                            <div class="flex items-center mt-2">
-                                <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                            </div>
-
-                        </div>
-                        <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                            </svg>Follow
-                        </a>
-                    </div>
+                <!-- Custom -->
+                <div class="tab-content custom-list" style="display: none;">
+                    Phần custom
                 </div>
-
-
             </div>
+
         </div>
 
     </div>
@@ -927,38 +927,22 @@ if (!isset($_SESSION["userid"])) {
     <!-- For Night mode -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        (function(window, document, undefined) {
-            'use strict';
-            if (!('localStorage' in window)) return;
-            var nightMode = localStorage.getItem('gmtNightMode');
-            if (nightMode) {
-                document.documentElement.className += ' night-mode';
+        $(".tab").click(function(e) {
+            e.preventDefault();
+            $(".tab").removeClass("active");
+            $(this).addClass("active");
+            $(".tab-content").hide();
+            if ($(this).hasClass("friend-request-tab")) {
+                $(".friend-request").show();
             }
-        })(window, document);
+            if ($(this).hasClass("all-friend-tab")) {
+                $(".all-friend").show();
+            }
+            if ($(this).hasClass("custom-tab")) {
+                $(".custom-list").show();
+            }
 
-        (function(window, document, undefined) {
-
-            'use strict';
-
-            // Feature test
-            if (!('localStorage' in window)) return;
-
-            // Get our newly insert toggle
-            var nightMode = document.querySelector('#night-mode');
-            if (!nightMode) return;
-
-            // When clicked, toggle night mode on or off
-            nightMode.addEventListener('click', function(event) {
-                event.preventDefault();
-                document.documentElement.classList.toggle('dark');
-                if (document.documentElement.classList.contains('dark')) {
-                    localStorage.setItem('gmtNightMode', true);
-                    return;
-                }
-                localStorage.removeItem('gmtNightMode');
-            }, false);
-
-        })(window, document);
+        })
     </script>
 
     <!-- Javascript

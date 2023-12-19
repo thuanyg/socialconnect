@@ -806,7 +806,7 @@ function deletePost(event, btn) {
                 action: "delete-post"
             },
             success: function (response) {
-                if (response == 1) {
+                if (response.trim() == 1) {
                     showNotification("Delete successfully");
                     var postCard = document.querySelector(`.card[post-id="${postid}"]`);
                     postCard.remove();

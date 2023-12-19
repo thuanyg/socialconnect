@@ -267,11 +267,11 @@ class Post
     function setSharePost($post_share_id, $userid, $privacy, $tapostshare)
     {
         $postid = $this->create_postid();
-        $sql = "INSERT INTO share (share_userid, postid, post_share_id) VALUES ({$userid}, {$postid}, {$post_share_id})";
         $sql2 = "INSERT INTO posts (postid, userid, post, has_image, media, privacy) VALUES ({$postid}, {$userid}, '$tapostshare', 1, '', '$privacy')";
+        $sql = "INSERT INTO share (share_userid, postid, post_share_id) VALUES ({$userid}, {$postid}, {$post_share_id})";
         $DB = new Database();
-        $result = $DB->Execute($sql);
         $result2 = $DB->Execute($sql2);
+        $result = $DB->Execute($sql);
         if($result && $result2){
             $r = 1;
         } else $r = 0;
