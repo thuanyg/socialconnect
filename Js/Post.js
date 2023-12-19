@@ -494,7 +494,6 @@ $(document).on('click', '.share-post-btn', function (e) {
     $(`#share-post-modal .share-details-card .post-card`).find('.space-y-3').remove();
     $("#share-post-modal").removeAttr("style");
     var userID = $("input[name='txtUserid']").val();
-    var postID = $(this).parent().attr("post-id");
     $(".btn-share-post").click(function (event) {
         event.preventDefault();
         var privacy = $("#share-post-modal").find(".dropdown-toggle .filter-option").text();
@@ -516,8 +515,6 @@ $(document).on('click', '.share-post-btn', function (e) {
                     if (response.trim() == "1") {
                         showNotification("Share post successfully.")
                         $("#share-post-modal #closeModelPost ").click()
-
-
                     }
                 }
             }
