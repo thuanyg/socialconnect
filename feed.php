@@ -784,6 +784,7 @@ if (!isset($_SESSION["userid"])) {
                                                         $timer = new Timer();
                                                         $timeAgo = $timer->timeAgo($comment[$c]["date"]);
                                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
                                                 ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
@@ -800,7 +801,6 @@ if (!isset($_SESSION["userid"])) {
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
                                                                     <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
                                                                 <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
@@ -813,7 +813,15 @@ if (!isset($_SESSION["userid"])) {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
+                                                        </div>
+                                                        <?php
+                                                        if ($quantityRep <= 0) {
+                                                        } else {
+                                                        ?>
+                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
                                                 <?php
+                                                        }
                                                     }
                                                 }
                                                 ?>
@@ -1113,6 +1121,7 @@ if (!isset($_SESSION["userid"])) {
                                                         $timer = new Timer();
                                                         $timeAgo = $timer->timeAgo($comment[$c]["date"]);
                                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
                                                 ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
@@ -1129,7 +1138,6 @@ if (!isset($_SESSION["userid"])) {
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
                                                                     <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
                                                                 <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
@@ -1142,7 +1150,15 @@ if (!isset($_SESSION["userid"])) {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
+                                                        </div>
+                                                        <?php
+                                                        if ($quantityRep <= 0) {
+                                                        } else {
+                                                        ?>
+                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
                                                 <?php
+                                                        }
                                                     }
                                                 }
                                                 ?>
@@ -1723,7 +1739,7 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <?php include("./Websocket/src/Notification.php") ?>
     <script>
-        
+
     </script>
     <!-- Javascript
     ================================================== -->
