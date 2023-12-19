@@ -1362,7 +1362,7 @@ if (!isset($_SESSION["userid"])) {
                                 <div class="flex items-center justify-between mb-4">
                                     <div>
                                         <h4 class="text-lg font-semibold"> Friends </h4>
-                                        <p class="text-sm"> 3,4510 Friends</p>
+                                        <p class="text-sm"> <?php echo $f->getQuantityFriend($userProfile["userid"]) . " Friends" ?></p>
                                     </div>
                                     <a href="#" class="text-blue-600 ">See all</a>
                                 </div>
