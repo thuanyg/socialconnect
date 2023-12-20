@@ -117,6 +117,15 @@ class Friend
         $result = $DB->Query($sql);
         return $result;
     }
+
+    //lấy 4 yêu cầu kết bạn
+    public function getRequestsLimit($userid,$offset,$limit)
+    {
+        $DB = new Database();
+        $sql = "SELECT * FROM friend_requests WHERE receiver_id = {$userid} AND `status` = 'Pending' ORDER BY `date` DESC limit $offset,$limit";
+        $result = $DB->Query($sql);
+        return $result;
+    }
     // Lấy 1 vài yêu cầu kết bạn mới nhất
     public function getSomeRequests($userid)
     {

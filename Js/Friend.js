@@ -116,14 +116,31 @@ $(document).ready(function () {
     var number = 0;
     $(".btn-loadMore").on('click',function(e){
         e.preventDefault();
+        number += 8;
         $.ajax({
             url : 'Ajax/Friend.php',
             type : "POST",
             data : {
-                number : number+8,
+                number : number,
                 action : 'get_more_friends' ,
             },success : function(data){
              $(".list-friends").append(data);
+            }
+        })
+    })
+
+    var numberFriendRequest = 0;
+    $(".btn-FriendRequest-loadMore").on('click',function(e){
+        e.preventDefault();
+        numberFriendRequest += 4;
+        $.ajax({
+            url : 'Ajax/Friend.php',
+            type : "POST",
+            data : {
+                numberFriendRequest : numberFriendRequest,
+                action : 'get_more_FriendRequest' ,
+            },success : function(data){
+             $(".list-friendRequest").append(data);
             }
         })
     })
