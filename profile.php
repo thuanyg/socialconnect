@@ -340,23 +340,25 @@ if (!isset($_SESSION["userid"])) {
                                             $friend = $user->getUser($friends_mess[$i]["friend_id"]);
                                             $mess_obj = new Message();
                                             $mess = $mess_obj->getLastestMessage($userCurrent["userid"], $friend["userid"]);
-                                        ?>
-                                            <li class="message-preview un-read" data-friend-id="<?php echo $friend["userid"] ?>">
-                                                <a href="">
-                                                    <div class="drop_avatar"> <img src="<?php echo $friend["avatar_image"] ?>" alt="">
-                                                    </div>
-                                                    <div class="drop_text">
-                                                        <strong> <?php echo $friend["first_name"] . " " . $friend["last_name"] ?> </strong> <time> 6:43 PM</time>
-                                                        <p>
-                                                            <?php
-                                                            if ($mess[0]["sender_id"] == $userCurrent["userid"]) echo "Me: " . $mess[0]["text"];
-                                                            if ($mess[0]["sender_id"] == $friend["userid"]) echo $mess[0]["text"];
-                                                            ?>
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        <?php
+                                            ?>
+                                                        <li class="message-preview un-read" data-friend-id="<?php echo $friend["userid"] ?>">
+                                                            <a href="">
+                                                                <div class="drop_avatar"> <img src="<?php echo $friend["avatar_image"] ?>" alt="">
+                                                                </div>
+                                                                <div class="drop_text">
+                                                                    <strong> <?php echo $friend["first_name"] . " " . $friend["last_name"] ?> </strong> <time> 6:43 PM</time>
+                                                                    <p>
+                                                                        <?php
+                                                                        if ($mess[0]["sender_id"] == $userCurrent["userid"])
+                                                                            echo "Me: " . $mess[0]["text"];
+                                                                        if ($mess[0]["sender_id"] == $friend["userid"])
+                                                                            echo $mess[0]["text"];
+                                                                        ?>
+                                                                    </p>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    <?php
                                         }
                                         ?>
                                     </ul>
@@ -489,17 +491,17 @@ if (!isset($_SESSION["userid"])) {
                     if ($friends != null) {
                         for ($i = 0; $i < sizeof($friends); $i++) {
                             $friend = $user->getUser($friends[$i]["friend_id"]);
-                    ?>
-                            <a href="chats-friend.php?uid=<?php echo $friend["userid"] ?>">
-                                <div class="contact-avatar">
-                                    <img src="<?php echo $friend["avatar_image"] ?>" alt="avatar">
-                                    <span class="user_status status_online"></span>
-                                </div>
-                                <div class="contact-username">
-                                    <?php echo $friend["first_name"] . " " . $friend["last_name"] ?>
-                                </div>
-                            </a>
-                    <?php
+                            ?>
+                                                    <a href="chats-friend.php?uid=<?php echo $friend["userid"] ?>">
+                                                        <div class="contact-avatar">
+                                                            <img src="<?php echo $friend["avatar_image"] ?>" alt="avatar">
+                                                            <span class="user_status status_online"></span>
+                                                        </div>
+                                                        <div class="contact-username">
+                                                            <?php echo $friend["first_name"] . " " . $friend["last_name"] ?>
+                                                        </div>
+                                                    </a>
+                                            <?php
                         }
                     }
                     ?>
@@ -587,7 +589,7 @@ if (!isset($_SESSION["userid"])) {
                         <nav class="responsive-nav pl-3">
                             <ul uk-switcher="connect: #timeline-tab; animation: uk-animation-fade">
                                 <li><a href="#">Timeline</a></li>
-                                <li><a href="#">Friend <span>3,243</span> </a></li>
+                                <li><a href="#">Friend <span><?php echo sizeof($friendProfiles) ?></span> </a></li>
                                 <li><a href="#" onclick="showImageOfOther()" class="image-orther" userprofile="<?php echo $userProfile["userid"] ?>">Photoes </a></li>
                             </ul>
                         </nav>
@@ -635,87 +637,87 @@ if (!isset($_SESSION["userid"])) {
                             <!-- isfriend -->
                             <?php
                             if ($f->isFriend($_SESSION["userid"], $userProfile["userid"])) {
-                            ?>
-                                <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
-                                    <!--Add friend status icon-->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-success">
-                                        <path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm-2.12 11.46l-3.54-3.54 1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.65 5.65z" />
-                                    </svg>
-                                    <span> Friends </span>
-                                </a>
-                                <?php
+                                ?>
+                                            <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
+                                                <!--Add friend status icon-->
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-success">
+                                                    <path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm-2.12 11.46l-3.54-3.54 1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.65 5.65z" />
+                                                </svg>
+                                                <span> Friends </span>
+                                            </a>
+                                            <?php
                             } else {
                                 $status_req = $f->getStatusRequest($_SESSION["userid"], $userProfile["userid"]);
                                 $status_res = $f->getStatusResponse($_SESSION["userid"], $userProfile["userid"]);
                                 if ($status_req != null) {
                                     if ($status_req[0]["status"] == "Pending") {
-                                ?>
-                                        <!-- cancel request -->
-                                        <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="cancel-add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
-                                            <!--Add friend status icon-->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="w-5" viewBox="0 0 16 16">
-                                                <path d="M8 1a7 7 0 100 14A7 7 0 008 1zM5.354 5.354a.5.5 0 01.708 0L8 8.293l2.938-2.939a.5.5 0 11.707.707L8.707 9l2.938 2.939a.5.5 0 01-.707.707L8 9.707l-2.939 2.939a.5.5 0 01-.707-.707L7.293 9 4.354 6.061a.5.5 0 010-.707z"></path>
-                                            </svg>
-                                            <span> Cancel request </span>
-                                        </a>
-                                    <?php
+                                        ?>
+                                                                            <!-- cancel request -->
+                                                                            <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="cancel-add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
+                                                                                <!--Add friend status icon-->
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="w-5" viewBox="0 0 16 16">
+                                                                                    <path d="M8 1a7 7 0 100 14A7 7 0 008 1zM5.354 5.354a.5.5 0 01.708 0L8 8.293l2.938-2.939a.5.5 0 11.707.707L8.707 9l2.938 2.939a.5.5 0 01-.707.707L8 9.707l-2.939 2.939a.5.5 0 01-.707-.707L7.293 9 4.354 6.061a.5.5 0 010-.707z"></path>
+                                                                                </svg>
+                                                                                <span> Cancel request </span>
+                                                                            </a>
+                                                                        <?php
                                     } else {
-                                    ?>
-                                        <!-- add friend -->
-                                        <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
-                                            <!--Add friend status icon-->
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5">
-                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                                            </svg>
-                                            <span> Add Friend </span>
-                                        </a>
-                                    <?php
+                                        ?>
+                                                                            <!-- add friend -->
+                                                                            <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
+                                                                                <!--Add friend status icon-->
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5">
+                                                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                                                                                </svg>
+                                                                                <span> Add Friend </span>
+                                                                            </a>
+                                                                        <?php
                                     }
                                 }
 
                                 if ($status_res != null) {
                                     if ($status_res[0]["status"] == "Pending") {
-                                    ?>
-                                        <!--Chấp nhận hoặc Hủy yêu cầu kết bạn của ngườì khác -->
-                                        <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="accept-add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
-                                            <!--Add friend status icon-->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="w-5" viewBox="0 0 16 16">
-                                                <path d="M8 1a7 7 0 100 14A7 7 0 008 1zM5.354 5.354a.5.5 0 01.708 0L8 8.293l2.938-2.939a.5.5 0 11.707.707L8.707 9l2.938 2.939a.5.5 0 01-.707.707L8 9.707l-2.939 2.939a.5.5 0 01-.707-.707L7.293 9 4.354 6.061a.5.5 0 010-.707z"></path>
-                                            </svg>
-                                            <span> Accept </span>
-                                        </a>
-                                        <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="delete-add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
-                                            <!--Add friend status icon-->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="w-5" viewBox="0 0 16 16">
-                                                <path d="M8 1a7 7 0 100 14A7 7 0 008 1zM5.354 5.354a.5.5 0 01.708 0L8 8.293l2.938-2.939a.5.5 0 11.707.707L8.707 9l2.938 2.939a.5.5 0 01-.707.707L8 9.707l-2.939 2.939a.5.5 0 01-.707-.707L7.293 9 4.354 6.061a.5.5 0 010-.707z"></path>
-                                            </svg>
-                                            <span> Delete Request </span>
-                                        </a>
-                                    <?php
+                                        ?>
+                                                                            <!--Chấp nhận hoặc Hủy yêu cầu kết bạn của ngườì khác -->
+                                                                            <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="accept-add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
+                                                                                <!--Add friend status icon-->
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="w-5" viewBox="0 0 16 16">
+                                                                                    <path d="M8 1a7 7 0 100 14A7 7 0 008 1zM5.354 5.354a.5.5 0 01.708 0L8 8.293l2.938-2.939a.5.5 0 11.707.707L8.707 9l2.938 2.939a.5.5 0 01-.707.707L8 9.707l-2.939 2.939a.5.5 0 01-.707-.707L7.293 9 4.354 6.061a.5.5 0 010-.707z"></path>
+                                                                                </svg>
+                                                                                <span> Accept </span>
+                                                                            </a>
+                                                                            <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="delete-add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
+                                                                                <!--Add friend status icon-->
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="w-5" viewBox="0 0 16 16">
+                                                                                    <path d="M8 1a7 7 0 100 14A7 7 0 008 1zM5.354 5.354a.5.5 0 01.708 0L8 8.293l2.938-2.939a.5.5 0 11.707.707L8.707 9l2.938 2.939a.5.5 0 01-.707.707L8 9.707l-2.939 2.939a.5.5 0 01-.707-.707L7.293 9 4.354 6.061a.5.5 0 010-.707z"></path>
+                                                                                </svg>
+                                                                                <span> Delete Request </span>
+                                                                            </a>
+                                                                        <?php
                                     } else {
-                                    ?>
-                                        <!-- add friend -->
-                                        <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
-                                            <!--Add friend status icon-->
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5">
-                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                                            </svg>
-                                            <span> Add Friend </span>
-                                        </a>
-                                    <?php
+                                        ?>
+                                                                            <!-- add friend -->
+                                                                            <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
+                                                                                <!--Add friend status icon-->
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5">
+                                                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                                                                                </svg>
+                                                                                <span> Add Friend </span>
+                                                                            </a>
+                                                                        <?php
                                     }
                                 }
                                 if ($status_req == null && $status_res == null) {
                                     ?>
-                                    <!-- add friend -->
-                                    <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
-                                        <!--Add friend status icon-->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                                        </svg>
-                                        <span> Add Friend </span>
-                                    </a>
-                            <?php
+                                                            <!-- add friend -->
+                                                            <a href="#" data-userid="<?php echo $userProfile["userid"]; ?>" class="add-friend-btn flex items-center justify-center h-10 px-5 rounded-md bg-blue-600 text-white space-x-1.5 hover:text-white">
+                                                                <!--Add friend status icon-->
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5">
+                                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                                                                </svg>
+                                                                <span> Add Friend </span>
+                                                            </a>
+                                                    <?php
                                 }
                             }
                             ?>
@@ -779,77 +781,80 @@ if (!isset($_SESSION["userid"])) {
                                         $minutes = $time["minutes"];
                                         $seconds = $time["seconds"];
                                         // Upload picture
-                            ?>
+                                        ?>
 
-                                        <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
-                                            <!-- post header-->
-                                            <div class="flex justify-between items-center lg:p-4 p-2.5">
-                                                <div class="flex flex-1 items-center space-x-4">
-                                                    <a href="#">
-                                                        <img src="<?php echo $userProfile["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-10 h-10">
-                                                    </a>
-                                                    <div class="flex-1 font-semibold capitalize">
-                                                        <a href="#" class="text-black dark:text-gray-100"> <?php echo $userProfile["first_name"] . " " . $userProfile["last_name"] ?> </a>
-                                                        <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                                        else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                                        else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                                        ?></span>
-                                                            <?php
-                                                            if ($isPublicCondition) {
-                                                            ?>
-                                                                <ion-icon name="earth"></ion-icon>
-                                                            <?php
-                                                            }
-                                                            if ($isFriendCondition) {
-                                                            ?>
-                                                                <ion-icon name="people"></ion-icon>
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                                            <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
+                                                                                <!-- post header-->
+                                                                                <div class="flex justify-between items-center lg:p-4 p-2.5">
+                                                                                    <div class="flex flex-1 items-center space-x-4">
+                                                                                        <a href="#">
+                                                                                            <img src="<?php echo $userProfile["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-10 h-10">
+                                                                                        </a>
+                                                                                        <div class="flex-1 font-semibold capitalize">
+                                                                                            <a href="#" class="text-black dark:text-gray-100"> <?php echo $userProfile["first_name"] . " " . $userProfile["last_name"] ?> </a>
+                                                                                            <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0)
+                                                                                                echo $minutes . " phút trước";
+                                                                                            else if ($hours >= 24)
+                                                                                                echo floor($hours / 24) . " ngày trước";
+                                                                                            else
+                                                                                                echo $hours . " h " . $minutes . " phút trước";
+                                                                                            ?></span>
+                                                                                                <?php
+                                                                                                if ($isPublicCondition) {
+                                                                                                    ?>
+                                                                                                                <ion-icon name="earth"></ion-icon>
+                                                                                                            <?php
+                                                                                                }
+                                                                                                if ($isFriendCondition) {
+                                                                                                    ?>
+                                                                                                                <ion-icon name="people"></ion-icon>
+                                                                                                            <?php
+                                                                                                }
+                                                                                                ?>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
 
-                                            </div>
-                                            <!-- Show Text Post -->
-                                            <div class="p-5 pt-0 border-b dark:border-gray-700">
-                                                <?php echo $post[$i]["post"]; ?>
-                                            </div>
+                                                                                </div>
+                                                                                <!-- Show Text Post -->
+                                                                                <div class="p-5 pt-0 border-b dark:border-gray-700">
+                                                                                    <?php echo $post[$i]["post"]; ?>
+                                                                                </div>
 
-                                            <!-- Show Image/Video Post -->
-                                            <div uk-lightbox>
-                                                <div class="grid grid-cols-2 gap-2 px-5">
-                                                    <?php
-                                                    if ($post[$i]["media"] != null) {
-                                                        $media_json = $post[$i]["media"];
-                                                        $media = json_decode($media_json, true);
-                                                        for ($j = 0; $j < sizeof($media); $j++) {
-                                                            $fileInfo = pathinfo($media[$j]);
-                                                            // Lấy phần mở rộng của tên tệp và chuyển nó thành chữ thường
-                                                            $fileExtension = strtolower($fileInfo['extension']);
-                                                            if ($fileExtension === 'jpg' || $fileExtension === 'jpeg' || $fileExtension === 'png' || $fileExtension === 'webp' || $fileExtension === 'gif') {
-                                                    ?>
-                                                                <a href="uploads/posts/<?php echo $media[$j]; ?>" class="col-span-3 relative">
-                                                                    <img src="uploads/posts/<?php echo $media[$j]; ?>" alt="<?php echo $media[$j]; ?>" class="rounded-md w-full lg:h-76 object-cover">
+                                                                                <!-- Show Image/Video Post -->
+                                                                                <div uk-lightbox>
+                                                                                    <div class="grid grid-cols-2 gap-2 px-5">
+                                                                                        <?php
+                                                                                        if ($post[$i]["media"] != null) {
+                                                                                            $media_json = $post[$i]["media"];
+                                                                                            $media = json_decode($media_json, true);
+                                                                                            for ($j = 0; $j < sizeof($media); $j++) {
+                                                                                                $fileInfo = pathinfo($media[$j]);
+                                                                                                // Lấy phần mở rộng của tên tệp và chuyển nó thành chữ thường
+                                                                                                $fileExtension = strtolower($fileInfo['extension']);
+                                                                                                if ($fileExtension === 'jpg' || $fileExtension === 'jpeg' || $fileExtension === 'png' || $fileExtension === 'webp' || $fileExtension === 'gif') {
+                                                                                                    ?>
+                                                                                                                                        <a href="uploads/posts/<?php echo $media[$j]; ?>" class="col-span-3 relative">
+                                                                                                                                            <img src="uploads/posts/<?php echo $media[$j]; ?>" alt="<?php echo $media[$j]; ?>" class="rounded-md w-full lg:h-76 object-cover">
 
-                                                                </a>
-                                                            <?php
-                                                            } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
-                                                            ?>
-                                                                <div class="w-full h-full">
-                                                                    <video controls>
-                                                                        <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
-                                                                        Your browser does not support the video tag.
-                                                                    </video>
-                                                                </div>
+                                                                                                                                        </a>
+                                                                                                                                    <?php
+                                                                                                } else if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
+                                                                                                    ?>
+                                                                                                                                                    <div class="w-full h-full">
+                                                                                                                                                        <video controls>
+                                                                                                                                                            <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
+                                                                                                                                                            Your browser does not support the video tag.
+                                                                                                                                                        </video>
+                                                                                                                                                    </div>
 
 
-                                                    <?php
-                                                            }
-                                                        }
-                                                    }
-                                                    ?>
-                                                    <!-- <a href="assets/images/post/img-4.jpg">
+                                                                                                                            <?php
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                        ?>
+                                                                                        <!-- <a href="assets/images/post/img-4.jpg">
                                                         <img src="assets/images/post/img-2.jpg" alt="" class="rounded-md w-full h-full">
                                                     </a>
                                                     <a href="assets/images/post/img-4.jpg" class="relative">
@@ -857,8 +862,8 @@ if (!isset($_SESSION["userid"])) {
                                                         <div class="absolute bg-gray-900 bg-opacity-30 flex justify-center items-center text-white rounded-md inset-0 text-2xl"> + 15 more </div>
                                                     </a> -->
 
-                                                </div>
-                                            </div>
+                                                                                    </div>
+                                                                                </div>
 
 
                                             <!--Like comment share-->
@@ -908,88 +913,88 @@ if (!isset($_SESSION["userid"])) {
                                                             for ($j = 0; $j < 3 && $j < count($like); $j++) {
                                                                 $userlike = $user->getUser($like[$j]["userid"]);
 
-                                                        ?>
-                                                                <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
-                                                        <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </div>
-                                                    <div class="dark:text-gray-100">
-                                                        <?php
-                                                        $total = $p->getQuantityLike($post[$i]["postid"]);
-                                                        if ($liked == 1) {
-                                                            if ($total != null && $total[0]["total"] > 1) {
-                                                                echo '<strong> You </strong> and <strong>' . ($total[0]["total"] - 1) . ' others</strong>';
-                                                            } else {
-                                                                echo '<strong> You liked </strong>';
-                                                            }
-                                                        } else {
-                                                            if ($total != null && $total[0]["total"] > 0) {
-                                                                echo '<strong>' . $total[0]["total"] . ' others</strong>';
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </div>
-                                                </div>
+                                                                                                    ?>
+                                                                                                                            <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
+                                                                                                                    <?php
+                                                                                                }
+                                                                                            }
+                                                                                            ?>
+                                                                                        </div>
+                                                                                        <div class="dark:text-gray-100">
+                                                                                            <?php
+                                                                                            $total = $p->getQuantityLike($post[$i]["postid"]);
+                                                                                            if ($liked == 1) {
+                                                                                                if ($total != null && $total[0]["total"] > 1) {
+                                                                                                    echo '<strong> You </strong> and <strong>' . ($total[0]["total"] - 1) . ' others</strong>';
+                                                                                                } else {
+                                                                                                    echo '<strong> You liked </strong>';
+                                                                                                }
+                                                                                            } else {
+                                                                                                if ($total != null && $total[0]["total"] > 0) {
+                                                                                                    echo '<strong>' . $total[0]["total"] . ' others</strong>';
+                                                                                                }
+                                                                                            }
+                                                                                            ?>
+                                                                                        </div>
+                                                                                    </div>
 
-                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                    <div class="flex">
-                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                        </div>
-                                                        <div>
-                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <p class="leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia aliquid hic molestiae provident eaque obcaecati eligendi explicabo distinctio dicta fuga rem asperiores itaque, dolor officiis doloribus, nobis illum assumenda et! <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                            </div>
-                                                            <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                <a href="#"> Replay </a>
-                                                                <span> 3d </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex">
-                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                        </div>
-                                                        <div>
-                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <p class="leading-6"> Test cmt 2 !<i class="uil-grin-tongue-wink-alt"></i> </p>
-                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                            </div>
-                                                            <div class="text-xs flex items-center space-x-3 mt-2 ml-5">
-                                                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                <a href="#"> Replay </a>
-                                                                <span> 3d </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                                                    <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                                                        <div class="flex">
+                                                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                                                                <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                                                                            </div>
+                                                                                            <div>
+                                                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                                                    <p class="leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia aliquid hic molestiae provident eaque obcaecati eligendi explicabo distinctio dicta fuga rem asperiores itaque, dolor officiis doloribus, nobis illum assumenda et! <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
+                                                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                                                                </div>
+                                                                                                <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                                                                    <a href="#"> Replay </a>
+                                                                                                    <span> 3d </span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="flex">
+                                                                                            <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                                                                <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                                                                            </div>
+                                                                                            <div>
+                                                                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                                                    <p class="leading-6"> Test cmt 2 !<i class="uil-grin-tongue-wink-alt"></i> </p>
+                                                                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                                                                </div>
+                                                                                                <div class="text-xs flex items-center space-x-3 mt-2 ml-5">
+                                                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                                                                    <a href="#"> Replay </a>
+                                                                                                    <span> 3d </span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
 
-                                                </div>
+                                                                                    </div>
 
-                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
+                                                                                    <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
 
-                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
-                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                        <a href="#">
-                                                            <ion-icon name="happy-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
-                                                        <a href="#">
-                                                            <ion-icon name="image-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
-                                                        <a href="#">
-                                                            <ion-icon name="link-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                                                                    <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                                                                        <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
+                                                                                        <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                                                            <a href="#">
+                                                                                                <ion-icon name="happy-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                                                                            </a>
+                                                                                            <a href="#">
+                                                                                                <ion-icon name="image-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                                                                            </a>
+                                                                                            <a href="#">
+                                                                                                <ion-icon name="link-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    </div>
 
-                                            </div>
+                                                                                </div>
 
-                                        </div>
-                                    <?php
+                                                                            </div>
+                                                                        <?php
                                     } else if (($isFriendCondition || $isPublicCondition) && $isPostShareCondition) {
                                         $t = new Timer();
                                         $time = $t->TimeSince($post[$i]["date"]); // Return array
@@ -998,123 +1003,129 @@ if (!isset($_SESSION["userid"])) {
                                         $seconds = $time["seconds"];
                                         // Get user for each post
                                         $userOfPost = $userProfile;
-                                    ?>
-                                        <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
-                                            <!-- post header-->
-                                            <div class="flex justify-between items-center lg:p-4 p-2.5">
-                                                <div class="flex flex-1 items-center space-x-4">
-                                                    <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>">
-                                                        <img src="<?php echo $userOfPost["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-10 h-10">
-                                                    </a>
-                                                    <div class="flex-1 font-semibold capitalize">
-                                                        <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?></a>
-                                                        <span style="font-weight: 400; text-transform: none; margin-left: 5px;"> đã chia sẻ bài viết </span>
-                                                        <div class="text-gray-700 flex items-center space-x-2">
-                                                            <span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                    else echo $hours . " h " . $minutes . " phút trước";
-                                                                    ?>
-                                                            </span><?php
-                                                                    if ($isPublicCondition) {
-                                                                    ?>
-                                                                <ion-icon name="earth"></ion-icon>
-                                                            <?php
-                                                                    }
-                                                                    if ($isFriendCondition) {
-                                                            ?>
-                                                                <ion-icon name="people"></ion-icon>
-                                                            <?php
-                                                                    }
-                                                            ?></ion-icon>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="post-action">
-                                                    <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 dark:hover:bg-gray-700"></i> </a>
-                                                    <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Show Text Post -->
-                                            <div class="p-5 pt-0 border-b dark:border-gray-700">
-                                                <?php echo $post[$i]["post"]; ?>
-                                            </div>
-                                            <!-- Show post share -->
-                                            <div uk-lightbox>
-                                                <div class="grid grid-cols-1 gap-2 px-5">
-                                                    <?php
-                                                    // Lấy bài post gốc - bài được share
-                                                    $postShare = $p->getAPost($post[$i]["post_share_id"])[0];
-                                                    $userOfPostShare = $user->getUser($postShare["userid"]);
-                                                    $t = new Timer();
-                                                    $time = $t->TimeSince($postShare["date"]); // Return array
-                                                    $hours = $time["hours"];
-                                                    $minutes = $time["minutes"];
-                                                    $seconds = $time["seconds"];
-                                                    ?>
-                                                    <div class="card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
-                                                        <!-- Show Image/Video Post Share -->
-                                                        <div uk-lightbox>
-                                                            <div class="grid grid-cols-2 gap-2 px-5">
-                                                                <?php
-                                                                if ($postShare["media"] != null) {
-                                                                    $media_json = $postShare["media"];
-                                                                    $media = json_decode($media_json, true);
-                                                                    for ($j = 0; $j < sizeof($media); $j++) {
-                                                                        $fileInfo = pathinfo($media[$j]);
-                                                                        // Lấy phần mở rộng của tên tệp và chuyển nó thành chữ thường
-                                                                        $fileExtension = strtolower($fileInfo['extension']);
-                                                                        if ($fileExtension === 'jpg' || $fileExtension === 'jpeg' || $fileExtension === 'png') {
-                                                                ?>
-                                                                            <a href="uploads/posts/<?php echo $media[$j]; ?>" class="col-span-3 relative">
-                                                                                <img src="uploads/posts/<?php echo $media[$j]; ?>" alt="<?php echo $media[$j]; ?>" class="rounded-md w-full lg:h-76 object-cover">
+                                        ?>
+                                                                                        <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[$i]["postid"] ?>">
+                                                                                            <!-- post header-->
+                                                                                            <div class="flex justify-between items-center lg:p-4 p-2.5">
+                                                                                                <div class="flex flex-1 items-center space-x-4">
+                                                                                                    <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>">
+                                                                                                        <img src="<?php echo $userOfPost["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-10 h-10">
+                                                                                                    </a>
+                                                                                                    <div class="flex-1 font-semibold capitalize">
+                                                                                                        <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?></a>
+                                                                                                        <span style="font-weight: 400; text-transform: none; margin-left: 5px;"> đã chia sẻ bài viết </span>
+                                                                                                        <div class="text-gray-700 flex items-center space-x-2">
+                                                                                                            <span><?php if ($hours <= 0)
+                                                                                                                echo $minutes . " phút trước";
+                                                                                                            else if ($hours >= 24)
+                                                                                                                echo floor($hours / 24) . " ngày trước";
+                                                                                                            else
+                                                                                                                echo $hours . " h " . $minutes . " phút trước";
+                                                                                                            ?>
+                                                                                                            </span><?php
+                                                                                                            if ($isPublicCondition) {
+                                                                                                                ?>
+                                                                                                                            <ion-icon name="earth"></ion-icon>
+                                                                                                            <?php
+                                                                                                            }
+                                                                                                            if ($isFriendCondition) {
+                                                                                                                ?>
+                                                                                                                            <ion-icon name="people"></ion-icon>
+                                                                                                            <?php
+                                                                                                            }
+                                                                                                            ?></ion-icon>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="post-action">
+                                                                                                    <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 dark:hover:bg-gray-700"></i> </a>
+                                                                                                    <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <!-- Show Text Post -->
+                                                                                            <div class="p-5 pt-0 border-b dark:border-gray-700">
+                                                                                    <?php echo $post[$i]["post"]; ?>
+                                                                                            </div>
+                                                                                            <!-- Show post share -->
+                                                                                            <div uk-lightbox>
+                                                                                                <div class="grid grid-cols-1 gap-2 px-5">
+                                                                                                    <?php
+                                                                                                    // Lấy bài post gốc - bài được share
+                                                                                                    $postShare = $p->getAPost($post[$i]["post_share_id"])[0];
+                                                                                                    $userOfPostShare = $user->getUser($postShare["userid"]);
+                                                                                                    $t = new Timer();
+                                                                                                    $time = $t->TimeSince($postShare["date"]); // Return array
+                                                                                                    $hours = $time["hours"];
+                                                                                                    $minutes = $time["minutes"];
+                                                                                                    $seconds = $time["seconds"];
+                                                                                                    ?>
+                                                                                                    <div class="card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
+                                                                                                        <!-- Show Image/Video Post Share -->
+                                                                                                        <div uk-lightbox>
+                                                                                                            <div class="grid grid-cols-2 gap-2 px-5">
+                                                                                                                <?php
+                                                                                                                if ($postShare["media"] != null) {
+                                                                                                                    $media_json = $postShare["media"];
+                                                                                                                    $media = json_decode($media_json, true);
+                                                                                                                    for ($j = 0; $j < sizeof($media); $j++) {
+                                                                                                                        $fileInfo = pathinfo($media[$j]);
+                                                                                                                        // Lấy phần mở rộng của tên tệp và chuyển nó thành chữ thường
+                                                                                                                        $fileExtension = strtolower($fileInfo['extension']);
+                                                                                                                        if ($fileExtension === 'jpg' || $fileExtension === 'jpeg' || $fileExtension === 'png') {
+                                                                                                                            ?>
+                                                                                                                                                                <a href="uploads/posts/<?php echo $media[$j]; ?>" class="col-span-3 relative">
+                                                                                                                                                                    <img src="uploads/posts/<?php echo $media[$j]; ?>" alt="<?php echo $media[$j]; ?>" class="rounded-md w-full lg:h-76 object-cover">
 
-                                                                            </a>
-                                                                        <?php
-                                                                        } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
-                                                                        ?>
-                                                                            <div class="w-full h-full">
-                                                                                <video width="320" height="240" controls>
-                                                                                    <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
-                                                                                    Your browser does not support the video tag.
-                                                                                </video>
-                                                                            </div>
+                                                                                                                                                                </a>
+                                                                                                                                                <?php
+                                                                                                                        } else if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
+                                                                                                                            ?>
+                                                                                                                                                                            <div class="w-full h-full">
+                                                                                                                                                                                <video width="320" height="240" controls>
+                                                                                                                                                                                    <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
+                                                                                                                                                                                    Your browser does not support the video tag.
+                                                                                                                                                                                </video>
+                                                                                                                                                                            </div>
 
 
-                                                                <?php
-                                                                        }
-                                                                    }
-                                                                }
-                                                                ?>
-                                                            </div>
-                                                        </div>
-                                                        <!-- post header-->
-                                                        <div class="flex justify-between items-center lg:p-4 p-2.5">
-                                                            <div class="flex flex-1 items-center space-x-4">
-                                                                <a href="profile.php?uid=<?php echo $userOfPostShare["userid"] ?>">
-                                                                    <img src="<?php echo $userOfPostShare["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-10 h-10">
-                                                                </a>
-                                                                <div class="flex-1 font-semibold capitalize">
-                                                                    <a href="profile.php?uid=<?php echo $userOfPostShare["userid"] ?>" class="text-black dark:text-gray-100">
-                                                                        <?php echo $userOfPostShare["first_name"] . " " . $userOfPostShare["last_name"] ?>
-                                                                    </a>
-                                                                    <div class="text-gray-700 flex items-center space-x-2"><span>
-                                                                            <?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                            else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                            else echo $hours . " h " . $minutes . " phút trước";
-                                                                            ?></span>
+                                                                                                                                        <?php
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                                ?>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <!-- post header-->
+                                                                                                        <div class="flex justify-between items-center lg:p-4 p-2.5">
+                                                                                                            <div class="flex flex-1 items-center space-x-4">
+                                                                                                                <a href="profile.php?uid=<?php echo $userOfPostShare["userid"] ?>">
+                                                                                                                    <img src="<?php echo $userOfPostShare["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-10 h-10">
+                                                                                                                </a>
+                                                                                                                <div class="flex-1 font-semibold capitalize">
+                                                                                                                    <a href="profile.php?uid=<?php echo $userOfPostShare["userid"] ?>" class="text-black dark:text-gray-100">
+                                                                                                            <?php echo $userOfPostShare["first_name"] . " " . $userOfPostShare["last_name"] ?>
+                                                                                                                    </a>
+                                                                                                                    <div class="text-gray-700 flex items-center space-x-2"><span>
+                                                                                                                <?php if ($hours <= 0)
+                                                                                                                    echo $minutes . " phút trước";
+                                                                                                                else if ($hours >= 24)
+                                                                                                                    echo floor($hours / 24) . " ngày trước";
+                                                                                                                else
+                                                                                                                    echo $hours . " h " . $minutes . " phút trước";
+                                                                                                                ?></span>
 
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Show Text Post -->
-                                                        <div class="p-5 pt-0 border-b dark:border-gray-700">
-                                                            <?php echo $postShare["post"] ?>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <!-- Show Text Post -->
+                                                                                                        <div class="p-5 pt-0 border-b dark:border-gray-700">
+                                                                                                <?php echo $postShare["post"] ?>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
 
 
                                             <!--Like comment share-->
@@ -1164,88 +1175,88 @@ if (!isset($_SESSION["userid"])) {
                                                             for ($j = 0; $j < 3 && $j < count($like); $j++) {
                                                                 $userlike = $user->getUser($like[$j]["userid"]);
 
-                                                        ?>
-                                                                <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
-                                                        <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </div>
-                                                    <div class="dark:text-gray-100">
-                                                        <?php
-                                                        $total = $p->getQuantityLike($post[$i]["postid"]);
-                                                        if ($liked == 1) {
-                                                            if ($total != null && $total[0]["total"] > 1) {
-                                                                echo '<strong> You </strong> and <strong>' . ($total[0]["total"] - 1) . ' others</strong>';
-                                                            } else {
-                                                                echo '<strong> You liked </strong>';
-                                                            }
-                                                        } else {
-                                                            if ($total != null && $total[0]["total"] > 0) {
-                                                                echo '<strong>' . $total[0]["total"] . ' others</strong>';
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </div>
-                                                </div>
+                                                                                                                ?>
+                                                                                                                                        <img src="<?php echo $userlike["avatar_image"] ?>" alt="" class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-900">
+                                                                                                                    <?php
+                                                                                                            }
+                                                                                                        }
+                                                                                                        ?>
+                                                                                                    </div>
+                                                                                                    <div class="dark:text-gray-100">
+                                                                                                        <?php
+                                                                                                        $total = $p->getQuantityLike($post[$i]["postid"]);
+                                                                                                        if ($liked == 1) {
+                                                                                                            if ($total != null && $total[0]["total"] > 1) {
+                                                                                                                echo '<strong> You </strong> and <strong>' . ($total[0]["total"] - 1) . ' others</strong>';
+                                                                                                            } else {
+                                                                                                                echo '<strong> You liked </strong>';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            if ($total != null && $total[0]["total"] > 0) {
+                                                                                                                echo '<strong>' . $total[0]["total"] . ' others</strong>';
+                                                                                                            }
+                                                                                                        }
+                                                                                                        ?>
+                                                                                                    </div>
+                                                                                                </div>
 
-                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                    <div class="flex">
-                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                        </div>
-                                                        <div>
-                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <p class="leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia aliquid hic molestiae provident eaque obcaecati eligendi explicabo distinctio dicta fuga rem asperiores itaque, dolor officiis doloribus, nobis illum assumenda et! <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                            </div>
-                                                            <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                <a href="#"> Replay </a>
-                                                                <span> 3d </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex">
-                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                        </div>
-                                                        <div>
-                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <p class="leading-6"> Test cmt 2 !<i class="uil-grin-tongue-wink-alt"></i> </p>
-                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                            </div>
-                                                            <div class="text-xs flex items-center space-x-3 mt-2 ml-5">
-                                                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                <a href="#"> Replay </a>
-                                                                <span> 3d </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                                                                <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                                                                    <div class="flex">
+                                                                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                                                                                        </div>
+                                                                                                        <div>
+                                                                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                                                                <p class="leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia aliquid hic molestiae provident eaque obcaecati eligendi explicabo distinctio dicta fuga rem asperiores itaque, dolor officiis doloribus, nobis illum assumenda et! <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
+                                                                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                                                                            </div>
+                                                                                                            <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                                                                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                                                                                <a href="#"> Replay </a>
+                                                                                                                <span> 3d </span>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="flex">
+                                                                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                                                                                        </div>
+                                                                                                        <div>
+                                                                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                                                                <p class="leading-6"> Test cmt 2 !<i class="uil-grin-tongue-wink-alt"></i> </p>
+                                                                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                                                                            </div>
+                                                                                                            <div class="text-xs flex items-center space-x-3 mt-2 ml-5">
+                                                                                                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
+                                                                                                                <a href="#"> Replay </a>
+                                                                                                                <span> 3d </span>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
 
-                                                </div>
+                                                                                                </div>
 
-                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
+                                                                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
 
-                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
-                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                        <a href="#">
-                                                            <ion-icon name="happy-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
-                                                        <a href="#">
-                                                            <ion-icon name="image-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
-                                                        <a href="#">
-                                                            <ion-icon name="link-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                                                                                <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
+                                                                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
+                                                                                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                                                                        <a href="#">
+                                                                                                            <ion-icon name="happy-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                                                                                        </a>
+                                                                                                        <a href="#">
+                                                                                                            <ion-icon name="image-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                                                                                        </a>
+                                                                                                        <a href="#">
+                                                                                                            <ion-icon name="link-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                                                                                        </a>
+                                                                                                    </div>
+                                                                                                </div>
 
-                                            </div>
+                                                                                            </div>
 
-                                        </div>
-                            <?php
+                                                                                        </div>
+                                                                <?php
                                     }
                                 }
                             } else {
@@ -1284,6 +1295,15 @@ if (!isset($_SESSION["userid"])) {
                                     <?php
                                     }
                                     if ($about != null && $about["birthday"] != NULL) {
+                                        ?>
+                                                    <li class="flex items-center space-x-2">
+                                                        <ion-icon name="home"></ion-icon>
+                                                        <!-- <ion-icon name="home" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
+                                                        Live In <strong> <?php echo $about["address"] ?> </strong>
+                                                    </li>
+                                                <?php
+                                    }
+                                    if ($about != null) {
                                         $formattedDate = date("d-m-Y", strtotime($about["birthday"]));
                                     ?>
                                         <li class="flex items-center space-x-2">
@@ -1323,7 +1343,7 @@ if (!isset($_SESSION["userid"])) {
                                         <!-- <ion-icon name="information-circle" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                         Bio </li>';
                                     }
-                                        ?>
+                                    ?>
                                         <!-- <li class="flex items-center space-x-2">
                                         <ion-icon name="globe" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon>
                                         From <strong> Aden , Yemen </strong>
@@ -1385,132 +1405,143 @@ if (!isset($_SESSION["userid"])) {
                                 </div>
                                 <a href="#" class="button gray mt-3 w-full" useridProfile="<?php $userProfile['userid'] ?>"> See all </a>
                             </div>
+
+                            <div class="widget card p-5 border-t">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div>
+                                        <h4 class="text-lg font-semibold"> Groups </h4>
+                                    </div>
+                                    <a href="#" class="text-blue-600 "> See all</a>
+                                </div>
+                                <div>
+
+                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
+                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
+                                            <img src="assets/images/group/group-3.jpg" class="absolute w-full h-full inset-0 " alt="">
+                                        </a>
+                                        <div class="flex-1">
+                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Graphic Design </a>
+                                            <div class="text-sm text-gray-500 mt-0.5"> 345K Following</div>
+                                        </div>
+                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
+                                            Join
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
+                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
+                                            <img src="assets/images/group/group-4.jpg" class="absolute w-full h-full inset-0 " alt="">
+                                        </a>
+                                        <div class="flex-1">
+                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Mountain Riders </a>
+                                            <div class="text-sm text-gray-500 mt-0.5"> 452k Following </div>
+                                        </div>
+                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
+                                            Join
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
+                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
+                                            <img src="assets/images/group/group-2.jpg" class="absolute w-full h-full inset-0" alt="">
+                                        </a>
+                                        <div class="flex-1">
+                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Coffee Addicts </a>
+                                            <div class="text-sm text-gray-500 mt-0.5"> 845K Following</div>
+                                        </div>
+                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
+                                            Join
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
+                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
+                                            <img src="assets/images/group/group-1.jpg" class="absolute w-full h-full inset-0" alt="">
+                                        </a>
+                                        <div class="flex-1">
+                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Architecture </a>
+                                            <div class="text-sm text-gray-500 mt-0.5"> 237K Following</div>
+                                        </div>
+                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
+                                            Join
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
                     <!-- Friends  -->
                     <div class="card md:p-6 p-2 max-w-3xl mx-auto">
 
-                        <h2 class="text-xl font-bold"> Friends</h2>
+<h2 class="text-xl font-bold"> Friends</h2>
 
-                        <nav class="responsive-nav border-b">
-                            <ul>
-                                <li class="active"><a href="#" class="lg:px-2"> All Friends <span> 3,4510 </span> </a></li>
-                                <li><a href="#" class="lg:px-2"> Recently added </a></li>
-                                <li><a href="#" class="lg:px-2"> Family </a></li>
-                                <li><a href="#" class="lg:px-2"> University </a></li>
-                            </ul>
-                        </nav>
+<nav class="responsive-nav border-b">
+    <ul>
+        <li class="tab all-friend-tab active"><a href="#" class="lg:px-2"> All Friends <span> <?php echo sizeof($friendProfiles) ?> </span> </a></li>
+        <li class="tab recently-tab"><a href="#" class="lg:px-2"> Recently added </a></li>
+    </ul>
+</nav>
+<div class="tab-content all-friend"> 
 
-                        <div class="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-x-2 gap-y-4 mt-3">
-
-                            <div class="card p-2">
-                                <a href="timeline.html">
-                                    <img src="assets/images/avatars/avatar-2.jpg" class="h-36 object-cover rounded-md shadow-sm w-full">
-                                </a>
-                                <div class="pt-3 px-1">
-                                    <a href="timeline.html" class="text-base font-semibold mb-0.5"> James Lewis </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card p-2">
-                                <a href="timeline.html">
-                                    <img src="assets/images/avatars/avatar-3.jpg" class="h-36 object-cover rounded-md shadow-sm w-full">
-                                </a>
-                                <div class="pt-3 px-1">
-                                    <a href="timeline.html" class="text-base font-semibold mb-0.5"> Monroe Parker </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card p-2">
-                                <a href="timeline.html">
-                                    <img src="assets/images/avatars/avatar-4.jpg" class="h-36 object-cover rounded-md shadow-sm w-full">
-                                </a>
-                                <div class="pt-3 px-1">
-                                    <a href="timeline.html" class="text-base font-semibold mb-0.5"> Martin Gray </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card p-2">
-                                <a href="timeline.html">
-                                    <img src="assets/images/avatars/avatar-7.jpg" class="h-36 object-cover rounded-md shadow-sm w-full">
-                                </a>
-                                <div class="pt-3 px-1">
-                                    <a href="timeline.html" class="text-base font-semibold mb-0.5"> Alex Michael </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card p-2">
-                                <a href="timeline.html">
-                                    <img src="assets/images/avatars/avatar-5.jpg" class="h-36 object-cover rounded-md shadow-sm w-full">
-                                </a>
-                                <div class="pt-3 px-1">
-                                    <a href="timeline.html" class="text-base font-semibold mb-0.5"> Jesse Stevens </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card p-2">
-                                <a href="timeline.html">
-                                    <img src="assets/images/avatars/avatar-6.jpg" class="h-36 object-cover rounded-md shadow-sm w-full">
-                                </a>
-                                <div class="pt-3 px-1">
-                                    <a href="timeline.html" class="text-base font-semibold mb-0.5"> Erica Jones </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card p-2">
-                                <a href="timeline.html">
-                                    <img src="assets/images/avatars/avatar-2.jpg" class="h-36 object-cover rounded-md shadow-sm w-full">
-                                </a>
-                                <div class="pt-3 px-1">
-                                    <a href="timeline.html" class="text-base font-semibold mb-0.5"> James Lewis </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card p-2">
-                                <a href="timeline.html">
-                                    <img src="assets/images/avatars/avatar-3.jpg" class="h-36 object-cover rounded-md shadow-sm w-full">
-                                </a>
-                                <div class="pt-3 px-1">
-                                    <a href="timeline.html" class="text-base font-semibold mb-0.5"> Monroe Parker </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-
+<div class="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-x-2 gap-y-4 mt-3">
+    <?php
+    for ($i = 0; $i < sizeof($friendProfiles); $i++) {
+        $friend = $user->getUser($friendProfiles[$i]["friend_id"]);
+        ?>
+                    <div class="card p-2">
+                        <a href="profile.php?uid=<?php echo $friend["userid"] ?>">
+                            <img src="<?php echo $friend["avatar_image"] ?>" class="h-36 object-cover rounded-md shadow-sm w-full">
+                        </a>
+                        <div class="pt-3 px-1">
+                            <a href="profile.php?uid=<?php echo $friend["userid"] ?>" class="text-base font-semibold mb-0.5"> <?php echo $friend["first_name"] . " " . $friend["last_name"] ?> </a>
+                            <p class="font-medium text-sm"><?php echo $f->getQuantityFriend($friend["userid"]) . " Friend" ?> </p>
+                            <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
+                                Friend
+                            </button>
                         </div>
-
-                        <div class="flex justify-center mt-6">
-                            <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
-                                Load more ..</a>
-                        </div>
-
                     </div>
+                <?php
+    }
+    ?>
+    
+</div>
+<div class="flex justify-center mt-6">
+    <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
+        Load more ..</a>
+</div>
+</div>
+<!-- // Tab recently friend -->
+<div class="tab-content recently" style="display: none;"> 
+    <div class="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-x-2 gap-y-4 mt-3">
+    <?php
+    $recentlyFriends = $f->getRecentlyFriend($userProfile["userid"]);
+    for ($i = 0; $i < sizeof($recentlyFriends); $i++) {
+        $friend = $user->getUser($recentlyFriends[$i]["friend_id"]);
+        ?>
+                    <div class="card p-2">
+                        <a href="profile.php?uid=<?php echo $friend["userid"] ?>">
+                            <img src="<?php echo $friend["avatar_image"] ?>" class="h-36 object-cover rounded-md shadow-sm w-full">
+                        </a>
+                        <div class="pt-3 px-1">
+                            <a href="profile.php?uid=<?php echo $friend["userid"] ?>" class="text-base font-semibold mb-0.5"> <?php echo $friend["first_name"] . " " . $friend["last_name"] ?> </a>
+                            <p class="font-medium text-sm"><?php echo $f->getQuantityFriend($friend["userid"]) . " Friend" ?></p>
+                            <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
+                                Friend
+                            </button>
+                        </div>
+                    </div>
+                <?php
+    }
+    ?>
+    </div>
+    <div class="flex justify-center mt-6">
+    <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
+        Load more ..</a>
+    </div>
+</div>
 
 
+</div>
                     <!-- Photos  -->
                     <div class="card md:p-6 p-2 max-w-3xl mx-auto" id="result">
 
@@ -1525,14 +1556,14 @@ if (!isset($_SESSION["userid"])) {
                                         ?>
                                         <li class="photo-tab photo active"><a href="#"> Photos of you
                                                 <span><?php
-                                                        if ($postsize != null) {
-                                                            if ($postsize["total_media"] == null) {
-                                                                echo "0";
-                                                            } else {
-                                                                echo $postsize["total_media"];
-                                                            }
-                                                        }
-                                                        ?>
+                                                if ($postsize != null) {
+                                                    if ($postsize["total_media"] == null) {
+                                                        echo "0";
+                                                    } else {
+                                                        echo $postsize["total_media"];
+                                                    }
+                                                }
+                                                ?>
                                                 </span>
                                             </a></li>
                                         <li class="photo-tab album"><a href="#"> Albums </a></li>
@@ -1556,23 +1587,23 @@ if (!isset($_SESSION["userid"])) {
                                             $fileInfo = pathinfo($file);
                                             $fileExtension = strtolower($fileInfo['extension']);
                                             if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
-                            ?>
-                                                <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                                    <div class="image-small">
-                                                        <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
-                                                    </div>
-                                                    <!-- Overlay -->
-                                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                                        <div class="text-base"> Image description </div>
-                                                        <div class="flex justify-between text-xs">
-                                                            <a href="#"> Like</a>
-                                                            <a href="#"> Comment </a>
-                                                            <a href="#"> Share </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                            <?php
+                                                ?>
+                                                                                                            <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
+                                                                                                                <div class="image-small">
+                                                                                                                    <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
+                                                                                                                </div>
+                                                                                                                <!-- Overlay -->
+                                                                                                                <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
+                                                                                                                <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
+                                                                                                                    <div class="text-base"> Image description </div>
+                                                                                                                    <div class="flex justify-between text-xs">
+                                                                                                                        <a href="#"> Like</a>
+                                                                                                                        <a href="#"> Comment </a>
+                                                                                                                        <a href="#"> Share </a>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                        <?php
                                             }
                                         }
                                     }
@@ -2296,6 +2327,18 @@ if (!isset($_SESSION["userid"])) {
     <?php include("./Websocket/src/Notification.php") ?>
     <!-- For Night mode -->
     <script>
+        $(".tab").click(function(e) {
+            e.preventDefault();
+            $(".tab").removeClass("active");
+            $(this).addClass("active");
+            $(".tab-content").hide();
+            if ($(this).hasClass("recently-tab")) {
+                $(".recently").show();
+            }
+            if ($(this).hasClass("all-friend-tab")) {
+                $(".all-friend").show();
+            }
+        })
         (function(window, document, undefined) {
             'use strict';
             if (!('localStorage' in window)) return;
