@@ -598,18 +598,20 @@ function CreateComment(userID, postID, msg) {
                             <div class="text-sm flex items-center space-x-3 mt-2 ml-5">\
                                 <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>\
                                 <button class="reply-option-btn" commentid="'+ value.cmt.comment_id + '">Reply</button>\
-                                <button class="view-reply-btn">View replies</button>\
+                                <button class="view-reply-btn ml-8 mt-0" commentid="'+ value.cmt.comment_id + '" style="font-size: 13px;" data-next-offset="0">View replies ('+value.totalrep+')</button>\
                                 <span>'+ time + '</span>\
                             </div>\
                             <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="'+ value.cmt.comment_id + '" style="display: none;">\
                                 <input placeholder="Reply '+ value.user.last_name + '" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="' + postID + '">\
                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">\
-                                       <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="'+ postID + '">\
+                                       <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="'+ value.cmt.comment_id + '" post-id="'+ postID + '">\
                                            <ion-icon name="arrow-redo-outline"></ion-icon>\
                                        </button>\
                                    </div>\
                             </div>\
                         </div>\
+                    </div>\
+                    <div class="reply-comment-msg " commentid="'+value.cmt.comment_id+'">\
                     </div>'
                 );
             });
@@ -662,19 +664,21 @@ $(document).on("click", ".btn-view-more-comment", function (e) {
                             <div class="text-sm flex items-center space-x-3 mt-2 ml-5">\
                                 <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>\
                                 <button class="reply-option-btn" commentid="'+ value.cmt.comment_id + '">Reply</button>\
-                                <button class="view-reply-btn">View replies</button>\
+                                <button class="view-reply-btn ml-8 mt-0" commentid="'+ value.cmt.comment_id + '" style="font-size: 13px;" data-next-offset="0">View replies ('+value.totalrep+')</button>\
                                 <span>'+ time + '</span>\
                             </div>\
                             <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="'+ value.cmt.comment_id + '" style="display: none;">\
-                                <input placeholder="Reply '+ value.user.last_name + '" class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="' + postID + '">\
+                                <input placeholder="Reply '+ value.user.last_name + '" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="' + postID + '">\
                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">\
-                                       <button style="padding: 6px;" href="#" class="reply-comment-btn" post-id="'+ postID + '">\
+                                       <button style="padding: 6px;" href="#" class="reply-comment-btn"commentid="'+ value.cmt.comment_id + '" post-id="'+ postID + '">\
                                            <ion-icon name="arrow-redo-outline"></ion-icon>\
                                        </button>\
                                    </div>\
                             </div>\
                         </div>\
-                    </div>\                    '
+                    </div>\
+                    <div class="reply-comment-msg " commentid="'+value.cmt.comment_id+'">\
+                    </div>'
                         );
                     });
                     // Offset tiep theo = offset ban dau (2) + so luong ban ghi (20) | (#NextOffset = So comment dang duoc hien thi ra)
@@ -823,14 +827,13 @@ $(document).on("click",".view-reply-btn", function (e){
                         if (nextOffet > cmtData[0].totalComment) nextOffet = cmtData[0].totalComment;
                         var remainingQuantity = cmtData[0].totalComment - nextOffet;
                         $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").data("next-offset", nextOffet);
-                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").text(`View more ${remainingQuantity} replies `)
                         $("#post-details-modal .count-cmtr[commentid='"+commentid+"']").remove();
-                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").after(`<span class="count-cmtr" commentid='3' style="margin-left: 38%">${nextOffet}/${cmtData[0].totalComment}</span>`);
+                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").after(`<span class="count-cmtr" commentid='3'>${nextOffet}/${cmtData[0].totalComment}</span>`);
                         $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").next().attr('commentid', commentid);
 
-                        if (remainingQuantity <= 0) {
-                            $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").remove();
-                        }
+                        // if (remainingQuantity <= 0) {
+                        //     $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").hide();
+                        // }
     
                     }
                 }
