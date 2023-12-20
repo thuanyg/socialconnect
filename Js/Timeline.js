@@ -352,10 +352,11 @@ $('.btn-edit-about-image').on('click', function (e) {
 
 $(".save-edit-about-image").on('click', async function (e) {
     e.preventDefault();
-
+    
     var formImages = $("form[name='fanhAbout']");
     var imagesNew = await UploadAboutImgToServer(formImages);
     var media = imagesNew.concat(filesAfter);
+    
     if (media.length <= 4) {
         //console.log(media)
         $.ajax({
@@ -376,8 +377,10 @@ $(".save-edit-about-image").on('click', async function (e) {
             }
         })
     } else {
+        $(".closeModal").click();
         showNotification("Chỉ được chọn tối đa 4 ảnh!");
         DeleteFilesFromServer(imagesNew);
+        
     }
 
 })
