@@ -111,118 +111,6 @@ if (!isset($_SESSION["userid"])) {
                     <div class="right_side">
 
                         <div class="header_widgets">
-                            <a href="#" class="is_icon" uk-tooltip="title: Cart">
-                                <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
-                                </svg>
-                            </a>
-                            <div uk-drop="mode: click" class="header_dropdown dropdown_cart">
-
-                                <div class="drop_headline">
-                                    <h4> My Cart </h4>
-                                    <a href="#" class="btn_action hover:bg-gray-100 mr-2 px-2 py-1 rounded-md underline"> Checkout </a>
-                                </div>
-
-                                <ul class="dropdown_cart_scrollbar" data-simplebar>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/2.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Wireless headphones </div>
-                                            <p class="text-sm">Type Accessories </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $14.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/13.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Parfum Spray</div>
-                                            <p class="text-sm">Type Parfums </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $16.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/15.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Herbal Shampoo </div>
-                                            <p class="text-sm">Type Herbel </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $12.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/14.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Wood Chair </div>
-                                            <p class="text-sm">Type Furniture </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $19.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/9.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Strawberries FreshRipe </div>
-                                            <p class="text-sm">Type Fruit </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $12.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/2.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Wireless headphones </div>
-                                            <p class="text-sm">Type Accessories </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $14.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/13.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Parfum Spray</div>
-                                            <p class="text-sm">Type Parfums </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $16.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                </ul>
-
-                                <div class="cart_footer">
-                                    <p> Subtotal : $ 320 </p>
-                                    <h1> Total : <strong> $ 320</strong> </h1>
-                                </div>
-                            </div>
-
                             <a href="#" class="is_icon notification-btn" uk-tooltip="title: Notifications">
                                 <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
@@ -266,12 +154,7 @@ if (!isset($_SESSION["userid"])) {
                                     <div class="drop_headline">
                                         <h4>Messages </h4>
                                         <div class="btn_action">
-                                            <a href="#" data-tippy-placement="left" title="Notifications">
-                                                <ion-icon name="settings-outline" uk-tooltip="title: Message settings ; pos: left"></ion-icon>
-                                            </a>
-                                            <a href="#" class="btn-read-all-message" data-tippy-placement="left" title="Mark as read all">
-                                                <ion-icon name="checkbox-outline"></ion-icon>
-                                            </a>
+
                                         </div>
                                     </div>
                                     <input type="text" class="uk-input" placeholder="Search in Messages">
@@ -356,7 +239,9 @@ if (!isset($_SESSION["userid"])) {
 
         <!-- sidebar -->
         <div class="sidebar">
+
             <div class="sidebar_inner" data-simplebar>
+
                 <ul>
                     <li><a href="timeline.php">
                             <div class="user_avatar">
@@ -365,13 +250,13 @@ if (!isset($_SESSION["userid"])) {
                             <span> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </span>
                         </a>
                     </li>
-                    <li><a href="feed.php">
+                    <li class="active"><a href="feed.php">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-600">
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                             </svg>
                             <span> Feed </span> </a>
                     </li>
-                    <li class="active"><a href="friends.php">
+                    <li><a href="friends.php">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-500">
                                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
                             </svg><span> Friends </span></a>
@@ -385,7 +270,7 @@ if (!isset($_SESSION["userid"])) {
                                 <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
                             </svg> <span> Photos </span></a>
                     </li>
-                    <li><a href="videos.html">
+                    <!-- <li><a href="videos.html">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
                                 <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8v2h1v-2h-1zm-2-2H7v4h6v-4zm2 0h1V9h-1v2zm1-4V5h-1v2h1zM5 5v2H4V5h1zm0 4H4v2h1V9zm-1 4h1v2H4v-2z" clip-rule="evenodd" />
                             </svg>
@@ -396,7 +281,7 @@ if (!isset($_SESSION["userid"])) {
                                 <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
                             </svg>
                             <span> Products</span></a>
-                    </li>
+                    </li> -->
 
                     <li id="more-veiw" hidden><a href="birthdays.php">
                             <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -447,10 +332,19 @@ if (!isset($_SESSION["userid"])) {
                 </div>
 
                 <ul class="side_links" data-sub-title="Actions">
+
+
                     <li><a href="page-setting.php"> <ion-icon name="settings-outline" class="side-icon"></ion-icon> <span>
                                 Setting </span> </a>
 
                     </li>
+                    <!-- <li><a href="#"> <ion-icon name="document-outline" class="side-icon"></ion-icon> <span> Create
+                                Content </span> </a>
+                        <ul>
+                            <li><a href="create-group.html"> Create Group </a></li>
+                            <li><a href="create-page.html"> Create Page </a></li>
+                        </ul>
+                    </li> -->
                     <li><a href="#"> <ion-icon name="code-slash-outline" class="side-icon"></ion-icon> <span>
                                 Development </span> </a>
                         <ul>
