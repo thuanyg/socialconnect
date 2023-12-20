@@ -21,7 +21,7 @@ if (isset($_POST["action"])) {
             if ($receiver_status != null && $receiver_status[0]["status"] == "online") echo "online";
             else if ($receiver_status != null && $receiver_status[0]["status"] == "offline") echo "offline";
             ?>-icon icon-small"></i>
-                <img src="<?php echo $receiver_user["avatar_image"] ?>" alt="">
+                <img class="avatar-image-friend-chat" src="<?php echo $receiver_user["avatar_image"] ?>" alt="">
             </div>
             <h4 style="font-size: 18px;"> <?php echo $receiver_user["first_name"] . " " . $receiver_user["last_name"]; ?> </h4>
             <span class="statusText">

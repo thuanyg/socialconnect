@@ -4,6 +4,8 @@ include_once("Classes/post.php");
 include_once("Classes/timer.php");
 include_once("Classes/friend.php");
 include_once("Classes/message.php");
+include("Classes/notification.php");
+$notify = new Notification();
 session_start();
 $userCurrent = null;
 if (!isset($_SESSION["userid"])) {
@@ -87,58 +89,48 @@ if (!isset($_SESSION["userid"])) {
                     <!-- search icon for mobile -->
                     <div class="header-search-icon" uk-toggle="target: #wrapper ; cls: show-searchbox"> </div>
                     <div class="header_search"><i class="uil-search-alt"></i>
-                        <input value="" type="text" class="form-control" placeholder="Search for Friends , Videos and more.." autocomplete="off">
+                        <input value="" name="txtSearch" type="text" class="form-control" placeholder="Search for Friends , Videos and more.." autocomplete="off">
                         <div uk-drop="mode: click" class="header_search_dropdown">
-
-                            <h4 class="search_title"> Recently </h4>
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <img src="assets/images/avatars/avatar-1.jpg" alt="" class="list-avatar">
-                                        <div class="list-name"> Erica Jones </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="assets/images/avatars/avatar-2.jpg" alt="" class="list-avatar">
-                                        <div class="list-name"> Coffee Addicts </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="assets/images/avatars/avatar-3.jpg" alt="" class="list-avatar">
-                                        <div class="list-name"> Mountain Riders </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="assets/images/avatars/avatar-4.jpg" alt="" class="list-avatar">
-                                        <div class="list-name"> Property Rent And Sale </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="assets/images/avatars/avatar-5.jpg" alt="" class="list-avatar">
-                                        <div class="list-name"> Erica Jones </div>
-                                    </a>
-                                </li>
+                            <h4 class="search_title"> Results/Recently</h4>
+                            <ul id="searchResults">
+                                <div id="search-loading" style="display: none;">
+                                    <div id="wifi-loader">
+                                        <svg class="circle-outer" viewBox="0 0 86 86">
+                                            <circle class="back" cx="43" cy="43" r="40"></circle>
+                                            <circle class="front" cx="43" cy="43" r="40"></circle>
+                                            <circle class="new" cx="43" cy="43" r="40"></circle>
+                                        </svg>
+                                        <svg class="circle-middle" viewBox="0 0 60 60">
+                                            <circle class="back" cx="30" cy="30" r="27"></circle>
+                                            <circle class="front" cx="30" cy="30" r="27"></circle>
+                                        </svg>
+                                        <svg class="circle-inner" viewBox="0 0 34 34">
+                                            <circle class="back" cx="17" cy="17" r="14"></circle>
+                                            <circle class="front" cx="17" cy="17" r="14"></circle>
+                                        </svg>
+                                        <div class="text" data-text="Searching"></div>
+                                    </div>
+                                </div>
                             </ul>
-
                         </div>
                     </div>
 
                     <div class="right_side">
 
                         <div class="header_widgets">
-
-
-                            <a href="#" class="is_icon" uk-tooltip="title: Notifications">
+                            <a href="#" class="is_icon notification-btn" uk-tooltip="title: Notifications">
                                 <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
                                 </svg>
-                                <span class="notification-quantity" style="display: none;"></span>
+                                <?php
+                                $noti = $notify->getQuantityUnread($userCurrent["userid"]);
+                                if ($noti != null && $noti[0]["total"] != 0) {
+                                    $q = $noti[0]["total"];
+                                    echo "<span class='notification-quantity'>" . $q . "</span>";
+                                }
+                                ?>
                             </a>
-                            <div uk-drop="mode: click" class="header_dropdown">
+                            <div uk-drop="mode: click" class="notification-content header_dropdown">
                                 <div class="dropdown_scrollbar" data-simplebar>
                                     <div class="drop_headline">
                                         <h4>Notifications </h4>
@@ -152,19 +144,7 @@ if (!isset($_SESSION["userid"])) {
                                         </div>
                                     </div>
                                     <ul class="list-notification">
-                                        <!-- <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Quang</strong> Replay Your Comments in
-                                                        <span class="text-link">Programming for Games</span>
-                                                    </p>
-                                                    <time> 9 hours ago </time>
-                                                </div>
-                                            </a>
-                                        </li> -->
+                                        <!-- Append Notification Here -->
                                     </ul>
                                 </div>
                             </div>
@@ -181,12 +161,7 @@ if (!isset($_SESSION["userid"])) {
                                     <div class="drop_headline">
                                         <h4>Messages </h4>
                                         <div class="btn_action">
-                                            <a href="#" data-tippy-placement="left" title="Notifications">
-                                                <ion-icon name="settings-outline" uk-tooltip="title: Message settings ; pos: left"></ion-icon>
-                                            </a>
-                                            <a href="#" class="btn-read-all-message" data-tippy-placement="left" title="Mark as read all">
-                                                <ion-icon name="checkbox-outline"></ion-icon>
-                                            </a>
+                                            
                                         </div>
                                     </div>
                                     <input type="text" class="uk-input" placeholder="Search in Messages">
@@ -275,31 +250,45 @@ if (!isset($_SESSION["userid"])) {
             <div class="sidebar_inner" data-simplebar>
 
                 <ul>
+                    <li><a href="timeline.php">
+                            <div class="user_avatar">
+                                <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="avatar" style="width: 35px; border-radius: 50%; margin-right: 15px;">
+                            </div>
+                            <span> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </span>
+                        </a>
+                    </li>
                     <li class="active"><a href="feed.php">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-600">
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                             </svg>
                             <span> Feed </span> </a>
                     </li>
-
-                    <li><a href="videos.html">
+                    <li><a href="friends.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-500">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                            </svg><span> Friends </span></a>
+                    </li>
+                    <li><a href="chats-friend.php">
+                            <img src="./assets/images/chat.png" alt="" style="width: 26px; margin-right: 8px">
+                            <span> Messages </span></a>
+                    </li>
+                    <li><a href="albums.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-purple-500">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                            </svg> <span> Photos </span></a>
+                    </li>
+                    <!-- <li><a href="videos.html">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
                                 <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8v2h1v-2h-1zm-2-2H7v4h6v-4zm2 0h1V9h-1v2zm1-4V5h-1v2h1zM5 5v2H4V5h1zm0 4H4v2h1V9zm-1 4h1v2H4v-2z" clip-rule="evenodd" />
                             </svg>
                             <span> Video</span></a>
                     </li>
-                    <li><a href="friends.php">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-500">
-                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-                            </svg><span> Groups </span></a>
-                    </li>
-
-                    <li id="more-veiw" hidden><a href="albums.php">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-purple-500">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
-                            </svg> <span> Photos </span></a>
-                    </li>
-
+                    <li id="more-veiw" hidden><a href="products.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
+                                <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
+                            </svg>
+                            <span> Products</span></a>
+                    </li> -->
 
                     <li id="more-veiw" hidden><a href="birthdays.php">
                             <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -308,7 +297,6 @@ if (!isset($_SESSION["userid"])) {
                             </svg>
                             <span> Birthdays </span> <span class="new">N</span></a>
                     </li>
-
                 </ul>
 
                 <a href="#" class="see-mover h-10 flex my-1 pl-2 rounded-xl text-gray-600" uk-toggle="target: #more-veiw; animation: uk-animation-fade">
@@ -339,7 +327,9 @@ if (!isset($_SESSION["userid"])) {
                                     <img src="<?php echo $friend["avatar_image"] ?>" alt="avatar">
                                     <span class="user_status status_online"></span>
                                 </div>
-                                <div class="contact-username"> <?php echo $friend["first_name"] . " " . $friend["last_name"] ?> </div>
+                                <div class="contact-username">
+                                    <?php echo $friend["first_name"] . " " . $friend["last_name"] ?>
+                                </div>
                             </a>
                     <?php
                         }
@@ -348,10 +338,40 @@ if (!isset($_SESSION["userid"])) {
 
                 </div>
 
+                <ul class="side_links" data-sub-title="Actions">
+
+
+                    <li><a href="page-setting.php"> <ion-icon name="settings-outline" class="side-icon"></ion-icon> <span>
+                                Setting </span> </a>
+
+                    </li>
+                    <!-- <li><a href="#"> <ion-icon name="document-outline" class="side-icon"></ion-icon> <span> Create
+                                Content </span> </a>
+                        <ul>
+                            <li><a href="create-group.html"> Create Group </a></li>
+                            <li><a href="create-page.html"> Create Page </a></li>
+                        </ul>
+                    </li> -->
+                    <li><a href="#"> <ion-icon name="code-slash-outline" class="side-icon"></ion-icon> <span>
+                                Development </span> </a>
+                        <ul>
+                            <li><a href="development-components.html"> Compounents </a></li>
+                            <li><a href="development-plugins.html"> Plugins </a></li>
+                            <li><a href="development-icons.html"> Icons </a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"> <ion-icon name="log-in-outline" class="side-icon"></ion-icon> <span> Authentication
+                            </span> </a>
+                        <ul>
+                            <li><a href="form-register.php">Form Sign-up </a></li>
+                            <li><a href="logout.php">Logout</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
 
                 <div class="footer-links">
                     <a href="#">About</a>
-                    <a href="#">Blog </a>
                     <a href="#">Careers</a>
                     <a href="#">Support</a>
                     <a href="#">Contact Us </a>

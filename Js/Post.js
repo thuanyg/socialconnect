@@ -452,8 +452,8 @@ $(document).on('click', '.like-post-btn', function (e) {
 
                     // Send notification
                     if (userID != authorID) {
-                        SaveNotification(likeButton, 'like');
-                        SendNotificationLike(likeButton);
+                        SaveNotification(postID, 'like');
+                        SendNotification(postID, "like");
                     }
                 } else {
                     likeIcon.attr("fill", "currentColor");
@@ -515,6 +515,8 @@ $(document).on('click', '.share-post-btn', function (e) {
                     if (response.trim() == "1") {
                         showNotification("Share post successfully.")
                         $("#share-post-modal #closeModelPost ").click()
+                        SaveNotification(postID, "share");
+                        SendNotification(postID, "share");
                     }
                 }
             }
@@ -616,6 +618,8 @@ function CreateComment(userID, postID, msg) {
                 );
             });
             $(".comment-textbox[post-id='" + postID + "']").val("");
+            SaveNotification(postID, "comment");
+            SendNotification(postID, "comment");
         }
     });
 }
@@ -722,6 +726,7 @@ $(document).on('click', '.reply-comment-btn', function (e) {
     if (msg.trim().length == 0) {
         showNotification("Please enter text to reply comment!")
     } else {
+        $("#post-details-modal .view-reply-btn[commentid='"+commentID+"']").data("next-offset", 0);
         createReplyComment(commentID, postID, userID, msg);
     }
 });
@@ -737,6 +742,7 @@ $(document).on("keyup", ".reply-comment-textbox", function (e) {
         if (msg.trim().length == 0) {
             showNotification("Please enter text to comment!")
         } else {
+            $("#post-details-modal .view-reply-btn[commentid='"+commentID+"']").data("next-offset", 0);
             createReplyComment(commentID, postID, userID, msg);
         }
     }
@@ -759,6 +765,7 @@ function createReplyComment(commentID, postID, userID, msg) {
             var commentData = JSON.parse(response);
             console.log(commentData);
             $.each(commentData, function (key, value) {
+                $(".view-reply-btn[commentid='" + commentID + "']").text("View replies (" + value.totalCommentr + ")");
                 var time = timeAgo(value.cmt["date"]);
                 $(".reply-comment-msg[commentid='" + commentID + "']").append('<div class="flex" >\
                 <div class="w-10 h-10 rounded-full relative flex-shrink-0 ml-8">\
@@ -804,6 +811,7 @@ $(document).on("click",".view-reply-btn", function (e){
                     if (response.trim() != "[]" && response.trim() != "0") {
                         var cmtData = JSON.parse(response);
                         console.log(cmtData);
+                        if (offset == 0) $(".reply-comment-msg[commentid='" + commentid + "']").html("");
                         $.each(cmtData, function (key, value) {
                             var time = timeAgo(value.cmt["date"]);
                             $("#post-details-modal .view-reply-btn").data("next-offset", nextOffet);
@@ -827,10 +835,10 @@ $(document).on("click",".view-reply-btn", function (e){
                         if (nextOffet > cmtData[0].totalComment) nextOffet = cmtData[0].totalComment;
                         var remainingQuantity = cmtData[0].totalComment - nextOffet;
                         $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").data("next-offset", nextOffet);
-                        $("#post-details-modal .count-cmtr[commentid='"+commentid+"']").remove();
-                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").after(`<span class="count-cmtr" commentid='3'>${nextOffet}/${cmtData[0].totalComment}</span>`);
                         $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").next().attr('commentid', commentid);
-
+                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").text(`View replies (${remainingQuantity})`)
+                        $("#post-details-modal .count-cmtr").remove();
+                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").after(`<span class="count-cmtr" >${nextOffet}/${cmtData[0].totalComment}</span>`);
                         // if (remainingQuantity <= 0) {
                         //     $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").hide();
                         // }

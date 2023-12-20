@@ -96,9 +96,10 @@
                     }
 
                 });
+                var avatarFriend = $(".avatar-image-friend-chat").attr("src");
                 var html = `<div class="message-bubble">
                         <div class="message-bubble-inner">
-                            <div class="message-avatar"><img src="<?php echo $userCurrent["avatar_image"] ?>" alt=""></div>
+                            <div class="message-avatar"><img src="${avatarFriend}" alt=""></div>
                                 <div class="message-text">
                                     <p>${messageContent}</p>
                                 </div>
