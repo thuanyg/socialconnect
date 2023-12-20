@@ -4,6 +4,8 @@ include_once("Classes/friend.php");
 include_once("Classes/user.php");
 include_once("Classes/message.php");
 include_once("Classes/status.php");
+include("Classes/notification.php");
+$notify = new Notification();
 if (!isset($_SESSION["userid"])) {
     header("Location: login.php");
 } else {
