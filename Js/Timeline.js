@@ -424,3 +424,4 @@ $(".see-all-btn").on('click', async function (e) {
     })
 
 })
+

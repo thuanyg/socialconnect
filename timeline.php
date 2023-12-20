@@ -11,7 +11,8 @@ if (!isset($_SESSION["userid"])) {
     exit();
 } else {
     $user = new User();
-    $userCurrent = $user->getUser($_SESSION["userid"]); // Return Array (userCurrent = result[0])
+    $userCurrent = $user->getUser($_SESSION["userid"]);
+ // Return Array (userCurrent = result[0])
     $about = $user->getAbout($userCurrent["userid"]);
     $p = new Post();
     $post = $p->getOwnPost($userCurrent["userid"]);
@@ -642,7 +643,7 @@ if (!isset($_SESSION["userid"])) {
                         <nav class="responsive-nav pl-3">
                             <ul uk-switcher="connect: #timeline-tab; animation: uk-animation-fade">
                                 <li><a href="#">Timeline</a></li>
-                                <li><a href="#">Friends <span><?php echo $f->getQuantityFriend($userCurrent["userid"]) ?></span> </a></li>
+                                <li><a href="#">Friends <span><?php echo $f->getQuantityFriend($userCurrent["userid"]) ?></span> </a></li><!--đổi thành profile -->
                                 <li><a href="#" onclick="showImageOfYou()">Photos </a></li>
                                 <li><a href="#">Pages</a></li>
                                 <li><a href="#">Groups</a></li>
