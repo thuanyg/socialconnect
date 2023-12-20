@@ -144,4 +144,23 @@ $(document).ready(function () {
             }
         })
     })
+
+    var number1 = 0;
+    $(".load-them").on('click',function(e){
+        e.preventDefault();
+        var userIDprofile = $(this).data('profileid');
+        number1 += 8;
+        $.ajax({
+            url : 'Ajax/Friend.php',
+            type : "POST",
+            data : {
+                userID: userIDprofile,
+                number : number1,
+                action : 'more_friends' ,
+            },success : function(data){
+             $(".list-friends").append(data);
+            }
+        })
+    })
+
 });
