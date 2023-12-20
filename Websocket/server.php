@@ -132,6 +132,61 @@ class YourWebSocketServer implements MessageComponentInterface
                 }
             }
         }
+
+        if ($message["action"] == "comment-post") {
+            $db = new Database();
+            $user = new User();
+            $postid = $message["postid"];
+            $sql = "select userid from posts where postid = ".$postid;
+            $receiverId = ($db->Query($sql))[0];
+            $receiver = $user->getUser($receiverId["userid"]);
+            $receiver_connection_id = $receiver["connection_id"];
+            $userid = $message["userid"];
+            $sender = $user->getUser($userid);
+            // Set value message
+            $message["avatar_image"] = $sender["avatar_image"];
+            $message["first_name"] = $sender["first_name"];
+            $message["last_name"] = $sender["last_name"];
+            foreach ($this->clients as $client) {
+                // Check if the client is the intended receiver
+                if ($from == $client) {
+                    $message["sender"] = "Me";
+                } else {
+                    $message["sender"] = $message["first_name"] . " " . $message["last_name"];
+                }
+
+                if ($client->resourceId == $receiver_connection_id || $from == $client) {
+                    $client->send(json_encode($message));
+                }
+            }
+        }
+        if ($message["action"] == "share-post") {
+            $db = new Database();
+            $user = new User();
+            $postid = $message["postid"];
+            $sql = "select userid from posts where postid = ".$postid;
+            $receiverId = ($db->Query($sql))[0];
+            $receiver = $user->getUser($receiverId["userid"]);
+            $receiver_connection_id = $receiver["connection_id"];
+            $userid = $message["userid"];
+            $sender = $user->getUser($userid);
+            // Set value message
+            $message["avatar_image"] = $sender["avatar_image"];
+            $message["first_name"] = $sender["first_name"];
+            $message["last_name"] = $sender["last_name"];
+            foreach ($this->clients as $client) {
+                // Check if the client is the intended receiver
+                if ($from == $client) {
+                    $message["sender"] = "Me";
+                } else {
+                    $message["sender"] = $message["first_name"] . " " . $message["last_name"];
+                }
+
+                if ($client->resourceId == $receiver_connection_id || $from == $client) {
+                    $client->send(json_encode($message));
+                }
+            }
+        }
     }
 
 

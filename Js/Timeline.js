@@ -380,7 +380,6 @@ $(".save-edit-about-image").on('click', async function (e) {
         $(".closeModal").click();
         showNotification("Chỉ được chọn tối đa 4 ảnh!");
         DeleteFilesFromServer(imagesNew);
-        
     }
 
 })

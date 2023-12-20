@@ -48,6 +48,26 @@ if (isset($_REQUEST["action"])) {
         echo $result;
     }
 
+    if ($_POST["action"] == "comment-post") {
+        $userid = $_POST["userid"];
+        $postid = $_POST["postid"];
+        $post = $p->getPostOnID($postid);
+        $receiverID = ($user->getUser($post[0]["userid"]))["userid"];
+        // Sender = userLike || Receiver  = user of post
+        $result = $notify->setNotification($receiverID, $userid, $postid, 'comment');
+        echo $result;
+    }
+
+    if ($_POST["action"] == "share-post") {
+        $userid = $_POST["userid"];
+        $postid = $_POST["postid"];
+        $post = $p->getPostOnID($postid);
+        $receiverID = ($user->getUser($post[0]["userid"]))["userid"];
+        // Sender = userLike || Receiver  = user of post
+        $result = $notify->setNotification($receiverID, $userid, $postid, 'share');
+        echo $result;
+    }
+
     if ($_POST["action"] == "read-notification") {
         $notifyID = $_POST["notifyID"];
         $result = $notify->readNotification($notifyID);

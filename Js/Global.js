@@ -131,8 +131,7 @@ function SearchPost(query) {
     })
 }
 
-function SaveNotification(btn, type) {
-    var postID = btn.parent().attr("post-id");
+function SaveNotification(postID, type) {
     var action = "";
     if (type == "like") {
         action = "like-post";
@@ -158,16 +157,25 @@ function SaveNotification(btn, type) {
     })
 }
 
-function SendNotificationLike(btn) {
-    var postID = btn.parent().attr("post-id");
-    // console.log(userID + " " + postID);
+function SendNotification(postID, type) {
+    var action = "";
+    if (type == "like") {
+        action = "like-post";
+    }
+    if (type == "comment") {
+        action = "comment-post";
+    }
+    if (type == "share") {
+        action = "share-post";
+    }
     var notify = {
         userid: userID,
         postid: postID,
-        action: "like-post"
+        action: action
     };
     ws.send(JSON.stringify(notify));
 }
+
 var isNotificationOpen = false;
 $(".notification-btn").on("click", function (e) {
     e.preventDefault();
@@ -185,13 +193,17 @@ $(".notification-btn").on("click", function (e) {
                     var data = JSON.parse(data);
                     $(".list-notification").empty();
                     data.forEach(item => {
+                        var action = "";
+                        if (item.type == "share") action = "shared"
+                        if (item.type == "like") action = "liked"
+                        if (item.type == "comment") action = "commented"
                         var status = (item.isRead == "1") ? "" : "un-read";
-                        var htmlLike = `<li class="${status} notify-item">
+                        var htmlListNotify = `<li class="${status} notify-item">
                                             <a href="post.php?p=${item.related_object_id}">
                                                 <div class="drop_avatar"> <img src="${item.sender.avatar_image}" alt=""></div>
                                                     <div class="drop_text">
                                                         <p>
-                                                            <strong>${item.sender.last_name}</strong> Liked Your Post
+                                                            <strong>${item.sender.last_name}</strong> ${action} your post
                                                             <span class="text-link"></span>
                                                         </p>
                                                         <time> ${timeAgo(item.date)} </time>
@@ -219,7 +231,7 @@ $(".notification-btn").on("click", function (e) {
                                                </ul>
                                             </div>
                                         </li>`
-                        $(".list-notification").append(htmlLike);
+                        $(".list-notification").append(htmlListNotify);
                     });
                     notifyOffset = 10;
                 }
@@ -228,7 +240,7 @@ $(".notification-btn").on("click", function (e) {
     }
 
     // Load notification
-    $(".simplebar-content:eq(1)").scroll(function () {
+    $(".simplebar-content:eq(0)").scroll(function () {
         var scrollTop = $(this).scrollTop();
         var windowHeight = $(this).height();
         var docHeight = $(".list-notification").height();
@@ -254,12 +266,16 @@ function getNotificationToLoad(notifyOffset) {
             if (data.trim() != "[]") {
                 var data = JSON.parse(data);
                 data.forEach(item => {
-                    var htmlLike = `<li class="un-read">
+                    var action = "";
+                    if (item.type == "share") action = "shared"
+                    if (item.type == "like") action = "liked"
+                    if (item.type == "comment") action = "commented"
+                    var htmlListNotify = `<li class="un-read">
                                         <a href="post.php?p=${item.related_object_id}">
                                             <div class="drop_avatar"> <img src="${item.sender.avatar_image}" alt=""></div>
                                                 <div class="drop_text">
                                                     <p>
-                                                        <strong>${item.sender.last_name}</strong> Liked Your Post
+                                                        <strong>${item.sender.last_name}</strong> ${action} your post
                                                         <span class="text-link"></span>
                                                     </p>
                                                     <time> ${timeAgo(item.date)} </time>
@@ -287,7 +303,7 @@ function getNotificationToLoad(notifyOffset) {
                                                </ul>
                                         </div>
                                     </li>`
-                    $(".list-notification").append(htmlLike);
+                    $(".list-notification").append(htmlListNotify);
                 });
                 notifyFetching = false;
             }
@@ -472,11 +488,11 @@ $(document).on("click", ".options-notify-button", function (e) {
     var listOption = $(this).next();
     if (listOption.hasClass("active")) {
         listOption.removeClass("active");
-        $(this).parent().css("height","61px");
+        $(this).parent().css("height", "61px");
         $(".notification-content").css("height", "auto")
     } else {
         $(".notification-content").css("height", "100vh")
         listOption.addClass("active");
-        $(this).parent().css("height","185px");
+        $(this).parent().css("height", "185px");
     }
 })

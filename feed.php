@@ -714,7 +714,7 @@ if (!isset($_SESSION["userid"])) {
                                                         if ($quantityRep <= 0) {
                                                         } else {
                                                         ?>
-                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
+                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="margin: 0; margin-left: 60px; font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
                                                 <?php
                                                         }
                                                     }
@@ -729,7 +729,7 @@ if (!isset($_SESSION["userid"])) {
                                                     View more <?php echo $quantityCmt - 2 ?> Comments
                                                 </a>
                                             <?php
-                                            } else {
+                                            } else if($quantityCmt < 0) {
                                             ?>
                                                 <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
                                             <?php

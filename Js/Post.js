@@ -452,8 +452,8 @@ $(document).on('click', '.like-post-btn', function (e) {
 
                     // Send notification
                     if (userID != authorID) {
-                        SaveNotification(likeButton, 'like');
-                        SendNotificationLike(likeButton);
+                        SaveNotification(postID, 'like');
+                        SendNotification(postID, "like");
                     }
                 } else {
                     likeIcon.attr("fill", "currentColor");
@@ -515,6 +515,8 @@ $(document).on('click', '.share-post-btn', function (e) {
                     if (response.trim() == "1") {
                         showNotification("Share post successfully.")
                         $("#share-post-modal #closeModelPost ").click()
+                        SaveNotification(postID, "share");
+                        SendNotification(postID, "share");
                     }
                 }
             }
@@ -614,6 +616,8 @@ function CreateComment(userID, postID, msg) {
                 );
             });
             $(".comment-textbox[post-id='" + postID + "']").val("");
+            SaveNotification(postID, "comment");
+            SendNotification(postID, "comment");
         }
     });
 }
