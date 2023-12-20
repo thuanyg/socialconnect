@@ -507,16 +507,16 @@ if (!isset($_SESSION["userid"])) {
                     <div class="relative" uk-slider="finite: true">
 
                         <div class="uk-slider-container px-1 py-3">
-                            <ul class="uk-child-width-1-4@m uk-child-width-1-3@s uk-grid-small uk-grid">
+                            <ul class="uk-child-width-1-4@m uk-child-width-1-3@s uk-grid-small uk-grid list-friendRequest">
                                 <?php
-                                $listFriendRequest = $f->getRequests($userCurrent["userid"]);
+                                $listFriendRequest = $f->getRequestsLimit($userCurrent["userid"], 0, 4);
                                 if ($listFriendRequest != null) {
                                     foreach ($listFriendRequest as $key => $value) {
                                         $userReq = $user->getUser($value["sender_id"]);
                                         $quantityReq = $f->getQuantityFriend($value["sender_id"]);
                                 ?>
                                         <li>
-                                            <div class="card">
+                                            <div class="card ">
                                                 <div class="card-media h-28">
                                                     <div class="card-media-overly"></div>
                                                     <img src="<?php if ($userReq["cover_image"] != "") echo $userReq["cover_image"];
@@ -527,17 +527,9 @@ if (!isset($_SESSION["userid"])) {
                                                     <a href="timeline-group.html" class="font-semibold text-lg truncate"> <?php echo $userReq["first_name"] . " " . $userReq["last_name"] ?> </a>
                                                     <div class="flex items-center flex-wrap space-x-1 mt-1 text-sm text-gray-500 capitalize">
                                                         <a href="#"> <span> <?php echo $quantityReq ?> friend </span> </a>
-                                                        <a href="#"> <span> 1.7k post a day </span> </a>
+
                                                     </div>
-                                                    <div class="flex mt-3.5 space-x-2">
-                                                        <div class="flex items-center -space-x-2 -mt-1">
-                                                            <img alt="Image placeholder" src="assets/images/avatars/avatar-6.jpg" class="border-2 border-white rounded-full w-7">
-                                                            <img alt="Image placeholder" src="assets/images/avatars/avatar-5.jpg" class="border-2 border-white rounded-full w-7">
-                                                        </div>
-                                                        <div class="flex-1 leading-5 text-sm">
-                                                            <div> <strong>Johnson</strong> and 5 freind are members </div>
-                                                        </div>
-                                                    </div>
+
 
                                                     <div class="flex mt-3.5 space-x-2 text-sm font-medium">
                                                         <a href="#" class="confirm-req bg-blue-600 flex flex-1 h-8 items-center justify-center rounded-md text-white capitalize" data-request-id="<?php echo $userReq["userid"] ?>">
@@ -550,12 +542,26 @@ if (!isset($_SESSION["userid"])) {
 
                                                 </div>
                                             </div>
+
                                         </li>
+
                                 <?php
                                     }
                                 } else echo "<div>You don't have any requests!</div>";
                                 ?>
+
                             </ul>
+                            <?php
+                            if ($listFriendRequest != null && sizeof($listFriendRequest) > 4) {
+                            ?>
+                                <div class="flex justify-center mt-6">
+                                    <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white btn-FriendRequest-loadMore">
+                                        Load more ..</a>
+                                </div>
+                            <?php
+                            }
+                            ?>
+
                         </div>
                     </div>
                 </div>
@@ -584,10 +590,18 @@ if (!isset($_SESSION["userid"])) {
                         ?>
 
                     </div>
-                    <div class="flex justify-center mt-6">
-                        <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white btn-loadMore">
-                            Load more ..</a>
-                    </div>
+                    <?php
+                    if (sizeof($f->getListFriend($userCurrent["userid"])) > 8) {
+                    ?>
+
+
+                        <div class="flex justify-center mt-6">
+                            <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white btn-loadMore">
+                                Load more ..</a>
+                        </div>
+                    <?php
+                    }
+                    ?>
                 </div>
 
                 <!-- Custom -->
@@ -622,13 +636,12 @@ if (!isset($_SESSION["userid"])) {
         var currentURL = window.location.href;
         // Tách phần tag từ URL
         var tagFromURL = currentURL.split('#')[1];
-        if(tagFromURL == "all-friend"){
+        if (tagFromURL == "all-friend") {
             $(".all-friend-tab")[0].click()
         }
-        if(tagFromURL == "friend-request"){
+        if (tagFromURL == "friend-request") {
             $(".friend-request-tab")[0].click()
         }
-        
     </script>
 
     <!-- Javascript
