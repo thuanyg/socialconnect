@@ -344,19 +344,7 @@ if (!isset($_SESSION["userid"])) {
                                         </div>
                                     </div>
                                     <ul class="list-notification">
-                                        <!-- <li>
-                                            <a href="#">
-                                                <div class="drop_avatar"> <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="">
-                                                </div>
-                                                <div class="drop_text">
-                                                    <p>
-                                                        <strong>Quang</strong> Replay Your Comments in
-                                                        <span class="text-link">Programming for Games</span>
-                                                    </p>
-                                                    <time> 9 hours ago </time>
-                                                </div>
-                                            </a>
-                                        </li> -->
+                                        
                                     </ul>
                                 </div>
                             </div>

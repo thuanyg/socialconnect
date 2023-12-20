@@ -1,4 +1,3 @@
-
 <?php
 include_once("../Classes/notification.php");
 include_once("../Classes/user.php");
