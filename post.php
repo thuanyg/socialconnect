@@ -161,7 +161,7 @@ if (!isset($_SESSION["userid"])) {
                                     <div class="drop_headline">
                                         <h4>Messages </h4>
                                         <div class="btn_action">
-                                            
+
                                         </div>
                                     </div>
                                     <input type="text" class="uk-input" placeholder="Search in Messages">
@@ -257,7 +257,7 @@ if (!isset($_SESSION["userid"])) {
                             <span> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </span>
                         </a>
                     </li>
-                    <li class="active"><a href="feed.php">
+                    <li><a href="feed.php">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-600">
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                             </svg>
@@ -277,19 +277,6 @@ if (!isset($_SESSION["userid"])) {
                                 <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
                             </svg> <span> Photos </span></a>
                     </li>
-                    <!-- <li><a href="videos.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8v2h1v-2h-1zm-2-2H7v4h6v-4zm2 0h1V9h-1v2zm1-4V5h-1v2h1zM5 5v2H4V5h1zm0 4H4v2h1V9zm-1 4h1v2H4v-2z" clip-rule="evenodd" />
-                            </svg>
-                            <span> Video</span></a>
-                    </li>
-                    <li id="more-veiw" hidden><a href="products.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
-                                <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
-                            </svg>
-                            <span> Products</span></a>
-                    </li> -->
-
                     <li id="more-veiw" hidden><a href="birthdays.php">
                             <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path>
@@ -397,6 +384,8 @@ if (!isset($_SESSION["userid"])) {
                         <?php
                         if ($post != null) {
                             $like = $p->getLikePost($post[0]["postid"]);
+                            $comment = $p->getCommentPost($post[0]["postid"]);
+                            $quantityCmt = $p->getQuantityCommentPost($post[0]["postid"])[0]["total"];
                             $isFriend = $f->isFriend($userCurrent["userid"], $post[0]["userid"]);
                             $isFriendCondition = ($isFriend == 1 && $post[0]['privacy'] == "Friend");
                             $isPublicCondition = $post[0]['privacy'] == "Public";
@@ -418,7 +407,7 @@ if (!isset($_SESSION["userid"])) {
                                 $userOfPost = $user->getUser($post[0]["userid"]);
                         ?>
 
-                                <div class="card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[0]["postid"] ?>">
+                                <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post[0]["postid"] ?>">
 
                                     <!-- post header-->
                                     <div class="flex justify-between items-center lg:p-4 p-2.5">
@@ -565,15 +554,16 @@ if (!isset($_SESSION["userid"])) {
                                                 </div>
                                                 <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                             </button>
-                                            <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
+                                            <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[0]["postid"] ?>">
                                                 <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                         <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                                     </svg>
                                                 </div>
-                                                <div> Comment</div>
+                                                <div> Comment <?php if ($quantityCmt > 0)
+                                                                    echo "(" . $quantityCmt . ")" ?> </div>
                                             </a>
-                                            <a href="#" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
+                                            <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                                 <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                         <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
@@ -613,60 +603,72 @@ if (!isset($_SESSION["userid"])) {
                                                 ?>
                                             </div>
                                         </div>
-
+                                        <!-- Comment container -->
                                         <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[0]["postid"]; ?>">
-                                            <div class="flex">
-                                                <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                    <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                </div>
-                                                <div>
-                                                    <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                        <p class="leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia aliquid hic molestiae provident eaque obcaecati eligendi explicabo distinctio dicta fuga rem asperiores itaque, dolor officiis doloribus, nobis illum assumenda et! <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                        <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                            <?php
+                                            if ($comment != null) {
+                                                for ($c = 0; $c < sizeof($comment); $c++) {
+                                                    $timer = new Timer();
+                                                    $timeAgo = $timer->timeAgo($comment[$c]["date"]);
+                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                    $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
+                                            ?>
+                                                    <div class="flex">
+                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                            <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
+                                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                                            </a>
+                                                        </div>
+                                                        <div>
+                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
+                                                                <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
+                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                            </div>
+                                                            <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                                <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                                <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View replies (<?php echo $quantityRep ?>)</button>
+                                                                <span><?php echo $timeAgo ?></span>
+                                                            </div>
+                                                            <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[0]["postid"]; ?>" style="display: none;">
+                                                                <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[0]["postid"]; ?>">
+                                                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                                    <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[0]["postid"]; ?>">
+                                                                        <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                        <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                        <a href="#"> Replay </a>
-                                                        <span> 3d </span>
+                                                    <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="flex">
-                                                <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                    <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                </div>
-                                                <div>
-                                                    <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                        <p class="leading-6"> Test cmt 2 !<i class="uil-grin-tongue-wink-alt"></i> </p>
-                                                        <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                    </div>
-                                                    <div class="text-xs flex items-center space-x-3 mt-2 ml-5">
-                                                        <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                        <a href="#"> Replay </a>
-                                                        <span> 3d </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                            <?php
+                                                }
+                                            }
+                                            ?>
                                         </div>
-
-                                        <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-
+                                        <?php
+                                        if ($quantityCmt > 2) {
+                                        ?>
+                                            <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
+                                                View more <?php echo $quantityCmt - 2 ?> Comments
+                                            </a>
+                                        <?php
+                                        } else if ($quantityCmt < 0) {
+                                        ?>
+                                            <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
+                                        <?php
+                                        }
+                                        ?>
+                                        <div id="error_status" post-id="<?php echo $post[0]["postid"]; ?> "></div>
                                         <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                            <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
+                                            <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[0]["postid"]; ?>">
                                             <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                <a href="#">
-                                                    <ion-icon name="happy-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                </a>
-                                                <a href="#">
-                                                    <ion-icon name="image-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                </a>
-                                                <a href="#">
-                                                    <ion-icon name="link-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                </a>
+                                                <button href="#" class="add-comment-btn" post-id="<?php echo $post[0]["postid"]; ?>">
+                                                    <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                                </button>
                                             </div>
                                         </div>
-
                                     </div>
 
                                 </div>
@@ -773,7 +775,7 @@ if (!isset($_SESSION["userid"])) {
                                             $minutes = $time["minutes"];
                                             $seconds = $time["seconds"];
                                             ?>
-                                            <div class="card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
+                                            <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
                                                 <!-- Show Image/Video Post Share -->
                                                 <div uk-lightbox>
                                                     <div class="grid grid-cols-2 gap-2 px-5">
@@ -860,15 +862,16 @@ if (!isset($_SESSION["userid"])) {
                                                 </div>
                                                 <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                             </button>
-                                            <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
+                                            <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[0]["postid"] ?>">
                                                 <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                         <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                                     </svg>
                                                 </div>
-                                                <div> Comment</div>
+                                                <div> Comment <?php if ($quantityCmt > 0)
+                                                                    echo "(" . $quantityCmt . ")" ?> </div>
                                             </a>
-                                            <a href="#" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
+                                            <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                                 <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                         <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
@@ -908,60 +911,72 @@ if (!isset($_SESSION["userid"])) {
                                                 ?>
                                             </div>
                                         </div>
-
+                                        <!-- Comment container -->
                                         <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[0]["postid"]; ?>">
-                                            <div class="flex">
-                                                <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                    <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                </div>
-                                                <div>
-                                                    <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                        <p class="leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia aliquid hic molestiae provident eaque obcaecati eligendi explicabo distinctio dicta fuga rem asperiores itaque, dolor officiis doloribus, nobis illum assumenda et! <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                        <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                            <?php
+                                            if ($comment != null) {
+                                                for ($c = 0; $c < sizeof($comment); $c++) {
+                                                    $timer = new Timer();
+                                                    $timeAgo = $timer->timeAgo($comment[$c]["date"]);
+                                                    $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                    $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
+                                            ?>
+                                                    <div class="flex">
+                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                            <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
+                                                                <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                                            </a>
+                                                        </div>
+                                                        <div>
+                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
+                                                                <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
+                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                            </div>
+                                                            <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                                <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                                <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View replies (<?php echo $quantityRep ?>)</button>
+                                                                <span><?php echo $timeAgo ?></span>
+                                                            </div>
+                                                            <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[0]["postid"]; ?>" style="display: none;">
+                                                                <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[0]["postid"]; ?>">
+                                                                <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                                    <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[0]["postid"]; ?>">
+                                                                        <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                        <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                        <a href="#"> Replay </a>
-                                                        <span> 3d </span>
+                                                    <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="flex">
-                                                <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                    <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                </div>
-                                                <div>
-                                                    <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                        <p class="leading-6"> Test cmt 2 !<i class="uil-grin-tongue-wink-alt"></i> </p>
-                                                        <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                    </div>
-                                                    <div class="text-xs flex items-center space-x-3 mt-2 ml-5">
-                                                        <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                        <a href="#"> Replay </a>
-                                                        <span> 3d </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                            <?php
+                                                }
+                                            }
+                                            ?>
                                         </div>
-
-                                        <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-
+                                        <?php
+                                        if ($quantityCmt > 2) {
+                                        ?>
+                                            <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
+                                                View more <?php echo $quantityCmt - 2 ?> Comments
+                                            </a>
+                                        <?php
+                                        } else if ($quantityCmt < 0) {
+                                        ?>
+                                            <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
+                                        <?php
+                                        }
+                                        ?>
+                                        <div id="error_status" post-id="<?php echo $post[0]["postid"]; ?> "></div>
                                         <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                            <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
+                                            <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[0]["postid"]; ?>">
                                             <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                <a href="#">
-                                                    <ion-icon name="happy-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                </a>
-                                                <a href="#">
-                                                    <ion-icon name="image-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                </a>
-                                                <a href="#">
-                                                    <ion-icon name="link-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                </a>
+                                                <button href="#" class="add-comment-btn" post-id="<?php echo $post[0]["postid"]; ?>">
+                                                    <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                                </button>
                                             </div>
                                         </div>
-
                                     </div>
 
                                 </div>
@@ -972,583 +987,59 @@ if (!isset($_SESSION["userid"])) {
                         }
                         ?>
                     </div>
-                    <div class="lg:w-72 w-full">
 
-                        <a href="#birthdays" uk-toggle>
-                            <div class="bg-white mb-5 px-4 py-3 rounded-md shadow">
-                                <h3 class="text-line-through font-semibold mb-1"> Birthdays </h3>
-                                <div class="-mx-2 duration-300 flex hover:bg-gray-50 px-2 py-2 rounded-md">
-                                    <img src="assets/images/icons/gift-icon.png" class="w-9 h-9 mr-3" alt="">
-                                    <p class="line-clamp-2 leading-6"> <strong> Jessica Erica </strong> and <strong> two others </strong>
-                                        have a birthdays to day .
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-
-                        <h3 class="text-xl font-semibold"> Contacts </h3>
-
-                        <div class="" uk-sticky="offset:80">
-
-                            <nav class="responsive-nav border-b extanded mb-2 -mt-2">
-                                <ul uk-switcher="connect: #group-details; animation: uk-animation-fade">
-                                    <li class="uk-active"><a class="active" href="#0"> Friends <span> 310 </span> </a></li>
-                                    <li><a href="#0">Groups</a></li>
-                                </ul>
-                            </nav>
-
-                            <div class="contact-list">
-
-                                <a href="#">
-                                    <div class="contact-avatar">
-                                        <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                                        <span class="user_status status_online"></span>
-                                    </div>
-                                    <div class="contact-username">Contact 1</div>
-                                </a>
-                                <div uk-drop="pos: left-center ;animation: uk-animation-slide-left-small">
-                                    <div class="contact-list-box">
-                                        <div class="contact-avatar">
-                                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                                            <span class="user_status status_online"></span>
-                                        </div>
-                                        <div class="contact-username"> Contact 1</div>
-                                        <p>
-                                            <ion-icon name="people" class="text-lg mr-1"></ion-icon> Become friends with
-                                            <strong> Stella Johnson </strong> and <strong> 14 Others</strong>
-                                        </p>
-                                        <div class="contact-list-box-btns">
-                                            <button type="button" class="button primary flex-1 block mr-2">
-                                                <i class="uil-envelope mr-1"></i> Send message</button>
-                                            <button type="button" href="#" class="button secondary button-icon mr-2">
-                                                <i class="uil-list-ul"> </i> </button>
-                                            <button type="button" a href="#" class="button secondary button-icon">
-                                                <i class="uil-ellipsis-h"> </i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <a href="#">
-                                    <div class="contact-avatar">
-                                        <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                                        <span class="user_status"></span>
-                                    </div>
-                                    <div class="contact-username"> Contact 2</div>
-                                </a>
-                                <div uk-drop="pos: left-center ;animation: uk-animation-slide-left-small">
-                                    <div class="contact-list-box">
-                                        <div class="contact-avatar">
-                                            <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                                            <span class="user_status"></span>
-                                        </div>
-                                        <div class="contact-username"> Contact 2 </div>
-                                        <p>
-                                            <ion-icon name="people" class="text-lg mr-1"></ion-icon> Become friends with
-                                            <strong> Stella Johnson </strong> and <strong> 14 Others</strong>
-                                        </p>
-                                        <div class="contact-list-box-btns">
-                                            <button type="button" class="button primary flex-1 block mr-2">
-                                                <i class="uil-envelope mr-1"></i> Send message</button>
-                                            <button type="button" href="#" class="button secondary button-icon mr-2">
-                                                <i class="uil-list-ul"> </i> </button>
-                                            <button type="button" a href="#" class="button secondary button-icon">
-                                                <i class="uil-ellipsis-h"> </i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
                 </div>
 
             </div>
         </div>
 
     </div>
+    <!--share post-->
+    <div id="share-post-modal" style="overflow-y: scroll !important" class="create-post" uk-modal>
+        <div style="width: 600px;" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
 
-    <!-- birthdays modal -->
-    <div id="birthdays" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body rounded-xl shadow-lg">
-            <!-- close button -->
-            <button class="uk-modal-close-default p-2.5 bg-gray-100 rounded-full m-3" type="button" uk-close></button>
-
-            <div class="flex items-center space-x-3 mb-10">
-                <ion-icon name="gift" class="text-yellow-500 text-xl bg-yellow-50 p-1 rounded-md"></ion-icon>
-                <div class="text-xl font-semibold"> Today's birthdays </div>
+            <div class="text-center py-4 border-b">
+                <h3 class="text-lg font-semibold"> Share Post </h3>
+                <button id="closeModelPost" class="uk-modal-close-default bg-gray-100 rounded-full p-2.5 m-1 right-2" type="button" uk-close uk-tooltip="title: Close ; pos: bottom ;offset:7"></button>
             </div>
-
-            <div class="space-y-6">
-                <div class="sm:space-y-8 space-y-6 pb-2">
-
-                    <div class="flex items-center sm:space-x-6 space-x-3">
-                        <img src="assets/images/avatars/avatar-3.jpg" alt="" class="sm:w-16 sm:h-16 w-14 h-14 rounded-full">
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="text-base font-semibold"> <a href="#"> Alex Dolgove </a> </div>
-                                <div class="font-medium text-sm text-gray-400"> 19 years old</div>
-                            </div>
-                            <div class="relative">
-                                <input type="text" name="" id="" class="with-border" placeholder="Write her on Timeline">
-                                <ion-icon name="happy" class="absolute right-3 text-2xl top-1/4"></ion-icon>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center sm:space-x-6 space-x-3">
-                        <img src="assets/images/avatars/avatar-2.jpg" alt="" class="sm:w-16 sm:h-16 w-14 h-14 rounded-full">
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="text-base font-semibold"> <a href="#"> Stella Johnson </a> </div>
-                                <div class="font-medium text-sm text-gray-400"> 19 years old</div>
-                            </div>
-                            <div class="relative">
-                                <input type="text" name="" id="" class="with-border" placeholder="Write her on Timeline">
-                                <ion-icon name="happy" class="absolute right-3 text-2xl top-1/4"></ion-icon>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="relative cursor-pointer" uk-toggle="target: #upcoming; animation: uk-animation-fade">
-                    <div class="bg-gray-50 rounded-lg px-5 py-4 font-semibold text-base"> Upcoming birthdays </div>
-                    <i class="-translate-y-1/2 absolute icon-feather-chevron-up right-4 text-xl top-1/2 transform text-gray-400" id="upcoming" hidden></i>
-                    <i class="-translate-y-1/2 absolute icon-feather-chevron-down right-4 text-xl top-1/2 transform text-gray-400" id="upcoming"></i>
-                </div>
-                <div class="mt-5 sm:space-y-8 space-y-6" id="upcoming" hidden>
-
-                    <div class="flex items-center sm:space-x-6 space-x-3">
-                        <img src="assets/images/avatars/avatar-6.jpg" alt="" class="sm:w-16 sm:h-16 w-14 h-14 rounded-full">
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="text-base font-semibold"> <a href="#"> Erica Jones </a> </div>
-                                <div class="font-medium text-sm text-gray-400"> 19 years old</div>
-                            </div>
-                            <div class="relative">
-                                <input type="text" name="" id="" class="with-border" placeholder="Write her on Timeline">
-                                <ion-icon name="happy" class="absolute right-3 text-2xl top-1/4"></ion-icon>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center sm:space-x-6 space-x-3">
-                        <img src="assets/images/avatars/avatar-5.jpg" alt="" class="sm:w-16 sm:h-16 w-14 h-14 rounded-full">
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="text-base font-semibold"> <a href="#"> Dennis Han </a> </div>
-                                <div class="font-medium text-sm text-gray-400"> 19 years old</div>
-                            </div>
-                            <div class="relative">
-                                <input type="text" name="" id="" class="with-border" placeholder="Write her on Timeline">
-                                <ion-icon name="happy" class="absolute right-3 text-2xl top-1/4"></ion-icon>
-                            </div>
-                        </div>
-                    </div>
-
+            <div class="flex flex-1 items-start space-x-4 p-5">
+                <img src="<?php echo $userCurrent["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-11 h-11">
+                <div class="flex-1 pt-2">
+                    <textarea name="taPostShare" class="uk-textare text-black shadow-none focus:shadow-none text-xl font-medium resize-none" rows="5" placeholder="You want to share what from this article?"></textarea>
                 </div>
             </div>
-
-        </div>
-    </div>
-
-    <!-- open chat box -->
-    <div uk-toggle="target: #offcanvas-chat" class="start-chat">
-        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-        </svg>
-    </div>
-
-    <div id="offcanvas-chat" uk-offcanvas="flip: true; overlay: true">
-        <div class="uk-offcanvas-bar bg-white p-0 w-full lg:w-80 shadow-2xl">
-
-
-            <div class="relative pt-5 px-4">
-
-                <h3 class="text-2xl font-bold mb-2"> Chats </h3>
-
-                <div class="absolute right-3 top-4 flex items-center space-x-2">
-
-                    <button class="uk-offcanvas-close  px-2 -mt-1 relative rounded-full inset-0 lg:hidden blcok" type="button" uk-close></button>
-
-                    <a href="#" uk-toggle="target: #search;animation: uk-animation-slide-top-small">
-                        <ion-icon name="search" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                    </a>
-                    <a href="#">
-                        <ion-icon name="settings-outline" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                    </a>
-                    <a href="#">
-                        <ion-icon name="ellipsis-vertical" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                    </a>
-                    <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
-                        <ul class="space-y-1">
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="checkbox-outline" class="pr-2 text-xl"></ion-icon> Mark all as read
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="settings-outline" class="pr-2 text-xl"></ion-icon> Chat setting
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon> Disable notifications
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="star-outline" class="pr-2 text-xl"></ion-icon> Create a group chat
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-
-                </div>
-
-
+            <div style="text-align: center; font-family: 500;">You are sharing this article.</div>
+            <div class="share-details-card">
+                <!-- Append post share details here -->
             </div>
-
-            <div class="absolute bg-white z-10 w-full -mt-5 lg:-mt-2 transform translate-y-1.5 py-2 border-b items-center flex" id="search" hidden>
-                <input type="text" placeholder="Search.." class="flex-1">
-                <ion-icon name="close-outline" class="text-2xl hover:bg-gray-100 p-1 rounded-full mr-4 cursor-pointer" uk-toggle="target: #search;animation: uk-animation-slide-top-small"></ion-icon>
-            </div>
-
-            <nav class="responsive-nav border-b extanded mb-2 -mt-2">
-                <ul uk-switcher="connect: #chats-tab; animation: uk-animation-fade">
-                    <li class="uk-active"><a class="active" href="#0"> Friends </a></li>
-                    <li><a href="#0">Groups <span> 10 </span> </a></li>
-                </ul>
-            </nav>
-
-            <div class="contact-list px-2 uk-switcher" id="chats-tab">
-
-                <div class="p-1">
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Alex Dolgove</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Stella Johnson</div>
-                    </a>
-
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Adrian Mohani </div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Jonathan Madano</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-
-
-                </div>
-                <div class="p-1">
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Alex Dolgove</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Stella Johnson</div>
-                    </a>
-
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Adrian Mohani </div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Jonathan Madano</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-
-
+            <div class="flex items-center w-full justify-between p-3 border-t">
+                <select class="selectpicker mt-2 col-4 story">
+                    <option selected>Public</option>
+                    <option>Friend</option>
+                    <option>Private</option>
+                </select>
+                <div class="flex space-x-2">
+                    <a style="cursor: pointer; color: whitesmoke;" class="btn-share-post bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium">
+                        Share </a>
                 </div>
 
+                <a hidden class="btn-share-post bg-blue-600 flex h-9 items-center justify-center rounded-lg text-white px-12 font-semibold">
+                    Share </a>
             </div>
         </div>
     </div>
-
-    <!-- story-preview -->
-    <div class="story-prev">
-
-        <div class="story-sidebar uk-animation-slide-left-medium">
-            <div class="md:flex justify-between items-center py-2 hidden">
-                <h3 class="text-2xl font-semibold"> All Story </h3>
-                <a href="#" class="text-blue-600"> Setting</a>
+    <!-- Post details modal-->
+    <div id="post-details-modal" style="overflow-y: scroll;" class="create-post" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
+            <div class="text-center py-4 border-b">
+                <h3 class="text-lg font-semibold"> [Name]'s post </h3>
+                <button id="closeModelPost" class="uk-modal-close-default bg-gray-100 rounded-full p-2.5 m-1 right-2" type="button" uk-close uk-tooltip="title: Close ; pos: bottom ;offset:7"></button>
             </div>
-
-            <div class="story-sidebar-scrollbar" data-simplebar>
-                <h3 class="text-lg font-medium"> Your Story </h3>
-
-                <a class="flex space-x-4 items-center hover:bg-gray-100 md:my-2 py-2 rounded-lg hover:text-gray-700" href="#">
-                    <svg class="w-12 h-12 p-3 bg-gray-200 rounded-full text-blue-500 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    <div class="flex-1">
-                        <div class="text-lg font-semibold"> Create a story </div>
-                        <div class="text-sm -mt-0.5"> Share a photo or write something. </div>
-                    </div>
-                </a>
-
-                <h3 class="text-lg font-medium lg:mt-3 mt-1"> Friends Story </h3>
-
-                <div class="story-users-list" uk-switcher="connect: #story_slider ; toggle: > * ; animation: uk-animation-slide-right-medium, uk-animation-slide-left-medium ">
-
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Dennis Han</div>
-                            <p> <span class="story-count"> 2 new </span> <span class="story-time"> 4Mn ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Adrian Mohani</div>
-                            <p> <span class="story-count"> 1 new </span> <span class="story-time"> 1hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username">Alex Dolgove </div>
-                            <p> <span class="story-count"> 3 new </span> <span class="story-time"> 2hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-4.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Stella Johnson </div>
-                            <p> <span class="story-count"> 2 new </span> <span class="story-time"> 3hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Adrian Mohani </div>
-                            <p> <span class="story-count"> 1 new </span> <span class="story-time"> 4hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Dennis Han</div>
-                            <p> <span class="story-count"> 2 new </span> <span class="story-time"> 8Hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Adrian Mohani</div>
-                            <p> <span class="story-count"> 1 new </span> <span class="story-time"> 12hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username">Alex Dolgove </div>
-                            <p> <span class="story-count"> 3 new </span> <span class="story-time"> 22hr ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Stella Johnson </div>
-                            <p> <span class="story-count"> 2 new </span> <span class="story-time"> 3Dy ago</span> </p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Adrian Mohani </div>
-                            <p> <span class="story-count"> 1 new </span> <span class="story-time"> 4Dy ago</span> </p>
-                        </div>
-                    </a>
-
-
-                </div>
-
-
+            <div class="post-details-card">
+                <!-- Append post details here -->
             </div>
-
         </div>
-        <div class="story-content">
-
-            <ul class="uk-switcher uk-animation-scale-up" id="story_slider">
-                <li class="relative">
-
-                    <span uk-switcher-item="previous" class="slider-icon is-left"> </span>
-                    <span uk-switcher-item="next" class="slider-icon is-right"> </span>
-
-                    <div uk-lightbox>
-                        <a href="assets/images/avatars/avatar-lg-2.jpg" data-alt="Image">
-                            <img src="assets/images/avatars/avatar-lg-2.jpg" class="story-slider-image" data-alt="Image">
-                        </a>
-                    </div>
-
-                </li>
-                <li class="relative">
-
-                    <span uk-switcher-item="previous" class="slider-icon is-left"> </span>
-                    <span uk-switcher-item="next" class="slider-icon is-right"> </span>
-
-                    <div uk-lightbox>
-                        <a href="assets/images/avatars/avatar-lg-1.jpg" data-alt="Image">
-                            <img src="assets/images/avatars/avatar-lg-1.jpg" class="story-slider-image" data-alt="Image">
-                        </a>
-                    </div>
-
-                </li>
-                <li class="relative">
-
-                    <span uk-switcher-item="previous" class="slider-icon is-left"> </span>
-                    <span uk-switcher-item="next" class="slider-icon is-right"> </span>
-
-                    <div uk-lightbox>
-                        <a href="assets/images/avatars/avatar-lg-4.jpg" data-alt="Image">
-                            <img src="assets/images/avatars/avatar-lg-4.jpg" class="story-slider-image" data-alt="Image">
-                        </a>
-                    </div>
-
-                </li>
-
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-                <li class="relative">
-                    <div class="bg-gray-200 story-slider-placeholder shadow-none animate-pulse"> </div>
-                </li>
-            </ul>
-
-        </div>
-
-        <!-- story colose button-->
-        <span class="story-btn-close" uk-toggle="target: body ; cls: story-active" uk-tooltip="title:Close story ; pos: left">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </span>
-
     </div>
-
     <!-- For Night mode -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <?php include("./Websocket/src/Notification.php") ?>

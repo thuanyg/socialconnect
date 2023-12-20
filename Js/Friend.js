@@ -113,6 +113,14 @@ $(document).ready(function () {
         });
     });
     
+    //Unfriend
+    $(".unfriend-btn").click(function(e){
+        e.preventDefault();
+        var profileid=$(this).data("profileid");
+        if(confirm("Are you sure?")){
+            
+        }
+    })
     var number = 0;
     $(".btn-loadMore").on('click',function(e){
         e.preventDefault();

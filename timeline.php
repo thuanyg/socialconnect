@@ -1747,7 +1747,7 @@ if (!isset($_SESSION["userid"])) {
             </div>
         </div>
     </div>
-    <!--sharepost-->
+    <!--share post-->
     <div id="share-post-modal" style="overflow-y: scroll !important" class="create-post" uk-modal>
         <div style="width: 600px;" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
 

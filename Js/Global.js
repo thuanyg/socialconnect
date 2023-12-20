@@ -8,7 +8,7 @@ var notifyFetching = false;
 var offset = 10;
 var notifyOffset = 10;
 var shouldLoadMore = true;
-$("input[name='txtSearch']").on("input", function () {
+$("input[name='txtSearch']").on("keyup", function () {
     var query = $(this).val();
     $("#searchResults > :not(#search-loading)").remove();
     if (query.trim() !== "") {

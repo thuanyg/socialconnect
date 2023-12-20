@@ -5,8 +5,8 @@ include_once("Classes/timer.php");
 include_once("Classes/friend.php");
 include_once("Classes/message.php");
 include("Classes/notification.php");
-$notify = new Notification();
 session_start();
+$notify = new Notification();
 $userCurrent = null;
 if (!isset($_SESSION["userid"])) {
     header("Location: login.php");
@@ -238,147 +238,25 @@ if (!isset($_SESSION["userid"])) {
                 </div>
             </div>
         </header>
-
         <!-- sidebar -->
         <div class="sidebar">
-
-            <div class="sidebar_inner" data-simplebar>
-
+            <div class="sidebar_inner btn-action" data-simplebar>
+                <h3 class="side-title" style="font-size: 25px; "> Search results </h3>
+                <h2 class="side-title"> Filters </h2>
                 <ul>
-                    <li><a href="timeline.php">
-                            <div class="user_avatar">
-                                <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="avatar" style="width: 35px; border-radius: 50%; margin-right: 15px;">
-                            </div>
-                            <span> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </span>
-                        </a>
+                    <li class=" btn-search-results"><a href="">
+                            <span> All </span> </a>
                     </li>
-                    <li class="active"><a href="feed.php">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-600">
-                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                            </svg>
-                            <span> Feed </span> </a>
+                    <li class=" btn-search-friend"><a href="">
+                            <span> Friends </span> </a>
                     </li>
-                    <li><a href="friends.php">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-500">
-                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-                            </svg><span> Friends </span></a>
-                    </li>
-                    <li><a href="chats-friend.php">
-                            <img src="./assets/images/chat.png" alt="" style="width: 26px; margin-right: 8px">
-                            <span> Messages </span></a>
-                    </li>
-                    <li><a href="albums.php">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-purple-500">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
-                            </svg> <span> Photos </span></a>
-                    </li>
-                    <!-- <li><a href="videos.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8v2h1v-2h-1zm-2-2H7v4h6v-4zm2 0h1V9h-1v2zm1-4V5h-1v2h1zM5 5v2H4V5h1zm0 4H4v2h1V9zm-1 4h1v2H4v-2z" clip-rule="evenodd" />
-                            </svg>
-                            <span> Video</span></a>
-                    </li>
-                    <li id="more-veiw" hidden><a href="products.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
-                                <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
-                            </svg>
-                            <span> Products</span></a>
-                    </li> -->
-
-                    <li id="more-veiw" hidden><a href="birthdays.php">
-                            <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path>
-                                <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path>
-                            </svg>
-                            <span> Birthdays </span> <span class="new">N</span></a>
+                    <li class="btn-search-post"><a href="">
+                            <span> Posts</span></a>
                     </li>
                 </ul>
-
-                <a href="#" class="see-mover h-10 flex my-1 pl-2 rounded-xl text-gray-600" uk-toggle="target: #more-veiw; animation: uk-animation-fade">
-                    <span class="w-full flex items-center" id="more-veiw">
-                        <svg class="  bg-gray-100 mr-2 p-0.5 rounded-full text-lg w-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                        See More
-                    </span>
-                    <span class="w-full flex items-center" id="more-veiw" hidden>
-                        <svg class="bg-gray-100 mr-2 p-0.5 rounded-full text-lg w-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                        See Less
-                    </span>
-                </a>
-
-                <h3 class="side-title"> Contacts </h3>
-
-                <div class="contact-list my-2 ml-1">
-                    <?php
-                    if ($friends != null) {
-                        for ($i = 0; $i < sizeof($friends); $i++) {
-                            $friend = $user->getUser($friends[$i]["friend_id"]);
-                    ?>
-                            <a href="chats-friend.php?uid=<?php echo $friend["userid"] ?>">
-                                <div class="contact-avatar">
-                                    <img src="<?php echo $friend["avatar_image"] ?>" alt="avatar">
-                                    <span class="user_status status_online"></span>
-                                </div>
-                                <div class="contact-username">
-                                    <?php echo $friend["first_name"] . " " . $friend["last_name"] ?>
-                                </div>
-                            </a>
-                    <?php
-                        }
-                    }
-                    ?>
-
-                </div>
-
-                <ul class="side_links" data-sub-title="Actions">
-
-
-                    <li><a href="page-setting.php"> <ion-icon name="settings-outline" class="side-icon"></ion-icon> <span>
-                                Setting </span> </a>
-
-                    </li>
-                    <!-- <li><a href="#"> <ion-icon name="document-outline" class="side-icon"></ion-icon> <span> Create
-                                Content </span> </a>
-                        <ul>
-                            <li><a href="create-group.html"> Create Group </a></li>
-                            <li><a href="create-page.html"> Create Page </a></li>
-                        </ul>
-                    </li> -->
-                    <li><a href="#"> <ion-icon name="code-slash-outline" class="side-icon"></ion-icon> <span>
-                                Development </span> </a>
-                        <ul>
-                            <li><a href="development-components.html"> Compounents </a></li>
-                            <li><a href="development-plugins.html"> Plugins </a></li>
-                            <li><a href="development-icons.html"> Icons </a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#"> <ion-icon name="log-in-outline" class="side-icon"></ion-icon> <span> Authentication
-                            </span> </a>
-                        <ul>
-                            <li><a href="form-register.php">Form Sign-up </a></li>
-                            <li><a href="logout.php">Logout</a></li>
-                        </ul>
-                    </li>
-
-                </ul>
-
-                <div class="footer-links">
-                    <a href="#">About</a>
-                    <a href="#">Careers</a>
-                    <a href="#">Support</a>
-                    <a href="#">Contact Us </a>
-                    <a href="#">Developer</a>
-                    <a href="#">Terms of service</a>
-                </div>
-
             </div>
-
             <!-- sidebar overly for mobile -->
             <div class="side_overly" uk-toggle="target: #wrapper ; cls: is-collapse is-active"></div>
-
         </div>
         <!-- Main Contents -->
         <div class="main_content">
@@ -414,6 +292,53 @@ if (!isset($_SESSION["userid"])) {
             </div>
         </div>
 
+    </div>
+    <!--share post-->
+    <div id="share-post-modal" style="overflow-y: scroll !important" class="create-post" uk-modal>
+        <div style="width: 600px;" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
+
+            <div class="text-center py-4 border-b">
+                <h3 class="text-lg font-semibold"> Share Post </h3>
+                <button id="closeModelPost" class="uk-modal-close-default bg-gray-100 rounded-full p-2.5 m-1 right-2" type="button" uk-close uk-tooltip="title: Close ; pos: bottom ;offset:7"></button>
+            </div>
+            <div class="flex flex-1 items-start space-x-4 p-5">
+                <img src="<?php echo $userCurrent["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-11 h-11">
+                <div class="flex-1 pt-2">
+                    <textarea name="taPostShare" class="uk-textare text-black shadow-none focus:shadow-none text-xl font-medium resize-none" rows="5" placeholder="You want to share what from this article?"></textarea>
+                </div>
+            </div>
+            <div style="text-align: center; font-family: 500;">You are sharing this article.</div>
+            <div class="share-details-card">
+                <!-- Append post share details here -->
+            </div>
+            <div class="flex items-center w-full justify-between p-3 border-t">
+                <select class="selectpicker mt-2 col-4 story">
+                    <option selected>Public</option>
+                    <option>Friend</option>
+                    <option>Private</option>
+                </select>
+                <div class="flex space-x-2">
+                    <a style="cursor: pointer; color: whitesmoke;" class="btn-share-post bg-blue-600 flex h-9 items-center justify-center rounded-md text-white px-5 font-medium">
+                        Share </a>
+                </div>
+
+                <a hidden class="btn-share-post bg-blue-600 flex h-9 items-center justify-center rounded-lg text-white px-12 font-semibold">
+                    Share </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post details modal-->
+    <div id="post-details-modal" style="overflow-y: scroll;" class="create-post" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
+            <div class="text-center py-4 border-b">
+                <h3 class="text-lg font-semibold"> [Name]'s post </h3>
+                <button id="closeModelPost" class="uk-modal-close-default bg-gray-100 rounded-full p-2.5 m-1 right-2" type="button" uk-close uk-tooltip="title: Close ; pos: bottom ;offset:7"></button>
+            </div>
+            <div class="post-details-card">
+                <!-- Append post details here -->
+            </div>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <?php include("./Websocket/src/Notification.php") ?>
