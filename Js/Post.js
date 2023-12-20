@@ -763,6 +763,7 @@ function createReplyComment(commentID, postID, userID, msg) {
             var commentData = JSON.parse(response);
             console.log(commentData);
             $.each(commentData, function (key, value) {
+                $(".view-reply-btn[commentid='" + commentID + "']").text("View replies (" + value.totalCommentr + ")");
                 var time = timeAgo(value.cmt["date"]);
                 $(".reply-comment-msg[commentid='" + commentID + "']").append('<div class="flex" >\
                 <div class="w-10 h-10 rounded-full relative flex-shrink-0 ml-8">\

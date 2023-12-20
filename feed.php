@@ -695,8 +695,8 @@ if (!isset($_SESSION["userid"])) {
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="1">View replies (<?php echo $quantityRep ?>)</button>                                                                    
+                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>                                                                 
+                                                                    <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View replies (<?php echo $quantityRep ?>)</button>                                                                    
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
                                                                 <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
@@ -1033,7 +1033,7 @@ if (!isset($_SESSION["userid"])) {
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
                                                                     <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="1">View replies (<?php echo $quantityRep ?>)</button>                                                                    
+                                                                    <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View replies (<?php echo $quantityRep ?>)</button>                                                                    
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
                                                                 <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
