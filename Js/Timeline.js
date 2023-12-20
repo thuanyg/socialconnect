@@ -352,10 +352,11 @@ $('.btn-edit-about-image').on('click', function (e) {
 
 $(".save-edit-about-image").on('click', async function (e) {
     e.preventDefault();
-
+    
     var formImages = $("form[name='fanhAbout']");
     var imagesNew = await UploadAboutImgToServer(formImages);
     var media = imagesNew.concat(filesAfter);
+    
     if (media.length <= 4) {
         //console.log(media)
         $.ajax({
@@ -376,8 +377,10 @@ $(".save-edit-about-image").on('click', async function (e) {
             }
         })
     } else {
+        $(".closeModal").click();
         showNotification("Chỉ được chọn tối đa 4 ảnh!");
         DeleteFilesFromServer(imagesNew);
+        
     }
 
 })
@@ -403,25 +406,37 @@ function DeleteOldFiles(btn) {
     }
     console.log(filesDeleted);
 }
-$(".see-all-btn").on('click', async function (e) {
+$(".see-all-btn").on('click', function (e) {
     e.preventDefault();
-
-   
-    var userid = $("input[name='userid']").val();
-   
-    //console.log(imagesNew)
     $.ajax({
         url: "Ajax/Friend.php",
         type: "POST",
         data: {
-            userid: userid,
-            
+            userid: userID,
             action: "see-all-btn"
         },
         success: function (response) {
-           $(".show-friend").html(response);
+            $(".show-friend").html(response);
         }
     })
-
+})
+// Delete account
+$(".delete-account-btn").on('click', function (e) {
+    e.preventDefault();
+    if (confirm("Bạn chắc chắn muốn xóa tài khoản này? Chúng tôi sẽ xóa vĩnh viễn và bạn sẽ không thể phục hồi")) {
+        $.ajax({
+            url: "Ajax/User.php",
+            type: "POST",
+            data: {
+                userid: userID,
+                action: "delete-account"
+            },
+            success: function (response){
+                if(response.trim() == 1){
+                    window.location.href = "login.php"
+                }
+            }
+        })
+    }
 })
 

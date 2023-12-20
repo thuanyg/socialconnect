@@ -167,7 +167,7 @@ class Post
             return $result;
         } else return null;
     }
-    function getAllPostPublic()
+    function getAllPost()
     {
         // $sql = "select * from posts where privacy = 'public' Order by date desc limit 5";
         $sql = "SELECT id, postid, MAX(userid) AS userid, MAX(post_share_id) AS post_share_id, MAX(date) AS date, MAX(post) AS post, MAX(has_image) AS has_image, MAX(has_video) AS has_video, MAX(media) AS media, MAX(privacy) AS privacy, MAX(type) AS type
@@ -179,7 +179,6 @@ class Post
         
             SELECT id, postid, userid, NULL AS post_share_id, date, post, has_image, has_video, media, privacy, 'post' as type
             FROM posts
-            WHERE privacy = 'Public' OR privacy = 'Friend'
         ) AS combined
         GROUP BY postid
         ORDER BY MAX(date) DESC limit 5;";
@@ -342,7 +341,36 @@ class Post
             return $result;
         }else return 1;
     }
-
+    public function getReplyComment($commentid){
+        $DB = new Database();
+        $sql = "SELECT * from comment_reply where comment_id =$commentid order by date desc limit 1";
+        $result = $DB->query($sql);
+        if ($result) {
+            return $result;
+        } else {
+            return null;
+        }
+    }
+    public function getQuantityReplyComment($commentid){
+        $DB = new Database();
+        $sql = "SELECT count(*) as 'total' from comment_reply where comment_id = $commentid";
+        $result = $DB->query($sql);
+        if ($result) {
+            return $result;
+        } else {
+            return null;
+        }
+    }
+    public function getReplyCommentToLoad($commentid, $offset){
+        $DB = new Database();
+        $sql = "SELECT * from comment_reply where comment_id = $commentid order by date desc limit 20 offset $offset";
+        $result = $DB ->Query($sql);
+        if ($result) {
+            return $result;
+        } else {
+            return null;
+        }
+    } 
     //Edit post
     function updatePost($postid, $data)
     {

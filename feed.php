@@ -16,7 +16,7 @@ if (!isset($_SESSION["userid"])) {
     $user = new User();
     $userCurrent = $user->getUser($_SESSION["userid"]); // Return Array (userCurrent = result[0])
     $p = new Post();
-    $post = $p->getAllPostPublic();
+    $post = $p->getAllPost();
     $f = new Friend();
     $friends = $f->getListFriend($userCurrent["userid"]);
 }
@@ -113,118 +113,6 @@ if (!isset($_SESSION["userid"])) {
                     <div class="right_side">
 
                         <div class="header_widgets">
-                            <a href="#" class="is_icon" uk-tooltip="title: Cart">
-                                <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
-                                </svg>
-                            </a>
-                            <div uk-drop="mode: click" class="header_dropdown dropdown_cart">
-
-                                <div class="drop_headline">
-                                    <h4> My Cart </h4>
-                                    <a href="#" class="btn_action hover:bg-gray-100 mr-2 px-2 py-1 rounded-md underline"> Checkout </a>
-                                </div>
-
-                                <ul class="dropdown_cart_scrollbar" data-simplebar>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/2.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Wireless headphones </div>
-                                            <p class="text-sm">Type Accessories </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $14.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/13.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Parfum Spray</div>
-                                            <p class="text-sm">Type Parfums </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $16.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/15.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Herbal Shampoo </div>
-                                            <p class="text-sm">Type Herbel </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $12.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/14.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Wood Chair </div>
-                                            <p class="text-sm">Type Furniture </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $19.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/9.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Strawberries FreshRipe </div>
-                                            <p class="text-sm">Type Fruit </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $12.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/2.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Wireless headphones </div>
-                                            <p class="text-sm">Type Accessories </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $14.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart_avatar">
-                                            <img src="assets/images/product/13.jpg" alt="">
-                                        </div>
-                                        <div class="cart_text">
-                                            <div class=" font-semibold leading-4 mb-1.5 text-base line-clamp-1"> Parfum Spray</div>
-                                            <p class="text-sm">Type Parfums </p>
-                                        </div>
-                                        <div class="cart_price">
-                                            <span> $16.99 </span>
-                                            <button class="type"> Remove</button>
-                                        </div>
-                                    </li>
-                                </ul>
-
-                                <div class="cart_footer">
-                                    <p> Subtotal : $ 320 </p>
-                                    <h1> Total : <strong> $ 320</strong> </h1>
-                                </div>
-                            </div>
-
                             <a href="#" class="is_icon notification-btn" uk-tooltip="title: Notifications">
                                 <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
@@ -389,7 +277,7 @@ if (!isset($_SESSION["userid"])) {
                                 <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
                             </svg> <span> Photos </span></a>
                     </li>
-                    <li><a href="videos.html">
+                    <!-- <li><a href="videos.html">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
                                 <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8v2h1v-2h-1zm-2-2H7v4h6v-4zm2 0h1V9h-1v2zm1-4V5h-1v2h1zM5 5v2H4V5h1zm0 4H4v2h1V9zm-1 4h1v2H4v-2z" clip-rule="evenodd" />
                             </svg>
@@ -400,7 +288,7 @@ if (!isset($_SESSION["userid"])) {
                                 <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
                             </svg>
                             <span> Products</span></a>
-                    </li>
+                    </li> -->
 
                     <li id="more-veiw" hidden><a href="birthdays.php">
                             <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -547,6 +435,7 @@ if (!isset($_SESSION["userid"])) {
                                 $isFriendCondition = ($isFriend == 1 && $post[$i]['privacy'] == "Friend");
                                 $isFriendPrivacy = $post[$i]['privacy'] == "Friend";
                                 $isPublicCondition = $post[$i]['privacy'] == "Public";
+                                $isPrivateCondition = $post[$i]['privacy'] == "Private";
                                 $isPostCondition = $post[$i]['type'] == "post";
                                 $isPostShareCondition = $post[$i]['type'] == "share";
                                 $isOwnPostCondition = $post[$i]['userid'] == $userCurrent["userid"];
@@ -583,12 +472,18 @@ if (!isset($_SESSION["userid"])) {
                                                             <ion-icon name="earth"></ion-icon>
                                                         <?php
                                                         }
-                                                        if ($isFriendPrivacy) {
+                                                        if ($isFriendCondition) {
                                                         ?>
                                                             <ion-icon name="people"></ion-icon>
                                                         <?php
                                                         }
+                                                        if ($isPrivateCondition) {
                                                         ?>
+                                                            <ion-icon name="lock-closed"></ion-icon>
+                                                        <?php
+                                                        }
+                                                        ?>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -727,7 +622,7 @@ if (!isset($_SESSION["userid"])) {
                                                                                             echo "blue"; ?>"> Like <?php if (count($like) > 0)
                                                                                                                         echo "<span>(" . count($like) . ")</span>" ?> </div>
                                                 </button>
-                                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -784,6 +679,7 @@ if (!isset($_SESSION["userid"])) {
                                                         $timer = new Timer();
                                                         $timeAgo = $timer->timeAgo($comment[$c]["date"]);
                                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
                                                 ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
@@ -800,7 +696,7 @@ if (!isset($_SESSION["userid"])) {
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
                                                                     <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
+                                                                    <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="1">View replies (<?php echo $quantityRep ?>)</button>                                                                    
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
                                                                 <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
@@ -812,6 +708,8 @@ if (!isset($_SESSION["userid"])) {
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
                                                         </div>
                                                 <?php
                                                     }
@@ -877,9 +775,14 @@ if (!isset($_SESSION["userid"])) {
                                                             <ion-icon name="earth"></ion-icon>
                                                         <?php
                                                         }
-                                                        if ($isFriendPrivacy) {
+                                                        if ($isFriendCondition) {
                                                         ?>
                                                             <ion-icon name="people"></ion-icon>
+                                                        <?php
+                                                        }
+                                                        if ($isPrivateCondition) {
+                                                        ?>
+                                                            <ion-icon name="lock-closed"></ion-icon>
                                                         <?php
                                                         }
                                                         ?>
@@ -1042,7 +945,7 @@ if (!isset($_SESSION["userid"])) {
                                                 }
                                             }
                                             ?>
-                                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
+                                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
                                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0)
@@ -1056,7 +959,7 @@ if (!isset($_SESSION["userid"])) {
                                                                                             echo "blue"; ?>"> Like <?php if (count($like) > 0)
                                                                                                                         echo "(" . count($like) . ")" ?> </div>
                                                 </button>
-                                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -1113,6 +1016,7 @@ if (!isset($_SESSION["userid"])) {
                                                         $timer = new Timer();
                                                         $timeAgo = $timer->timeAgo($comment[$c]["date"]);
                                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
                                                 ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
@@ -1129,7 +1033,7 @@ if (!isset($_SESSION["userid"])) {
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
                                                                     <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
+                                                                    <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="1">View replies (<?php echo $quantityRep ?>)</button>                                                                    
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
                                                                 <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
@@ -1141,6 +1045,8 @@ if (!isset($_SESSION["userid"])) {
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
                                                         </div>
                                                 <?php
                                                     }
@@ -1217,8 +1123,8 @@ if (!isset($_SESSION["userid"])) {
                             </div>
                         </a>
                         <div>
-                            <h3 style="display: inline-block; padding-right: 45px;" class="text-xl font-semibold"> Friend requests</h3>
-                            <a style="color: #2563eb" class="see-all-friend-request" href="#">See All</a>
+                            <h3 style="display: inline-block; padding-right: 42px;" class="text-xl font-semibold"> Friend requests</h3>
+                            <a style="color: #2563eb" class="see-all-friend-request" href="friends.php#friend-request">See All</a>
                         </div>
                         <div class="">
                             <div class="contact-list">
@@ -1239,8 +1145,8 @@ if (!isset($_SESSION["userid"])) {
                                             </div>
                                         </a>
                                         <div style="text-align: center;">
-                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="height: 35px;" type="button" class="confirm-req button primary flex-1 block mr-1"> Confirm </button>
-                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="background-color: #97A5B8; height: 35px" type="button" class="delete-req button primary flex-1 block mr-1"> Delete </button>
+                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="height: 30px;" type="button" class="confirm-req button primary flex-1 block mr-1"> Confirm </button>
+                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="background-color: #97A5B8; height: 30px" type="button" class="delete-req button primary flex-1 block mr-1"> Delete </button>
                                         </div>
                                         <div uk-drop="pos: left-center ;animation: uk-animation-slide-left-small">
                                             <div class="contact-list-box">
@@ -1723,7 +1629,7 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <?php include("./Websocket/src/Notification.php") ?>
     <script>
-        
+
     </script>
     <!-- Javascript
     ================================================== -->

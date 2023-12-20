@@ -186,7 +186,7 @@ $(".notification-btn").on("click", function (e) {
                     $(".list-notification").empty();
                     data.forEach(item => {
                         var status = (item.isRead == "1") ? "" : "un-read";
-                        var htmlLike = `<li class="${status}">
+                        var htmlLike = `<li class="${status} notify-item">
                                             <a href="post.php?p=${item.related_object_id}">
                                                 <div class="drop_avatar"> <img src="${item.sender.avatar_image}" alt=""></div>
                                                     <div class="drop_text">
@@ -383,7 +383,7 @@ $(document).on("click", ".btn-remove-notification", function (e) {
         },
         success: function (response) {
             if (response.trim() == "1") {
-                if(notifyItem.hasClass("un-read")){
+                if (notifyItem.hasClass("un-read")) {
                     var currentNum = Number(notifyUnreadNumber.text());
                     switch (currentNum) {
                         case 1:
@@ -402,7 +402,7 @@ $(document).on("click", ".btn-remove-notification", function (e) {
 })
 
 // Confirm friend request
-$(".confirm-req").click(function(e) {
+$(".confirm-req").click(function (e) {
     e.preventDefault();
     var reqID = $(this).data("request-id");
     $.ajax({
@@ -412,7 +412,27 @@ $(".confirm-req").click(function(e) {
             userid: reqID,
             action: "accept-request"
         },
-        success: function(data) {
+        success: function (data) {
+            if (data.trim() != "") {
+                window.location.reload();
+            }
+        }
+    })
+
+})
+
+// Delete friend request
+$(".delete-req").click(function (e) {
+    e.preventDefault();
+    var reqID = $(this).data("request-id");
+    $.ajax({
+        url: "Ajax/Friend.php",
+        type: "POST",
+        data: {
+            userid: reqID,
+            action: "delete-request"
+        },
+        success: function (data) {
             if (data.trim() != "") {
                 window.location.reload();
             }
@@ -452,5 +472,11 @@ $(document).on("click", ".options-notify-button", function (e) {
     var listOption = $(this).next();
     if (listOption.hasClass("active")) {
         listOption.removeClass("active");
-    } else listOption.addClass("active");
+        $(this).parent().css("height","61px");
+        $(".notification-content").css("height", "auto")
+    } else {
+        $(".notification-content").css("height", "100vh")
+        listOption.addClass("active");
+        $(this).parent().css("height","185px");
+    }
 })
