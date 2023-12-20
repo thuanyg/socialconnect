@@ -103,5 +103,14 @@
             }
             echo json_encode($result);
         }
+        if($_POST["action"]=="delete-account"){
+            $userid = $_POST["userid"];
+            $u = new User();
+            $result = $u->deleteAccount($userid);
+            if($result){
+                unset($_SESSION["userid"]);
+            }
+            echo $result;
+        }
     }
 ?>

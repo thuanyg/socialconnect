@@ -420,6 +420,26 @@ $(".confirm-req").click(function(e) {
     })
 
 })
+
+// Delete friend request
+$(".delete-req").click(function(e) {
+    e.preventDefault();
+    var reqID = $(this).data("request-id");
+    $.ajax({
+        url: "Ajax/Friend.php",
+        type: "POST",
+        data: {
+            userid: reqID,
+            action: "delete-request"
+        },
+        success: function(data) {
+            if (data.trim() != "") {
+                window.location.reload();
+            }
+        }
+    })
+
+})
 function timeAgo(dateString) {
     const currentDate = new Date();
     const pastDate = new Date(dateString);

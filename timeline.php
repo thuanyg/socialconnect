@@ -188,7 +188,7 @@ if (!isset($_SESSION["userid"])) {
                             <h4 class="search_title"> Results/Recently</h4>
                             <ul id="searchResults">
                                 <div id="search-loading" style="display: none;">
-                                <div id="wifi-loader">
+                                    <div id="wifi-loader">
                                         <svg class="circle-outer" viewBox="0 0 86 86">
                                             <circle class="back" cx="43" cy="43" r="40"></circle>
                                             <circle class="front" cx="43" cy="43" r="40"></circle>
@@ -644,9 +644,6 @@ if (!isset($_SESSION["userid"])) {
                                 <li><a href="#">Timeline</a></li>
                                 <li><a href="#">Friends <span><?php echo $f->getQuantityFriend($userCurrent["userid"]) ?></span> </a></li>
                                 <li><a href="#" onclick="showImageOfYou()">Photos </a></li>
-                                <li><a href="#">Pages</a></li>
-                                <li><a href="#">Groups</a></li>
-                                <li><a href="#">Videos</a></li>
                             </ul>
                         </nav>
 
@@ -691,7 +688,7 @@ if (!isset($_SESSION["userid"])) {
                                         <hr class="-mx-2 my-2 dark:border-gray-800">
                                     </li>
                                     <li>
-                                        <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-50 hover:text-red-500 rounded-md dark:hover:bg-red-600">
+                                        <a href="#" class="delete-account-btn flex items-center px-3 py-2 text-red-500 hover:bg-red-50 hover:text-red-500 rounded-md dark:hover:bg-red-600">
                                             <ion-icon name="stop-circle-outline" class="pr-2 text-xl"></ion-icon> Delete account
                                         </a>
                                     </li>
@@ -926,7 +923,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </div>
                                                         <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                                     </button>
-                                                    <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                                    <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                                 <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -934,7 +931,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </div>
                                                         <div> Comment</div>
                                                     </a>
-                                                    <a href="#"  uk-toggle="target: #share-post-modal"  class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
+                                                    <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                                 <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
@@ -1233,7 +1230,7 @@ if (!isset($_SESSION["userid"])) {
                                                     }
                                                 }
                                                 ?>
-                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
+                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
                                                     <button type="button" class="like-post-btn flex items-center space-x-2">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
@@ -1243,7 +1240,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </div>
                                                         <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                                     </button>
-                                                    <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                                    <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                                 <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -1401,16 +1398,16 @@ if (!isset($_SESSION["userid"])) {
                                             Live In <strong> <?php echo $about["address"] ?> </strong>
                                         </li>
                                     <?php
-                                    }else {
+                                    } else {
                                     ?>
                                         <li class="flex items-center space-x-2">
                                             <ion-icon name="home"></ion-icon>
                                             <!-- <ion-icon name="home" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
-                                            Live In 
+                                            Live In
                                         </li>
                                     <?php
                                     }
-                                    if ($about != null && $about["birthday"] !=NULL) {
+                                    if ($about != null && $about["birthday"] != NULL) {
                                         $formattedDate = date("d-m-Y", strtotime($about["birthday"]));
                                     ?>
                                         <li class="flex items-center space-x-2">
@@ -1418,7 +1415,7 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Birthday <strong> <?php echo $formattedDate ?> </strong>
                                         <?php
-                                    }else {
+                                    } else {
                                         echo '<li class="flex items-center space-x-2">
                                         <ion-icon name="calendar"></ion-icon>
                                         <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
@@ -1431,7 +1428,7 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Education <strong> <?php echo $about["edu"] ?> </strong>
                                         <?php
-                                    }else{
+                                    } else {
                                         echo '<li class="flex items-center space-x-2">
                                         <ion-icon name="school"></ion-icon>
                                         <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
@@ -1444,7 +1441,7 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="information-circle" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Bio <strong> <?php echo $about["desc"] ?> </strong>
                                         <?php
-                                    }else{
+                                    } else {
                                         echo '<li class="flex items-center space-x-2">
                                         <ion-icon name="planet"></ion-icon>
                                         <!-- <ion-icon name="information-circle" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
@@ -1517,64 +1514,7 @@ if (!isset($_SESSION["userid"])) {
                             </div>
 
                             <div class="widget card p-5 border-t">
-                                <div class="flex items-center justify-between mb-2">
-                                    <div>
-                                        <h4 class="text-lg font-semibold"> Groups </h4>
-                                    </div>
-                                    <a href="#" class="text-blue-600 "> See all</a>
-                                </div>
-                                <!-- <div>
 
-                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
-                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
-                                            <img src="assets/images/group/group-3.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Graphic Design </a>
-                                            <div class="text-sm text-gray-500 mt-0.5"> 345K Following</div>
-                                        </div>
-                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
-                                            Join
-                                        </a>
-                                    </div>
-                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
-                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
-                                            <img src="assets/images/group/group-4.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Mountain Riders </a>
-                                            <div class="text-sm text-gray-500 mt-0.5"> 452k Following </div>
-                                        </div>
-                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
-                                            Join
-                                        </a>
-                                    </div>
-                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
-                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
-                                            <img src="assets/images/group/group-2.jpg" class="absolute w-full h-full inset-0" alt="">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Coffee Addicts </a>
-                                            <div class="text-sm text-gray-500 mt-0.5"> 845K Following</div>
-                                        </div>
-                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
-                                            Join
-                                        </a>
-                                    </div>
-                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
-                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
-                                            <img src="assets/images/group/group-1.jpg" class="absolute w-full h-full inset-0" alt="">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Architecture </a>
-                                            <div class="text-sm text-gray-500 mt-0.5"> 237K Following</div>
-                                        </div>
-                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
-                                            Join
-                                        </a>
-                                    </div>
-
-                                </div> -->
                             </div>
 
                         </div>
@@ -1639,8 +1579,8 @@ if (!isset($_SESSION["userid"])) {
                             ?>
                         </div>
                         <div class="flex justify-center mt-6">
-                            <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
-                                Load more ..</a>
+                            <a href="friends.php#all-friend" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
+                                View All</a>
                         </div>
 
                     </div>
@@ -1737,547 +1677,12 @@ if (!isset($_SESSION["userid"])) {
                             </div>
                         </div>
                     </div>
-                    <!-- Pages  -->
-                    <div class="card md:p-6 p-2 max-w-3xl mx-auto">
-
-                        <h2 class="text-xl font-bold"> Pages</h2>
-                        <nav class="responsive-nav border-b md:m-0 -mx-4">
-                            <ul>
-                                <li class="active"><a href="#" class="lg:px-2"> Following </a></li>
-                                <li><a href="#" class="lg:px-2"> Newest </a></li>
-                                <li><a href="#" class="lg:px-2"> My pages</a></li>
-                                <li><a href="#" class="lg:px-2"> Suggestions</a></li>
-                            </ul>
-                        </nav>
-
-                        <div class="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 mt-5">
-
-                            <div class="card">
-                                <a href="timeline-page.html">
-                                    <img src="assets/images/avatars/avatar-4.jpg" class="h-36 object-cover rounded-t-md shadow-sm w-full">
-                                </a>
-                                <div class="p-3">
-                                    <a href="timeline-page.html" class="text-base font-semibold mb-0.5"> John Michael </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-gray-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md  text-sm">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <a href="timeline-page.html">
-                                    <img src="assets/images/avatars/avatar-3.jpg" class="h-36 object-cover rounded-t-md shadow-sm w-full">
-                                </a>
-                                <div class="p-3">
-                                    <a href="timeline-page.html" class="text-base font-semibold mb-0.5">
-                                        Alex Dolgove </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-gray-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md  text-sm">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <a href="timeline-page.html">
-                                    <img src="assets/images/avatars/avatar-5.jpg" class="h-36 object-cover rounded-t-md shadow-sm w-full">
-                                </a>
-                                <div class="p-3">
-                                    <a href="timeline-page.html" class="text-base font-semibold mb-0.5"> Dennis Han </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-gray-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md  text-sm">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <a href="timeline-page.html">
-                                    <img src="assets/images/avatars/avatar-7.jpg" class="h-36 object-cover rounded-t-md shadow-sm w-full">
-                                </a>
-                                <div class="p-3">
-                                    <a href="timeline-page.html" class="text-base font-semibold mb-0.5"> Monroe Parker </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-gray-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md  text-sm">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <a href="timeline-page.html">
-                                    <img src="assets/images/avatars/avatar-6.jpg" class="h-36 object-cover rounded-t-md shadow-sm w-full">
-                                </a>
-                                <div class="p-3">
-                                    <a href="timeline-page.html" class="text-base font-semibold mb-0.5"> Erica Jones </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-gray-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md  text-sm">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <a href="timeline-page.html">
-                                    <img src="assets/images/avatars/avatar-2.jpg" class="h-36 object-cover rounded-t-md shadow-sm w-full">
-                                </a>
-                                <div class="p-3">
-                                    <a href="timeline-page.html" class="text-base font-semibold mb-0.5"> Stella Johnson</a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-gray-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md  text-sm">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <a href="timeline-page.html">
-                                    <img src="assets/images/avatars/avatar-4.jpg" class="h-36 object-cover rounded-t-md shadow-sm w-full">
-                                </a>
-                                <div class="p-3">
-                                    <a href="timeline-page.html" class="text-base font-semibold mb-0.5"> John Michael </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-gray-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md  text-sm">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <a href="timeline-page.html">
-                                    <img src="assets/images/avatars/avatar-3.jpg" class="h-36 object-cover rounded-t-md shadow-sm w-full">
-                                </a>
-                                <div class="p-3">
-                                    <a href="timeline-page.html" class="text-base font-semibold mb-0.5">
-                                        Alex Dolgove </a>
-                                    <p class="font-medium text-sm">843K Following </p>
-                                    <button class="bg-gray-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md  text-sm">
-                                        Following
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="flex justify-center mt-6">
-                            <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
-                                Load more ..</a>
-                        </div>
-
-                    </div>
-
-                    <!-- Groups  -->
-                    <div class="card md:p-6 p-2 max-w-3xl mx-auto">
-
-                        <div class="flex justify-between items-start relative md:mb-4 mb-3">
-                            <div class="flex-1">
-                                <h2 class="text-xl font-bold"> Groups </h2>
-                                <nav class="responsive-nav style-2 md:m-0 -mx-4">
-                                    <ul>
-                                        <li class="active"><a href="#"> Joined <span> 230</span> </a></li>
-                                        <li><a href="#"> My Groups </a></li>
-                                        <li><a href="#"> Discover </a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                            <a href="create-group.html" data-tippy-placement="left" data-tippy="" data-original-title="Create New Album" class="bg-blue-100 font-semibold py-2 px-6 rounded-md text-sm md:mt-0 mt-3 text-blue-600">
-                                Create
-                            </a>
-                        </div>
-
-                        <div class="grid md:grid-cols-2  grid-cols-2 gap-x-2 gap-y-4 mt-3">
-
-                            <div class="flex items-center flex-col md:flex-row justify-center p-4 rounded-md shadow hover:shadow-md md:space-x-4">
-                                <a href="timeline-group.html" iv="" class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-full relative">
-                                    <img src="assets/images/group/group-3.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                </a>
-                                <div class="flex-1">
-                                    <a href="timeline-page.html" class="text-base font-semibold capitalize">Graphic Design </a>
-                                    <div class="text-sm text-gray-500"> 54 mutual friends </div>
-                                </div>
-                                <button class="bg-gray-100 font-semibold py-2 px-3 rounded-md text-sm md:mt-0 mt-3">
-                                    Following
-                                </button>
-                            </div>
-                            <div class="flex items-center flex-col md:flex-row justify-center p-4 rounded-md shadow hover:shadow-md md:space-x-4">
-                                <a href="timeline-group.html" iv="" class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-full relative">
-                                    <img src="assets/images/group/group-4.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                </a>
-                                <div class="flex-1">
-                                    <a href="timeline-page.html" class="text-base font-semibold capitalize"> Mountain Riders </a>
-                                    <div class="text-sm text-gray-500"> 54 mutual friends </div>
-                                </div>
-                                <button class="bg-gray-100 font-semibold py-2 px-3 rounded-md text-sm md:mt-0 mt-3">
-                                    Following
-                                </button>
-                            </div>
-                            <div class="flex items-center flex-col md:flex-row justify-center p-4 rounded-md shadow hover:shadow-md md:space-x-4">
-                                <a href="timeline-group.html" iv="" class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-full relative">
-                                    <img src="assets/images/group/group-2.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                </a>
-                                <div class="flex-1">
-                                    <a href="timeline-page.html" class="text-base font-semibold capitalize"> Coffee Addicts </a>
-                                    <div class="text-sm text-gray-500"> 54 mutual friends </div>
-                                </div>
-                                <button class="bg-gray-100 font-semibold py-2 px-3 rounded-md text-sm md:mt-0 mt-3">
-                                    Following
-                                </button>
-                            </div>
-                            <div class="flex items-center flex-col md:flex-row justify-center p-4 rounded-md shadow hover:shadow-md md:space-x-4">
-                                <a href="timeline-group.html" iv="" class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-full relative">
-                                    <img src="assets/images/group/group-5.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                </a>
-                                <div class="flex-1">
-                                    <a href="timeline-page.html" class="text-base font-semibold capitalize"> Property Rent </a>
-                                    <div class="text-sm text-gray-500"> 54 mutual friends </div>
-                                </div>
-                                <button class="bg-gray-100 font-semibold py-2 px-3 rounded-md text-sm md:mt-0 mt-3">
-                                    Following
-                                </button>
-                            </div>
-                            <div class="flex items-center flex-col md:flex-row justify-center p-4 rounded-md shadow hover:shadow-md md:space-x-4">
-                                <a href="timeline-group.html" iv="" class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-full relative">
-                                    <img src="assets/images/group/group-1.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                </a>
-                                <div class="flex-1">
-                                    <a href="timeline-page.html" class="text-base font-semibold capitalize"> Architecture </a>
-                                    <div class="text-sm text-gray-500"> 54 mutual friends </div>
-                                </div>
-                                <button class="bg-gray-100 font-semibold py-2 px-3 rounded-md text-sm md:mt-0 mt-3">
-                                    Following
-                                </button>
-                            </div>
-                            <div class="flex items-center flex-col md:flex-row justify-center p-4 rounded-md shadow hover:shadow-md md:space-x-4">
-                                <a href="timeline-group.html" iv="" class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-full relative">
-                                    <img src="assets/images/group/group-3.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                </a>
-                                <div class="flex-1">
-                                    <a href="timeline-page.html" class="text-base font-semibold capitalize">Graphic Design </a>
-                                    <div class="text-sm text-gray-500"> 54 mutual friends </div>
-                                </div>
-                                <button class="bg-gray-100 font-semibold py-2 px-3 rounded-md text-sm md:mt-0 mt-3">
-                                    Following
-                                </button>
-                            </div>
-                            <div class="flex items-center flex-col md:flex-row justify-center p-4 rounded-md shadow hover:shadow-md md:space-x-4">
-                                <a href="timeline-group.html" iv="" class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-full relative">
-                                    <img src="assets/images/group/group-4.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                </a>
-                                <div class="flex-1">
-                                    <a href="timeline-page.html" class="text-base font-semibold capitalize"> Mountain Riders </a>
-                                    <div class="text-sm text-gray-500"> 54 mutual friends </div>
-                                </div>
-                                <button class="bg-gray-100 font-semibold py-2 px-3 rounded-md text-sm md:mt-0 mt-3">
-                                    Following
-                                </button>
-                            </div>
-                            <div class="flex items-center flex-col md:flex-row justify-center p-4 rounded-md shadow hover:shadow-md md:space-x-4">
-                                <a href="timeline-group.html" iv="" class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-full relative">
-                                    <img src="assets/images/group/group-2.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                </a>
-                                <div class="flex-1">
-                                    <a href="timeline-page.html" class="text-base font-semibold capitalize"> Coffee Addicts </a>
-                                    <div class="text-sm text-gray-500"> 54 mutual friends </div>
-                                </div>
-                                <button class="bg-gray-100 font-semibold py-2 px-3 rounded-md text-sm md:mt-0 mt-3">
-                                    Following
-                                </button>
-                            </div>
-
-                        </div>
-
-                        <div class="flex justify-center mt-6">
-                            <a href="#" class="bg-white dark:bg-gray-900 font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
-                                Load more ..</a>
-                        </div>
-
-                    </div>
-
-                    <!-- Videos -->
-                    <div class="card md:p-6 p-2 max-w-3xl mx-auto">
-
-                        <h2 class="text-xl font-semibold"> Friend</h2>
-                        <nav class="responsive-nav border-b">
-                            <ul>
-                                <li class="active"><a href="#" class="lg:px-2"> Suggestions </a></li>
-                                <li><a href="#" class="lg:px-2"> Newest </a></li>
-                                <li><a href="#" class="lg:px-2"> My Videos </a></li>
-                            </ul>
-                        </nav>
-
-                        <div class="grid md:grid-cols-3 grid-cols-2  gap-x-2 gap-y-4 mt-3">
-                            <div>
-                                <a href="video-watch.html" class="w-full h-36 overflow-hidden rounded-lg relative block">
-                                    <img src="assets/images/video/img-1.png" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <span class="absolute bg-black bg-opacity-60 bottom-1 font-semibold px-1.5 py-0.5 right-1 rounded text-white text-xs"> 12:21</span>
-                                    <img src="assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
-                                </a>
-                            </div>
-                            <div>
-                                <a href="video-watch.html" class="w-full h-36 overflow-hidden rounded-lg relative block">
-                                    <img src="assets/images/video/img-2.png" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <span class="absolute bg-black bg-opacity-60 bottom-1 font-semibold px-1.5 py-0.5 right-1 rounded text-white text-xs"> 12:21</span>
-                                    <img src="assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
-                                </a>
-                            </div>
-                            <div>
-                                <a href="video-watch.html" class="w-full h-36 overflow-hidden rounded-lg relative block">
-                                    <img src="assets/images/video/img-3.png" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <span class="absolute bg-black bg-opacity-60 bottom-1 font-semibold px-1.5 py-0.5 right-1 rounded text-white text-xs"> 12:21</span>
-                                    <img src="assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
-                                </a>
-                            </div>
-                            <div>
-                                <a href="video-watch.html" class="w-full h-36 overflow-hidden rounded-lg relative block">
-                                    <img src="assets/images/video/img-4.png" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <span class="absolute bg-black bg-opacity-60 bottom-1 font-semibold px-1.5 py-0.5 right-1 rounded text-white text-xs"> 12:21</span>
-                                    <img src="assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
-                                </a>
-                            </div>
-                            <div>
-                                <a href="video-watch.html" class="w-full h-36 overflow-hidden rounded-lg relative block">
-                                    <img src="assets/images/video/img-5.png" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <span class="absolute bg-black bg-opacity-60 bottom-1 font-semibold px-1.5 py-0.5 right-1 rounded text-white text-xs"> 12:21</span>
-                                    <img src="assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
-                                </a>
-
-                            </div>
-                            <div>
-                                <a href="video-watch.html" class="w-full h-36 overflow-hidden rounded-lg relative block">
-                                    <img src="assets/images/video/img-6.png" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <span class="absolute bg-black bg-opacity-60 bottom-1 font-semibold px-1.5 py-0.5 right-1 rounded text-white text-xs"> 12:21</span>
-                                    <img src="assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
-                                </a>
-                            </div>
-                            <div>
-                                <a href="video-watch.html" class="w-full h-36 overflow-hidden rounded-lg relative block">
-                                    <img src="assets/images/video/img-3.png" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <span class="absolute bg-black bg-opacity-60 bottom-1 font-semibold px-1.5 py-0.5 right-1 rounded text-white text-xs"> 12:21</span>
-                                    <img src="assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
-                                </a>
-                            </div>
-                            <div>
-                                <a href="video-watch.html" class="w-full h-36 overflow-hidden rounded-lg relative block">
-                                    <img src="assets/images/video/img-2.png" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <span class="absolute bg-black bg-opacity-60 bottom-1 font-semibold px-1.5 py-0.5 right-1 rounded text-white text-xs"> 12:21</span>
-                                    <img src="assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
-                                </a>
-                            </div>
-                            <div>
-                                <a href="video-watch.html" class="w-full h-36 overflow-hidden rounded-lg relative block">
-                                    <img src="assets/images/video/img-4.png" alt="" class="w-full h-full absolute inset-0 object-cover">
-                                    <span class="absolute bg-black bg-opacity-60 bottom-1 font-semibold px-1.5 py-0.5 right-1 rounded text-white text-xs"> 12:21</span>
-                                    <img src="assets/images/icon-play.svg" class="w-12 h-12 uk-position-center" alt="">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-center mt-6">
-                            <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
-                                Load more ..</a>
-                        </div>
-
-                    </div>
-
-
                 </div>
 
             </div>
         </div>
 
     </div>
-
-
-
-    <!-- open chat box -->
-    <div uk-toggle="target: #offcanvas-chat" class="start-chat">
-        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-        </svg>
-    </div>
-
-    <div id="offcanvas-chat" uk-offcanvas="flip: true; overlay: true">
-        <div class="uk-offcanvas-bar bg-white p-0 w-full lg:w-80 shadow-2xl">
-
-
-            <div class="relative pt-5 px-4">
-
-                <h3 class="text-2xl font-bold mb-2"> Chats </h3>
-
-                <div class="absolute right-3 top-4 flex items-center space-x-2">
-
-                    <button class="uk-offcanvas-close  px-2 -mt-1 relative rounded-full inset-0 lg:hidden blcok" type="button" uk-close></button>
-
-                    <a href="#" uk-toggle="target: #search;animation: uk-animation-slide-top-small">
-                        <ion-icon name="search" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                    </a>
-                    <a href="#">
-                        <ion-icon name="settings-outline" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                    </a>
-                    <a href="#">
-                        <ion-icon name="ellipsis-vertical" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                    </a>
-                    <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
-                        <ul class="space-y-1">
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="checkbox-outline" class="pr-2 text-xl"></ion-icon> Mark all as read
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="settings-outline" class="pr-2 text-xl"></ion-icon> Chat setting
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon> Disable notifications
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="star-outline" class="pr-2 text-xl"></ion-icon> Create a group chat
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-            <div class="absolute bg-white z-10 w-full -mt-5 lg:-mt-2 transform translate-y-1.5 py-2 border-b items-center flex" id="search" hidden>
-                <input type="text" placeholder="Search.." class="flex-1">
-                <ion-icon name="close-outline" class="text-2xl hover:bg-gray-100 p-1 rounded-full mr-4 cursor-pointer" uk-toggle="target: #search;animation: uk-animation-slide-top-small"></ion-icon>
-            </div>
-
-            <nav class="responsive-nav border-b extanded mb-2 -mt-2">
-                <ul uk-switcher="connect: #chats-tab; animation: uk-animation-fade">
-                    <li class="uk-active"><a class="active" href="#0"> Friends </a></li>
-                    <li><a href="#0">Groups <span> 10 </span> </a></li>
-                </ul>
-            </nav>
-
-            <div class="contact-list px-2 uk-switcher" id="chats-tab">
-
-                <div class="p-1">
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Alex Dolgove</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Stella Johnson</div>
-                    </a>
-
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Adrian Mohani </div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Jonathan Madano</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-
-
-                </div>
-                <div class="p-1">
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Alex Dolgove</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Stella Johnson</div>
-                    </a>
-
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Adrian Mohani </div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Jonathan Madano</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-
     <!-- Create post modal -->
     <div id="create-post-modal" style="overflow-y: scroll;" class="create-post" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
@@ -2306,32 +1711,6 @@ if (!isset($_SESSION["userid"])) {
                         <svg class="btn-input-audio text-purple-600 h-9 p-1.5 rounded-full bg-purple-100 w-9 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
                         </svg>
-                        <!-- <svg class=" text-green-600 h-9 p-1.5 rounded-full bg-green-100 w-9 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-                        </svg>
-                        <svg class="text-pink-600 h-9 p-1.5 rounded-full bg-pink-100 w-9 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"> </path>
-                        </svg>
-                        <svg class="text-pink-600 h-9 p-1.5 rounded-full bg-pink-100 w-9 cursor-pointer" id="veiw-more" hidden fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"> </path>
-                        </svg>
-                        <svg class="text-pink-600 h-9 p-1.5 rounded-full bg-pink-100 w-9 cursor-pointer" id="veiw-more" hidden fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                        </svg> -->
-
-
-                        <!-- view more -->
-                        <!-- <svg class="hover:bg-gray-200 h-9 p-1.5 rounded-full w-9 cursor-pointer" id="veiw-more" uk-toggle="target: #veiw-more; animation: uk-animation-fade" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"> </path>
-                        </svg> -->
-
-                        <!-- vSet to Form -->
-                        <!-- <form method="POST" id="uploadForm" name="fanh" enctype="multipart/form-data">
-                            <input type="file" hidden name="fileToUpload[]" id="ImageInput" onchange="previewImage()" multiple>
-                            <input type="file" hidden id="VideoInput">
-                            <input type="file" hidden id="MusicInput">
-                        </form> -->
                     </div>
                 </div>
             </div>
@@ -2694,7 +2073,7 @@ if (!isset($_SESSION["userid"])) {
             }
         };
 
-
+        
         (function(window, document, undefined) {
             'use strict';
             if (!('localStorage' in window)) return;

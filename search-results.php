@@ -13,7 +13,7 @@ if (!isset($_SESSION["userid"])) {
     $user = new User();
     $userCurrent = $user->getUser($_SESSION["userid"]); // Return Array (userCurrent = result[0])
     $p = new Post();
-    $post = $p->getAllPostPublic();
+    $post = $p->getAllPost();
     $f = new Friend();
     $friends = $f->getListFriend($userCurrent["userid"]);
 }

@@ -13,9 +13,9 @@ if (!isset($_SESSION["userid"])) {
 } else {
     $f = new Friend();
     $user = new User();
-    
+
     $userCurrent = $user->getUser($_SESSION["userid"]); // Return Array (userCurrent = result[0])
-    
+
     if (isset($_GET["uid"])) {
         if ($user->getUser($_GET["uid"])) {
             $userProfile = $user->getUser($_GET["uid"]);
@@ -32,7 +32,6 @@ if (!isset($_SESSION["userid"])) {
     $post = $p->getPost($userProfile["userid"]);
     $friends = $f->getListFriend($userCurrent["userid"]);
     $friendProfiles = $f->getListFriend($userProfile["userid"]);
-
 }
 
 ?>
@@ -590,9 +589,6 @@ if (!isset($_SESSION["userid"])) {
                                 <li><a href="#">Timeline</a></li>
                                 <li><a href="#">Friend <span>3,243</span> </a></li>
                                 <li><a href="#" onclick="showImageOfOther()" class="image-orther" userprofile="<?php echo $userProfile["userid"] ?>">Photoes </a></li>
-                                <li><a href="#">Pages</a></li>
-                                <li><a href="#">Groups</a></li>
-                                <li><a href="#">Videos</a></li>
                             </ul>
                         </nav>
 
@@ -732,30 +728,7 @@ if (!isset($_SESSION["userid"])) {
                             <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
                                 <ul class="space-y-1">
                                     <li>
-                                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                            <ion-icon name="arrow-redo-outline" class="pr-2 text-xl"></ion-icon> Share Profile
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                            <ion-icon name="create-outline" class="pr-2 text-xl"></ion-icon> Account setting
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                            <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon> Disable notifications
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                            <ion-icon name="star-outline" class="pr-2 text-xl"></ion-icon> Add favorites
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <hr class="-mx-2 my-2 dark:border-gray-800">
-                                    </li>
-                                    <li>
-                                        <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-50 hover:text-red-500 rounded-md dark:hover:bg-red-600">
+                                        <a href="#" class="unfriend-btn flex items-center px-3 py-2 text-red-500 hover:bg-red-50 hover:text-red-500 rounded-md dark:hover:bg-red-600">
                                             <ion-icon name="stop-circle-outline" class="pr-2 text-xl"></ion-icon> Unfriend
                                         </a>
                                     </li>
@@ -794,7 +767,9 @@ if (!isset($_SESSION["userid"])) {
                                 for ($i = 0; $i < sizeof($post); $i++) {
                                     $like = $p->getLikePost($post[$i]["postid"]);
                                     $isFriendCondition = ($isFriend == 1 && $post[$i]['privacy'] == "Friend");
+                                    $isFriendPrivacy = $post[$i]['privacy'] == "Friend";
                                     $isPublicCondition = $post[$i]['privacy'] == "Public";
+                                    $isPrivateCondition = $post[$i]['privacy'] == "Private";
                                     $isPostCondition = $post[$i]['type'] == "post";
                                     $isPostShareCondition = $post[$i]['type'] == "share";
                                     if (($isFriendCondition || $isPublicCondition) && $isPostCondition) {
@@ -909,7 +884,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </div>
                                                         <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                                     </button>
-                                                    <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                                    <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                                 <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -1165,7 +1140,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </div>
                                                         <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
                                                     </button>
-                                                    <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                                    <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                                 <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -1285,7 +1260,7 @@ if (!isset($_SESSION["userid"])) {
                         <!-- Sidebar -->
                         <div class="w-full space-y-6">
 
-                        <div class="widget card p-5">
+                            <div class="widget card p-5">
                                 <h4 class="text-lg font-semibold"> About
                                     <i class="fa fa-edit edit-about-btn" style="margin-left: 10px; cursor: pointer;" title="Change About"></i>
                                 </h4>
@@ -1299,16 +1274,16 @@ if (!isset($_SESSION["userid"])) {
                                             Live In <strong> <?php echo $about["address"] ?> </strong>
                                         </li>
                                     <?php
-                                    }else {
+                                    } else {
                                     ?>
                                         <li class="flex items-center space-x-2">
                                             <ion-icon name="home"></ion-icon>
                                             <!-- <ion-icon name="home" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
-                                            Live In 
+                                            Live In
                                         </li>
                                     <?php
                                     }
-                                    if ($about != null && $about["birthday"] !=NULL) {
+                                    if ($about != null && $about["birthday"] != NULL) {
                                         $formattedDate = date("d-m-Y", strtotime($about["birthday"]));
                                     ?>
                                         <li class="flex items-center space-x-2">
@@ -1316,7 +1291,7 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Birthday <strong> <?php echo $formattedDate ?> </strong>
                                         <?php
-                                    }else {
+                                    } else {
                                         echo '<li class="flex items-center space-x-2">
                                         <ion-icon name="calendar"></ion-icon>
                                         <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
@@ -1329,7 +1304,7 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Education <strong> <?php echo $about["edu"] ?> </strong>
                                         <?php
-                                    }else{
+                                    } else {
                                         echo '<li class="flex items-center space-x-2">
                                         <ion-icon name="school"></ion-icon>
                                         <!-- <ion-icon name="home-sharp" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
@@ -1342,7 +1317,7 @@ if (!isset($_SESSION["userid"])) {
                                             <!-- <ion-icon name="information-circle" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
                                             Bio <strong> <?php echo $about["desc"] ?> </strong>
                                         <?php
-                                    }else{
+                                    } else {
                                         echo '<li class="flex items-center space-x-2">
                                         <ion-icon name="planet"></ion-icon>
                                         <!-- <ion-icon name="information-circle" class="rounded-full bg-gray-200 text-xl p-1 mr-3"></ion-icon> -->
@@ -1380,21 +1355,20 @@ if (!isset($_SESSION["userid"])) {
                                     }
                                     ?>
                                 </div>
-                                
+
                             </div>
 
                             <div class="widget card p-5 border-t">
                                 <div class="flex items-center justify-between mb-4">
                                     <div>
                                         <h4 class="text-lg font-semibold"> Friends </h4>
-                                     
-                                        <p class="text-sm"> <?php echo $f->getQuantityFriend($userProfile["userid"]) . " Friends" ?></p>
+                                        <p class="text-sm"> 3,4510 Friends</p>
                                     </div>
                                     <a href="#" class="text-blue-600 ">See all</a>
                                 </div>
 
                                 <div class="grid grid-cols-3 gap-3 text-gray-600 font-semibold">
-                                     <?php
+                                    <?php
                                     for ($i = 0; $i < sizeof($friendProfiles); $i++) {
                                         $friendProfile = $user->getUser($friendProfiles[$i]["friend_id"]);
                                     ?>
@@ -1402,77 +1376,15 @@ if (!isset($_SESSION["userid"])) {
                                             <div class="avatar relative rounded-md overflow-hidden w-full h-24 mb-2">
                                                 <img src="<?php echo $friendProfile["avatar_image"] ?>" alt="" class="w-full h-full object-cover absolute">
                                             </div>
-                                            <div class="text-sm truncate"> <?php echo $friendProfile["first_name"] . " " .$friendProfile["last_name"] ?> </div>
+                                            <div class="text-sm truncate"> <?php echo $friendProfile["first_name"] . " " . $friendProfile["last_name"] ?> </div>
                                         </a>
 
                                     <?php
                                     } ?>
-                                   
+
                                 </div>
-                                <a href="#" class="button gray mt-3 w-full"useridProfile = "<?php $userProfile['userid']?>"> See all </a>
+                                <a href="#" class="button gray mt-3 w-full" useridProfile="<?php $userProfile['userid'] ?>"> See all </a>
                             </div>
-
-                            <div class="widget card p-5 border-t">
-                                <div class="flex items-center justify-between mb-2">
-                                    <div>
-                                        <h4 class="text-lg font-semibold"> Groups </h4>
-                                    </div>
-                                    <a href="#" class="text-blue-600 "> See all</a>
-                                </div>
-                                <div>
-
-                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
-                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
-                                            <img src="assets/images/group/group-3.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Graphic Design </a>
-                                            <div class="text-sm text-gray-500 mt-0.5"> 345K Following</div>
-                                        </div>
-                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
-                                            Join
-                                        </a>
-                                    </div>
-                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
-                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
-                                            <img src="assets/images/group/group-4.jpg" class="absolute w-full h-full inset-0 " alt="">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Mountain Riders </a>
-                                            <div class="text-sm text-gray-500 mt-0.5"> 452k Following </div>
-                                        </div>
-                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
-                                            Join
-                                        </a>
-                                    </div>
-                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
-                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
-                                            <img src="assets/images/group/group-2.jpg" class="absolute w-full h-full inset-0" alt="">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Coffee Addicts </a>
-                                            <div class="text-sm text-gray-500 mt-0.5"> 845K Following</div>
-                                        </div>
-                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
-                                            Join
-                                        </a>
-                                    </div>
-                                    <div class="flex items-center space-x-4 rounded-md -mx-2 p-2 hover:bg-gray-50">
-                                        <a href="timeline-group.html" class="w-12 h-12 flex-shrink-0 overflow-hidden rounded-full relative">
-                                            <img src="assets/images/group/group-1.jpg" class="absolute w-full h-full inset-0" alt="">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="timeline-page.html" class="text-base font-semibold capitalize"> Architecture </a>
-                                            <div class="text-sm text-gray-500 mt-0.5"> 237K Following</div>
-                                        </div>
-                                        <a href="timeline-page.html" class="flex items-center justify-center h-8 px-3 rounded-md text-sm border font-semibold bg-blue-500 text-white">
-                                            Join
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div>
-
                         </div>
                     </div>
 

@@ -495,8 +495,8 @@ if (!isset($_SESSION["userid"])) {
                         <h2 class="text-2xl font-semibold"> Friends </h2>
                         <nav class="responsive-nav border-b md:m-0 -mx-4">
                             <ul>
-                                <li class="tab friend-request-tab active"><a href="#" class="lg:px-2"> Friend requests </a></li>
-                                <li class="tab all-friend-tab"><a href="#" class="lg:px-2"> All friends </a></li>
+                                <li class="tab friend-request-tab active"><a href="#friend-request" class="lg:px-2"> Friend requests </a></li>
+                                <li class="tab all-friend-tab"><a href="#all-friend" class="lg:px-2"> All friends </a></li>
                                 <li class="tab custom-tab"><a href="#" class="lg:px-2"> Custom lists </a></li>
                             </ul>
                         </nav>
@@ -564,163 +564,6 @@ if (!isset($_SESSION["userid"])) {
                             
                         </div>
                     </div>
-                    <br>
-                    <div class="my-6 flex items-center justify-between border-b pb-3">
-                        <div>
-                            <h2 class="text-xl font-semibold"> Suggestions </h2>
-                            <p class="font-medium text-gray-500 leading-6"> Find a groups You Might Be Interested In. </p>
-                        </div>
-                        <a href="#" class="text-blue-500 sm:block hidden"> See all </a>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 divide divide-gray-200 gap-x-6 gap-y-4">
-
-                        <div class="flex items-center space-x-4">
-                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                                <img src="assets/images/group/group-4.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                            </div>
-                            <div class="flex-1 border-b pb-3">
-                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Mountain Riders</a>
-                                <div class="flex space-x-2 items-center text-sm">
-                                    <div> 16K Members</div>
-                                    <div>·</div>
-                                    <div> 12 posts a week</div>
-                                </div>
-                                <div class="flex items-center mt-2">
-                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                                </div>
-
-                            </div>
-                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                                </svg>Follow
-                            </a>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                                <img src="assets/images/group/group-5.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                            </div>
-                            <div class="flex-1 border-b pb-3">
-                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Property Rent And Sale </a>
-                                <div class="flex space-x-2 items-center text-sm">
-                                    <div> 16K Members</div>
-                                    <div>·</div>
-                                    <div> 12 posts a week</div>
-                                </div>
-                                <div class="flex items-center mt-2">
-                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                                </div>
-
-                            </div>
-                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                                </svg>Follow
-                            </a>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                                <img src="assets/images/group/group-3.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                            </div>
-                            <div class="flex-1 border-b pb-3">
-                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Graphic Design </a>
-                                <div class="flex space-x-2 items-center text-sm">
-                                    <div> 16K Members</div>
-                                    <div>·</div>
-                                    <div> 12 posts a week</div>
-                                </div>
-                                <div class="flex items-center mt-2">
-                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                                </div>
-
-                            </div>
-                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                                </svg>Follow
-                            </a>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                                <img src="assets/images/group/group-2.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                            </div>
-                            <div class="flex-1 border-b pb-3">
-                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Coffee Addicts </a>
-                                <div class="flex space-x-2 items-center text-sm">
-                                    <div> 16K Members</div>
-                                    <div>·</div>
-                                    <div> 12 posts a week</div>
-                                </div>
-                                <div class="flex items-center mt-2">
-                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                                </div>
-
-                            </div>
-                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                                </svg>Follow
-                            </a>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                                <img src="assets/images/group/group-1.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                            </div>
-                            <div class="flex-1 border-b pb-3">
-                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Property Rent And Sale </a>
-                                <div class="flex space-x-2 items-center text-sm">
-                                    <div> 16K Members</div>
-                                    <div>·</div>
-                                    <div> 12 posts a week</div>
-                                </div>
-                                <div class="flex items-center mt-2">
-                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                                </div>
-
-                            </div>
-                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                                </svg>Follow
-                            </a>
-                        </div>
-
-                        <div class="flex items-center space-x-4">
-                            <div class="w-20 h-20 flex-shrink-0 rounded-md relative mb-3">
-                                <img src="assets/images/group/group-cover-3.jpg" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" alt="">
-                            </div>
-                            <div class="flex-1 border-b pb-3">
-                                <a href="timeline-group.html" class="text-lg font-semibold capitalize"> Architecture </a>
-                                <div class="flex space-x-2 items-center text-sm">
-                                    <div> 16K Members</div>
-                                    <div>·</div>
-                                    <div> 12 posts a week</div>
-                                </div>
-                                <div class="flex items-center mt-2">
-                                    <img src="assets/images/avatars/avatar-2.jpg" class="w-6 rounded-full border-2 border-gray-200 -mr-2" alt="">
-                                    <img src="assets/images/avatars/avatar-4.jpg" class="w-6 rounded-full border-2 border-gray-200" alt="">
-                                    <div class="text-sm text-gray-500 ml-2"> 2 friends are members</div>
-                                </div>
-
-                            </div>
-                            <a href="#" class="flex items-center justify-center h-9 px-3 rounded-md bg-blue-100 text-blue-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 mr-2">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                                </svg>Follow
-                            </a>
-                        </div>
-                    </div>
                 </div>
                 <!-- All Friend -->
                 <div class="tab-content all-friend" style="display: none;">
@@ -762,206 +605,11 @@ if (!isset($_SESSION["userid"])) {
         </div>
 
     </div>
-
-
-
-    <!-- open chat box -->
-    <div uk-toggle="target: #offcanvas-chat" class="start-chat">
-        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-        </svg>
-    </div>
-
-    <div id="offcanvas-chat" uk-offcanvas="flip: true; overlay: true">
-        <div class="uk-offcanvas-bar bg-white p-0 w-full lg:w-80 shadow-2xl">
-
-
-            <div class="relative pt-5 px-4">
-
-                <h3 class="text-2xl font-bold mb-2"> Chats </h3>
-
-                <div class="absolute right-3 top-4 flex items-center space-x-2">
-
-                    <button class="uk-offcanvas-close  px-2 -mt-1 relative rounded-full inset-0 lg:hidden blcok" type="button" uk-close></button>
-
-                    <a href="#" uk-toggle="target: #search;animation: uk-animation-slide-top-small">
-                        <ion-icon name="search" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                    </a>
-                    <a href="#">
-                        <ion-icon name="settings-outline" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                    </a>
-                    <a href="#">
-                        <ion-icon name="ellipsis-vertical" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                    </a>
-                    <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
-                        <ul class="space-y-1">
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="checkbox-outline" class="pr-2 text-xl"></ion-icon> Mark all as read
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="settings-outline" class="pr-2 text-xl"></ion-icon> Chat setting
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon> Disable notifications
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <ion-icon name="star-outline" class="pr-2 text-xl"></ion-icon> Create a group chat
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-            <div class="absolute bg-white z-10 w-full -mt-5 lg:-mt-2 transform translate-y-1.5 py-2 border-b items-center flex" id="search" hidden>
-                <input type="text" placeholder="Search.." class="flex-1">
-                <ion-icon name="close-outline" class="text-2xl hover:bg-gray-100 p-1 rounded-full mr-4 cursor-pointer" uk-toggle="target: #search;animation: uk-animation-slide-top-small"></ion-icon>
-            </div>
-
-            <nav class="responsive-nav border-b extanded mb-2 -mt-2">
-                <ul uk-switcher="connect: #chats-tab; animation: uk-animation-fade">
-                    <li class="uk-active"><a class="active" href="#0"> Friends </a></li>
-                    <li><a href="#0">Groups <span> 10 </span> </a></li>
-                </ul>
-            </nav>
-
-            <div class="contact-list px-2 uk-switcher" id="chats-tab">
-
-                <div class="p-1">
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Alex Dolgove</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Stella Johnson</div>
-                    </a>
-
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Adrian Mohani </div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Jonathan Madano</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-friend.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-
-
-                </div>
-                <div class="p-1">
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Alex Dolgove</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Stella Johnson</div>
-                    </a>
-
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Adrian Mohani </div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Jonathan Madano</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Erica Jones</div>
-                    </a>
-                    <a href="chats-group.html">
-                        <div class="contact-avatar">
-                            <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                            <span class="user_status status_online"></span>
-                        </div>
-                        <div class="contact-username"> Dennis Han</div>
-                    </a>
-
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-
     <!-- For Night mode -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(".tab").click(function(e) {
-            e.preventDefault();
+            // e.preventDefault();
             $(".tab").removeClass("active");
             $(this).addClass("active");
             $(".tab-content").hide();
@@ -970,13 +618,23 @@ if (!isset($_SESSION["userid"])) {
             }
             if ($(this).hasClass("all-friend-tab")) {
                 $(".all-friend").show();
-
             }
             if ($(this).hasClass("custom-tab")) {
                 $(".custom-list").show();
             }
-
         })
+
+        // Lấy URL hiện tại của trang
+        var currentURL = window.location.href;
+        // Tách phần tag từ URL
+        var tagFromURL = currentURL.split('#')[1];
+        if(tagFromURL == "all-friend"){
+            $(".all-friend-tab")[0].click()
+        }
+        if(tagFromURL == "friend-request"){
+            $(".friend-request-tab")[0].click()
+        }
+        
     </script>
 
     <!-- Javascript
@@ -984,7 +642,6 @@ if (!isset($_SESSION["userid"])) {
     <script src="Js/Global.js"></script>
     <script src="Js/notification.js"></script>
     <script src="Js/Friend.js"></script>
-
     <script src="assets/js/tippy.all.min.js"></script>
     <script src="assets/js/uikit.js"></script>
     <script src="assets/js/simplebar.js"></script>

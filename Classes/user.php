@@ -135,5 +135,13 @@ class User
         return $result;
     }
 
+    function deleteAccount($userid){
+        $DB=new Database();
+        $sql = "DELETE FROM users WHERE userid = $userid";
+        $result = $DB->Execute($sql);
+        return $result;
+    }
+
+    
     
 }

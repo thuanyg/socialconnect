@@ -16,7 +16,7 @@ if (!isset($_SESSION["userid"])) {
     $user = new User();
     $userCurrent = $user->getUser($_SESSION["userid"]); // Return Array (userCurrent = result[0])
     $p = new Post();
-    $post = $p->getAllPostPublic();
+    $post = $p->getAllPost();
     $f = new Friend();
     $friends = $f->getListFriend($userCurrent["userid"]);
 }
@@ -547,6 +547,7 @@ if (!isset($_SESSION["userid"])) {
                                 $isFriendCondition = ($isFriend == 1 && $post[$i]['privacy'] == "Friend");
                                 $isFriendPrivacy = $post[$i]['privacy'] == "Friend";
                                 $isPublicCondition = $post[$i]['privacy'] == "Public";
+                                $isPrivateCondition = $post[$i]['privacy'] == "Private";
                                 $isPostCondition = $post[$i]['type'] == "post";
                                 $isPostShareCondition = $post[$i]['type'] == "share";
                                 $isOwnPostCondition = $post[$i]['userid'] == $userCurrent["userid"];
@@ -583,12 +584,18 @@ if (!isset($_SESSION["userid"])) {
                                                             <ion-icon name="earth"></ion-icon>
                                                         <?php
                                                         }
-                                                        if ($isFriendPrivacy) {
+                                                        if ($isFriendCondition) {
                                                         ?>
                                                             <ion-icon name="people"></ion-icon>
                                                         <?php
                                                         }
+                                                        if ($isPrivateCondition) {
                                                         ?>
+                                                            <ion-icon name="lock-closed"></ion-icon>
+                                                        <?php
+                                                        }
+                                                        ?>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -727,7 +734,7 @@ if (!isset($_SESSION["userid"])) {
                                                                                             echo "blue"; ?>"> Like <?php if (count($like) > 0)
                                                                                                                         echo "<span>(" . count($like) . ")</span>" ?> </div>
                                                 </button>
-                                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -784,6 +791,7 @@ if (!isset($_SESSION["userid"])) {
                                                         $timer = new Timer();
                                                         $timeAgo = $timer->timeAgo($comment[$c]["date"]);
                                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
                                                 ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
@@ -800,7 +808,6 @@ if (!isset($_SESSION["userid"])) {
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
                                                                     <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
                                                                 <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
@@ -813,7 +820,15 @@ if (!isset($_SESSION["userid"])) {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
+                                                        </div>
+                                                        <?php
+                                                        if ($quantityRep <= 0) {
+                                                        } else {
+                                                        ?>
+                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
                                                 <?php
+                                                        }
                                                     }
                                                 }
                                                 ?>
@@ -877,9 +892,14 @@ if (!isset($_SESSION["userid"])) {
                                                             <ion-icon name="earth"></ion-icon>
                                                         <?php
                                                         }
-                                                        if ($isFriendPrivacy) {
+                                                        if ($isFriendCondition) {
                                                         ?>
                                                             <ion-icon name="people"></ion-icon>
+                                                        <?php
+                                                        }
+                                                        if ($isPrivateCondition) {
+                                                        ?>
+                                                            <ion-icon name="lock-closed"></ion-icon>
                                                         <?php
                                                         }
                                                         ?>
@@ -1042,7 +1062,7 @@ if (!isset($_SESSION["userid"])) {
                                                 }
                                             }
                                             ?>
-                                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
+                                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
                                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0)
@@ -1056,7 +1076,7 @@ if (!isset($_SESSION["userid"])) {
                                                                                             echo "blue"; ?>"> Like <?php if (count($like) > 0)
                                                                                                                         echo "(" . count($like) . ")" ?> </div>
                                                 </button>
-                                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2">
+                                                <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
                                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -1113,6 +1133,7 @@ if (!isset($_SESSION["userid"])) {
                                                         $timer = new Timer();
                                                         $timeAgo = $timer->timeAgo($comment[$c]["date"]);
                                                         $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                        $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
                                                 ?>
                                                         <div class="flex">
                                                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
@@ -1129,7 +1150,6 @@ if (!isset($_SESSION["userid"])) {
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
                                                                     <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
                                                                     <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <button class="view-reply-btn">View replies</button>
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
                                                                 <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
@@ -1142,7 +1162,15 @@ if (!isset($_SESSION["userid"])) {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
+                                                        </div>
+                                                        <?php
+                                                        if ($quantityRep <= 0) {
+                                                        } else {
+                                                        ?>
+                                                            <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View <?php echo $quantityRep ?> replies</button>
                                                 <?php
+                                                        }
                                                     }
                                                 }
                                                 ?>
@@ -1217,8 +1245,8 @@ if (!isset($_SESSION["userid"])) {
                             </div>
                         </a>
                         <div>
-                            <h3 style="display: inline-block; padding-right: 45px;" class="text-xl font-semibold"> Friend requests</h3>
-                            <a style="color: #2563eb" class="see-all-friend-request" href="#">See All</a>
+                            <h3 style="display: inline-block; padding-right: 42px;" class="text-xl font-semibold"> Friend requests</h3>
+                            <a style="color: #2563eb" class="see-all-friend-request" href="friends.php#friend-request">See All</a>
                         </div>
                         <div class="">
                             <div class="contact-list">
@@ -1239,8 +1267,8 @@ if (!isset($_SESSION["userid"])) {
                                             </div>
                                         </a>
                                         <div style="text-align: center;">
-                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="height: 35px;" type="button" class="confirm-req button primary flex-1 block mr-1"> Confirm </button>
-                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="background-color: #97A5B8; height: 35px" type="button" class="delete-req button primary flex-1 block mr-1"> Delete </button>
+                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="height: 30px;" type="button" class="confirm-req button primary flex-1 block mr-1"> Confirm </button>
+                                            <button data-request-id="<?php echo $userReq["userid"] ?>" style="background-color: #97A5B8; height: 30px" type="button" class="delete-req button primary flex-1 block mr-1"> Delete </button>
                                         </div>
                                         <div uk-drop="pos: left-center ;animation: uk-animation-slide-left-small">
                                             <div class="contact-list-box">
@@ -1723,7 +1751,7 @@ if (!isset($_SESSION["userid"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <?php include("./Websocket/src/Notification.php") ?>
     <script>
-        
+
     </script>
     <!-- Javascript
     ================================================== -->
