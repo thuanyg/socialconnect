@@ -347,14 +347,14 @@ if (!isset($_SESSION["userid"])) {
             <div class="sidebar_inner" data-simplebar>
 
                 <ul>
-                    <li><a href="timeline.php">
+                    <li class="active"><a href="timeline.php">
                             <div class="user_avatar">
                                 <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="avatar" style="width: 35px; border-radius: 50%; margin-right: 15px;">
                             </div>
                             <span> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </span>
                         </a>
                     </li>
-                    <li class="active"><a href="feed.php">
+                    <li><a href="feed.php">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-600">
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                             </svg>
@@ -625,6 +625,8 @@ if (!isset($_SESSION["userid"])) {
                             if ($post != null) {
                                 for ($i = 0; $i < sizeof($post); $i++) {
                                     $like = $p->getLikePost($post[$i]["postid"]);
+                                    $comment = $p->getCommentPost($post[$i]["postid"]);
+                                    $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
                                     $isFriendCondition = $post[$i]['privacy'] == "Friend";
                                     $isPublicCondition = $post[$i]['privacy'] == "Public";
                                     $isPrivateCondition = $post[$i]['privacy'] == "Private";
@@ -809,7 +811,8 @@ if (!isset($_SESSION["userid"])) {
                                                                 <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                                             </svg>
                                                         </div>
-                                                        <div> Comment</div>
+                                                        <div> Comment <?php if ($quantityCmt > 0)
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                                     </a>
                                                     <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -851,63 +854,72 @@ if (!isset($_SESSION["userid"])) {
                                                         ?>
                                                     </div>
                                                 </div>
-
+                                                <!-- Comment container -->
                                                 <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                    <div class="flex">
-                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                        </div>
-                                                        <div>
-                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <p class="leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia aliquid hic molestiae provident eaque obcaecati eligendi explicabo distinctio dicta fuga rem asperiores itaque, dolor officiis doloribus, nobis illum assumenda et! <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                    <?php
+                                                    if ($comment != null) {
+                                                        for ($c = 0; $c < sizeof($comment); $c++) {
+                                                            $timer = new Timer();
+                                                            $timeAgo = $timer->timeAgo($comment[$c]["date"]);
+                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                            $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
+                                                    ?>
+                                                            <div class="flex">
+                                                                <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
+                                                                        <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                                                    </a>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                        <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
+                                                                        <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
+                                                                        <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                                    </div>
+                                                                    <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                                        <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                                        <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View replies (<?php echo $quantityRep ?>)</button>
+                                                                        <span><?php echo $timeAgo ?></span>
+                                                                    </div>
+                                                                    <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
+                                                                        <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                                        <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                                            <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                                                <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                <a href="#"> Replay </a>
-                                                                <span> 3d </span>
+                                                            <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex">
-                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                        </div>
-                                                        <div>
-                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <p class="leading-6"> Test cmt 2 !<i class="uil-grin-tongue-wink-alt"></i> </p>
-                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                            </div>
-                                                            <div class="text-xs flex items-center space-x-3 mt-2 ml-5">
-                                                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                <a href="#"> Replay </a>
-                                                                <span> 3d </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
+                                                    <?php
+                                                        }
+                                                    }
+                                                    ?>
                                                 </div>
-
-                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-
+                                                <?php
+                                                if ($quantityCmt > 2) {
+                                                ?>
+                                                    <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
+                                                        View more <?php echo $quantityCmt - 2 ?> Comments
+                                                    </a>
+                                                <?php
+                                                } else if ($quantityCmt < 0) {
+                                                ?>
+                                                    <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
+                                                <?php
+                                                }
+                                                ?>
+                                                <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
                                                 <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
+                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
                                                     <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                        <a href="#">
-                                                            <ion-icon name="happy-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
-                                                        <a href="#">
-                                                            <ion-icon name="image-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
-                                                        <a href="#">
-                                                            <ion-icon name="link-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
-                                                        <a href="#">
+                                                        <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
                                                             <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
+                                                        </button>
                                                     </div>
                                                 </div>
-
                                             </div>
 
                                         </div>
@@ -981,20 +993,9 @@ if (!isset($_SESSION["userid"])) {
                                                                         </svg> Privacy
                                                                     </a>
                                                                 </li>
-                                                                <!-- <li>
-                                                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                                    <i class="uil-comment-slash mr-1"></i> Disable comments
-                                                                </a>
-    
-                                                            </li> -->
                                                             <?php
                                                             }
                                                             ?>
-                                                            <!-- <li>
-                                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                                <i class="uil-favorite mr-1"></i> Add favorites
-                                                            </a>
-                                                        </li> -->
                                                             <li>
                                                                 <hr class="-mx-2 my-2 dark:border-gray-800">
                                                             </li>
@@ -1032,7 +1033,7 @@ if (!isset($_SESSION["userid"])) {
                                                     $minutes = $time["minutes"];
                                                     $seconds = $time["seconds"];
                                                     ?>
-                                                    <div class="card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
+                                                    <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
                                                         <!-- Show Image/Video Post Share -->
                                                         <div uk-lightbox>
                                                             <div class="grid grid-cols-2 gap-2 px-5">
@@ -1113,12 +1114,16 @@ if (!isset($_SESSION["userid"])) {
                                                 <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
                                                     <button type="button" class="like-post-btn flex items-center space-x-2">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
-                                                                                                                                else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0)
+                                                                                                                                    echo "currentColor";
+                                                                                                                                else
+                                                                                                                                    echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                                                 <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                                             </svg>
                                                         </div>
-                                                        <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                                        <div class="like-text" style="color:<?php if ($liked == 1)
+                                                                                                echo "blue"; ?>"> Like <?php if (count($like) > 0)
+                                                                                                                            echo "(" . count($like) . ")" ?> </div>
                                                     </button>
                                                     <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1126,7 +1131,8 @@ if (!isset($_SESSION["userid"])) {
                                                                 <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                                             </svg>
                                                         </div>
-                                                        <div> Comment</div>
+                                                        <div> Comment <?php if ($quantityCmt > 0)
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                                     </a>
                                                     <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1168,60 +1174,72 @@ if (!isset($_SESSION["userid"])) {
                                                         ?>
                                                     </div>
                                                 </div>
-
+                                                <!-- Comment container -->
                                                 <div class="border-t py-4 space-y-4 dark:border-gray-600 comment-container" post-id="<?php echo $post[$i]["postid"]; ?>">
-                                                    <div class="flex">
-                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                        </div>
-                                                        <div>
-                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <p class="leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia aliquid hic molestiae provident eaque obcaecati eligendi explicabo distinctio dicta fuga rem asperiores itaque, dolor officiis doloribus, nobis illum assumenda et! <urna class="i uil-heart"></urna> <i class="uil-grin-tongue-wink"> </i> </p>
-                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                    <?php
+                                                    if ($comment != null) {
+                                                        for ($c = 0; $c < sizeof($comment); $c++) {
+                                                            $timer = new Timer();
+                                                            $timeAgo = $timer->timeAgo($comment[$c]["date"]);
+                                                            $cmt_user = $user->getUser($comment[$c]['comment_userid']);
+                                                            $quantityRep = $p->getQuantityReplyComment($comment[$c]['comment_id'])[0]["total"];
+                                                    ?>
+                                                            <div class="flex">
+                                                                <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                                    <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>">
+                                                                        <img src="<?php echo $cmt_user["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
+                                                                    </a>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
+                                                                        <a href="profile.php?uid=<?php echo $cmt_user["userid"] ?>"><b><?php echo $cmt_user["first_name"] . " " . $cmt_user["last_name"] ?></b></a>
+                                                                        <p class="leading-6"><?php echo $comment[$c]["comment_msg"] ?></p>
+                                                                        <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
+                                                                    </div>
+                                                                    <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
+                                                                        <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                                        <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View replies (<?php echo $quantityRep ?>)</button>
+                                                                        <span><?php echo $timeAgo ?></span>
+                                                                    </div>
+                                                                    <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
+                                                                        <input placeholder="Reply <?php echo $cmt_user["last_name"] ?>" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                                        <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
+                                                                            <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                                                <ion-icon name="arrow-redo-outline"></ion-icon>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                <a href="#"> Replay </a>
-                                                                <span> 3d </span>
+                                                            <div class="reply-comment-msg " commentid="<?php echo $comment[$c]["comment_id"] ?>">
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex">
-                                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                            <img src="<?php echo $userCurrent["avatar_image"] ?>" alt="" class="absolute h-full rounded-full w-full">
-                                                        </div>
-                                                        <div>
-                                                            <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">
-                                                                <p class="leading-6"> Test cmt 2 !<i class="uil-grin-tongue-wink-alt"></i> </p>
-                                                                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
-                                                            </div>
-                                                            <div class="text-xs flex items-center space-x-3 mt-2 ml-5">
-                                                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                <a href="#"> Replay </a>
-                                                                <span> 3d </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
+                                                    <?php
+                                                        }
+                                                    }
+                                                    ?>
                                                 </div>
-
-                                                <a href="#" class="hover:text-blue-600 hover:underline"> Veiw 8 more Comments </a>
-
+                                                <?php
+                                                if ($quantityCmt > 2) {
+                                                ?>
+                                                    <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">
+                                                        View more <?php echo $quantityCmt - 2 ?> Comments
+                                                    </a>
+                                                <?php
+                                                } else if ($quantityCmt < 0) {
+                                                ?>
+                                                    <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
+                                                <?php
+                                                }
+                                                ?>
+                                                <div id="error_status" post-id="<?php echo $post[$i]["postid"]; ?> "></div>
                                                 <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t">
-                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5">
+                                                    <input placeholder="Add your Comment.." class="bg-transparent max-h-10 shadow-none px-5 comment-textbox" post-id="<?php echo $post[$i]["postid"]; ?>">
                                                     <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">
-                                                        <a href="#">
-                                                            <ion-icon name="happy-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
-                                                        <a href="#">
-                                                            <ion-icon name="image-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
-                                                        <a href="#">
-                                                            <ion-icon name="link-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
-                                                        </a>
+                                                        <button href="#" class="add-comment-btn" post-id="<?php echo $post[$i]["postid"]; ?>">
+                                                            <ion-icon name="send-outline" class="hover:bg-gray-200 p-1.5 rounded-full"></ion-icon>
+                                                        </button>
                                                     </div>
                                                 </div>
-
                                             </div>
 
                                         </div>

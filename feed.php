@@ -156,7 +156,7 @@ if (!isset($_SESSION["userid"])) {
                                     <div class="drop_headline">
                                         <h4>Messages </h4>
                                         <div class="btn_action">
-                                            
+
                                         </div>
                                     </div>
                                     <input type="text" class="uk-input" placeholder="Search in Messages">
@@ -689,9 +689,8 @@ if (!isset($_SESSION["userid"])) {
                                                                     <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
-                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>                                                                 
-                                                                    <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View replies (<?php echo $quantityRep ?>)</button>                                                                    
+                                                                    <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
+                                                                    <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View replies (<?php echo $quantityRep ?>)</button>
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
                                                                 <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
@@ -719,7 +718,7 @@ if (!isset($_SESSION["userid"])) {
                                                     View more <?php echo $quantityCmt - 2 ?> Comments
                                                 </a>
                                             <?php
-                                            } else {
+                                            } else if ($quantityCmt < 0) {
                                             ?>
                                                 <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
                                             <?php
@@ -860,7 +859,7 @@ if (!isset($_SESSION["userid"])) {
                                                 $minutes = $time["minutes"];
                                                 $seconds = $time["seconds"];
                                                 ?>
-                                                <div class="card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
+                                                <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
                                                     <!-- Show Image/Video Post Share -->
                                                     <div uk-lightbox>
                                                         <div class="grid grid-cols-2 gap-2 px-5">
@@ -1026,9 +1025,8 @@ if (!isset($_SESSION["userid"])) {
                                                                     <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>
                                                                 </div>
                                                                 <div class="text-sm flex items-center space-x-3 mt-2 ml-5">
-                                                                    <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>
                                                                     <button class="reply-option-btn" commentid="<?php echo $comment[$c]["comment_id"] ?>">Reply</button>
-                                                                    <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View replies (<?php echo $quantityRep ?>)</button>                                                                    
+                                                                    <button class="view-reply-btn ml-8 mt-0" commentid="<?php echo $comment[$c]["comment_id"] ?>" style="font-size: 13px;" data-next-offset="0">View replies (<?php echo $quantityRep ?>)</button>
                                                                     <span><?php echo $timeAgo ?></span>
                                                                 </div>
                                                                 <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="<?php echo $comment[$c]["comment_id"] ?>" post-id="<?php echo $post[$i]["postid"]; ?>" style="display: none;">
@@ -1056,7 +1054,7 @@ if (!isset($_SESSION["userid"])) {
                                                     View more <?php echo $quantityCmt - 2 ?> Comments
                                                 </a>
                                             <?php
-                                            } else {
+                                            } else if ($quantityCmt < 0) {
                                             ?>
                                                 <h6><span style='color:#97A5B8'>No comment yet!</span></h6>
                                             <?php

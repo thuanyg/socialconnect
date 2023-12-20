@@ -499,7 +499,7 @@ $(document).on('click', '.share-post-btn', function (e) {
         var privacy = $("#share-post-modal").find(".dropdown-toggle .filter-option").text();
         var taPostShare = $("textarea[name='taPostShare']").val();
         var data = {
-            privacy : privacy,
+            privacy: privacy,
             tapostshare: taPostShare,
             userid: userID,
             postid: postID,
@@ -598,22 +598,21 @@ function CreateComment(userID, postID, msg) {
                                 <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>\
                             </div>\
                             <div class="text-sm flex items-center space-x-3 mt-2 ml-5">\
-                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>\
                                 <button class="reply-option-btn" commentid="'+ value.cmt.comment_id + '">Reply</button>\
-                                <button class="view-reply-btn ml-8 mt-0" commentid="'+ value.cmt.comment_id + '" style="font-size: 13px;" data-next-offset="0">View replies ('+value.totalrep+')</button>\
+                                <button class="view-reply-btn ml-8 mt-0" commentid="'+ value.cmt.comment_id + '" style="font-size: 13px;" data-next-offset="0">View replies (' + value.totalrep + ')</button>\
                                 <span>'+ time + '</span>\
                             </div>\
                             <div class="reply-dropdown bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="'+ value.cmt.comment_id + '" style="display: none;">\
                                 <input placeholder="Reply '+ value.user.last_name + '" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="' + postID + '">\
                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">\
-                                       <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="'+ value.cmt.comment_id + '" post-id="'+ postID + '">\
+                                       <button style="padding: 6px;" href="#" class="reply-comment-btn" commentid="'+ value.cmt.comment_id + '" post-id="' + postID + '">\
                                            <ion-icon name="arrow-redo-outline"></ion-icon>\
                                        </button>\
                                    </div>\
                             </div>\
                         </div>\
                     </div>\
-                    <div class="reply-comment-msg " commentid="'+value.cmt.comment_id+'">\
+                    <div class="reply-comment-msg " commentid="'+ value.cmt.comment_id + '">\
                     </div>'
                 );
             });
@@ -666,22 +665,21 @@ $(document).on("click", ".btn-view-more-comment", function (e) {
                                 <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>\
                             </div>\
                             <div class="text-sm flex items-center space-x-3 mt-2 ml-5">\
-                                <a href="#" class="text-red-600"> <i class="uil-heart"></i> Love </a>\
                                 <button class="reply-option-btn" commentid="'+ value.cmt.comment_id + '">Reply</button>\
-                                <button class="view-reply-btn ml-8 mt-0" commentid="'+ value.cmt.comment_id + '" style="font-size: 13px;" data-next-offset="0">View replies ('+value.totalrep+')</button>\
+                                <button class="view-reply-btn ml-8 mt-0" commentid="'+ value.cmt.comment_id + '" style="font-size: 13px;" data-next-offset="0">View replies (' + value.totalrep + ')</button>\
                                 <span>'+ time + '</span>\
                             </div>\
                             <div class="bg-gray-100 rounded-full relative dark:bg-gray-800 border-t" commentid="'+ value.cmt.comment_id + '" style="display: none;">\
                                 <input placeholder="Reply '+ value.user.last_name + '" class="bg-transparent max-h-10 shadow-none px-5 reply-comment-textbox" post-id="' + postID + '">\
                                    <div class="-m-0.5 absolute bottom-0 flex items-center right-3 text-xl">\
-                                       <button style="padding: 6px;" href="#" class="reply-comment-btn"commentid="'+ value.cmt.comment_id + '" post-id="'+ postID + '">\
+                                       <button style="padding: 6px;" href="#" class="reply-comment-btn"commentid="'+ value.cmt.comment_id + '" post-id="' + postID + '">\
                                            <ion-icon name="arrow-redo-outline"></ion-icon>\
                                        </button>\
                                    </div>\
                             </div>\
                         </div>\
                     </div>\
-                    <div class="reply-comment-msg " commentid="'+value.cmt.comment_id+'">\
+                    <div class="reply-comment-msg " commentid="'+ value.cmt.comment_id + '">\
                     </div>'
                         );
                     });
@@ -726,7 +724,7 @@ $(document).on('click', '.reply-comment-btn', function (e) {
     if (msg.trim().length == 0) {
         showNotification("Please enter text to reply comment!")
     } else {
-        $("#post-details-modal .view-reply-btn[commentid='"+commentID+"']").data("next-offset", 0);
+        $("#post-details-modal .view-reply-btn[commentid='" + commentID + "']").data("next-offset", 0);
         createReplyComment(commentID, postID, userID, msg);
     }
 });
@@ -735,14 +733,14 @@ $(document).on("keyup", ".reply-comment-textbox", function (e) {
     e.preventDefault;
     if (e.which === 13 && !e.shiftKey) {
         var userID = $("input[name='txtUserid']").val();
-        var postID = $(this).attr('post-id'); 
+        var postID = $(this).attr('post-id');
         var commentID = $(this).parent().attr('commentid');
         var msg = $(this).val();
         console.log(msg);
         if (msg.trim().length == 0) {
             showNotification("Please enter text to comment!")
         } else {
-            $("#post-details-modal .view-reply-btn[commentid='"+commentID+"']").data("next-offset", 0);
+            $("#post-details-modal .view-reply-btn[commentid='" + commentID + "']").data("next-offset", 0);
             createReplyComment(commentID, postID, userID, msg);
         }
     }
@@ -769,14 +767,14 @@ function createReplyComment(commentID, postID, userID, msg) {
                 var time = timeAgo(value.cmt["date"]);
                 $(".reply-comment-msg[commentid='" + commentID + "']").append('<div class="flex" >\
                 <div class="w-10 h-10 rounded-full relative flex-shrink-0 ml-8">\
-                    <a href="profile.php?uid='+value.user.userID+'">\
+                    <a href="profile.php?uid='+ value.user.userID + '">\
                         <img src="'+ value.user["avatar_image"] + '" alt="" class="absolute h-full rounded-full w-full">\
                     </a>\
                 </div>\
                 <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">\
-                        <a href="profile.php?uid='+value.user.userID+'"><b>'+ value.user["first_name"] + ' ' + value.user["last_name"] + '</b></a>\
-                        <span style="font-size: 13;">'+time+'</span>\
-                        <p class="leading-6">'+value.cmt["comment_msg"]+'</p>\
+                        <a href="profile.php?uid='+ value.user.userID + '"><b>' + value.user["first_name"] + ' ' + value.user["last_name"] + '</b></a>\
+                        <span style="font-size: 13;">'+ time + '</span>\
+                        <p class="leading-6">'+ value.cmt["comment_msg"] + '</p>\
                         <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>\
                 </div>\
             </div>'
@@ -787,7 +785,7 @@ function createReplyComment(commentID, postID, userID, msg) {
     });
 }
 //view reply comment
-$(document).on("click",".view-reply-btn", function (e){
+$(document).on("click", ".view-reply-btn", function (e) {
     e.preventDefault;
     var commentid = $(this).attr("commentid");
     var offset = $(this).data("next-offset");
@@ -798,54 +796,54 @@ $(document).on("click",".view-reply-btn", function (e){
         btnShow.click();
         ViewMoreRepComment();
     }
-    function ViewMoreRepComment(){
-            $.ajax({
-                url: "Ajax/Post.php",
-                type: "POST",
-                data: {
-                    commentid: commentid,
-                    offset: offset,
-                    action: "view-more-reply-comment"
-                },
-                success: function (response) {
-                    if (response.trim() != "[]" && response.trim() != "0") {
-                        var cmtData = JSON.parse(response);
-                        console.log(cmtData);
-                        if (offset == 0) $(".reply-comment-msg[commentid='" + commentid + "']").html("");
-                        $.each(cmtData, function (key, value) {
-                            var time = timeAgo(value.cmt["date"]);
-                            $("#post-details-modal .view-reply-btn").data("next-offset", nextOffet);
-                            $("#post-details-modal .reply-comment-msg[commentid='" + commentid + "']").append('<br>\
+    function ViewMoreRepComment() {
+        $.ajax({
+            url: "Ajax/Post.php",
+            type: "POST",
+            data: {
+                commentid: commentid,
+                offset: offset,
+                action: "view-more-reply-comment"
+            },
+            success: function (response) {
+                if (response.trim() != "[]" && response.trim() != "0") {
+                    var cmtData = JSON.parse(response);
+                    console.log(cmtData);
+                    if (offset == 0) $(".reply-comment-msg[commentid='" + commentid + "']").html("");
+                    $.each(cmtData, function (key, value) {
+                        var time = timeAgo(value.cmt["date"]);
+                        $("#post-details-modal .view-reply-btn").data("next-offset", nextOffet);
+                        $("#post-details-modal .reply-comment-msg[commentid='" + commentid + "']").append('<br>\
                             <div class="flex" >\
                                 <div class="w-10 h-10 rounded-full relative flex-shrink-0 ml-8">\
-                                    <a href="profile.php?uid='+value.user["userid"]+'">\
+                                    <a href="profile.php?uid='+ value.user["userid"] + '">\
                                         <img src="'+ value.user["avatar_image"] + '" alt="" class="absolute h-full rounded-full w-full">\
                                     </a>\
                                 </div>\
                                 <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 relative lg:ml-5 ml-2 lg:mr-12  dark:bg-gray-800 dark:text-gray-100">\
-                                        <a href="profile.php?uid='+value.user["userid"]+'"><b>'+ value.user["first_name"] + ' ' + value.user["last_name"] + '</b></a>\
-                                        <span style="font-size: 13;">'+time+'</span>\
-                                        <p class="leading-6">'+value.cmt["comment_msg"]+'</p>\
+                                        <a href="profile.php?uid='+ value.user["userid"] + '"><b>' + value.user["first_name"] + ' ' + value.user["last_name"] + '</b></a>\
+                                        <span style="font-size: 13;">'+ time + '</span>\
+                                        <p class="leading-6">'+ value.cmt["comment_msg"] + '</p>\
                                         <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>\
                                 </div>\
-                            </div>'                
-                            );
-                        });
-                        var nextOffet = offset + 20;
-                        if (nextOffet > cmtData[0].totalComment) nextOffet = cmtData[0].totalComment;
-                        var remainingQuantity = cmtData[0].totalComment - nextOffet;
-                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").data("next-offset", nextOffet);
-                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").next().attr('commentid', commentid);
-                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").text(`View replies (${remainingQuantity})`)
-                        $("#post-details-modal .count-cmtr").remove();
-                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").after(`<span class="count-cmtr" >${nextOffet}/${cmtData[0].totalComment}</span>`);
-                        // if (remainingQuantity <= 0) {
-                        //     $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").hide();
-                        // }
-    
-                    }
+                            </div>'
+                        );
+                    });
+                    var nextOffet = offset + 20;
+                    if (nextOffet > cmtData[0].totalComment) nextOffet = cmtData[0].totalComment;
+                    var remainingQuantity = cmtData[0].totalComment - nextOffet;
+                    $("#post-details-modal .view-reply-btn[commentid='" + commentid + "']").data("next-offset", nextOffet);
+                    $("#post-details-modal .view-reply-btn[commentid='" + commentid + "']").next().attr('commentid', commentid);
+                    $("#post-details-modal .view-reply-btn[commentid='" + commentid + "']").text(`View replies (${remainingQuantity})`)
+                    $("#post-details-modal .count-cmtr").remove();
+                    $("#post-details-modal .view-reply-btn[commentid='" + commentid + "']").after(`<span class="count-cmtr" >${nextOffet}/${cmtData[0].totalComment}</span>`);
+                    // if (remainingQuantity <= 0) {
+                    //     $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").hide();
+                    // }
+
                 }
-            })
+            }
+        })
     }
 
 });

@@ -242,7 +242,7 @@ if (!isset($_SESSION["userid"])) {
                             <span> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </span>
                         </a>
                     </li>
-                    <li class="active"><a href="feed.php">
+                    <li><a href="feed.php">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-blue-600">
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                             </svg>
@@ -275,7 +275,7 @@ if (!isset($_SESSION["userid"])) {
                             <span> Products</span></a>
                     </li> -->
 
-                    <li id="more-veiw" hidden><a href="birthdays.php">
+                    <li  class="active" id="more-veiw" hidden><a href="birthdays.php">
                             <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path>
                                 <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path>
