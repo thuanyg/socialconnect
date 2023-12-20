@@ -147,7 +147,7 @@ if (!isset($_SESSION["userid"])) {
                                     <div class="drop_headline">
                                         <h4>Messages </h4>
                                         <div class="btn_action">
-                                            
+
                                         </div>
                                     </div>
                                     <input type="text" class="uk-input" placeholder="Search in Messages">
@@ -861,7 +861,7 @@ if (!isset($_SESSION["userid"])) {
         </div>
     </div>
 
-
+    <?php include("./Websocket/src/Notification.php") ?>
     <!-- For Night mode -->
     <script>
         (function(window, document, undefined) {

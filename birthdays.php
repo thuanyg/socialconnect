@@ -146,7 +146,7 @@ if (!isset($_SESSION["userid"])) {
                                     <div class="drop_headline">
                                         <h4>Messages </h4>
                                         <div class="btn_action">
-                                            
+
                                         </div>
                                     </div>
                                     <input type="text" class="uk-input" placeholder="Search in Messages">
@@ -380,8 +380,7 @@ if (!isset($_SESSION["userid"])) {
                     <div class="card sm:p-7 p-4">
 
                         <div class="flex items-center space-x-3">
-                            <ion-icon name="gift"
-                                class="text-yellow-500 text-xl bg-yellow-50 p-1 rounded-md"></ion-icon>
+                            <ion-icon name="gift" class="text-yellow-500 text-xl bg-yellow-50 p-1 rounded-md"></ion-icon>
                             <div class="text-xl font-semibold"> Today's birthdays </div>
                         </div>
 
@@ -396,14 +395,12 @@ if (!isset($_SESSION["userid"])) {
                                         if ($about != null) {
                                             if ($timer->DateCompare($about["birthday"], $currentDateString) == 0) {
                                                 $friend = $user->getUser($value['friend_id']);
-                                                ?>
+                                ?>
                                                 <div class="flex items-center sm:space-x-6 space-x-3">
-                                                    <img src="<?php echo $friend["avatar_image"] ?>" alt=""
-                                                        class="sm:w-16 sm:h-16 w-14 h-14 rounded-full">
+                                                    <img src="<?php echo $friend["avatar_image"] ?>" alt="" class="sm:w-16 sm:h-16 w-14 h-14 rounded-full">
                                                     <div class="flex-1">
                                                         <div class="flex items-center justify-between mb-3">
-                                                            <div class="text-base font-semibold"> <a
-                                                                    href="profile.php?uid=<?php echo $friend["userid"] ?>">
+                                                            <div class="text-base font-semibold"> <a href="profile.php?uid=<?php echo $friend["userid"] ?>">
                                                                     <?php echo $friend["first_name"] . " " . $friend["last_name"] ?>
                                                                 </a> </div>
                                                             <div class="font-medium text-sm text-gray-400">
@@ -411,32 +408,25 @@ if (!isset($_SESSION["userid"])) {
                                                             </div>
                                                         </div>
                                                         <div class="relative">
-                                                            <input type="text" name="txtMessage" id="" class="with-border"
-                                                                placeholder="Happy birthday message...">
-                                                            <ion-icon style="cursor: pointer;" name="send-outline"
-                                                                data-friend-id="<?php echo $friend["userid"] ?>"
-                                                                class="btn-send-message-birthday absolute right-3 text-2xl top-1/4"></ion-icon>
+                                                            <input type="text" name="txtMessage" id="" class="with-border" placeholder="Happy birthday message...">
+                                                            <ion-icon style="cursor: pointer;" name="send-outline" data-friend-id="<?php echo $friend["userid"] ?>" class="btn-send-message-birthday absolute right-3 text-2xl top-1/4"></ion-icon>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <?php
+                                <?php
                                             }
                                         }
-
                                     }
                                 }
                                 ?>
 
                             </div>
                         </div>
-                        <div class="relative cursor-pointer"
-                            uk-toggle="target: #upcoming; animation: uk-animation-fade">
+                        <div class="relative cursor-pointer" uk-toggle="target: #upcoming; animation: uk-animation-fade">
                             <div class="bg-gray-50 rounded-lg px-5 py-4 font-semibold text-base"> Upcoming birthdays
                             </div>
-                            <i class="-translate-y-1/2 absolute icon-feather-chevron-up right-4 text-xl top-1/2 transform text-gray-400"
-                                id="upcoming" hidden></i>
-                            <i class="-translate-y-1/2 absolute icon-feather-chevron-down right-4 text-xl top-1/2 transform text-gray-400"
-                                id="upcoming"></i>
+                            <i class="-translate-y-1/2 absolute icon-feather-chevron-up right-4 text-xl top-1/2 transform text-gray-400" id="upcoming" hidden></i>
+                            <i class="-translate-y-1/2 absolute icon-feather-chevron-down right-4 text-xl top-1/2 transform text-gray-400" id="upcoming"></i>
                         </div>
                         <div class="mt-5 sm:space-y-8 space-y-6" id="upcoming" hidden>
 
@@ -450,10 +440,9 @@ if (!isset($_SESSION["userid"])) {
                                         if ($about != null) {
                                             if ($timer->DayDifference($about["birthday"], $currentDateString) <= 10 && $timer->DateCompare($about["birthday"], $currentDateString) != 0) {
                                                 $friend = $user->getUser($value['friend_id']);
-                                                ?>
+                                ?>
                                                 <div class="flex items-center sm:space-x-6 space-x-3">
-                                                    <img src="<?php echo $friend["avatar_image"] ?>" alt=""
-                                                        class="sm:w-16 sm:h-16 w-14 h-14 rounded-full">
+                                                    <img src="<?php echo $friend["avatar_image"] ?>" alt="" class="sm:w-16 sm:h-16 w-14 h-14 rounded-full">
                                                     <div class="flex-1">
                                                         <div class="flex items-center justify-between mb-3">
                                                             <div class="text-base font-semibold">
@@ -467,7 +456,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <?php
+                                <?php
                                             }
                                         }
                                     }
@@ -493,8 +482,7 @@ if (!isset($_SESSION["userid"])) {
     <!-- open chat box -->
     <div uk-toggle="target: #offcanvas-chat" class="start-chat">
         <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
         </svg>
     </div>
 
@@ -508,8 +496,7 @@ if (!isset($_SESSION["userid"])) {
 
                 <div class="absolute right-3 top-4 flex items-center space-x-2">
 
-                    <button class="uk-offcanvas-close  px-2 -mt-1 relative rounded-full inset-0 lg:hidden blcok"
-                        type="button" uk-close></button>
+                    <button class="uk-offcanvas-close  px-2 -mt-1 relative rounded-full inset-0 lg:hidden blcok" type="button" uk-close></button>
 
                     <a href="#" uk-toggle="target: #search;animation: uk-animation-slide-top-small">
                         <ion-icon name="search" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
@@ -518,34 +505,28 @@ if (!isset($_SESSION["userid"])) {
                         <ion-icon name="settings-outline" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
                     </a>
                     <a href="#">
-                        <ion-icon name="ellipsis-vertical"
-                            class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
+                        <ion-icon name="ellipsis-vertical" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
                     </a>
-                    <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
-                        uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
+                    <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
                         <ul class="space-y-1">
                             <li>
-                                <a href="#"
-                                    class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                                     <ion-icon name="checkbox-outline" class="pr-2 text-xl"></ion-icon> Mark all as read
                                 </a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                                     <ion-icon name="settings-outline" class="pr-2 text-xl"></ion-icon> Chat setting
                                 </a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                                     <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon> Disable
                                     notifications
                                 </a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                                     <ion-icon name="star-outline" class="pr-2 text-xl"></ion-icon> Create a group chat
                                 </a>
                             </li>
@@ -558,11 +539,9 @@ if (!isset($_SESSION["userid"])) {
 
             </div>
 
-            <div class="absolute bg-white z-10 w-full -mt-5 lg:-mt-2 transform translate-y-1.5 py-2 border-b items-center flex"
-                id="search" hidden>
+            <div class="absolute bg-white z-10 w-full -mt-5 lg:-mt-2 transform translate-y-1.5 py-2 border-b items-center flex" id="search" hidden>
                 <input type="text" placeholder="Search.." class="flex-1">
-                <ion-icon name="close-outline" class="text-2xl hover:bg-gray-100 p-1 rounded-full mr-4 cursor-pointer"
-                    uk-toggle="target: #search;animation: uk-animation-slide-top-small"></ion-icon>
+                <ion-icon name="close-outline" class="text-2xl hover:bg-gray-100 p-1 rounded-full mr-4 cursor-pointer" uk-toggle="target: #search;animation: uk-animation-slide-top-small"></ion-icon>
             </div>
 
             <nav class="responsive-nav border-b extanded mb-2 -mt-2">
@@ -692,13 +671,11 @@ if (!isset($_SESSION["userid"])) {
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <?php include("./Websocket/src/Notification.php") ?>
     <!-- For Night mode -->
     <script>
-        (function (window, document, undefined) {
+        (function(window, document, undefined) {
             'use strict';
             if (!('localStorage' in window)) return;
             var nightMode = localStorage.getItem('gmtNightMode');
@@ -707,7 +684,7 @@ if (!isset($_SESSION["userid"])) {
             }
         })(window, document);
 
-        (function (window, document, undefined) {
+        (function(window, document, undefined) {
 
             'use strict';
 
@@ -719,7 +696,7 @@ if (!isset($_SESSION["userid"])) {
             if (!nightMode) return;
 
             // When clicked, toggle night mode on or off
-            nightMode.addEventListener('click', function (event) {
+            nightMode.addEventListener('click', function(event) {
                 event.preventDefault();
                 document.documentElement.classList.toggle('dark');
                 if (document.documentElement.classList.contains('dark')) {

@@ -466,6 +466,7 @@ if (!isset($_SESSION["userid"])) {
     </div>
     <!-- For Night mode -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <?php include("./Websocket/src/Notification.php") ?>
     <script>
         (function (window, document, undefined) {
             'use strict';
