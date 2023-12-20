@@ -509,7 +509,7 @@ if (!isset($_SESSION["userid"])) {
                         <div class="uk-slider-container px-1 py-3">
                             <ul class="uk-child-width-1-4@m uk-child-width-1-3@s uk-grid-small uk-grid list-friendRequest">
                                 <?php
-                                $listFriendRequest = $f->getRequestsLimit($userCurrent["userid"],0,4);
+                                $listFriendRequest = $f->getRequestsLimit($userCurrent["userid"], 0, 4);
                                 if ($listFriendRequest != null) {
                                     foreach ($listFriendRequest as $key => $value) {
                                         $userReq = $user->getUser($value["sender_id"]);
@@ -552,16 +552,16 @@ if (!isset($_SESSION["userid"])) {
 
                             </ul>
                             <?php
-                            if ($listFriendRequest != null){
+                            if ($listFriendRequest != null && sizeof($listFriendRequest) > 4) {
                             ?>
                                 <div class="flex justify-center mt-6">
-                                <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white btn-FriendRequest-loadMore">
-                                    Load more ..</a>
-                            </div>
+                                    <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white btn-FriendRequest-loadMore">
+                                        Load more ..</a>
+                                </div>
                             <?php
                             }
                             ?>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -590,10 +590,18 @@ if (!isset($_SESSION["userid"])) {
                         ?>
 
                     </div>
-                    <div class="flex justify-center mt-6">
-                        <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white btn-loadMore">
-                            Load more ..</a>
-                    </div>
+                    <?php
+                    if (sizeof($f->getListFriend($userCurrent["userid"])) > 8) {
+                    ?>
+
+
+                        <div class="flex justify-center mt-6">
+                            <a href="#" class="bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white btn-loadMore">
+                                Load more ..</a>
+                        </div>
+                    <?php
+                    }
+                    ?>
                 </div>
 
                 <!-- Custom -->
@@ -628,13 +636,12 @@ if (!isset($_SESSION["userid"])) {
         var currentURL = window.location.href;
         // Tách phần tag từ URL
         var tagFromURL = currentURL.split('#')[1];
-        if(tagFromURL == "all-friend"){
+        if (tagFromURL == "all-friend") {
             $(".all-friend-tab")[0].click()
         }
-        if(tagFromURL == "friend-request"){
+        if (tagFromURL == "friend-request") {
             $(".friend-request-tab")[0].click()
         }
-        
     </script>
 
     <!-- Javascript
