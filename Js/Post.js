@@ -712,7 +712,8 @@ $(document).on('click', '.reply-comment-btn', function (e) {
     var userID = $("input[name='txtUserid']").val();
     var commentID = $(this).attr("commentid");
     var postID = $(this).attr("post-id");
-    var msg = $(".reply-dropdown[commentid='" + commentID + "'] input").val();
+    //var msg = $(".reply-dropdown[commentid='" + commentID + "'] input").val();
+    var msg = $(this).parent().prev().val();
     console.log(msg)
     if (msg.trim().length == 0) {
         showNotification("Please enter text to reply comment!")
@@ -801,7 +802,8 @@ $(document).on("click",".view-reply-btn", function (e){
                         console.log(cmtData);
                         $.each(cmtData, function (key, value) {
                             var time = timeAgo(value.cmt["date"]);
-                            $(".reply-comment-msg[commentid='" + commentid + "']").append('<br>\
+                            $("#post-details-modal .view-reply-btn").data("next-offset", nextOffet);
+                            $("#post-details-modal .reply-comment-msg[commentid='" + commentid + "']").append('<br>\
                             <div class="flex" >\
                                 <div class="w-10 h-10 rounded-full relative flex-shrink-0 ml-8">\
                                     <a href="profile.php?uid='+value.user["userid"]+'">\
@@ -820,13 +822,14 @@ $(document).on("click",".view-reply-btn", function (e){
                         var nextOffet = offset + 20;
                         if (nextOffet > cmtData[0].totalComment) nextOffet = cmtData[0].totalComment;
                         var remainingQuantity = cmtData[0].totalComment - nextOffet;
-                        $("#post-details-modal .view-reply-btn").data("next-offset", nextOffet);
-                        $("#post-details-modal .btn-view-more-comment").text(`View more ${remainingQuantity} Comments `)
-                        $("#post-details-modal .count-cmt").remove();
-                        $("#post-details-modal .btn-view-more-comment").after(`<span class="count-cmt" style="margin-left: 68%">${nextOffet}/${cmtData[0].totalComment}</span>`);
+                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").data("next-offset", nextOffet);
+                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").text(`View more ${remainingQuantity} replies `)
+                        $("#post-details-modal .count-cmtr[commentid='"+commentid+"']").remove();
+                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").after(`<span class="count-cmtr" commentid='3' style="margin-left: 38%">${nextOffet}/${cmtData[0].totalComment}</span>`);
+                        $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").next().attr('commentid', commentid);
+
                         if (remainingQuantity <= 0) {
-                            $("#post-details-modal .btn-view-more-comment").remove();
-                            $("#post-details-modal .count-cmt").css("margin-left", "90%");
+                            $("#post-details-modal .view-reply-btn[commentid='"+commentid+"']").remove();
                         }
     
                     }
