@@ -316,17 +316,19 @@ if (!isset($_SESSION["userid"])) {
                     if ($friends != null) {
                         for ($i = 0; $i < sizeof($friends); $i++) {
                             $friend = $user->getUser($friends[$i]["friend_id"]);
+                            if ($friend["privacy"] == "public") {
                     ?>
-                            <a href="chats-friend.php?uid=<?php echo $friend["userid"] ?>">
-                                <div class="contact-avatar">
-                                    <img src="<?php echo $friend["avatar_image"] ?>" alt="avatar">
-                                    <span class="user_status status_online"></span>
-                                </div>
-                                <div class="contact-username">
-                                    <?php echo $friend["first_name"] . " " . $friend["last_name"] ?>
-                                </div>
-                            </a>
+                                <a href="chats-friend.php?uid=<?php echo $friend["userid"] ?>">
+                                    <div class="contact-avatar">
+                                        <img src="<?php echo $friend["avatar_image"] ?>" alt="avatar">
+                                        <span class="user_status status_online"></span>
+                                    </div>
+                                    <div class="contact-username">
+                                        <?php echo $friend["first_name"] . " " . $friend["last_name"] ?>
+                                    </div>
+                                </a>
                     <?php
+                            }
                         }
                     }
                     ?>

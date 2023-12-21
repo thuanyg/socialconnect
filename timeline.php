@@ -418,17 +418,19 @@ if (!isset($_SESSION["userid"])) {
                     if ($friends != null) {
                         for ($i = 0; $i < sizeof($friends); $i++) {
                             $friend = $user->getUser($friends[$i]["friend_id"]);
+                            if ($friend["privacy"] == "public") {
                     ?>
-                            <a href="chats-friend.php?uid=<?php echo $friend["userid"] ?>">
-                                <div class="contact-avatar">
-                                    <img src="<?php echo $friend["avatar_image"] ?>" alt="avatar">
-                                    <span class="user_status status_online"></span>
-                                </div>
-                                <div class="contact-username">
-                                    <?php echo $friend["first_name"] . " " . $friend["last_name"] ?>
-                                </div>
-                            </a>
+                                <a href="chats-friend.php?uid=<?php echo $friend["userid"] ?>">
+                                    <div class="contact-avatar">
+                                        <img src="<?php echo $friend["avatar_image"] ?>" alt="avatar">
+                                        <span class="user_status status_online"></span>
+                                    </div>
+                                    <div class="contact-username">
+                                        <?php echo $friend["first_name"] . " " . $friend["last_name"] ?>
+                                    </div>
+                                </a>
                     <?php
+                            }
                         }
                     }
                     ?>
@@ -1436,20 +1438,22 @@ if (!isset($_SESSION["userid"])) {
                             <?php
                             for ($i = 0; $i < sizeof($friends); $i++) {
                                 $friend = $user->getUser($friends[$i]["friend_id"]);
+                                if ($friend["privacy"] == "public") {
                             ?>
-                                <div class="card p-2">
-                                    <a href="profile.php?uid=<?php echo $friend["userid"] ?>">
-                                        <img src="<?php echo $friend["avatar_image"] ?>" class="h-36 object-cover rounded-md shadow-sm w-full">
-                                    </a>
-                                    <div class="pt-3 px-1">
-                                        <a href="profile.php?uid=<?php echo $friend["userid"] ?>" class="text-base font-semibold mb-0.5"> <?php echo $friend["first_name"] . " " . $friend["last_name"] ?> </a>
-                                        <p class="font-medium text-sm"><?php echo $f->getQuantityFriend($friend["userid"]) . " Friend" ?> </p>
-                                        <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
-                                            Friend
-                                        </button>
+                                    <div class="card p-2">
+                                        <a href="profile.php?uid=<?php echo $friend["userid"] ?>">
+                                            <img src="<?php echo $friend["avatar_image"] ?>" class="h-36 object-cover rounded-md shadow-sm w-full">
+                                        </a>
+                                        <div class="pt-3 px-1">
+                                            <a href="profile.php?uid=<?php echo $friend["userid"] ?>" class="text-base font-semibold mb-0.5"> <?php echo $friend["first_name"] . " " . $friend["last_name"] ?> </a>
+                                            <p class="font-medium text-sm"><?php echo $f->getQuantityFriend($friend["userid"]) . " Friend" ?> </p>
+                                            <button class="bg-blue-100 w-full flex font-semibold h-8 items-center justify-center mt-3 px-3 rounded-md text-blue-600 text-sm mb-1">
+                                                Friend
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
                             <?php
+                                }
                             }
                             ?>
                         </div>
@@ -1486,7 +1490,7 @@ if (!isset($_SESSION["userid"])) {
 
                     <!-- Photos  -->
                     <div class="card md:p-6 p-2 max-w-3xl mx-auto" id="result"></div>
-                    
+
                 </div>
 
             </div>
