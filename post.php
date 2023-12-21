@@ -174,7 +174,7 @@ if (!isset($_SESSION["userid"])) {
                                             $mess = $mess_obj->getLastestMessage($userCurrent["userid"], $friend["userid"]);
                                         ?>
                                             <li class="message-preview un-read" data-friend-id="<?php echo $friend["userid"] ?>">
-                                                <a href="">
+                                                <a href="chats-friend.php?uid=<?php echo $friend["userid"] ?>">
                                                     <div class="drop_avatar"> <img src="<?php echo $friend["avatar_image"] ?>" alt="">
                                                     </div>
                                                     <div class="drop_text">
@@ -342,9 +342,7 @@ if (!isset($_SESSION["userid"])) {
                     <li><a href="#"> <ion-icon name="code-slash-outline" class="side-icon"></ion-icon> <span>
                                 Development </span> </a>
                         <ul>
-                            <li><a href="development-components.html"> Compounents </a></li>
-                            <li><a href="development-plugins.html"> Plugins </a></li>
-                            <li><a href="development-icons.html"> Icons </a></li>
+                            <li><a href="development-icons.php"> Icons </a></li>
                         </ul>
                     </li>
                     <li><a href="#"> <ion-icon name="log-in-outline" class="side-icon"></ion-icon> <span> Authentication
@@ -1103,7 +1101,9 @@ if (!isset($_SESSION["userid"])) {
     <script src="assets/js/simplebar.js"></script>
     <script src="assets/js/custom.js"></script>
     <script src="assets/js/bootstrap-select.min.js"></script>
-    <script src="../../unpkg.com/ionicons%405.2.3/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 
 </body>
 

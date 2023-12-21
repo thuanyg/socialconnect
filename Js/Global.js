@@ -8,6 +8,23 @@ var notifyFetching = false;
 var offset = 10;
 var notifyOffset = 10;
 var shouldLoadMore = true;
+$(window).scroll(function () {
+    var windowHeight = window.innerHeight;
+    var scrollTop = $(this).scrollTop();
+    if (scrollTop > windowHeight - 100) {
+        $(".scroll-to-top").show();
+    } else {
+        $(".scroll-to-top").hide();
+    }
+});
+$(".scroll-to-top").click(function (e) {
+    e.preventDefault();
+    window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth' 
+    });
+})
 $("input[name='txtSearch']").on("keyup", function () {
     var query = $(this).val();
     $("#searchResults > :not(#search-loading)").remove();

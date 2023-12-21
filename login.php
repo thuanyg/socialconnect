@@ -196,10 +196,7 @@
     <script src="assets/js/simplebar.js"></script>
     <script src="assets/js/custom.js"></script>
     <script src="assets/js/bootstrap-select.min.js"></script>
-    <script src="../../unpkg.com/ionicons%405.2.3/dist/ionicons.js"></script>
-
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
-
-<!-- Mirrored from demo.foxthemes.net/socialite/landing.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 20 Jul 2023 17:43:27 GMT -->
-
 </html>
