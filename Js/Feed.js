@@ -6,7 +6,7 @@ var offset = 5;
 var postDocument = $("#PostContaier");
 $(window).scroll(function () {
     var scrollTop = $(this).scrollTop();
-    if (scrollTop > windowHeight * 70 / 100) {
+    if (scrollTop > windowHeight - 100) {
         $(".scroll-to-top").show();
     } else {
         $(".scroll-to-top").hide();

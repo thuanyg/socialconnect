@@ -1388,7 +1388,7 @@ if (!isset($_SESSION["userid"])) {
                                         <h4 class="text-lg font-semibold"> Friends </h4>
                                         <p class="text-sm"> <?php echo $f->getQuantityFriend($userCurrent["userid"]) . " Friends" ?> </p>
                                     </div>
-                                    <a href="#" class="text-blue-600 ">See all</a>
+                                    <a href="friends.php#all-friend" class="text-blue-600 ">See all</a>
                                 </div>
                                 <div class="grid grid-cols-3 gap-3 text-gray-600 font-semibold show-friend">
                                     <?php
@@ -1408,7 +1408,7 @@ if (!isset($_SESSION["userid"])) {
                                     } ?>
 
                                 </div>
-                                <a href="#" class="button gray mt-3 w-full see-all-btn "> See all </a>
+                                <a href="friends.php#all-friend" class="button gray mt-3 w-full see-all-btn "> See all </a>
                             </div>
 
                             <div class="widget card p-5 border-t">
