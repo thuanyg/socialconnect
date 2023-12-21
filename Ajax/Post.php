@@ -2071,6 +2071,9 @@ if (isset($_POST["action"])) {
                         }
                         }
                     }
+                    if ($index === $number+8) {
+                        break;
+                    }
                 }
             }
             ?>
@@ -2233,6 +2236,9 @@ if (isset($_POST["action"])) {
                         }
                         }
                     }
+                }
+                if ($index === $number+8) {
+                    break;
                 }
             }
             }
