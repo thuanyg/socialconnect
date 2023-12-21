@@ -188,17 +188,22 @@ async function CreatePost() {
     //     showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
     //     isValid = false;
     // }
-    // if (containsExternalEmbed(post)) {
-    //     setTimeout(() => {
-    //         showNotification("Lưu ý! Bài viết của bạn đang có một đoạn nhúng từ bên ngoài");
-    //     }, 2000);
-    // }
+    if (escapeHtml(post)) {
+        if(!confirm("Lưu ý! Bài viết của bạn xuất hiện các ký tự không an toàn. Bạn chắc chắn muốn giữ lại?")){
+            isValid = false;
+            return;
+        }
+    }
     // if (validateInput(post)) {
     //     showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
     //     isValid = false;
     // }
     if (post.length > 1000) {
         showNotification("Bài viết của bạn quá dài. Hãy kiểm tra lại");
+        isValid = false;
+    }
+    if (post.length == 0) {
+        showNotification("Please enter text to create post!");
         isValid = false;
     }
     try {
