@@ -75,9 +75,10 @@ function showImageOfOther() {
             fnPhotoOfOther();
 
             var number = 0;
-            $(".btn-load-more-photo").on("click", function (e) {
+            $(".btn-load-more-photo-orther").on("click", function (e) {
                 e.preventDefault();
                 var userid = $(this).attr("useridprofile");
+                console.log(userid);
                 number += 8;
                 $.ajax({
                     url: "Ajax/Post.php",

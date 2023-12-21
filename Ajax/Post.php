@@ -2180,7 +2180,7 @@ if (isset($_POST["action"])) {
             if($postsize["total_media"] - $number > 8){
         ?>
         <div class="load-more flex justify-center mt-6">
-            <a href="#" class="btn-load-more-photo bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white" useridprofile="<?php echo $userid ?>">
+            <a href="#" class="btn-load-more-photo-orther bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white" useridprofile="<?php echo $userid ?>">
                 Load more ..</a>
         </div>
         <?php 
@@ -2204,7 +2204,6 @@ if (isset($_POST["action"])) {
                 if ($post[$i]["media"] != null) {
                     $media_json = $post[$i]["media"];
                     $media = json_decode($media_json, true);
-                    $index = sizeof($media);
                     foreach ($media as $file) {
                         $index ++;
                         if($index > $number){
