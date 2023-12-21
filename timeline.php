@@ -271,7 +271,7 @@ if (!isset($_SESSION["userid"])) {
                                             $mess = $mess_obj->getLastestMessage($userCurrent["userid"], $friend["userid"]);
                                         ?>
                                             <li class="message-preview un-read" data-friend-id="<?php echo $friend["userid"] ?>">
-                                                <a href="">
+                                                <a href="chats-friend.php?uid=<?php echo $friend["userid"] ?>">
                                                     <div class="drop_avatar"> <img src="<?php echo $friend["avatar_image"] ?>" alt="">
                                                     </div>
                                                     <div class="drop_text">
@@ -368,25 +368,7 @@ if (!isset($_SESSION["userid"])) {
                     <li><a href="chats-friend.php">
                             <img src="./assets/images/chat.png" alt="" style="width: 26px; margin-right: 8px">
                             <span> Messages </span></a>
-                    </li>
-                    <li><a href="albums.php">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-purple-500">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
-                            </svg> <span> Photos </span></a>
-                    </li>
-                    <!-- <li><a href="videos.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8v2h1v-2h-1zm-2-2H7v4h6v-4zm2 0h1V9h-1v2zm1-4V5h-1v2h1zM5 5v2H4V5h1zm0 4H4v2h1V9zm-1 4h1v2H4v-2z" clip-rule="evenodd" />
-                            </svg>
-                            <span> Video</span></a>
-                    </li>
-                    <li id="more-veiw" hidden><a href="products.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-red-500">
-                                <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
-                            </svg>
-                            <span> Products</span></a>
-                    </li> -->
-
+                    </li>                    
                     <li id="more-veiw" hidden><a href="birthdays.php">
                             <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path>
@@ -454,9 +436,7 @@ if (!isset($_SESSION["userid"])) {
                     <li><a href="#"> <ion-icon name="code-slash-outline" class="side-icon"></ion-icon> <span>
                                 Development </span> </a>
                         <ul>
-                            <li><a href="development-components.html"> Compounents </a></li>
-                            <li><a href="development-plugins.html"> Plugins </a></li>
-                            <li><a href="development-icons.html"> Icons </a></li>
+                            <li><a href="development-icons.php"> Icons </a></li>
                         </ul>
                     </li>
                     <li><a href="#"> <ion-icon name="log-in-outline" class="side-icon"></ion-icon> <span> Authentication
@@ -531,19 +511,6 @@ if (!isset($_SESSION["userid"])) {
 
                         <!-- button actions -->
                         <div class="flex items-center space-x-1.5 flex-shrink-0 pr-4 mb-2 justify-center order-1 relative">
-
-                            <!-- add story -->
-
-                            <!-- search icon -->
-                            <a href="#" class="flex items-center justify-center h-10 w-10 rounded-md bg-gray-100" uk-toggle="target: #profile-search;animation: uk-animation-slide-top-small">
-                                <ion-icon name="search" class="text-xl"></ion-icon>
-                            </a>
-                            <!-- search dropdown -->
-                            <div class="absolute right-3 bg-white z-10 w-full flex items-center border rounded-md" id="profile-search" hidden>
-                                <input type="text" placeholder="Search.." class="flex-1">
-                                <ion-icon name="close-outline" class="text-2xl hover:bg-gray-100 p-1 rounded-full mr-2 cursor-pointer" uk-toggle="target: #profile-search;animation: uk-animation-slide-top-small"></ion-icon>
-                            </div>
-
                             <!-- more icon -->
                             <a href="#" class="flex items-center justify-center h-10 w-10 rounded-md bg-gray-100">
                                 <ion-icon name="ellipsis-horizontal" class="text-xl">···</ion-icon>
@@ -1776,52 +1743,6 @@ if (!isset($_SESSION["userid"])) {
             </div>
         </div>
     </div>
-    <!-- Create new album -->
-
-    <div id="offcanvas-create" uk-offcanvas="flip: true; overlay: true">
-        <div class="uk-offcanvas-bar lg:w-4/12 w-full dark:bg-gray-700 dark:text-gray-300 p-0 bg-white flex flex-col justify-center">
-
-            <button class="uk-offcanvas-close absolute" type="button" uk-close></button>
-
-            <!-- notivication header -->
-            <div class="-mb-1 border-b font-semibold px-5 py-5 text-lg">
-                <h4> Create album </h4>
-            </div>
-
-            <div class="p-6 space-y-3 flex-1">
-                <div>
-                    <label> Album Name </label>
-                    <input type="text" class="with-border" placeholder="">
-                </div>
-                <div>
-                    <label> Visibilty </label>
-                    <select id="" name="" class="shadow-none selectpicker with-border">
-                        <option data-icon="uil-bullseye"> Private </option>
-                        <option data-icon="uil-chat-bubble-user">My Following</option>
-                        <option data-icon="uil-layer-group-slash">Unlisted</option>
-                        <option data-icon="uil-globe" selected>Puplic</option>
-                    </select>
-                </div>
-                <div uk-form-custom class="w-full py-3">
-                    <div class="bg-gray-100 border-2 border-dashed flex flex-col h-32 items-center justify-center relative w-full rounded-lg dark:bg-gray-800 dark:border-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
-                            <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
-                            <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
-                        </svg>
-                    </div>
-                    <input type="file">
-                </div>
-
-            </div>
-            <div class="p-5">
-                <button type="button" class="button w-full">
-                    Create Now
-                </button>
-            </div>
-
-
-        </div>
-    </div>
     <!-- image about preview -->
     <div class="preview-about-image uk-lightbox uk-overflow-hidden uk-lightbox-panel uk-active uk-transition-active">
         <ul class="uk-lightbox-items">
@@ -1848,6 +1769,11 @@ if (!isset($_SESSION["userid"])) {
             <div class="post-details-card">
             </div>
         </div>
+    </div>
+    <div class="scroll-to-top start-chat" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24">
+            <path fill="currentColor" d="m13 5.586l-4.707 4.707a.999.999 0 1 0 1.414 1.414L12 9.414V17a1 1 0 1 0 2 0V9.414l2.293 2.293a.997.997 0 0 0 1.414 0a.999.999 0 0 0 0-1.414z" />
+        </svg>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <?php include("./Websocket/src/Notification.php") ?>

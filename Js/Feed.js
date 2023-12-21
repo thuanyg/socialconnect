@@ -5,22 +5,6 @@ var postFetching = false; // Sửa thành postFetching
 var offset = 5;
 var postDocument = $("#PostContaier");
 $(window).scroll(function () {
-    var scrollTop = $(this).scrollTop();
-    if (scrollTop > windowHeight - 100) {
-        $(".scroll-to-top").show();
-    } else {
-        $(".scroll-to-top").hide();
-    }
-});
-$(".scroll-to-top").click(function (e) {
-    e.preventDefault();
-    window.scroll({
-        top: 0,
-        left: 0,
-        behavior: 'smooth' // You can use 'auto' for instant scrolling
-    });
-})
-$(window).scroll(function () {
     var docHeight = postDocument.height();
     var scrollTop = $(this).scrollTop();
     // Kiểm tra xem có đang thực hiện gọi Ajax không và trang có đủ dữ liệu để load thêm không
