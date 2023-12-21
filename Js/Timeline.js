@@ -81,7 +81,7 @@ $(".friend-tab").on("click", function (e) {
 
 //Photo of you
 function showImageOfYou() {
-
+    var num = 0;
     var userid = $("input[name='txtUserid']").val();
     console.log(userid);
     $.ajax({
@@ -90,41 +90,68 @@ function showImageOfYou() {
         dataType: "html",
         data: {
             userid: userid,
+            num : num,
             action: "show-image-of-you"
         },
         success: function (data) {
             //console.log(data);
             $("#result").html(data);
-            // Photo tab
-            $(".photo-tab").on("click", function (e) {
+            fnPhotoOfYou();
+
+            var number = 0;
+            $(".btn-load-more-photo").on("click", function (e) {
                 e.preventDefault();
-                $(".photo-tab").removeClass("active");
-                $(this).addClass('active');
-                if ($(this).hasClass("album")) {
-                    $(".photo-of-you").hide();
-                    $(".album-of-you").show();
-                } else {
-                    $(".album-of-you").hide();
-                    $(".photo-of-you").show();
-                }
-
-            });
-            //Phôt click to big
-            $(document).ready(function () {
-                $('.image-small img').on('click', function () {
-                    var imgUrl = $(this).attr('src');
-                    $('.image-big img').attr('src', imgUrl);
-                    $('.image-big').css({ "display": "block", "opacity": "1", "align-items": "center" });
-                });
-
-                //dong anh lon
-                $('.image-big .close-image').on('click', function () {
-                    $('.image-big').css({ "display": "none", "opacity": "0" });
-                });
+                number += 8;
+                var userid = $("input[name='txtUserid']").val();
+                $.ajax({
+                    url: "Ajax/Post.php",
+                    method: "POST",
+                    dataType: "html",           
+                    data: {
+                        userid: userid,
+                        number : number,
+                        action: "show-more-image-of-you"
+                    },
+                    success: function (data) {
+                        //console.log(data);
+                        $("#result .load-more").before(data);
+                        fnPhotoOfYou();
+                    }
+                })
             });
         }
     });
 }
+function fnPhotoOfYou() {
+    // Photo tab
+    $(".photo-tab").on("click", function (e) {
+        e.preventDefault();
+        $(".photo-tab").removeClass("active");
+        $(this).addClass('active');
+        if ($(this).hasClass("album")) {
+            $(".photo-of-you").hide();
+            $(".album-of-you").show();
+        } else {
+            $(".album-of-you").hide();
+            $(".photo-of-you").show();
+        }
+
+    });
+    //Phôt click to big
+    $(document).ready(function () {
+        $('.image-small img').on('click', function () {
+            var imgUrl = $(this).attr('src');
+            $('.image-big img').attr('src', imgUrl);
+            $('.image-big').css({ "display": "block", "opacity": "1", "align-items": "center" });
+        });
+
+        //dong anh lon
+        $('.image-big .close-image').on('click', function () {
+            $('.image-big').css({ "display": "none", "opacity": "0" });
+        });
+    });
+}
+
 $("#about-save-btn").click(function (e) {
     // e.preventDefault();
     if (confirm("Do you want to change about?")) {

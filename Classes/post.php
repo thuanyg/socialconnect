@@ -74,7 +74,7 @@ class Post
 
     function getFullPost($userid)
     {
-        $sql = "select * from posts where userid = " . $userid . " ";
+        $sql = "select * from posts where userid = " . $userid . " order by date desc";
         $DB = new Database();
         $result = $DB->Query($sql);
         if ($result != null) {
