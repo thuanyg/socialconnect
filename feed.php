@@ -469,11 +469,6 @@ if (!isset($_SESSION["userid"])) {
                                                 <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
 
                                                     <ul class="space-y-1">
-                                                        <!-- <li>
-                                    <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                        <i class="uil-share-alt mr-1"></i> Share
-                                    </a>
-                                </li> -->
                                                         <?php
                                                         if ($userOfPost["userid"] == $userCurrent["userid"]) {
                                                         ?>
@@ -489,20 +484,9 @@ if (!isset($_SESSION["userid"])) {
                                                                     </svg> Privacy
                                                                 </a>
                                                             </li>
-                                                            <!-- <li>
-                                    <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                        <i class="uil-comment-slash mr-1"></i> Disable comments
-                                    </a>
-
-                                </li> -->
                                                         <?php
                                                         }
                                                         ?>
-                                                        <!-- <li>
-                                <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                    <i class="uil-favorite mr-1"></i> Add favorites
-                                </a>
-                            </li> -->
                                                         <li>
                                                             <hr class="-mx-2 my-2 dark:border-gray-800">
                                                         </li>
@@ -529,7 +513,7 @@ if (!isset($_SESSION["userid"])) {
 
                                         <!-- Show Image/Video Post -->
                                         <div uk-lightbox>
-                                            <div class="grid grid-cols-2 gap-2 px-5">
+                                            <div class="grid grid-cols-1 gap-2 px-5">
                                                 <?php
                                                 if ($post[$i]["media"] != null) {
                                                     $media_json = $post[$i]["media"];
@@ -547,8 +531,8 @@ if (!isset($_SESSION["userid"])) {
                                                         <?php
                                                         } else if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
                                                         ?>
-                                                            <div class="w-full h-full">
-                                                                <video width="320" height="240" controls>
+                                                            <div class="w-full h-full video-container">
+                                                                <video width="668" height="420" controls>
                                                                     <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
                                                                     Your browser does not support the video tag.
                                                                 </video>
@@ -606,7 +590,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </svg>
                                                     </div>
                                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                                 </a>
                                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -770,11 +754,6 @@ if (!isset($_SESSION["userid"])) {
                                                 <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
 
                                                     <ul class="space-y-1">
-                                                        <li>
-                                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                                <i class="uil-share-alt mr-1"></i> Share
-                                                            </a>
-                                                        </li>
                                                         <?php
                                                         if ($userOfPost["userid"] == $userCurrent["userid"]) {
                                                         ?>
@@ -921,7 +900,7 @@ if (!isset($_SESSION["userid"])) {
                                                 }
                                             }
                                             ?>
-                                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
+                                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0)
@@ -933,7 +912,7 @@ if (!isset($_SESSION["userid"])) {
                                                     </div>
                                                     <div class="like-text" style="color:<?php if ($liked == 1)
                                                                                             echo "blue"; ?>"> Like <?php if (count($like) > 0)
-                                                                                                                        echo "(" . count($like) . ")" ?> </div>
+                                                                                                                        echo "<span>(" . count($like) . ")</span>" ?> </div>
                                                 </button>
                                                 <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -942,7 +921,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </svg>
                                                     </div>
                                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                                 </a>
                                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">

@@ -36,16 +36,16 @@ if (isset($_POST["action"])) {
                     // Upload picture
 ?>
 
-                    <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small">
+                    <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post["postid"] ?>">
 
                         <!-- post header-->
                         <div class="flex justify-between items-center lg:p-4 p-2.5">
                             <div class="flex flex-1 items-center space-x-4">
-                                <a href="#">
+                                <a href="profile.php?uid=<?php echo $userCurrent["userid"] ?>">
                                     <img src="<?php echo $userCurrent["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-10 h-10">
                                 </a>
                                 <div class="flex-1 font-semibold capitalize">
-                                    <a href="#" class="text-black dark:text-gray-100"> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </a>
+                                    <a href="profile.php?uid=<?php echo $userCurrent["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </a>
                                     <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $time["minutes"] . " phút trước";
                                                                                                     else echo $hours . "h " . $time["minutes"] . " phút trước";
                                                                                                     ?></span> <ion-icon name="people"></ion-icon></div>
@@ -57,29 +57,9 @@ if (isset($_POST["action"])) {
 
                                     <ul class="space-y-1">
                                         <li>
-                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                <i class="uil-share-alt mr-1"></i> Share
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                <i class="uil-edit-alt mr-1"></i> Edit Post
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                <i class="uil-comment-slash mr-1"></i> Disable comments
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                <i class="uil-favorite mr-1"></i> Add favorites
-                                            </a>
-                                        </li>
-                                        <li>
                                             <hr class="-mx-2 my-2 dark:border-gray-800">
                                         </li>
-                                        <li>
+                                        <li data-post-id="<?php echo $post["postid"] ?>" onclick="deletePost(event, this)">
                                             <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md dark:hover:bg-red-600">
                                                 <i class="uil-trash-alt mr-1"></i> Delete
                                             </a>
@@ -368,7 +348,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -676,7 +656,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -989,7 +969,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1297,7 +1277,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1537,7 +1517,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1794,7 +1774,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1958,7 +1938,7 @@ if (isset($_POST["action"])) {
                         $media = json_decode($media_json, true);
                         $index = sizeof($media);
                         foreach ($media as $file) {
-                            $number ++;
+                            $number++;
                             $fileInfo = pathinfo($file);
                             $fileExtension = strtolower($fileInfo['extension']);
                             if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
@@ -1972,15 +1952,15 @@ if (isset($_POST["action"])) {
                                     <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
                                     </div>
                                 </div>
-                               
+
             <?php
-                        if($number ===8){
-                            break;
-                        }
+                                if ($number === 8) {
+                                    break;
+                                }
                             }
                         }
                     }
-                    if($number ===8){
+                    if ($number === 8) {
                         break;
                     }
                 }
@@ -2009,14 +1989,14 @@ if (isset($_POST["action"])) {
             </div>
         </div>
         <?php
-            if($postsize["total_media"] - $number > 8){
+        if ($postsize["total_media"] - $number > 8) {
         ?>
-        <div class="load-more flex justify-center mt-6">
-            <a href="#" class="btn-load-more-photo bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
-                Load more ..</a>
-        </div>
-        <?php 
-            }
+            <div class="load-more flex justify-center mt-6">
+                <a href="#" class="btn-load-more-photo bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
+                    Load more ..</a>
+            </div>
+        <?php
+        }
         ?>
 
     <?php
@@ -2027,7 +2007,7 @@ if (isset($_POST["action"])) {
         $index = 0;
         $p = new Post();
         $post = $p->getFullPost($userid);
-        ?>
+    ?>
         <div class="photo-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5">
             <?php
             if ($post != null) {
@@ -2036,44 +2016,44 @@ if (isset($_POST["action"])) {
                         $media_json = $post[$i]["media"];
                         $media = json_decode($media_json, true);
                         foreach ($media as $file) {
-                            $index ++;
-                            if($index > $number){
-                            $fileInfo = pathinfo($file);
-                            $fileExtension = strtolower($fileInfo['extension']);
-                            if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+                            $index++;
+                            if ($index > $number) {
+                                $fileInfo = pathinfo($file);
+                                $fileExtension = strtolower($fileInfo['extension']);
+                                if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
             ?>
-                                <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                    <div class="image-small">
-                                        <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
-                                    </div>
-                                    <!-- Overlay -->
-                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                        <div class="text-base"> Image description </div>
-                                        <div class="flex justify-between text-xs">
-                                            <a href="#"><?php echo $number; ?></a>
-                                            <a href="#"> <?php echo $index; ?> </a>
-                                            <a href="#"> Share </a>
+                                    <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
+                                        <div class="image-small">
+                                            <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
+                                        </div>
+                                        <!-- Overlay -->
+                                        <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
+                                        <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
+                                            <div class="text-base"> Image description </div>
+                                            <div class="flex justify-between text-xs">
+                                                <a href="#"><?php echo $number; ?></a>
+                                                <a href="#"> <?php echo $index; ?> </a>
+                                                <a href="#"> Share </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
             <?php
+                                }
+                                if ($index === $number + 8) {
+                                    break;
+                                }
                             }
-                            if ($index === $number+8) {
-                                break;
-                            }
-                        }
                         }
                     }
-                    if ($index === $number+8) {
+                    if ($index === $number + 8) {
                         break;
                     }
                 }
             }
             ?>
         </div>
-        <?php   
-    }        
+    <?php
+    }
     if ($_POST["action"] == "show-image-of-orther") {
         $userid = $_POST["userid"];
         $number = $_POST["num"];
@@ -2118,7 +2098,7 @@ if (isset($_POST["action"])) {
                         $media = json_decode($media_json, true);
                         $index = sizeof($media);
                         foreach ($media as $file) {
-                            $number ++;
+                            $number++;
                             $fileInfo = pathinfo($file);
                             $fileExtension = strtolower($fileInfo['extension']);
                             if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
@@ -2134,13 +2114,13 @@ if (isset($_POST["action"])) {
                                     </div>
                                 </div>
             <?php
-                            if($number ===8){
-                                break;
-                            }
+                                if ($number === 8) {
+                                    break;
+                                }
                             }
                         }
                     }
-                    if($number ===8){
+                    if ($number === 8) {
                         break;
                     }
                 }
@@ -2169,71 +2149,71 @@ if (isset($_POST["action"])) {
             </div>
         </div>
         <?php
-            if($postsize["total_media"] - $number > 8){
+        if ($postsize["total_media"] - $number > 8) {
         ?>
-        <div class="load-more flex justify-center mt-6">
-            <a href="#" class="btn-load-more-photo-orther bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white" useridprofile="<?php echo $userid ?>">
-                Load more ..</a>
-        </div>
-        <?php 
-            }
+            <div class="load-more flex justify-center mt-6">
+                <a href="#" class="btn-load-more-photo-orther bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white" useridprofile="<?php echo $userid ?>">
+                    Load more ..</a>
+            </div>
+        <?php
+        }
         ?>
-    
-<?php
+
+    <?php
     }
-    
+
     if ($_POST["action"] == "show-more-image-of-other") {
         $userid = $_POST["userid"];
         $number = $_POST["number"];
         $index = 0;
         $p = new Post();
         $post = $p->getFullPost($userid);
-        ?>
+    ?>
         <div class="photo-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5">
             <?php
             if ($post != null) {
-            for ($i = 0; $i < sizeof($post); $i++) {
-                if ($post[$i]["media"] != null) {
-                    $media_json = $post[$i]["media"];
-                    $media = json_decode($media_json, true);
-                    foreach ($media as $file) {
-                        $index ++;
-                        if($index > $number){
-                        $fileInfo = pathinfo($file);
-                        $fileExtension = strtolower($fileInfo['extension']);
-                        if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+                for ($i = 0; $i < sizeof($post); $i++) {
+                    if ($post[$i]["media"] != null) {
+                        $media_json = $post[$i]["media"];
+                        $media = json_decode($media_json, true);
+                        foreach ($media as $file) {
+                            $index++;
+                            if ($index > $number) {
+                                $fileInfo = pathinfo($file);
+                                $fileExtension = strtolower($fileInfo['extension']);
+                                if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
             ?>
-                            <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                <div class="image-small">
-                                    <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
-                                </div>
-                                <!-- Overlay -->
-                                <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                    <div class="text-base"> Image description </div>
-                                    <div class="flex justify-between text-xs">
-                                        <a href="#"> <?php echo $number; ?></a>
-                                        <a href="#"> <?php echo $index; ?></a>
-                                        <a href="#"> Share </a>
+                                    <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
+                                        <div class="image-small">
+                                            <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
+                                        </div>
+                                        <!-- Overlay -->
+                                        <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
+                                        <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
+                                            <div class="text-base"> Image description </div>
+                                            <div class="flex justify-between text-xs">
+                                                <a href="#"> <?php echo $number; ?></a>
+                                                <a href="#"> <?php echo $index; ?></a>
+                                                <a href="#"> Share </a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                <?php
-                        }
-                        if ($index === $number+8) {
-                            break;
-                        }
+            <?php
+                                }
+                                if ($index === $number + 8) {
+                                    break;
+                                }
+                            }
                         }
                     }
+                    if ($index === $number + 8) {
+                        break;
+                    }
                 }
-                if ($index === $number+8) {
-                    break;
-                }
-            }
             }
             ?>
         </div>
-    <?php
+<?php
     }
     // Delete post
     if ($_POST["action"] == "delete-post") {
@@ -2320,7 +2300,7 @@ if (isset($_POST["action"])) {
                 $user_id = $row["comment_userid"];
                 $cmt_user = $user->getUser($user_id);
                 $totalCmtrep = $p->getQuantityReplyComment($row["comment_id"])[0]["total"];
-                array_push($array_result, ['cmt' => $row, 'user' => $cmt_user,'totalComment' => $totalCmt, 'totalrep' => $totalCmtrep]);
+                array_push($array_result, ['cmt' => $row, 'user' => $cmt_user, 'totalComment' => $totalCmt, 'totalrep' => $totalCmtrep]);
             }
             echo json_encode($array_result);
         } else echo 0;

@@ -28,7 +28,7 @@
                                 </div>
                             </a>
                         </li>`
-                $(".list-notification").append(html);
+                $(".list-notification").prepend(html);
                 var numOfNotify = $(".notification-quantity").text();
                 numOfNotify = Number(numOfNotify) + 1;
                 $(".notification-quantity").text(numOfNotify);
@@ -59,7 +59,7 @@
                                 </div>
                             </a>
                         </li>`
-                $(".list-notification").append(html);
+                $(".list-notification").prepend(html);
                 var numOfNotify = $(".notification-quantity").text();
                 numOfNotify = Number(numOfNotify) + 1;
                 $(".notification-quantity").text(numOfNotify);
@@ -90,7 +90,7 @@
                                 </div>
                             </a>
                         </li>`
-                $(".list-notification").append(html);
+                $(".list-notification").prepend(html);
                 var numOfNotify = $(".notification-quantity").text();
                 numOfNotify = Number(numOfNotify) + 1;
                 $(".notification-quantity").text(numOfNotify);
