@@ -457,7 +457,9 @@ if (!isset($_SESSION["userid"])) {
 
                         <div class="profile_info">
                             <h1 style="text-align: center;"><?php echo $userProfile["first_name"] . " " . $userProfile["last_name"] ?></h1>
-                            <p> Family , Food , Fashion , Fourever <a href="#">Edit </a></p>
+                            <p style="text-align: center;"> <?php if ($about != null) {
+                                                                echo $about["desc"];
+                                                            } ?> </p>
                         </div>
 
                     </div>
@@ -466,7 +468,7 @@ if (!isset($_SESSION["userid"])) {
                         <nav class="responsive-nav pl-3">
                             <ul uk-switcher="connect: #timeline-tab; animation: uk-animation-fade">
                                 <li><a href="#">Timeline</a></li>
-                                <li><a href="#">Friend <span><?php echo sizeof($friendProfiles) ?></span> </a></li>
+                                <li><a href="#all-friend">Friend <span><?php echo $f->getQuantityFriend($userProfile["userid"]) ?></span> </a></li>
                                 <li><a href="#" onclick="showImageOfOther()" class="image-orther" userprofile="<?php echo $userProfile["userid"] ?>">Photoes </a></li>
                             </ul>
                         </nav>
@@ -599,21 +601,26 @@ if (!isset($_SESSION["userid"])) {
                             }
                             ?>
 
-                            <!-- more icon -->
-                            <a href="#" class="flex items-center justify-center h-10 w-10 rounded-md bg-gray-100">
-                                <ion-icon name="ellipsis-horizontal" class="text-xl">···</ion-icon>
-                            </a>
-                            <!-- more drowpdown -->
-                            
-                            <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
-                                <ul class="space-y-1">
-                                    <li>
-                                        <a href="#" data-profileid="<?php echo $userProfile["userid"] ?>" class="unfriend-btn flex items-center px-3 py-2 text-red-500 hover:bg-red-50 hover:text-red-500 rounded-md dark:hover:bg-red-600">
-                                            <ion-icon name="stop-circle-outline" class="pr-2 text-xl"></ion-icon> Unfriend
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <?php
+                            $isFriend = $f->isFriend($_SESSION["userid"], $userProfile["userid"]);
+                            if ($isFriend) {
+                            ?>
+                                <!-- more icon -->
+                                <a href="#" class="flex items-center justify-center h-10 w-10 rounded-md bg-gray-100">
+                                    <ion-icon name="ellipsis-horizontal" class="text-xl">···</ion-icon>
+                                </a>
+                                <!-- more drowpdown -->
+                                <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700" uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
+                                    <ul class="space-y-1">
+                                        <li>
+                                            <a href="#" data-profileid="<?php echo $userProfile["userid"] ?>" class="unfriend-btn flex items-center px-3 py-2 text-red-500 hover:bg-red-50 hover:text-red-500 rounded-md dark:hover:bg-red-600">
+                                                <ion-icon name="stop-circle-outline" class="pr-2 text-xl"></ion-icon> Unfriend
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            <?php
+                            } ?>
                         </div>
 
                     </div>
@@ -1275,7 +1282,7 @@ if (!isset($_SESSION["userid"])) {
                                 <div class="flex items-center justify-between mb-4">
                                     <div>
                                         <h4 class="text-lg font-semibold"> Friends </h4>
-                                        <p class="text-sm"> 3,4510 Friends</p>
+                                        <p class="text-sm"> <?php echo $f->getQuantityFriend($userProfile["userid"]) . " Friends" ?> </p>
                                     </div>
                                     <a href="#" class="text-blue-600 ">See all</a>
                                 </div>
@@ -1299,7 +1306,7 @@ if (!isset($_SESSION["userid"])) {
                                 <a href="#" class="button gray mt-3 w-full" useridProfile="<?php $userProfile['userid'] ?>"> See all </a>
                             </div>
 
-                            
+
 
                         </div>
                     </div>
@@ -1311,7 +1318,7 @@ if (!isset($_SESSION["userid"])) {
 
                         <nav class="responsive-nav border-b">
                             <ul>
-                                <li class="tab all-friend-tab active"><a href="#" class="lg:px-2"> All Friends <span> <?php echo sizeof($friendProfiles) ?> </span> </a></li>
+                                <li class="tab all-friend-tab active"><a href="" class="lg:px-2"> All Friends <span> <?php echo $f->getQuantityFriend($userProfile["userid"]) ?> </span> </a></li>
                                 <li class="tab recently-tab"><a href="#" class="lg:px-2"> Recently added </a></li>
                             </ul>
                         </nav>
@@ -2015,7 +2022,7 @@ if (!isset($_SESSION["userid"])) {
         </div>
     </div>
 
-    
+
     <!--share post-->
     <div id="share-post-modal" style="overflow-y: scroll !important" class="create-post" uk-modal>
         <div style="width: 600px;" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical rounded-lg p-0 lg:w-5/12 relative shadow-2xl uk-animation-slide-bottom-small">
@@ -2068,49 +2075,17 @@ if (!isset($_SESSION["userid"])) {
     <!-- For Night mode -->
     <script>
         $(".tab").click(function(e) {
-                e.preventDefault();
-                $(".tab").removeClass("active");
-                $(this).addClass("active");
-                $(".tab-content").hide();
-                if ($(this).hasClass("recently-tab")) {
-                    $(".recently").show();
-                }
-                if ($(this).hasClass("all-friend-tab")) {
-                    $(".all-friend").show();
-                }
-            })
-            (function(window, document, undefined) {
-                'use strict';
-                if (!('localStorage' in window)) return;
-                var nightMode = localStorage.getItem('gmtNightMode');
-                if (nightMode) {
-                    document.documentElement.className += ' night-mode';
-                }
-            })(window, document);
-
-        (function(window, document, undefined) {
-
-            'use strict';
-
-            // Feature test
-            if (!('localStorage' in window)) return;
-
-            // Get our newly insert toggle
-            var nightMode = document.querySelector('#night-mode');
-            if (!nightMode) return;
-
-            // When clicked, toggle night mode on or off
-            nightMode.addEventListener('click', function(event) {
-                event.preventDefault();
-                document.documentElement.classList.toggle('dark');
-                if (document.documentElement.classList.contains('dark')) {
-                    localStorage.setItem('gmtNightMode', true);
-                    return;
-                }
-                localStorage.removeItem('gmtNightMode');
-            }, false);
-
-        })(window, document);
+            e.preventDefault();
+            $(".tab").removeClass("active");
+            $(this).addClass("active");
+            $(".tab-content").hide();
+            if ($(this).hasClass("recently-tab")) {
+                $(".recently").show();
+            }
+            if ($(this).hasClass("all-friend-tab")) {
+                $(".all-friend").show();
+            }
+        })
     </script>
 
     <!-- Javascript

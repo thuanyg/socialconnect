@@ -6,13 +6,13 @@ $p = new Post();
 $user = new User();
 $notify = new Notification();
 if (isset($_REQUEST["action"])) {
-    
+
     if ($_POST["action"] == "get-notification") {
         $userid = $_POST["userid"];
         // Get Post_Related
         $notify = $notify->getNotification($userid);
-        if($notify != null){
-            for ($i=0; $i < count($notify); $i++) { 
+        if ($notify != null) {
+            for ($i = 0; $i < count($notify); $i++) {
                 $senderID = $notify[$i]["sender_id"];
                 $sender = $user->getUser($senderID);
                 $notify[$i]["sender"] = $sender;
@@ -26,8 +26,8 @@ if (isset($_REQUEST["action"])) {
         $offset = $_POST["offset"];
         // Get Post_Related
         $notify = $notify->getNextNotification($userid, $offset);
-        if($notify != null){
-            for ($i=0; $i < count($notify); $i++) { 
+        if ($notify != null) {
+            for ($i = 0; $i < count($notify); $i++) {
                 $senderID = $notify[$i]["sender_id"];
                 $sender = $user->getUser($senderID);
                 $notify[$i]["sender"] = $sender;
@@ -54,8 +54,10 @@ if (isset($_REQUEST["action"])) {
         $post = $p->getPostOnID($postid);
         $receiverID = ($user->getUser($post[0]["userid"]))["userid"];
         // Sender = userLike || Receiver  = user of post
-        $result = $notify->setNotification($receiverID, $userid, $postid, 'comment');
-        echo $result;
+        if ($receiverID != $userid) {
+            $result = $notify->setNotification($receiverID, $userid, $postid, 'comment');
+            echo $result;
+        }
     }
 
     if ($_POST["action"] == "share-post") {
@@ -64,8 +66,10 @@ if (isset($_REQUEST["action"])) {
         $post = $p->getPostOnID($postid);
         $receiverID = ($user->getUser($post[0]["userid"]))["userid"];
         // Sender = userLike || Receiver  = user of post
-        $result = $notify->setNotification($receiverID, $userid, $postid, 'share');
-        echo $result;
+        if ($receiverID != $userid) {
+            $result = $notify->setNotification($receiverID, $userid, $postid, 'share');
+            echo $result;
+        }
     }
 
     if ($_POST["action"] == "read-notification") {
@@ -86,4 +90,3 @@ if (isset($_REQUEST["action"])) {
         echo $result;
     }
 }
-?>

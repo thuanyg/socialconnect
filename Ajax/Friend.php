@@ -39,8 +39,12 @@ if (isset($_POST["action"])) {
         echo $result;
     }
 
-    if ($_POST["action"] == "response") {
-        echo "response";
+    if ($_POST["action"] == "unfriend") {
+        $userid = $_POST["userid"];
+        $profileID = $_POST["profileID"];
+        $f = new Friend();
+        $result = $f->UnFriend($userid, $profileID);
+        echo $result;
     }
     if ($_POST["action"] == "get_more_friends") {
         $userid = $_SESSION["userid"];

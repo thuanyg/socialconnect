@@ -1967,12 +1967,7 @@ if (isset($_POST["action"])) {
                                     <!-- Overlay -->
                                     <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
                                     <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                        <div class="text-base"> Image description </div>
-                                        <div class="flex justify-between text-xs">
-                                            <a href="#"> Like</a>
-                                            <a href="#"> Comment </a>
-                                            <a href="#"> Share </a>
-                                        </div>
+
                                     </div>
                                 </div>
             <?php
@@ -2043,52 +2038,31 @@ if (isset($_POST["action"])) {
         </div>
         <div class="photo-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5">
             <?php
-            for ($i = 0; $i < sizeof($post); $i++) {
-                if ($post[$i]["media"] != null) {
-                    $media_json = $post[$i]["media"];
-                    $media = json_decode($media_json, true);
-                    foreach ($media as $file) {
-                        $fileInfo = pathinfo($file);
-                        $fileExtension = strtolower($fileInfo['extension']);
-                        if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+            if ($post != null) {
+                for ($i = 0; $i < sizeof($post); $i++) {
+                    if ($post[$i]["media"] != null) {
+                        $media_json = $post[$i]["media"];
+                        $media = json_decode($media_json, true);
+                        foreach ($media as $file) {
+                            $fileInfo = pathinfo($file);
+                            $fileExtension = strtolower($fileInfo['extension']);
+                            if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
             ?>
-                            <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                <div class="image-small">
-                                    <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
-                                </div>
-                                <!-- Overlay -->
-                                <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                    <div class="text-base"> Image description </div>
-                                    <div class="flex justify-between text-xs">
-                                        <a href="#"> Like</a>
-                                        <a href="#"> Comment </a>
-                                        <a href="#"> Share </a>
+                                <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
+                                    <div class="image-small">
+                                        <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
+                                    </div>
+                                    <!-- Overlay -->
+                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
+                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
+
                                     </div>
                                 </div>
-                            </div>
-                <?php
+            <?php
+                            }
                         }
                     }
                 }
-                ?>
-
-                <!--
-        <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-            <img src="assets/images/post/img-1.jpg" class="w-full h-full absolute object-cover inset-0">
-            overly
-            <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-            <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                <div class="text-base"> Image description </div>
-                <div class="flex justify-between text-xs">
-                    <a href="#"> Like</a>
-                    <a href="#"> Comment </a>
-                    <a href="#"> Share </a>
-                </div>
-            </div>
-        </div>
-        -->
-            <?php
             }
             ?>
         </div>

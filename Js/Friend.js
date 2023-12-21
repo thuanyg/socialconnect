@@ -118,7 +118,23 @@ $(document).ready(function () {
         e.preventDefault();
         var profileid=$(this).data("profileid");
         if(confirm("Are you sure?")){
-            
+            $.ajax({
+                url: "Ajax/Friend.php",
+                type: "POST",
+                data: {
+                    userid: userID,
+                    profileID: profileid,
+                    action: "unfriend"
+                },
+                success: function(data){
+                    if(data.trim() == "1"){
+                        showNotification("Xóa bạn bè thành công!");
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1500);
+                    }
+                }
+            })
         }
     })
     var number = 0;

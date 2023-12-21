@@ -98,6 +98,17 @@ class Friend
         return $result;
     }
 
+    //unfriend
+    public function UnFriend($userid, $profileID)
+    {
+        $DB = new Database();
+        $sql = "DELETE FROM friendships WHERE (user1_id = $userid AND user2_id = $profileID) OR (user2_id = $userid AND user1_id = $profileID)";
+        $sql2 = "DELETE FROM friend_requests WHERE (sender_id = $userid AND receiver_id = $profileID) OR (receiver_id = $userid AND sender_id = $profileID)";
+        $result = $DB->Execute($sql);
+        $result2 = $DB->Execute($sql2);
+        return $result && $result2;
+    }
+
     // Check tình trạng là bạn bè hay không
     public function isFriend($user_id, $profile_user_id)
     {

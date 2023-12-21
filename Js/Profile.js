@@ -8,7 +8,7 @@ var offset = 5;
 var postDocument = $("#PostContaier");
 var shouldLoadMore = true;
 
-$(window).scroll(function() {
+$(window).scroll(function () {
     if (shouldLoadMore) {
         var docHeight = postDocument.height();
         var scrollTop = $(this).scrollTop();
@@ -24,6 +24,17 @@ $(window).scroll(function() {
 
 function getPostToLoad(userid, offset) {
     postFetching = true;
+    var loadingHTML = `<div class="loader">
+                            <div class="wrapper">
+                                <div class="circle"></div>
+                                <div class="line-1"></div>
+                                <div class="line-2"></div>
+                                <div class="line-3"></div>
+                                <div class="line-4"></div>
+                            </div>
+                        </div>`;
+
+    postDocument.append(loadingHTML);
     $.ajax({
         url: "Ajax/Post.php",
         type: "POST",
@@ -33,13 +44,15 @@ function getPostToLoad(userid, offset) {
             action: "get-post-profile-to-load"
         },
         cache: false,
-        success: function(data) {
+        success: function (data) {
             postFetching = false;
             if (data.trim()) {
+                postDocument.children().last().remove();   
                 postDocument.append(data);
                 if (data.trim() == '<div style="text-align: center">Không còn bài viết</div>') {
                     shouldLoadMore = false;
                     console.log("End of the posts");
+                    return;
                 }
             } else {
                 shouldLoadMore = false;
