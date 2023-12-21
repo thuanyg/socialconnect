@@ -157,6 +157,12 @@ $("#about-save-btn").click(function (e) {
     if (confirm("Do you want to change about?")) {
         var userid = $(".data-userid")[0].textContent;
         var birthday = $("input[name='dBirthday']").val();
+        var birthdayDate = new Date(birthday);
+        var currentDate = new Date();
+        if(birthdayDate > currentDate){
+            showNotification("Ngày sinh không hợp lệ");
+            return;
+        }
         var address = $("input[name='txtAddress']").val();
         var education = $("input[name='txtEducation']").val();
         var desc = $("textarea[name='taBio']").val();
