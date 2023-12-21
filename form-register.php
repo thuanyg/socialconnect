@@ -1,15 +1,12 @@
 <?php
 session_start();
-if (isset($_SESSION["userid"])) {
-    header("Location: feed.php");
-    exit();
-}
+// if (isset($_SESSION["userid"])) {
+//     header("Location: feed.php");
+//     exit();
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en" class="bg-gray-100">
-
-<!-- Mirrored from demo.foxthemes.net/socialite/form-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 20 Jul 2023 17:43:08 GMT -->
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -230,9 +227,8 @@ if (isset($_SESSION["userid"])) {
     <script src="assets/js/simplebar.js"></script>
     <script src="assets/js/custom.js"></script>
     <script src="assets/js/bootstrap-select.min.js"></script>
-    <script src="../../unpkg.com/ionicons%405.2.3/dist/ionicons.js"></script>
-
-
+    <<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 
 <!-- Mirrored from demo.foxthemes.net/socialite/form-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 20 Jul 2023 17:43:09 GMT -->

@@ -622,6 +622,8 @@ function CreateComment(userID, postID, msg) {
                 );
             });
             $(".comment-textbox[post-id='" + postID + "']").val("");
+            $("#post-details-modal #quantity-comment").text(`Comment (${commentData[0].totalComment})`);
+            $("#post-details-modal .count-cmt").text(`2/${commentData[0].totalComment}`);
             SaveNotification(postID, "comment");
             SendNotification(postID, "comment");
         }
@@ -698,7 +700,7 @@ $(document).on("click", ".btn-view-more-comment", function (e) {
                     $("#post-details-modal .count-cmt").remove();
                     $("#post-details-modal .btn-view-more-comment").after(`<span class="count-cmt" style="margin-left: 68%">${nextOffet}/${cmtData[0].totalComment}</span>`);
                     if (remainingQuantity <= 0) {
-                        $("#post-details-modal .btn-view-more-comment").remove();
+                        $("#post-details-modal .btn-view-more-comment").hide();
                         $("#post-details-modal .count-cmt").css("margin-left", "90%");
                     }
 
