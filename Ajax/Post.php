@@ -2116,7 +2116,9 @@ if (isset($_POST["action"])) {
                     if ($post[$i]["media"] != null) {
                         $media_json = $post[$i]["media"];
                         $media = json_decode($media_json, true);
+                        $index = sizeof($media);
                         foreach ($media as $file) {
+                            $number ++;
                             $fileInfo = pathinfo($file);
                             $fileExtension = strtolower($fileInfo['extension']);
                             if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
@@ -2132,8 +2134,14 @@ if (isset($_POST["action"])) {
                                     </div>
                                 </div>
             <?php
+                            if($number ===8){
+                                break;
+                            }
                             }
                         }
+                    }
+                    if($number ===8){
+                        break;
                     }
                 }
             }
