@@ -196,7 +196,9 @@
     <script src="assets/js/simplebar.js"></script>
     <script src="assets/js/custom.js"></script>
     <script src="assets/js/bootstrap-select.min.js"></script>
-    <script src="../../unpkg.com/ionicons%405.2.3/dist/ionicons.js"></script>
+    <script src="../../unpkg.com/ionicons%405.2.3/dist/ionicons.js">
+        al
+    </script>
 
 </body>
 

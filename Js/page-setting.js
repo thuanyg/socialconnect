@@ -11,6 +11,19 @@ $('.btn-save-setting').on('click', function (e) {
         isValid = false;
         return;
     }
+    if (first_name.trim() == '') {
+        showNotification("Chưa nhập thông tin!");
+        isValid = false;
+        return;
+    }else if(last_name.trim() == ''){
+        showNotification("Chưa nhập thông tin!");
+        isValid = false;
+        return;
+    }else if(email.trim() == ''){
+        showNotification("Chưa nhập thông tin!");
+        isValid = false;
+        return;
+    }
     if (validateInput(first_name) || validateInput(first_name) || validateInput(email)) {
         showNotification("Biểu mẫu đang chứa đoạn mã script!!!");
         isValid = false;

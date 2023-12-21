@@ -75,15 +75,26 @@ class User
         return $result;
     }
     function checkUser($data)
-    {
+    {   $userid = $_POST["userid"];
         $email = $data['email'];
         $sql = "SELECT count(id) as userCount from users WHERE email = '$email'";
+        $sql1 = "SELECT count(id) as user from users WHERE userid = '$userid' and email = '$email'";
         $DB = new Database();
         $result = $DB->Query($sql);
-        if ($result !== false) {
+        $result1 = $DB->Query($sql1);
+        if ($result !== false && $result1 !== false) {
+            if (!empty($result1) && isset($result1[0]['user'])) {
+                $user= $result1[0]['user'];
+                
+                // Bây giờ bạn có thể kiểm tra giá trị của $userCount để xác định số lượng người dùng với cùng địa chỉ email.
+                if ($user > 0) {
+                    return 1;
+                }
+            }
             // Kiểm tra xem có kết quả nào trả về hay không
             if (!empty($result) && isset($result[0]['userCount'])) {
                 $userCount = $result[0]['userCount'];
+                
                 // Bây giờ bạn có thể kiểm tra giá trị của $userCount để xác định số lượng người dùng với cùng địa chỉ email.
                 if ($userCount > 0) {
                     return 0;
