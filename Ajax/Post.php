@@ -151,7 +151,7 @@ if (isset($_POST["action"])) {
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
-                                    <div> Comment</div>
+                                    <div id="quantity-comment"> Comment</div>
                                 </a>
                                 <a href="#" class="flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -367,7 +367,7 @@ if (isset($_POST["action"])) {
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
-                                    <div> Comment <?php if ($quantityCmt > 0)
+                                    <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
                                                         echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
@@ -675,7 +675,7 @@ if (isset($_POST["action"])) {
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
-                                    <div> Comment <?php if ($quantityCmt > 0)
+                                    <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
                                                         echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
@@ -988,7 +988,7 @@ if (isset($_POST["action"])) {
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
-                                    <div> Comment <?php if ($quantityCmt > 0)
+                                    <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
                                                         echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
@@ -1296,7 +1296,7 @@ if (isset($_POST["action"])) {
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
-                                    <div> Comment <?php if ($quantityCmt > 0)
+                                    <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
                                                         echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
@@ -1536,7 +1536,7 @@ if (isset($_POST["action"])) {
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
-                                    <div> Comment <?php if ($quantityCmt > 0)
+                                    <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
                                                         echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
@@ -1793,7 +1793,7 @@ if (isset($_POST["action"])) {
                                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
-                                    <div> Comment <?php if ($quantityCmt > 0)
+                                    <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
                                                         echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
@@ -2304,6 +2304,7 @@ if (isset($_POST["action"])) {
             "postID" => $_POST["postID"],
         );
         $p = new Post();
+        $totalCmt = $p->getQuantityCommentPost($data["postID"])[0]["total"];
         if ($p->createComment($data, $data["userID"], $data["postID"])) {
             $array_result = [];
             $comment = $p->getCommentPost($data["postID"]);
@@ -2311,7 +2312,7 @@ if (isset($_POST["action"])) {
                 $user_id = $row["comment_userid"];
                 $cmt_user = $user->getUser($user_id);
                 $totalCmtrep = $p->getQuantityReplyComment($row["comment_id"])[0]["total"];
-                array_push($array_result, ['cmt' => $row, 'user' => $cmt_user, 'totalrep' => $totalCmtrep]);
+                array_push($array_result, ['cmt' => $row, 'user' => $cmt_user,'totalComment' => $totalCmt, 'totalrep' => $totalCmtrep]);
             }
             echo json_encode($array_result);
         } else echo 0;
