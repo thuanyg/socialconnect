@@ -303,6 +303,7 @@ $(".save-edit-avatar").on('click', async function (e) {
     e.preventDefault();
 
     var formImages = $("form[name='fanh']");
+    
     var userid = $("input[name='userid']").val();
     var imagesNew = await UploadToServer(formImages);
     //console.log(imagesNew)
@@ -376,7 +377,7 @@ $('.btn-edit-about-image').on('click', function (e) {
                 img.style.maxHeight = '200px';
                 var li = document.createElement('li');
                 li.innerHTML = '<span onclick="DeleteOldFiles(this)" style="cursor: pointer" title="Delete">×</span>';
-                li.appendChild(img)
+                li.appendChild(img)//
                 imagePreview.append(li);
             }
         }

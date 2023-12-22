@@ -6,11 +6,7 @@ $('.btn-save-setting').on('click', function (e) {
     var email = $('.email').val();
     var userid = $('#userid').val();
     var isValid = true;
-    if (first_name.trim() == '' && last_name.trim() == '' && email.trim() == '') {
-        showNotification("Chưa nhập thông tin!");
-        isValid = false;
-        return;
-    }
+   
     if (first_name.trim() == '') {
         showNotification("Chưa nhập thông tin!");
         isValid = false;

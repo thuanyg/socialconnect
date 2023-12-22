@@ -380,7 +380,7 @@ if (!isset($_SESSION["userid"])) {
                 e.preventDefault();
                 // Remove all element
                 $("#searchPageResults").empty();
-                $("#PostContaier .card:not(:first)").remove();
+                $("#PostContaier .card:not(:first)").remove();//xóa phần tử đầu tiên
                 $("#PostContaier .heading").text("People");
                 $("#searchPageResults").html(savedMyData);
                 var PostContaier = document.getElementById('PostContaier');
