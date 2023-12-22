@@ -181,7 +181,7 @@ async function CreatePost() {
         showNotification("Bài viết của bạn quá dài. Hãy kiểm tra lại");
         isValid = false;
     }
-    if (post.length == 0) {
+    if (post.length == 0 && !$("#imagePreview li")) {
         showNotification("Please enter text to create post!");
         isValid = false;
     }

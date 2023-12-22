@@ -254,7 +254,7 @@ if (isset($_GET["action"])) {
 
                         <!-- Show Image/Video Post -->
                         <div uk-lightbox>
-                            <div class="grid grid-cols-2 gap-2 px-5">
+                            <div class="grid grid-cols-1 gap-2 px-5">
                                 <?php
                                 if ($post[$i]["media"] != null) {
                                     $media_json = $post[$i]["media"];
@@ -273,7 +273,7 @@ if (isset($_GET["action"])) {
                                         } else if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
                                         ?>
                                             <div class="w-full h-full">
-                                                <video width="320" height="240" controls>
+                                                <video width="668" height="420" controls>
                                                     <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
                                                     Your browser does not support the video tag.
                                                 </video>
@@ -564,7 +564,7 @@ if (isset($_GET["action"])) {
                                 <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
                                     <!-- Show Image/Video Post Share -->
                                     <div uk-lightbox>
-                                        <div class="grid grid-cols-2 gap-2 px-5">
+                                        <div class="grid grid-cols-1 gap-2 px-5">
                                             <?php
                                             if ($postShare["media"] != null) {
                                                 $media_json = $postShare["media"];
@@ -583,7 +583,7 @@ if (isset($_GET["action"])) {
                                                     } else if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
                                                     ?>
                                                         <div class="w-full h-full">
-                                                            <video width="320" height="240" controls>
+                                                            <video width="668" height="420" controls>
                                                                 <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
                                                                 Your browser does not support the video tag.
                                                             </video>
