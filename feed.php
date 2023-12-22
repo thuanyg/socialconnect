@@ -436,12 +436,7 @@ if (!isset($_SESSION["userid"])) {
                                                 </a>
                                                 <div class="flex-1 font-semibold capitalize">
                                                     <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?> </a>
-                                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0)
-                                                                                                                        echo $minutes . " phút trước";
-                                                                                                                    else if ($hours >= 24)
-                                                                                                                        echo floor($hours / 24) . " ngày trước";
-                                                                                                                    else
-                                                                                                                        echo $hours . " h " . $minutes . " phút trước";
+                                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"])
                                                                                                                     ?></span>
                                                         <?php
                                                         if ($isPublicCondition) {
@@ -722,12 +717,7 @@ if (!isset($_SESSION["userid"])) {
                                                 <div class="flex-1 font-semibold capitalize">
                                                     <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?></a>
                                                     <span style="font-weight: 400; text-transform: none; margin-left: 5px;"> đã chia sẻ bài viết </span>
-                                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0)
-                                                                                                                        echo $minutes . " phút trước";
-                                                                                                                    else if ($hours >= 24)
-                                                                                                                        echo floor($hours / 24) . " ngày trước";
-                                                                                                                    else
-                                                                                                                        echo $hours . " h " . $minutes . " phút trước";
+                                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"])
                                                                                                                     ?></span>
                                                         <?php
                                                         if ($isPublicCondition) {

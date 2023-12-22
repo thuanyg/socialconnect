@@ -177,11 +177,11 @@ async function CreatePost() {
     var userid = $("input[name='txtUserid']").val();
     var privacy = $("#create-post-modal").find(".dropdown-toggle .filter-option").text();
     var isValid = true;
-    if (post.length > 1000) {
+    if (post.trim().length > 1000) {
         showNotification("Bài viết của bạn quá dài. Hãy kiểm tra lại");
         isValid = false;
     }
-    if (post.length == 0 && !$("#imagePreview li")) {
+    if (post.trim().length == 0 && $("#imagePreview li").length === 0) {
         showNotification("Please enter text to create post!");
         isValid = false;
     }
@@ -200,6 +200,12 @@ async function CreatePost() {
             var images = await UploadFilesToServer(formImages);
             var videos = await UploadFilesToServer(formVideos);
             var media = images.concat(videos);
+            if(media.length >= 10){
+                showNotification("Chỉ chọn tối đa 10 tệp!");
+                $(".loading-upload").remove();
+                DeleteFilesFromServer(media);
+                return;
+            }
             $("#loader").show();
             setTimeout(() => {
                 $.ajax({

@@ -664,12 +664,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </a>
                                                         <div class="flex-1 font-semibold capitalize">
                                                             <a href="#" class="text-black dark:text-gray-100"> <?php echo $userProfile["first_name"] . " " . $userProfile["last_name"] ?> </a>
-                                                            <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0)
-                                                                                                                                echo $minutes . " phút trước";
-                                                                                                                            else if ($hours >= 24)
-                                                                                                                                echo floor($hours / 24) . " ngày trước";
-                                                                                                                            else
-                                                                                                                                echo $hours . " h " . $minutes . " phút trước";
+                                                            <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"])
                                                                                                                             ?></span>
                                                                 <?php
                                                                 if ($isPublicCondition) {
@@ -992,14 +987,20 @@ if (!isset($_SESSION["userid"])) {
                                                                             <?php echo $userOfPostShare["first_name"] . " " . $userOfPostShare["last_name"] ?>
                                                                         </a>
                                                                         <div class="text-gray-700 flex items-center space-x-2"><span>
-                                                                                <?php if ($hours <= 0)
-                                                                                    echo $minutes . " phút trước";
-                                                                                else if ($hours >= 24)
-                                                                                    echo floor($hours / 24) . " ngày trước";
-                                                                                else
-                                                                                    echo $hours . " h " . $minutes . " phút trước";
+                                                                                <?php echo $t->timeAgo($post[$i]["date"])
                                                                                 ?></span>
-
+                                                                            <?php
+                                                                            if ($isPublicCondition) {
+                                                                            ?>
+                                                                                <ion-icon name="earth"></ion-icon>
+                                                                            <?php
+                                                                            }
+                                                                            if ($isFriendCondition) {
+                                                                            ?>
+                                                                                <ion-icon name="people"></ion-icon>
+                                                                            <?php
+                                                                            }
+                                                                            ?>
                                                                         </div>
                                                                     </div>
                                                                 </div>

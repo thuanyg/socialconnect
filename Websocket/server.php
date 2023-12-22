@@ -70,6 +70,7 @@ class YourWebSocketServer implements MessageComponentInterface
                     $message["from"] = "Me";
                 } else {
                     $message["from"] = $sen["userid"];
+                    $message["name"] = $sen["first_name"] ." ". $sen["last_name"];
                 }
                 if ($client->resourceId == $receiver_connection_id || $from == $client) {
                     $client->send(json_encode($message));

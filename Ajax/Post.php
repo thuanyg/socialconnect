@@ -29,10 +29,6 @@ if (isset($_POST["action"])) {
             $post = $p->getNewPost($data["userid"]);
             if ($post != null) {
                 if ($post['has_image'] == 1) {
-                    $time = $t->TimeSince($post["date"]); // Return array
-                    $hours = $time["hours"];
-                    $minutes = $time["minutes"];
-                    $seconds = $time["seconds"];
                     // Upload picture
 ?>
 
@@ -46,9 +42,7 @@ if (isset($_POST["action"])) {
                                 </a>
                                 <div class="flex-1 font-semibold capitalize">
                                     <a href="profile.php?uid=<?php echo $userCurrent["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </a>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $time["minutes"] . " phút trước";
-                                                                                                    else echo $hours . "h " . $time["minutes"] . " phút trước";
-                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                    <div class="text-gray-700 flex items-center space-x-2"><span> Vừa xong </span></div>
                                 </div>
                             </div>
                             <div>
@@ -186,10 +180,7 @@ if (isset($_POST["action"])) {
                                 </a>
                                 <div class="flex-1 font-semibold capitalize">
                                     <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?> </a>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                    else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                    ?></span>
+                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"]) ?></span>
                                         <?php
                                         if ($isPublicCondition) {
                                         ?>
@@ -480,10 +471,25 @@ if (isset($_POST["action"])) {
                                 <div class="flex-1 font-semibold capitalize">
                                     <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?></a>
                                     <span style="font-weight: 400; text-transform: none; margin-left: 5px;"> đã chia sẻ bài viết </span>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                    else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"]) ?></span>
+                                        <?php
+                                        if ($isPublicCondition) {
+                                        ?>
+                                            <ion-icon name="earth"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isFriendCondition) {
+                                        ?>
+                                            <ion-icon name="people"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isPrivateCondition) {
+                                        ?>
+                                            <ion-icon name="lock-closed"></ion-icon>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="post-action">
@@ -609,10 +615,8 @@ if (isset($_POST["action"])) {
                                                     <?php echo $userOfPostShare["first_name"] . " " . $userOfPostShare["last_name"] ?>
                                                 </a>
                                                 <div class="text-gray-700 flex items-center space-x-2"><span>
-                                                        <?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                        else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                        else echo $hours . " h " . $minutes . " phút trước";
-                                                        ?></span> <ion-icon name="people"></ion-icon>
+                                                        <?php echo $t->timeAgo($postShare["date"])
+                                                        ?></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -639,15 +643,19 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
-                                                                                                            else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0)
+                                                                                                                echo "currentColor";
+                                                                                                            else
+                                                                                                                echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                             <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                         </svg>
                                     </div>
-                                    <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                    <div class="like-text" style="color:<?php if ($liked == 1)
+                                                                            echo "blue"; ?>"> Like <?php if (count($like) > 0)
+                                                                                                        echo "<span>(" . count($like) . ")</span>" ?> </div>
                                 </button>
                                 <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -807,9 +815,7 @@ if (isset($_POST["action"])) {
                                 </a>
                                 <div class="flex-1 font-semibold capitalize">
                                     <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?> </a>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                    else echo $hours . " h " . $minutes . " phút trước";
+                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"])
                                                                                                     ?></span>
                                         <?php
                                         if ($isPublicCondition) {
@@ -1101,10 +1107,26 @@ if (isset($_POST["action"])) {
                                 <div class="flex-1 font-semibold capitalize">
                                     <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?></a>
                                     <span style="font-weight: 400; text-transform: none; margin-left: 5px;"> đã chia sẻ bài viết </span>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                    else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"])
+                                                                                                    ?></span>
+                                        <?php
+                                        if ($isPublicCondition) {
+                                        ?>
+                                            <ion-icon name="earth"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isFriendCondition) {
+                                        ?>
+                                            <ion-icon name="people"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isPrivateCondition) {
+                                        ?>
+                                            <ion-icon name="lock-closed"></ion-icon>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="post-action">
@@ -1230,10 +1252,8 @@ if (isset($_POST["action"])) {
                                                     <?php echo $userOfPostShare["first_name"] . " " . $userOfPostShare["last_name"] ?>
                                                 </a>
                                                 <div class="text-gray-700 flex items-center space-x-2"><span>
-                                                        <?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                        else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                        else echo $hours . " h " . $minutes . " phút trước";
-                                                        ?></span> <ion-icon name="people"></ion-icon>
+                                                        <?php echo $t->timeAgo($post[$i]["date"])
+                                                        ?></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1260,15 +1280,19 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
-                                                                                                            else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0)
+                                                                                                                echo "currentColor";
+                                                                                                            else
+                                                                                                                echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                             <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                         </svg>
                                     </div>
-                                    <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                    <div class="like-text" style="color:<?php if ($liked == 1)
+                                                                            echo "blue"; ?>"> Like <?php if (count($like) > 0)
+                                                                                                        echo "<span>(" . count($like) . ")</span>" ?> </div>
                                 </button>
                                 <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1429,10 +1453,21 @@ if (isset($_POST["action"])) {
                                 </a>
                                 <div class="flex-1 font-semibold capitalize">
                                     <a href="#" class="text-black dark:text-gray-100"> <?php echo $userProfile["first_name"] . " " . $userProfile["last_name"] ?> </a>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                    else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"])
+                                                                                                    ?></span>
+                                        <?php
+                                        if ($isPublicCondition) {
+                                        ?>
+                                            <ion-icon name="earth"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isFriendCondition) {
+                                        ?>
+                                            <ion-icon name="people"></ion-icon>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
 
@@ -1727,10 +1762,8 @@ if (isset($_POST["action"])) {
                                                     <?php echo $userOfPostShare["first_name"] . " " . $userOfPostShare["last_name"] ?>
                                                 </a>
                                                 <div class="text-gray-700 flex items-center space-x-2"><span>
-                                                        <?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                        else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                        else echo $hours . " h " . $minutes . " phút trước";
-                                                        ?></span> <ion-icon name="people"></ion-icon>
+                                                        <?php echo $t->timeAgo($post[$i]["date"])
+                                                        ?></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1757,15 +1790,19 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
-                                                                                                            else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0)
+                                                                                                                echo "currentColor";
+                                                                                                            else
+                                                                                                                echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                             <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                         </svg>
                                     </div>
-                                    <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                    <div class="like-text" style="color:<?php if ($liked == 1)
+                                                                            echo "blue"; ?>"> Like <?php if (count($like) > 0)
+                                                                                                                        echo "<span>(" . count($like) . ")</span>" ?> </div>
                                 </button>
                                 <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
