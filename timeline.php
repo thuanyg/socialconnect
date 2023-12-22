@@ -368,7 +368,7 @@ if (!isset($_SESSION["userid"])) {
                     <li><a href="chats-friend.php">
                             <img src="./assets/images/chat.png" alt="" style="width: 26px; margin-right: 8px">
                             <span> Messages </span></a>
-                    </li>                    
+                    </li>
                     <li id="more-veiw" hidden><a href="birthdays.php">
                             <svg fill="currentColor" class="text-yellow-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path>
@@ -619,9 +619,7 @@ if (!isset($_SESSION["userid"])) {
                                                     </a>
                                                     <div class="flex-1 font-semibold capitalize">
                                                         <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?> </a>
-                                                        <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                                        else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                                        else echo $hours . " h " . $minutes . " phút trước";
+                                                        <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"])
                                                                                                                         ?></span>
                                                             <?php
                                                             if ($isPublicCondition) {
@@ -708,7 +706,7 @@ if (!isset($_SESSION["userid"])) {
 
                                             <!-- Show Image/Video Post -->
                                             <div uk-lightbox>
-                                                <div class="grid grid-cols-2 gap-2 px-5">
+                                                <div class="grid grid-cols-1 gap-2 px-5">
                                                     <?php
                                                     if ($post[$i]["media"] != null) {
                                                         $media_json = $post[$i]["media"];
@@ -727,7 +725,7 @@ if (!isset($_SESSION["userid"])) {
                                                             } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
                                                             ?>
                                                                 <div class="w-full h-full">
-                                                                    <video width="320" height="240" controls>
+                                                                    <video width="668" height="420" controls>
                                                                         <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
                                                                         Your browser does not support the video tag.
                                                                     </video>
@@ -780,7 +778,7 @@ if (!isset($_SESSION["userid"])) {
                                                                 <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                                             </svg>
                                                         </div>
-                                                        <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
+                                                        <div> Comment <?php if ($quantityCmt > 0)
                                                                             echo "(" . $quantityCmt . ")" ?> </div>
                                                     </a>
                                                     <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
@@ -913,9 +911,7 @@ if (!isset($_SESSION["userid"])) {
                                                     <div class="flex-1 font-semibold capitalize">
                                                         <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?></a>
                                                         <span style="font-weight: 400; text-transform: none; margin-left: 5px;"> đã chia sẻ bài viết </span>
-                                                        <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                                        else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                                        else echo $hours . " h " . $minutes . " phút trước";
+                                                        <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"])
                                                                                                                         ?></span>
                                                             <?php
                                                             if ($isPublicCondition) {
@@ -1080,7 +1076,7 @@ if (!isset($_SESSION["userid"])) {
                                                     }
                                                 }
                                                 ?>
-                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
+                                                <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                                     <button type="button" class="like-post-btn flex items-center space-x-2">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0)
@@ -1092,7 +1088,7 @@ if (!isset($_SESSION["userid"])) {
                                                         </div>
                                                         <div class="like-text" style="color:<?php if ($liked == 1)
                                                                                                 echo "blue"; ?>"> Like <?php if (count($like) > 0)
-                                                                                                                            echo "(" . count($like) . ")" ?> </div>
+                                                                                                                        echo "<span>(" . count($like) . ")</span>" ?> </div>
                                                     </button>
                                                     <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1101,7 +1097,7 @@ if (!isset($_SESSION["userid"])) {
                                                             </svg>
                                                         </div>
                                                         <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                                            echo "(" . $quantityCmt . ")" ?> </div>
+                                                                                                echo "(" . $quantityCmt . ")" ?> </div>
                                                     </a>
                                                     <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                                         <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1188,6 +1184,7 @@ if (!isset($_SESSION["userid"])) {
                                                     ?>
                                                 </div>
                                                 <?php
+                                                $quantityCmt = $p->getQuantityCommentPost($post[$i]["postid"])[0]["total"];
                                                 if ($quantityCmt > 2) {
                                                 ?>
                                                     <a href="#" class="btn-view-more-comment hover:text-blue-600 hover:underline" data-next-offset="2">

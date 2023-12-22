@@ -496,9 +496,15 @@ function timeAgo(dateString) {
 
 
 // Kiểm tra điều kiện đầu vào hợp lệ
-// function validateInput(input) {
-//     return !/<script\b[^<]*<\/script>/i.test(input);
-// }
+// Để chuyển đổi các ký tự đặc biệt thành HTML entities.
+function escapeHtml(input) {
+    return input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+// Biểu thức chính quy để tìm kiếm các thẻ nhúng từ web khác
+function containsExternalEmbed(input) {
+    var embedPattern = /<\s*iframe[^>]*src\s*=\s*["']([^"']+)["'][^>]*>/i;
+    return embedPattern.test(input);
+}
 
 // Event GUI
 $(document).on("click", ".options-notify-button", function (e) {

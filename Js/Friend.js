@@ -19,19 +19,15 @@ $(document).ready(function () {
             type: "POST", // Hoặc "GET" tùy thuộc vào việc bạn muốn gửi yêu cầu kết bạn bằng phương thức nào.
             data: {
                 userid: userId,
-                action: "request" // Dữ liệu gửi đi
+                action: "request"
             },
             success: function (response) {
                 if (response) {
-                    // Hiển thị overlay để chặn hành động của người dùng
-                    // document.getElementById("overlay").style.display = "block";
-                    // Cho phép nút trở lại hoạt động sau 3 giây
-                    // setTimeout(function () {
-                    //     document.getElementById("overlay").style.display = "none";
-                    // }, 2000);
                     hideButtons();
                     $(".cancel-add-friend-btn").fadeIn(1000);
                     showNotification("Đã gửi lời mời kết bạn");
+                    var senderID = $("input[name='txtUserid']").val();
+                    // SaveNotificationFriend(senderID, userId, 'request');
                 }
             },
             error: function (xhr, status, error) {
@@ -40,6 +36,23 @@ $(document).ready(function () {
         });
     });
 
+
+    // function SaveNotificationFriend(userID, receiverID, type) {
+    //     var action = type;
+    //     var notify = {
+    //         userid: userID,
+    //         receiverID: receiverID,
+    //         action: action
+    //     };
+    //     $.ajax({
+    //         url: "Ajax/Notification.php",
+    //         type: "POST",
+    //         data: notify,
+    //         success: function (data) {
+
+    //         }
+    //     })
+    // }
     // Khi click "Cancel request"
     $(".cancel-add-friend-btn").on("click", function (event) {
         event.preventDefault();
@@ -112,12 +125,12 @@ $(document).ready(function () {
             }
         });
     });
-    
+
     //Unfriend
-    $(".unfriend-btn").click(function(e){
+    $(".unfriend-btn").click(function (e) {
         e.preventDefault();
-        var profileid=$(this).data("profileid");
-        if(confirm("Are you sure?")){
+        var profileid = $(this).data("profileid");
+        if (confirm("Are you sure?")) {
             $.ajax({
                 url: "Ajax/Friend.php",
                 type: "POST",
@@ -126,8 +139,8 @@ $(document).ready(function () {
                     profileID: profileid,
                     action: "unfriend"
                 },
-                success: function(data){
-                    if(data.trim() == "1"){
+                success: function (data) {
+                    if (data.trim() == "1") {
                         showNotification("Xóa bạn bè thành công!");
                         setTimeout(() => {
                             window.location.reload();
@@ -138,51 +151,51 @@ $(document).ready(function () {
         }
     })
     var number = 0;
-    $(".btn-loadMore").on('click',function(e){
+    $(".btn-loadMore").on('click', function (e) {
         e.preventDefault();
         number += 8;
         $.ajax({
-            url : 'Ajax/Friend.php',
-            type : "POST",
-            data : {
-                number : number,
-                action : 'get_more_friends' ,
-            },success : function(data){
-             $(".list-friends").append(data);
+            url: 'Ajax/Friend.php',
+            type: "POST",
+            data: {
+                number: number,
+                action: 'get_more_friends',
+            }, success: function (data) {
+                $(".list-friends").append(data);
             }
         })
     })
 
     var numberFriendRequest = 0;
-    $(".btn-FriendRequest-loadMore").on('click',function(e){
+    $(".btn-FriendRequest-loadMore").on('click', function (e) {
         e.preventDefault();
         numberFriendRequest += 4;
         $.ajax({
-            url : 'Ajax/Friend.php',
-            type : "POST",
-            data : {
-                numberFriendRequest : numberFriendRequest,
-                action : 'get_more_FriendRequest' ,
-            },success : function(data){
-             $(".list-friendRequest").append(data);
+            url: 'Ajax/Friend.php',
+            type: "POST",
+            data: {
+                numberFriendRequest: numberFriendRequest,
+                action: 'get_more_FriendRequest',
+            }, success: function (data) {
+                $(".list-friendRequest").append(data);
             }
         })
     })
 
     var number1 = 0;
-    $(".load-them").on('click',function(e){
+    $(".load-them").on('click', function (e) {
         e.preventDefault();
         var userIDprofile = $(this).data('profileid');
         number1 += 8;
         $.ajax({
-            url : 'Ajax/Friend.php',
-            type : "POST",
-            data : {
+            url: 'Ajax/Friend.php',
+            type: "POST",
+            data: {
                 userID: userIDprofile,
-                number : number1,
-                action : 'more_friends' ,
-            },success : function(data){
-             $(".list-friends").append(data);
+                number: number1,
+                action: 'more_friends',
+            }, success: function (data) {
+                $(".list-friends").append(data);
             }
         })
     })

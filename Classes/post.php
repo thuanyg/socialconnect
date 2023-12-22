@@ -232,10 +232,16 @@ class Post
     // Xóa bài post
     function deletePost($postid)
     {
-        $sql = "DELETE FROM posts WHERE postid = {$postid}";
+        $sql1 = "DELETE FROM posts WHERE postid IN (SELECT postid FROM share WHERE post_share_id = {$postid})";
+        $sql2 = "DELETE FROM posts WHERE postid = {$postid}";
         $DB = new Database();
-        $result = $DB->Execute($sql);
-        return $result;
+        $result1 = $DB->Execute($sql1);
+        $result2 = $DB->Execute($sql2);
+        if ($result1) {
+            return true;
+        } else {
+            return false;
+        }
     }
     // Like post
     function setLikePost($postid, $userid)
@@ -271,28 +277,29 @@ class Post
         $DB = new Database();
         $result2 = $DB->Execute($sql2);
         $result = $DB->Execute($sql);
-        if($result && $result2){
+        if ($result && $result2) {
             $r = 1;
         } else $r = 0;
         return $r;
     }
     //comment post
-    function getCommentPost($postid){
+    function getCommentPost($postid)
+    {
         $DB = new Database();
         $sql = "select * from comment where postid = $postid order by date desc limit 2";
-        $result = $DB ->Query($sql);
+        $result = $DB->Query($sql);
         if ($result) {
             return $result;
         } else {
             return null;
         }
-       
     }
 
-    function getQuantityCommentPost($postid){
+    function getQuantityCommentPost($postid)
+    {
         $DB = new Database();
         $sql = "select COUNT(*) as 'total' from comment where postid = $postid";
-        $result = $DB ->Query($sql);
+        $result = $DB->Query($sql);
         if ($result) {
             return $result;
         } else {
@@ -300,24 +307,25 @@ class Post
         }
     }
 
-    function getCommentPostToLoad($postid, $offset){
+    function getCommentPostToLoad($postid, $offset)
+    {
         $DB = new Database();
         $sql = "select * from comment where postid = $postid order by date desc limit 20 offset $offset";
-        $result = $DB ->Query($sql);
+        $result = $DB->Query($sql);
         if ($result) {
             return $result;
         } else {
             return null;
         }
-       
     }
-    function createComment($data, $userid, $postid) { 
-        $DB = new Database(); 
+    function createComment($data, $userid, $postid)
+    {
+        $DB = new Database();
         $msg = $DB->escapedString($data["msg"]);
-        $commentid = $this ->create_commentid();
+        $commentid = $this->create_commentid();
         $sql = "INSERT INTO comment (comment_id, comment_msg, comment_userid, postid) VALUES ($commentid, '$msg', $userid, $postid)";
         $result = $DB->Execute($sql);
-        if($result != null){
+        if ($result != null) {
             return $result;
         } else return 1;
     }
@@ -332,16 +340,18 @@ class Post
         return $commentid;
     }
     //reply comment
-    public function createReply($msg,$userid,$commentid,$postid){
+    public function createReply($msg, $userid, $commentid, $postid)
+    {
         $DB = new Database();
         $msgr = $DB->escapedString($msg);
         $sql = "INSERT INTO comment_reply (comment_id, comment_msg, comment_userid, postid) VALUES ($commentid, '$msgr', $userid, $postid)";
-        $result = $DB -> Execute($sql);
-        if($result != null){
+        $result = $DB->Execute($sql);
+        if ($result != null) {
             return $result;
-        }else return 1;
+        } else return 1;
     }
-    public function getReplyComment($commentid){
+    public function getReplyComment($commentid)
+    {
         $DB = new Database();
         $sql = "SELECT * from comment_reply where comment_id =$commentid order by date desc limit 1";
         $result = $DB->query($sql);
@@ -351,7 +361,8 @@ class Post
             return null;
         }
     }
-    public function getQuantityReplyComment($commentid){
+    public function getQuantityReplyComment($commentid)
+    {
         $DB = new Database();
         $sql = "SELECT count(*) as 'total' from comment_reply where comment_id = $commentid";
         $result = $DB->query($sql);
@@ -361,16 +372,17 @@ class Post
             return null;
         }
     }
-    public function getReplyCommentToLoad($commentid, $offset){
+    public function getReplyCommentToLoad($commentid, $offset)
+    {
         $DB = new Database();
         $sql = "SELECT * from comment_reply where comment_id = $commentid order by date desc limit 20 offset $offset";
-        $result = $DB ->Query($sql);
+        $result = $DB->Query($sql);
         if ($result) {
             return $result;
         } else {
             return null;
         }
-    } 
+    }
     //Edit post
     function updatePost($postid, $data)
     {
@@ -383,5 +395,4 @@ class Post
         $result = $DB->Execute($sql);
         return $result;
     }
-
 }

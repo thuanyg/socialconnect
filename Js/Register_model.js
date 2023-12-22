@@ -100,8 +100,7 @@ function Register() {
             success: function (data) {
                 if(data.trim() == "1"){
                     showNotification("Đăng ký thành công!");
-                    $("input[name='email_login']").val(email);
-                    $(".uk-modal.uk-open").removeClass("uk-open");
+                    $("input[name='email_login']").val(email);  
                 } else {
                     showNotification("Email đã tồn tại!");
                 }

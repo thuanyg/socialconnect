@@ -169,42 +169,24 @@ async function UploadFilesToServer(listForm) {
 }
 
 
-// Để chuyển đổi các ký tự đặc biệt thành HTML entities.
-function escapeHtml(input) {
-    return input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-// Biểu thức chính quy để tìm kiếm các thẻ nhúng từ web khác
-function containsExternalEmbed(input) {
-    var embedPattern = /<\s*iframe[^>]*src\s*=\s*["']([^"']+)["'][^>]*>/i;
-    return embedPattern.test(input);
-}
+
+
 // Tạo bài viết mới
 async function CreatePost() {
     var post = $("textarea[name='taPost']").val();
     var userid = $("input[name='txtUserid']").val();
     var privacy = $("#create-post-modal").find(".dropdown-toggle .filter-option").text();
     var isValid = true;
-    // if (!validateInput(post)) {
-    //     showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
-    //     isValid = false;
-    // }
-    if (escapeHtml(post)) {
-        if(!confirm("Lưu ý! Bài viết của bạn xuất hiện các ký tự không an toàn. Bạn chắc chắn muốn giữ lại?")){
-            isValid = false;
-            return;
-        }
-    }
-    // if (validateInput(post)) {
-    //     showNotification("Bài viết của bạn đang đang chứa một đoạn mã script không an toàn!");
-    //     isValid = false;
-    // }
-    if (post.length > 1000) {
+    if (post.trim().length > 1000) {
         showNotification("Bài viết của bạn quá dài. Hãy kiểm tra lại");
         isValid = false;
     }
-    if (post.length == 0) {
+    if (post.trim().length == 0 && $("#imagePreview li").length === 0) {
         showNotification("Please enter text to create post!");
         isValid = false;
+    }
+    if (!containsExternalEmbed(post)) {
+        post = escapeHtml(post);
     }
     try {
         if (isValid) {
@@ -218,31 +200,40 @@ async function CreatePost() {
             var images = await UploadFilesToServer(formImages);
             var videos = await UploadFilesToServer(formVideos);
             var media = images.concat(videos);
+            if(media.length >= 10){
+                showNotification("Chỉ chọn tối đa 10 tệp!");
+                $(".loading-upload").remove();
+                DeleteFilesFromServer(media);
+                return;
+            }
             $("#loader").show();
-            $.ajax({
-                url: "Ajax/Post.php",
-                method: "POST",
-                dataType: "html",
-                data: {
-                    post: post,
-                    userid: userid,
-                    media: media,
-                    privacy: privacy,
-                    action: "create-post"
-                },
-                success: function (data) {
-                    if (data.trim() != "") {
-                        showNotification("You have successfully posted the article");
-                        var PostContaier = document.getElementById('PostContaier');
-                        PostContaier.firstElementChild.insertAdjacentHTML('afterend', data);
-                        $("#create-post-modal .loading-upload").remove();
-                        $("#create-post-modal #closeModelPost").click();
-                        $("#loader").hide();
-                    } else {
-                        showNotification("Something wrong!");
+            setTimeout(() => {
+                $.ajax({
+                    url: "Ajax/Post.php",
+                    method: "POST",
+                    dataType: "html",
+                    data: {
+                        post: post,
+                        userid: userid,
+                        media: media,
+                        privacy: privacy,
+                        action: "create-post"
+                    },
+                    success: function (data) {
+                        if (data.trim() != "") {
+                            showNotification("You have successfully posted the article");
+                            var PostContaier = document.getElementById('PostContaier');
+                            PostContaier.firstElementChild.insertAdjacentHTML('afterend', data);
+                            $("#create-post-modal .loading-upload").remove();
+                            $("#create-post-modal #closeModelPost").click();
+                            $("#loader").hide();
+                            $("textarea[name='taPost']").val("");
+                        } else {
+                            showNotification("Something wrong!");
+                        }
                     }
-                }
-            });
+                });
+            }, 1500);
         }
     } catch (error) {
         console.error(error);
@@ -254,7 +245,7 @@ async function CreatePost() {
 // var oldImages = [];
 var filesAfter = [];
 var filesDeleted = [];
-$(".post-action .post-action-edit").on("click", function (e) {
+$(document).on("click", ".post-action .post-action-edit", function (e) {
     var postID = $(this).attr('post-id');
     var editPostModal = $("#edit-post-modal");
     var imagePreview = $('#imageEditPreview ul');
@@ -551,7 +542,7 @@ $(document).on("keyup", ".comment-textbox", function (e) {
         var postID = $(this).attr('post-id');
         // Sua thanh 
         var msg = $(this).val();
-        console.log(msg);
+        msg = escapeHtml(msg);
         if (msg.trim().length == 0) {
             showNotification("Please enter text to comment!")
         } else {
@@ -565,6 +556,7 @@ $(document).on("click", ".add-comment-btn", function (e) {
     var userID = $("input[name='txtUserid']").val();
     var postID = $(this).attr('post-id');
     var msg = $(this).parent().prev().val();
+    msg = escapeHtml(msg);
     if (msg.trim().length == 0) {
         showNotification("Please enter text to comment!")
     } else {

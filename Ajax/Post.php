@@ -29,26 +29,20 @@ if (isset($_POST["action"])) {
             $post = $p->getNewPost($data["userid"]);
             if ($post != null) {
                 if ($post['has_image'] == 1) {
-                    $time = $t->TimeSince($post["date"]); // Return array
-                    $hours = $time["hours"];
-                    $minutes = $time["minutes"];
-                    $seconds = $time["seconds"];
                     // Upload picture
 ?>
 
-                    <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small">
+                    <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $post["postid"] ?>">
 
                         <!-- post header-->
                         <div class="flex justify-between items-center lg:p-4 p-2.5">
                             <div class="flex flex-1 items-center space-x-4">
-                                <a href="#">
+                                <a href="profile.php?uid=<?php echo $userCurrent["userid"] ?>">
                                     <img src="<?php echo $userCurrent["avatar_image"] ?>" class="bg-gray-200 border border-white rounded-full w-10 h-10">
                                 </a>
                                 <div class="flex-1 font-semibold capitalize">
-                                    <a href="#" class="text-black dark:text-gray-100"> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </a>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $time["minutes"] . " phút trước";
-                                                                                                    else echo $hours . "h " . $time["minutes"] . " phút trước";
-                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                    <a href="profile.php?uid=<?php echo $userCurrent["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userCurrent["first_name"] . " " . $userCurrent["last_name"] ?> </a>
+                                    <div class="text-gray-700 flex items-center space-x-2"><span> Vừa xong </span></div>
                                 </div>
                             </div>
                             <div>
@@ -57,29 +51,9 @@ if (isset($_POST["action"])) {
 
                                     <ul class="space-y-1">
                                         <li>
-                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                <i class="uil-share-alt mr-1"></i> Share
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                <i class="uil-edit-alt mr-1"></i> Edit Post
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                <i class="uil-comment-slash mr-1"></i> Disable comments
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                                <i class="uil-favorite mr-1"></i> Add favorites
-                                            </a>
-                                        </li>
-                                        <li>
                                             <hr class="-mx-2 my-2 dark:border-gray-800">
                                         </li>
-                                        <li>
+                                        <li data-post-id="<?php echo $post["postid"] ?>" onclick="deletePost(event, this)">
                                             <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md dark:hover:bg-red-600">
                                                 <i class="uil-trash-alt mr-1"></i> Delete
                                             </a>
@@ -96,7 +70,7 @@ if (isset($_POST["action"])) {
 
                         <!-- Show Image Post -->
                         <div uk-lightbox>
-                            <div class="grid grid-cols-2 gap-2 px-5">
+                            <div class="grid grid-cols-1 gap-2 px-5">
                                 <?php
                                 if ($post["media"] != null) {
                                     $media_json = $post["media"];
@@ -116,7 +90,7 @@ if (isset($_POST["action"])) {
                                         } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
                                         ?>
                                             <div class="w-full h-full">
-                                                <video width="320" height="240" controls>
+                                                <video width="668" height="420" controls>
                                                     <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
                                                     Your browser does not support the video tag.
                                                 </video>
@@ -206,10 +180,7 @@ if (isset($_POST["action"])) {
                                 </a>
                                 <div class="flex-1 font-semibold capitalize">
                                     <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?> </a>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                    else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                    ?></span>
+                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"]) ?></span>
                                         <?php
                                         if ($isPublicCondition) {
                                         ?>
@@ -295,7 +266,7 @@ if (isset($_POST["action"])) {
 
                         <!-- Show Image/Video Post -->
                         <div uk-lightbox>
-                            <div class="grid grid-cols-2 gap-2 px-5">
+                            <div class="grid grid-cols-1 gap-2 px-5">
                                 <?php
                                 if ($post[$i]["media"] != null) {
                                     $media_json = $post[$i]["media"];
@@ -314,7 +285,7 @@ if (isset($_POST["action"])) {
                                         } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
                                         ?>
                                             <div class="w-full h-full">
-                                                <video width="320" height="240" controls>
+                                                <video width="668" height="420" controls>
                                                     <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
                                                     Your browser does not support the video tag.
                                                 </video>
@@ -368,7 +339,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -500,10 +471,25 @@ if (isset($_POST["action"])) {
                                 <div class="flex-1 font-semibold capitalize">
                                     <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?></a>
                                     <span style="font-weight: 400; text-transform: none; margin-left: 5px;"> đã chia sẻ bài viết </span>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                    else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"]) ?></span>
+                                        <?php
+                                        if ($isPublicCondition) {
+                                        ?>
+                                            <ion-icon name="earth"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isFriendCondition) {
+                                        ?>
+                                            <ion-icon name="people"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isPrivateCondition) {
+                                        ?>
+                                            <ion-icon name="lock-closed"></ion-icon>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="post-action">
@@ -585,7 +571,7 @@ if (isset($_POST["action"])) {
                                 <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
                                     <!-- Show Image/Video Post Share -->
                                     <div uk-lightbox>
-                                        <div class="grid grid-cols-2 gap-2 px-5">
+                                        <div class="grid grid-cols-1 gap-2 px-5">
                                             <?php
                                             if ($postShare["media"] != null) {
                                                 $media_json = $postShare["media"];
@@ -604,7 +590,7 @@ if (isset($_POST["action"])) {
                                                     } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
                                                     ?>
                                                         <div class="w-full h-full">
-                                                            <video width="320" height="240" controls>
+                                                            <video width="668" height="420" controls>
                                                                 <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
                                                                 Your browser does not support the video tag.
                                                             </video>
@@ -629,10 +615,8 @@ if (isset($_POST["action"])) {
                                                     <?php echo $userOfPostShare["first_name"] . " " . $userOfPostShare["last_name"] ?>
                                                 </a>
                                                 <div class="text-gray-700 flex items-center space-x-2"><span>
-                                                        <?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                        else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                        else echo $hours . " h " . $minutes . " phút trước";
-                                                        ?></span> <ion-icon name="people"></ion-icon>
+                                                        <?php echo $t->timeAgo($postShare["date"])
+                                                        ?></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -659,15 +643,19 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
-                                                                                                            else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0)
+                                                                                                                echo "currentColor";
+                                                                                                            else
+                                                                                                                echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                             <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                         </svg>
                                     </div>
-                                    <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                    <div class="like-text" style="color:<?php if ($liked == 1)
+                                                                            echo "blue"; ?>"> Like <?php if (count($like) > 0)
+                                                                                                        echo "<span>(" . count($like) . ")</span>" ?> </div>
                                 </button>
                                 <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -676,7 +664,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -827,9 +815,7 @@ if (isset($_POST["action"])) {
                                 </a>
                                 <div class="flex-1 font-semibold capitalize">
                                     <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?> </a>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                    else echo $hours . " h " . $minutes . " phút trước";
+                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"])
                                                                                                     ?></span>
                                         <?php
                                         if ($isPublicCondition) {
@@ -916,7 +902,7 @@ if (isset($_POST["action"])) {
 
                         <!-- Show Image/Video Post -->
                         <div uk-lightbox>
-                            <div class="grid grid-cols-2 gap-2 px-5">
+                            <div class="grid grid-cols-1 gap-2 px-5">
                                 <?php
                                 if ($post[$i]["media"] != null) {
                                     $media_json = $post[$i]["media"];
@@ -935,7 +921,7 @@ if (isset($_POST["action"])) {
                                         } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
                                         ?>
                                             <div class="w-full h-full">
-                                                <video width="320" height="240" controls>
+                                                <video width="668" height="420" controls>
                                                     <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
                                                     Your browser does not support the video tag.
                                                 </video>
@@ -989,7 +975,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1121,10 +1107,26 @@ if (isset($_POST["action"])) {
                                 <div class="flex-1 font-semibold capitalize">
                                     <a href="profile.php?uid=<?php echo $userOfPost["userid"] ?>" class="text-black dark:text-gray-100"> <?php echo $userOfPost["first_name"] . " " . $userOfPost["last_name"] ?></a>
                                     <span style="font-weight: 400; text-transform: none; margin-left: 5px;"> đã chia sẻ bài viết </span>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                    else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"])
+                                                                                                    ?></span>
+                                        <?php
+                                        if ($isPublicCondition) {
+                                        ?>
+                                            <ion-icon name="earth"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isFriendCondition) {
+                                        ?>
+                                            <ion-icon name="people"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isPrivateCondition) {
+                                        ?>
+                                            <ion-icon name="lock-closed"></ion-icon>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="post-action">
@@ -1206,7 +1208,7 @@ if (isset($_POST["action"])) {
                                 <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
                                     <!-- Show Image/Video Post Share -->
                                     <div uk-lightbox>
-                                        <div class="grid grid-cols-2 gap-2 px-5">
+                                        <div class="grid grid-cols-1 gap-2 px-5">
                                             <?php
                                             if ($postShare["media"] != null) {
                                                 $media_json = $postShare["media"];
@@ -1225,7 +1227,7 @@ if (isset($_POST["action"])) {
                                                     } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
                                                     ?>
                                                         <div class="w-full h-full">
-                                                            <video width="320" height="240" controls>
+                                                            <video width="668" height="420" controls>
                                                                 <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
                                                                 Your browser does not support the video tag.
                                                             </video>
@@ -1250,10 +1252,8 @@ if (isset($_POST["action"])) {
                                                     <?php echo $userOfPostShare["first_name"] . " " . $userOfPostShare["last_name"] ?>
                                                 </a>
                                                 <div class="text-gray-700 flex items-center space-x-2"><span>
-                                                        <?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                        else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                        else echo $hours . " h " . $minutes . " phút trước";
-                                                        ?></span> <ion-icon name="people"></ion-icon>
+                                                        <?php echo $t->timeAgo($post[$i]["date"])
+                                                        ?></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1280,15 +1280,19 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
-                                                                                                            else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0)
+                                                                                                                echo "currentColor";
+                                                                                                            else
+                                                                                                                echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                             <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                         </svg>
                                     </div>
-                                    <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                    <div class="like-text" style="color:<?php if ($liked == 1)
+                                                                            echo "blue"; ?>"> Like <?php if (count($like) > 0)
+                                                                                                        echo "<span>(" . count($like) . ")</span>" ?> </div>
                                 </button>
                                 <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1297,7 +1301,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1449,10 +1453,21 @@ if (isset($_POST["action"])) {
                                 </a>
                                 <div class="flex-1 font-semibold capitalize">
                                     <a href="#" class="text-black dark:text-gray-100"> <?php echo $userProfile["first_name"] . " " . $userProfile["last_name"] ?> </a>
-                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                                                                    else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                                                                    else echo $hours . " h " . $minutes . " phút trước";
-                                                                                                    ?></span> <ion-icon name="people"></ion-icon></div>
+                                    <div class="text-gray-700 flex items-center space-x-2"><span><?php echo $t->timeAgo($post[$i]["date"])
+                                                                                                    ?></span>
+                                        <?php
+                                        if ($isPublicCondition) {
+                                        ?>
+                                            <ion-icon name="earth"></ion-icon>
+                                        <?php
+                                        }
+                                        if ($isFriendCondition) {
+                                        ?>
+                                            <ion-icon name="people"></ion-icon>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
 
@@ -1464,7 +1479,7 @@ if (isset($_POST["action"])) {
 
                         <!-- Show Image/Video Post -->
                         <div uk-lightbox>
-                            <div class="grid grid-cols-2 gap-2 px-5">
+                            <div class="grid grid-cols-1 gap-2 px-5">
                                 <?php
                                 if ($post[$i]["media"] != null) {
                                     $media_json = $post[$i]["media"];
@@ -1483,7 +1498,7 @@ if (isset($_POST["action"])) {
                                         } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
                                         ?>
                                             <div class="w-full h-full">
-                                                <video controls>
+                                                <video width="668" height="420" controls>
                                                     <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
                                                     Your browser does not support the video tag.
                                                 </video>
@@ -1537,7 +1552,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1703,7 +1718,7 @@ if (isset($_POST["action"])) {
                                 <div class="card post-card lg:mx-0 uk-animation-slide-bottom-small" post-id="<?php echo $postShare["postid"] ?>">
                                     <!-- Show Image/Video Post Share -->
                                     <div uk-lightbox>
-                                        <div class="grid grid-cols-2 gap-2 px-5">
+                                        <div class="grid grid-cols-1 gap-2 px-5">
                                             <?php
                                             if ($postShare["media"] != null) {
                                                 $media_json = $postShare["media"];
@@ -1722,7 +1737,7 @@ if (isset($_POST["action"])) {
                                                     } else  if ($fileExtension === 'mp4' || $fileExtension === 'avi' || $fileExtension === 'mkv') {
                                                     ?>
                                                         <div class="w-full h-full">
-                                                            <video width="320" height="240" controls>
+                                                            <video width="668" height="420" controls>
                                                                 <source src="uploads/posts/<?php echo $media[$j]; ?>" type="video/mp4">
                                                                 Your browser does not support the video tag.
                                                             </video>
@@ -1747,10 +1762,8 @@ if (isset($_POST["action"])) {
                                                     <?php echo $userOfPostShare["first_name"] . " " . $userOfPostShare["last_name"] ?>
                                                 </a>
                                                 <div class="text-gray-700 flex items-center space-x-2"><span>
-                                                        <?php if ($hours <= 0) echo $minutes . " phút trước";
-                                                        else if ($hours >= 24) echo floor($hours / 24) . " ngày trước";
-                                                        else echo $hours . " h " . $minutes . " phút trước";
-                                                        ?></span> <ion-icon name="people"></ion-icon>
+                                                        <?php echo $t->timeAgo($post[$i]["date"])
+                                                        ?></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1777,15 +1790,19 @@ if (isset($_POST["action"])) {
                                 }
                             }
                             ?>
-                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $postShare["postid"] ?>" author-id="<?php echo $postShare["userid"] ?>">
+                            <div class="flex space-x-4 lg:font-bold" post-id="<?php echo $post[$i]["postid"] ?>" author-id="<?php echo $post[$i]["userid"] ?>">
                                 <button type="button" class="like-post-btn flex items-center space-x-2">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0) echo "currentColor";
-                                                                                                            else echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="<?php if ($liked == 0)
+                                                                                                                echo "currentColor";
+                                                                                                            else
+                                                                                                                echo "blue"; ?>" width="22" height="22" class="dark:text-gray-100">
                                             <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                         </svg>
                                     </div>
-                                    <div class="like-text" style="color:<?php if ($liked == 1) echo "blue"; ?>"> Like</div>
+                                    <div class="like-text" style="color:<?php if ($liked == 1)
+                                                                            echo "blue"; ?>"> Like <?php if (count($like) > 0)
+                                                                                                                        echo "<span>(" . count($like) . ")</span>" ?> </div>
                                 </button>
                                 <a href="#" uk-toggle="target: #post-details-modal" class="comment-post-btn flex items-center space-x-2" post-id="<?php echo $post[$i]["postid"] ?>">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1794,7 +1811,7 @@ if (isset($_POST["action"])) {
                                         </svg>
                                     </div>
                                     <div id="quantity-comment"> Comment <?php if ($quantityCmt > 0)
-                                                        echo "(" . $quantityCmt . ")" ?> </div>
+                                                                            echo "(" . $quantityCmt . ")" ?> </div>
                                 </a>
                                 <a href="#" uk-toggle="target: #share-post-modal" class="share-post-btn flex items-center space-x-2 flex-1 justify-end">
                                     <div class="p-2 rounded-full  text-black lg:bg-gray-100 dark:bg-gray-600">
@@ -1958,7 +1975,7 @@ if (isset($_POST["action"])) {
                         $media = json_decode($media_json, true);
                         $index = sizeof($media);
                         foreach ($media as $file) {
-                            $number ++;
+                            $number++;
                             $fileInfo = pathinfo($file);
                             $fileExtension = strtolower($fileInfo['extension']);
                             if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
@@ -1972,15 +1989,15 @@ if (isset($_POST["action"])) {
                                     <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
                                     </div>
                                 </div>
-                               
+
             <?php
-                        if($number ===8){
-                            break;
-                        }
+                                if ($number === 8) {
+                                    break;
+                                }
                             }
                         }
                     }
-                    if($number ===8){
+                    if ($number === 8) {
                         break;
                     }
                 }
@@ -2009,14 +2026,14 @@ if (isset($_POST["action"])) {
             </div>
         </div>
         <?php
-            if($postsize["total_media"] - $number > 8){
+        if ($postsize["total_media"] - $number > 8) {
         ?>
-        <div class="load-more flex justify-center mt-6">
-            <a href="#" class="btn-load-more-photo bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
-                Load more ..</a>
-        </div>
-        <?php 
-            }
+            <div class="load-more flex justify-center mt-6">
+                <a href="#" class="btn-load-more-photo bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white">
+                    Load more ..</a>
+            </div>
+        <?php
+        }
         ?>
 
     <?php
@@ -2027,7 +2044,7 @@ if (isset($_POST["action"])) {
         $index = 0;
         $p = new Post();
         $post = $p->getFullPost($userid);
-        ?>
+    ?>
         <div class="photo-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5">
             <?php
             if ($post != null) {
@@ -2036,44 +2053,44 @@ if (isset($_POST["action"])) {
                         $media_json = $post[$i]["media"];
                         $media = json_decode($media_json, true);
                         foreach ($media as $file) {
-                            $index ++;
-                            if($index > $number){
-                            $fileInfo = pathinfo($file);
-                            $fileExtension = strtolower($fileInfo['extension']);
-                            if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+                            $index++;
+                            if ($index > $number) {
+                                $fileInfo = pathinfo($file);
+                                $fileExtension = strtolower($fileInfo['extension']);
+                                if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
             ?>
-                                <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                    <div class="image-small">
-                                        <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
-                                    </div>
-                                    <!-- Overlay -->
-                                    <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                    <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                        <div class="text-base"> Image description </div>
-                                        <div class="flex justify-between text-xs">
-                                            <a href="#"><?php echo $number; ?></a>
-                                            <a href="#"> <?php echo $index; ?> </a>
-                                            <a href="#"> Share </a>
+                                    <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
+                                        <div class="image-small">
+                                            <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
+                                        </div>
+                                        <!-- Overlay -->
+                                        <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
+                                        <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
+                                            <div class="text-base"> Image description </div>
+                                            <div class="flex justify-between text-xs">
+                                                <a href="#"><?php echo $number; ?></a>
+                                                <a href="#"> <?php echo $index; ?> </a>
+                                                <a href="#"> Share </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
             <?php
+                                }
+                                if ($index === $number + 8) {
+                                    break;
+                                }
                             }
-                            if ($index === $number+8) {
-                                break;
-                            }
-                        }
                         }
                     }
-                    if ($index === $number+8) {
+                    if ($index === $number + 8) {
                         break;
                     }
                 }
             }
             ?>
         </div>
-        <?php   
-    }        
+    <?php
+    }
     if ($_POST["action"] == "show-image-of-orther") {
         $userid = $_POST["userid"];
         $number = $_POST["num"];
@@ -2118,7 +2135,7 @@ if (isset($_POST["action"])) {
                         $media = json_decode($media_json, true);
                         $index = sizeof($media);
                         foreach ($media as $file) {
-                            $number ++;
+                            $number++;
                             $fileInfo = pathinfo($file);
                             $fileExtension = strtolower($fileInfo['extension']);
                             if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
@@ -2134,13 +2151,13 @@ if (isset($_POST["action"])) {
                                     </div>
                                 </div>
             <?php
-                            if($number ===8){
-                                break;
-                            }
+                                if ($number === 8) {
+                                    break;
+                                }
                             }
                         }
                     }
-                    if($number ===8){
+                    if ($number === 8) {
                         break;
                     }
                 }
@@ -2169,71 +2186,71 @@ if (isset($_POST["action"])) {
             </div>
         </div>
         <?php
-            if($postsize["total_media"] - $number > 8){
+        if ($postsize["total_media"] - $number > 8) {
         ?>
-        <div class="load-more flex justify-center mt-6">
-            <a href="#" class="btn-load-more-photo-orther bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white" useridprofile="<?php echo $userid ?>">
-                Load more ..</a>
-        </div>
-        <?php 
-            }
+            <div class="load-more flex justify-center mt-6">
+                <a href="#" class="btn-load-more-photo-orther bg-white font-semibold my-3 px-6 py-2 rounded-full shadow-md dark:bg-gray-800 dark:text-white" useridprofile="<?php echo $userid ?>">
+                    Load more ..</a>
+            </div>
+        <?php
+        }
         ?>
-    
-<?php
+
+    <?php
     }
-    
+
     if ($_POST["action"] == "show-more-image-of-other") {
         $userid = $_POST["userid"];
         $number = $_POST["number"];
         $index = 0;
         $p = new Post();
         $post = $p->getFullPost($userid);
-        ?>
+    ?>
         <div class="photo-of-you tab grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 mt-5">
             <?php
             if ($post != null) {
-            for ($i = 0; $i < sizeof($post); $i++) {
-                if ($post[$i]["media"] != null) {
-                    $media_json = $post[$i]["media"];
-                    $media = json_decode($media_json, true);
-                    foreach ($media as $file) {
-                        $index ++;
-                        if($index > $number){
-                        $fileInfo = pathinfo($file);
-                        $fileExtension = strtolower($fileInfo['extension']);
-                        if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+                for ($i = 0; $i < sizeof($post); $i++) {
+                    if ($post[$i]["media"] != null) {
+                        $media_json = $post[$i]["media"];
+                        $media = json_decode($media_json, true);
+                        foreach ($media as $file) {
+                            $index++;
+                            if ($index > $number) {
+                                $fileInfo = pathinfo($file);
+                                $fileExtension = strtolower($fileInfo['extension']);
+                                if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
             ?>
-                            <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
-                                <div class="image-small">
-                                    <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
-                                </div>
-                                <!-- Overlay -->
-                                <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
-                                <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
-                                    <div class="text-base"> Image description </div>
-                                    <div class="flex justify-between text-xs">
-                                        <a href="#"> <?php echo $number; ?></a>
-                                        <a href="#"> <?php echo $index; ?></a>
-                                        <a href="#"> Share </a>
+                                    <div class="bg-green-400 max-w-full lg:h-44 h-36 rounded-lg relative overflow-hidden shadow uk-transition-toggle">
+                                        <div class="image-small">
+                                            <img src="uploads/posts/<?php echo $file; ?>" alt="<?php echo $file; ?>" class="w-full h-full absolute object-cover inset-0">
+                                        </div>
+                                        <!-- Overlay -->
+                                        <div class="-bottom-12 absolute bg-gradient-to-b from-transparent h-1/2 to-gray-800 uk-transition-slide-bottom-small w-full"></div>
+                                        <div class="absolute bottom-0 w-full p-3 text-white uk-transition-slide-bottom-small">
+                                            <div class="text-base"> Image description </div>
+                                            <div class="flex justify-between text-xs">
+                                                <a href="#"> <?php echo $number; ?></a>
+                                                <a href="#"> <?php echo $index; ?></a>
+                                                <a href="#"> Share </a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                <?php
-                        }
-                        if ($index === $number+8) {
-                            break;
-                        }
+            <?php
+                                }
+                                if ($index === $number + 8) {
+                                    break;
+                                }
+                            }
                         }
                     }
+                    if ($index === $number + 8) {
+                        break;
+                    }
                 }
-                if ($index === $number+8) {
-                    break;
-                }
-            }
             }
             ?>
         </div>
-    <?php
+<?php
     }
     // Delete post
     if ($_POST["action"] == "delete-post") {
@@ -2320,7 +2337,7 @@ if (isset($_POST["action"])) {
                 $user_id = $row["comment_userid"];
                 $cmt_user = $user->getUser($user_id);
                 $totalCmtrep = $p->getQuantityReplyComment($row["comment_id"])[0]["total"];
-                array_push($array_result, ['cmt' => $row, 'user' => $cmt_user,'totalComment' => $totalCmt, 'totalrep' => $totalCmtrep]);
+                array_push($array_result, ['cmt' => $row, 'user' => $cmt_user, 'totalComment' => $totalCmt, 'totalrep' => $totalCmtrep]);
             }
             echo json_encode($array_result);
         } else echo 0;

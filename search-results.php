@@ -267,7 +267,7 @@ if (!isset($_SESSION["userid"])) {
                         <!-- Friends -->
                         <div class="card lg:mx-0 uk-animation-slide-bottom-small card-friends">
                             <h3 class="heading"> People </h3>
-                            <div id="searchPageResults">
+                            <div id="searchUserResults">
 
                             </div>
                         </div>
@@ -353,8 +353,8 @@ if (!isset($_SESSION["userid"])) {
                 e.preventDefault();
                 $("#PostContaier .card:not(:first)").remove();
                 $("#PostContaier .heading").text("People");
-                $("#searchPageResults").empty();
-                $("#searchPageResults").html(savedMyData);
+                $("#searchUserResults").empty();
+                $("#searchUserResults").html(savedMyData);
             })
         } else {
             $("#PostContaier .heading").text("No results");
@@ -366,7 +366,7 @@ if (!isset($_SESSION["userid"])) {
                 e.preventDefault();
                 $("#PostContaier .card:not(:first)").remove();
                 $("#PostContaier .heading").text("Posts");
-                $("#searchPageResults").empty();
+                $("#searchUserResults").empty();
                 var PostContaier = document.getElementById('PostContaier');
                 PostContaier.firstElementChild.insertAdjacentHTML('afterend', savedPostSearchData);
 
@@ -379,10 +379,10 @@ if (!isset($_SESSION["userid"])) {
             $('.btn-search-results').on('click', function(e) {
                 e.preventDefault();
                 // Remove all element
-                $("#searchPageResults").empty();
-                $("#PostContaier .card:not(:first)").remove();//xóa phần tử đầu tiên
+                $("#searchUserResults").empty();
+                $("#PostContaier .card:not(:first)").remove();
                 $("#PostContaier .heading").text("People");
-                $("#searchPageResults").html(savedMyData);
+                $("#searchUserResults").html(savedMyData);
                 var PostContaier = document.getElementById('PostContaier');
                 PostContaier.firstElementChild.insertAdjacentHTML('afterend', savedPostSearchData);
             })

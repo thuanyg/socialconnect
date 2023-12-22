@@ -1,8 +1,10 @@
 <?php
 include_once("../Classes/notification.php");
 include_once("../Classes/user.php");
+include_once("../Classes/friend.php");
 include_once("../Classes/post.php");
 $p = new Post();
+$f = new Friend();
 $user = new User();
 $notify = new Notification();
 if (isset($_REQUEST["action"])) {
@@ -89,4 +91,10 @@ if (isset($_REQUEST["action"])) {
         $result = $notify->deleteNotification($notifyID);
         echo $result;
     }
+    // // Friend Relationship notification
+    // if ($_POST["action"] == "request") {
+    //     $userid = $_POST["userid"];
+    //     $receiverID = $_POST["receiverID"];
+    //     $result = $notify->setNotification($receiverID, $userid, $postid, 'share');
+    // }
 }

@@ -1,6 +1,6 @@
 <?php
 class Timer
-    // <!-- Tính toán thời gian (VD thời gian đăng bài viết, thời gian kết bạn, thời gian comment ...) -->
+// <!-- Tính toán thời gian (VD thời gian đăng bài viết, thời gian kết bạn, thời gian comment ...) -->
 {
     // tính thời gian kể từ $time
     function TimeSince($datetime)
@@ -29,21 +29,28 @@ class Timer
         $currentDate = new DateTime();
         $pastDate = new DateTime($dateString);
         $timeDifference = $currentDate->getTimestamp() - $pastDate->getTimestamp();
-        $seconds = floor($timeDifference);
+        $seconds = abs($timeDifference);
         $minutes = floor($seconds / 60);
         $hours = floor($minutes / 60);
         $days = floor($hours / 24);
+        $months = $pastDate->diff($currentDate)->m;
+        $weeks = floor($days / 7);
 
-        if ($days > 0) {
+        if ($days >= 30) {
+            return $months . " tháng trước";
+        } elseif ($days >= 7) {
+            return $weeks . " tuần trước";
+        } elseif ($days >= 1) {
             return $days . " ngày trước";
-        } elseif ($hours > 0) {
+        } elseif ($hours >= 1) {
             return $hours . " giờ trước";
-        } elseif ($minutes > 0) {
+        } elseif ($minutes >= 1) {
             return $minutes . " phút trước";
         } else {
             return "vài giây trước";
         }
     }
+
 
     function formatHourMinute($datetime)
     {
@@ -102,5 +109,4 @@ class Timer
 
         return $age;
     }
-
 }

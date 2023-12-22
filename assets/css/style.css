@@ -13,14 +13,18 @@
 /* user define */
 .notification {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 30px;
+  right: 25px;
   background-color: rgb(13, 94, 124);
   color: #fff;
-  padding: 20px 10px;
+  padding: 25px 15px;
   border-radius: 5px;
   display: none;
   z-index: 10011;
+  cursor: pointer;
+}
+.notification:hover a {
+  color: rgb(182, 180, 178);
 }
 
 #close-notification {
