@@ -91,10 +91,10 @@ if (isset($_REQUEST["action"])) {
         $result = $notify->deleteNotification($notifyID);
         echo $result;
     }
-    // Friend Relationship notification
-    if ($_POST["action"] == "request") {
-        $userid = $_POST["userid"];
-        $receiverID = $_POST["receiverID"];
-        $result = $notify->setNotification($receiverID, $userid, $postid, 'share');
-    }
+    // // Friend Relationship notification
+    // if ($_POST["action"] == "request") {
+    //     $userid = $_POST["userid"];
+    //     $receiverID = $_POST["receiverID"];
+    //     $result = $notify->setNotification($receiverID, $userid, $postid, 'share');
+    // }
 }

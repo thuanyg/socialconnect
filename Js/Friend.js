@@ -37,22 +37,22 @@ $(document).ready(function () {
     });
 
 
-    function SaveNotificationFriend(userID, receiverID, type) {
-        var action = type;
-        var notify = {
-            userid: userID,
-            receiverID: receiverID,
-            action: action
-        };
-        $.ajax({
-            url: "Ajax/Notification.php",
-            type: "POST",
-            data: notify,
-            success: function (data) {
+    // function SaveNotificationFriend(userID, receiverID, type) {
+    //     var action = type;
+    //     var notify = {
+    //         userid: userID,
+    //         receiverID: receiverID,
+    //         action: action
+    //     };
+    //     $.ajax({
+    //         url: "Ajax/Notification.php",
+    //         type: "POST",
+    //         data: notify,
+    //         success: function (data) {
 
-            }
-        })
-    }
+    //         }
+    //     })
+    // }
     // Khi click "Cancel request"
     $(".cancel-add-friend-btn").on("click", function (event) {
         event.preventDefault();
