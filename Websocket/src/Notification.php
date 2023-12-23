@@ -1,6 +1,6 @@
 <script type="text/javascript">
     // ----------------<!--Phần xử lý Websocket-->--------------------------------------
-    const ws = new WebSocket('ws://26.29.22.58:8081?uid=<?php echo $_SESSION["userid"]; ?>');
+    const ws = new WebSocket('ws://localhost:8081?uid=<?php echo $_SESSION["userid"]; ?>');
     ws.onopen = () => {
         console.log('Connected to the server');
     };

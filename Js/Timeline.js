@@ -466,7 +466,7 @@ $(".delete-account-btn").on('click', function (e) {
             },
             success: function (response){
                 if(response.trim() == 1){
-                    window.location.href = "login.php"
+                    window.location.href = "logout.php"
                 }
             }
         })
